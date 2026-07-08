@@ -867,12 +867,97 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* --- GALLERY FILTER PILLS --- */
   const galleryPills = document.querySelectorAll('.gallery-filters .filter-pill');
+  const galleryGrid = document.getElementById('galleryGrid');
+  const galleryItems = document.querySelectorAll('.gallery-item[data-gallery-category]');
+  const galleryLightbox = document.getElementById('galleryLightbox');
+  const galleryLightboxImage = document.getElementById('galleryLightboxImage');
+  const galleryLightboxTitle = document.getElementById('galleryLightboxTitle');
+  const galleryLightboxCount = document.getElementById('galleryLightboxCount');
+  const galleryLightboxClose = document.getElementById('galleryLightboxClose');
+  const galleryLightboxPrev = document.getElementById('galleryLightboxPrev');
+  const galleryLightboxNext = document.getElementById('galleryLightboxNext');
+  let galleryActiveIndex = 0;
+
+  function getVisibleGalleryItems() {
+    return Array.from(galleryItems).filter(item => !item.classList.contains('is-hidden'));
+  }
+
+  function renderGalleryLightbox() {
+    const visibleItems = getVisibleGalleryItems();
+    const activeItem = visibleItems[galleryActiveIndex];
+    if (!activeItem || !galleryLightboxImage) return;
+
+    const svg = activeItem.querySelector('svg');
+    const title = svg ? svg.getAttribute('aria-label') || 'Gallery image' : 'Gallery image';
+    galleryLightboxImage.innerHTML = '';
+    if (svg) {
+      const fullImage = svg.cloneNode(true);
+      fullImage.removeAttribute('style');
+      galleryLightboxImage.appendChild(fullImage);
+    }
+    galleryLightboxTitle.textContent = title;
+    galleryLightboxCount.textContent = `${galleryActiveIndex + 1} / ${visibleItems.length}`;
+  }
+
+  function openGalleryLightbox(item) {
+    const visibleItems = getVisibleGalleryItems();
+    galleryActiveIndex = Math.max(0, visibleItems.indexOf(item));
+    renderGalleryLightbox();
+    galleryLightbox.classList.add('open');
+    galleryLightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGalleryLightbox() {
+    galleryLightbox.classList.remove('open');
+    galleryLightbox.setAttribute('aria-hidden', 'true');
+    galleryLightboxImage.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  function moveGalleryLightbox(direction) {
+    const visibleItems = getVisibleGalleryItems();
+    if (!visibleItems.length) return;
+    galleryActiveIndex = (galleryActiveIndex + direction + visibleItems.length) % visibleItems.length;
+    renderGalleryLightbox();
+  }
+
   galleryPills.forEach(pill => {
     pill.addEventListener('click', function() {
       galleryPills.forEach(p => p.classList.remove('active'));
       this.classList.add('active');
+      const filter = this.getAttribute('data-gallery-filter') || 'all';
+
+      if (galleryGrid) {
+        galleryGrid.classList.toggle('is-filtered', filter !== 'all');
+      }
+
+      galleryItems.forEach(item => {
+        const categories = (item.getAttribute('data-gallery-category') || '').split(/\s+/);
+        const show = filter === 'all' || categories.includes(filter);
+        item.classList.toggle('is-hidden', !show);
+      });
     });
   });
+
+  galleryItems.forEach(item => {
+    item.addEventListener('click', () => openGalleryLightbox(item));
+  });
+
+  if (galleryLightbox) {
+    galleryLightbox.addEventListener('click', e => {
+      if (e.target === galleryLightbox) closeGalleryLightbox();
+    });
+    galleryLightboxClose.addEventListener('click', closeGalleryLightbox);
+    galleryLightboxPrev.addEventListener('click', () => moveGalleryLightbox(-1));
+    galleryLightboxNext.addEventListener('click', () => moveGalleryLightbox(1));
+    document.addEventListener('keydown', e => {
+      if (!galleryLightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeGalleryLightbox();
+      if (e.key === 'ArrowLeft') moveGalleryLightbox(-1);
+      if (e.key === 'ArrowRight') moveGalleryLightbox(1);
+    });
+  }
 
 });
 

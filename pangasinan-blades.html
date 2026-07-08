@@ -928,16 +928,16 @@
     </div>
 
     <div class="gallery-filters reveal">
-      <button class="filter-pill active">All</button>
-      <button class="filter-pill">Finished Blades</button>
-      <button class="filter-pill">The Forge</button>
-      <button class="filter-pill">Detail Shots</button>
-      <button class="filter-pill">Cultural Context</button>
+      <button class="filter-pill active" data-gallery-filter="all">All</button>
+      <button class="filter-pill" data-gallery-filter="finished">Finished Blades</button>
+      <button class="filter-pill" data-gallery-filter="forge">The Forge</button>
+      <button class="filter-pill" data-gallery-filter="detail">Detail Shots</button>
+      <button class="filter-pill" data-gallery-filter="context">Cultural Context</button>
     </div>
 
     <div class="gallery-grid reveal reveal-delay-1" id="galleryGrid" role="list">
       <!-- Gallery items with atmospheric SVG placeholders -->
-      <div class="gallery-item" role="listitem">
+      <div class="gallery-item" role="listitem" data-gallery-category="finished context">
         <div class="gallery-item-bg" style="background:#111109;">
           <svg viewBox="0 0 400 443" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;" aria-label="Kampilan blade on aged wood">
             <rect width="400" height="443" fill="#111009"/>
@@ -956,10 +956,10 @@
             <text x="200" y="430" text-anchor="middle" font-family="Georgia" font-size="10" fill="#C8963C" opacity="0.3" letter-spacing="4">KAMPILAN NG BAYANI</text>
           </svg>
         </div>
-        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">⊕</div></div>
+        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">+</div></div>
       </div>
 
-      <div class="gallery-item" role="listitem">
+      <div class="gallery-item" role="listitem" data-gallery-category="forge">
         <div class="gallery-item-bg" style="background:#120808;">
           <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;" aria-label="Forge fire close-up">
             <rect width="200" height="220" fill="#120808"/>
@@ -980,10 +980,10 @@
             <text x="100" y="210" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity="0.3" letter-spacing="3">THE FORGE</text>
           </svg>
         </div>
-        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">⊕</div></div>
+        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">+</div></div>
       </div>
 
-      <div class="gallery-item" role="listitem">
+      <div class="gallery-item" role="listitem" data-gallery-category="detail">
         <div class="gallery-item-bg" style="background:#080a10;">
           <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;" aria-label="Damascus blade edge detail">
             <rect width="200" height="220" fill="#080a10"/>
@@ -1006,10 +1006,10 @@
             <text x="100" y="210" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity="0.3" letter-spacing="3">DAMASCUS DETAIL</text>
           </svg>
         </div>
-        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">⊕</div></div>
+        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">+</div></div>
       </div>
 
-      <div class="gallery-item" role="listitem">
+      <div class="gallery-item" role="listitem" data-gallery-category="forge">
         <div class="gallery-item-bg" style="background:#0a0808;">
           <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;" aria-label="Craftsman's hands at the anvil">
             <rect width="400" height="220" fill="#0a0808"/>
@@ -1034,10 +1034,10 @@
             <text x="200" y="212" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity="0.3" letter-spacing="3">THE SHAPING</text>
           </svg>
         </div>
-        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">⊕</div></div>
+        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">+</div></div>
       </div>
 
-      <div class="gallery-item" role="listitem">
+      <div class="gallery-item" role="listitem" data-gallery-category="detail">
         <div class="gallery-item-bg" style="background:#080810;">
           <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;" aria-label="Carabao horn handle close-up">
             <rect width="200" height="220" fill="#080810"/>
@@ -1059,10 +1059,10 @@
             <text x="100" y="218" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity="0.3" letter-spacing="3">CARABAO HORN</text>
           </svg>
         </div>
-        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">⊕</div></div>
+        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">+</div></div>
       </div>
 
-      <div class="gallery-item" role="listitem">
+      <div class="gallery-item" role="listitem" data-gallery-category="forge detail">
         <div class="gallery-item-bg" style="background:#0a100a;">
           <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;" aria-label="Blade quenching process">
             <rect width="200" height="220" fill="#080c08"/>
@@ -1085,10 +1085,10 @@
             <text x="100" y="210" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity="0.3" letter-spacing="3">THE QUENCH</text>
           </svg>
         </div>
-        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">⊕</div></div>
+        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">+</div></div>
       </div>
 
-      <div class="gallery-item" role="listitem">
+      <div class="gallery-item" role="listitem" data-gallery-category="finished context">
         <div class="gallery-item-bg" style="background:#0c0808;">
           <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;" aria-label="Complete blade collection on display">
             <rect width="400" height="220" fill="#0c0808"/>
@@ -1110,12 +1110,25 @@
             <text x="200" y="210" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity="0.3" letter-spacing="3">THE COLLECTION</text>
           </svg>
         </div>
-        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">⊕</div></div>
+        <div class="gallery-item-hover" aria-hidden="true"><div class="gallery-expand">+</div></div>
       </div>
 
     </div>
   </div>
 </section>
+
+<div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="galleryLightboxTitle">
+  <button class="gallery-lightbox-close" id="galleryLightboxClose" aria-label="Close image view">x</button>
+  <button class="gallery-lightbox-nav gallery-lightbox-prev" id="galleryLightboxPrev" aria-label="Previous image">‹</button>
+  <figure class="gallery-lightbox-figure">
+    <div class="gallery-lightbox-image" id="galleryLightboxImage"></div>
+    <figcaption class="gallery-lightbox-caption">
+      <span id="galleryLightboxTitle">Gallery image</span>
+      <span id="galleryLightboxCount">1 / 1</span>
+    </figcaption>
+  </figure>
+  <button class="gallery-lightbox-nav gallery-lightbox-next" id="galleryLightboxNext" aria-label="Next image">›</button>
+</div>
 
 <!-- ============================================================
      SECTION 08 — TESTIMONIALS
