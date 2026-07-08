@@ -794,13 +794,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
   bladeCards.forEach(card => {
     const image = card.querySelector('.blade-card-img');
+    const arrow = card.querySelector('.blade-arrow');
     const bladeName = card.querySelector('.blade-name')?.textContent.trim();
-    if (!image || !bladeName) return;
+    if (!bladeName) return;
 
-    image.addEventListener('click', e => {
+    const openCardQuickView = e => {
       if (e.target.closest('button, a')) return;
       openQuickView(bladeName);
-    });
+    };
+
+    image?.addEventListener('click', openCardQuickView);
+    arrow?.addEventListener('click', openCardQuickView);
   });
 
   filterPills.forEach(pill => {
