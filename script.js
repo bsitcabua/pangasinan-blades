@@ -792,6 +792,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const bladeCards = document.querySelectorAll('.blade-card');
   const filterCount = document.getElementById('filterCount');
 
+  bladeCards.forEach(card => {
+    const image = card.querySelector('.blade-card-img');
+    const bladeName = card.querySelector('.blade-name')?.textContent.trim();
+    if (!image || !bladeName) return;
+
+    image.addEventListener('click', e => {
+      if (e.target.closest('button, a')) return;
+      openQuickView(bladeName);
+    });
+  });
+
   filterPills.forEach(pill => {
     pill.addEventListener('click', function() {
       filterPills.forEach(p => p.classList.remove('active'));
