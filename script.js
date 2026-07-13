@@ -1,4 +1,102 @@
 /* ============================================================
+   HERO IMAGE SLIDESHOW — assets/images/header/
+   ============================================================
+   Put your hero images inside:  assets/images/header/
+   Then list the filenames below (in the order you want them
+   to appear). Any common web image format works (.jpg, .png,
+   .webp, etc). Add or remove lines as needed — 2 or more images
+   will crossfade automatically; 1 image just displays statically.
+   ============================================================ */
+const HERO_SLIDES = [
+  {
+    image: 'assets/images/header/regular_ginunting.png',
+    name: 'Regular Ginunting'
+  },
+  {
+    image: 'assets/images/header/tactical_ginunting.png',
+    name: 'Tactical Ginunting'
+  },
+  {
+    image: 'assets/images/header/modern_andres_bolo.png',
+    name: 'Modern Andres Bolo'
+  },
+  {
+    image: 'assets/images/header/military_bolo.png',
+    name: 'Military Bolo'
+  },
+  {
+    image: 'assets/images/header/itak_tagalog.png',
+    name: 'Itak Tagalog'
+  },
+  {
+    image: 'assets/images/header/itak_tinegre.png',
+    name: 'Itak Tinegre'
+  },
+  {
+    image: 'assets/images/header/garab.png',
+    name: 'Garab'
+  },
+  {
+    image: 'assets/images/header/dahon_palay.png',
+    name: 'Dahon Palay'
+  },
+  {
+    image: 'assets/images/header/gayang.png',
+    name: 'Gayang'
+  },
+  {
+    image: 'assets/images/header/barong.png',
+    name: 'Barong'
+  }
+];
+
+const HERO_SLIDESHOW_INTERVAL = 6000;
+
+(function initHeroSlideshow() {
+  const container = document.getElementById('heroSlideshow');
+  const bladeName = document.getElementById('heroBladeName');
+
+  if (!container || !HERO_SLIDES.length) return;
+
+  HERO_SLIDES.forEach((item, i) => {
+    const slide = document.createElement('div');
+
+    slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
+    slide.style.backgroundImage = `url('${item.image}')`;
+
+    container.insertBefore(slide, bladeName);
+  });
+
+  const slides = container.querySelectorAll('.hero-slide');
+  const bladeTitle = bladeName.querySelector('strong');
+
+  bladeTitle.textContent = HERO_SLIDES[0].name;
+
+  if (slides.length < 2) return;
+
+  let current = 0;
+
+  setInterval(() => {
+    const next = (current + 1) % slides.length;
+
+    slides[current].classList.remove('active');
+    slides[next].classList.add('active');
+
+    bladeName.style.opacity = '0';
+    bladeName.style.transform = 'translateY(12px)';
+
+    setTimeout(() => {
+      bladeTitle.textContent = HERO_SLIDES[next].name;
+
+      bladeName.style.opacity = '1';
+      bladeName.style.transform = 'translateY(0)';
+    }, 250);
+
+    current = next;
+  }, HERO_SLIDESHOW_INTERVAL);
+})();
+
+/* ============================================================
    FULL CATALOG DATA — 24 Blades
    ============================================================ */
 const ALL_BLADES = [

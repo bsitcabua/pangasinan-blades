@@ -291,6 +291,99 @@ ul { list-style: none; }
   overflow: hidden;
 }
 
+/* Hero background image slideshow (assets/images/header/) */
+.hero-slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #0d0d0d;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-position: right center;
+  background-repeat: no-repeat;
+
+  opacity: 0;
+  transform: scale(1.04);
+
+  transition:
+    opacity 1.6s ease,
+    transform 8s linear;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ========================================
+   Featured Blade Name
+======================================== */
+
+.hero-slide-title {
+  position: absolute;
+  right: 6%;
+  bottom: 40%;
+  z-index: 5;
+
+  padding: 1rem 1.4rem;
+
+  /* background: rgba(10, 10, 10, .45); */
+  /* backdrop-filter: blur(12px); */
+
+  /* border: 1px solid rgba(214, 179, 106, .35); */
+  /* border-radius: 12px; */
+
+  transition:
+    opacity .35s ease,
+    transform .35s ease;
+
+  pointer-events: none;
+}
+
+.hero-slide-title span {
+  display: block;
+  margin-bottom: .35rem;
+
+  color: #c9a45f;
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+}
+
+.hero-slide-title strong {
+  display: block;
+
+  color: #fff;
+  font-size: clamp(1.3rem, 2vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+
+  text-shadow: 0 3px 12px rgba(0,0,0,.5);
+}
+
+@media (max-width: 768px) {
+  .hero-slide-title {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 5%;
+
+    text-align: center;
+    width: calc(100% - 2rem);
+    max-width: 320px;
+  }
+
+  .hero-slide-title strong {
+    font-size: 1.25rem;
+  }
+}
+
 .hero-bg {
   position: absolute;
   inset: 0;
