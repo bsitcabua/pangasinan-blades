@@ -82,14 +82,12 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
     slides[current].classList.remove('active');
     slides[next].classList.add('active');
 
-    bladeName.style.opacity = '0';
-    bladeName.style.transform = 'translateY(12px)';
+    bladeName.classList.add('changing');
 
     setTimeout(() => {
       bladeTitle.textContent = HERO_SLIDES[next].name;
 
-      bladeName.style.opacity = '1';
-      bladeName.style.transform = 'translateY(0)';
+      bladeName.classList.remove('changing');
     }, 250);
 
     current = next;
