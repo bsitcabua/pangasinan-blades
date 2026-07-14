@@ -471,24 +471,134 @@ const ALL_BLADES = [
   }
 ];
 
+const COMPLETE_COLLECTION = [
+  makeCollectionBlade('itak-tagalog', 'Itak Tagalog', 'itak', 'Itak Series', true),
+  makeCollectionBlade('pinuti', 'Pinuti', 'itak', 'Itak Series', true),
+  makeCollectionBlade('itak-tinegre', 'Itak Tinegre', 'itak', 'Itak Series', true),
+  makeCollectionBlade('buneng', 'Buneng', 'itak', 'Itak Series'),
+  makeCollectionBlade('talunasan', 'Talunasan', 'itak', 'Itak Series'),
+  makeCollectionBlade('military-bolo', 'Military Bolo', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('modern-ab-bolo', 'Modern AB Bolo', 'bolo', 'Bolo Series'),
+  makeCollectionBlade('ilocano-bolo', 'Ilocano Bolo', 'bolo', 'Bolo Series'),
+  makeCollectionBlade('dahon-palay', 'Dahon Palay', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('cleaver-bolo', 'Cleaver Bolo', 'bolo', 'Bolo Series'),
+  makeCollectionBlade('garab', 'Garab', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('barung', 'Barung', 'moro', 'Moro Series', true),
+  makeCollectionBlade('kris', 'Kris', 'moro', 'Moro Series', true),
+  makeCollectionBlade('kampilan', 'Kampilan', 'moro', 'Moro Series', true),
+  makeCollectionBlade('panabas', 'Panabas', 'moro', 'Moro Series'),
+  makeCollectionBlade('gayang', 'Gayang', 'moro', 'Moro Series'),
+  makeCollectionBlade('ginunting', 'Ginunting', 'combat', 'Combat Series', true),
+  makeCollectionBlade('modern-talibong', 'Modern Talibong', 'combat', 'Combat Series', true),
+  makeCollectionBlade('bushcraft', 'Bushcraft', 'outdoor', 'Outdoor Series'),
+  makeCollectionBlade('hunting', 'Hunting', 'outdoor', 'Outdoor Series'),
+  makeCollectionBlade('chef', 'Chef', 'outdoor', 'Outdoor Series'),
+  makeCollectionBlade('katana', 'Katana', 'international', 'International Series'),
+  makeCollectionBlade('shirasaya', 'Shirasaya', 'international', 'International Series'),
+  makeCollectionBlade('khukri', 'Khukri', 'international', 'International Series'),
+  makeCollectionBlade('gladius', 'Gladius', 'international', 'International Series'),
+  makeCollectionBlade('jambiya', 'Jambiya', 'international', 'International Series'),
+];
+
+const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
+
+function renderCatalogPreview() {
+  const grid = document.getElementById('catalogGrid');
+  const count = document.getElementById('filterCount');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+  CATALOG_PREVIEW.forEach((blade, index) => {
+    const card = document.createElement('article');
+    card.className = 'blade-card';
+    card.setAttribute('data-category', blade.category);
+    card.innerHTML = `
+      <div class="blade-card-img">
+        <div class="blade-card-img-inner">
+          <div class="blade-svg-wrap">
+            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+              ${blade.svgPath}
+            </svg>
+          </div>
+        </div>
+        <div class="blade-card-overlay">
+          <button class="quick-btn" onclick="openQuickView('${blade.name}')">Quick View</button>
+          <button class="quick-btn" onclick="scrollToContact('${blade.name}')">Inquire</button>
+        </div>
+      </div>
+      <div class="blade-card-body">
+        <span class="blade-badge">${blade.series}</span>
+        <h3 class="blade-name">${blade.name}</h3>
+        <p class="blade-meta">Product photo coming soon</p>
+        <div class="blade-footer">
+          <span class="blade-price">Available Soon</span>
+          <div class="blade-arrow" aria-hidden="true">→</div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  if (count) {
+    count.textContent = `${CATALOG_PREVIEW.length} blades`;
+  }
+}
+
+function makeCollectionBlade(id, name, category, series, featured) {
+  return {
+    id,
+    name,
+    category,
+    series,
+    featured: Boolean(featured),
+    material: 'Details coming soon',
+    length: 'TBA',
+    weight: 'TBA',
+    handle: 'TBA',
+    edge: 'TBA',
+    hrc: 'TBA',
+    sheath: 'TBA',
+    price: 0,
+    badge: series,
+    desc: `${name} from the ${series}. Full specifications and product photography will be added soon.`,
+    bg: '#111111',
+    gradColor: '#222222',
+    svgPath: blankBladePlaceholder(name, series),
+  };
+}
+
+function blankBladePlaceholder(name, series) {
+  return `
+    <rect width="300" height="200" fill="#111111"/>
+    <radialGradient id="blank${name.replace(/[^a-z0-9]/gi, '')}" cx="50%" cy="48%" r="58%">
+      <stop offset="0%" stop-color="#2E2E2E" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#080808" stop-opacity="0"/>
+    </radialGradient>
+    <rect width="300" height="200" fill="url(#blank${name.replace(/[^a-z0-9]/gi, '')})"/>
+    <rect x="58" y="86" width="184" height="28" rx="14" fill="none" stroke="#7A5A22" stroke-width="1" opacity="0.75"/>
+    <path d="M72 100 H228" stroke="#C8963C" stroke-width="1" opacity="0.5"/>
+    <text x="150" y="132" text-anchor="middle" font-family="Georgia" font-size="13" fill="#F0EBE0" opacity="0.78">${name}</text>
+    <text x="150" y="154" text-anchor="middle" font-family="Inter, Arial" font-size="8" fill="#C8963C" opacity="0.72" letter-spacing="2">${series.toUpperCase()}</text>`;
+}
+
+function formatBladePrice(blade) {
+  return blade.price >= 1000 ? `₱${blade.price.toLocaleString()}` : 'Available Soon';
+}
+
 /* ============================================================
    FULL CATALOG ENGINE
    ============================================================ */
 let fcActiveFilter = 'all';
 let fcActiveSort   = 'default';
-let fcVisibleData  = [...ALL_BLADES];
+let fcVisibleData  = [...COMPLETE_COLLECTION];
 
 const FC_CATEGORIES = [
-  { key:'all',       label:'All Blades' },
-  { key:'kampilan',  label:'Kampilan' },
-  { key:'bolo',      label:'Bolo' },
-  { key:'itak',      label:'Itak' },
-  { key:'kalis',     label:'Kalis' },
-  { key:'punyal',    label:'Punyal' },
-  { key:'panabas',   label:'Panabas' },
-  { key:'ginunting', label:'Ginunting' },
-  { key:'pirah',     label:'Pirah' },
-  { key:'set',       label:'Sets & Special' },
+  { key:'all',    label:'All Series' },
+  { key:'itak',   label:'Itak Series' },
+  { key:'bolo',   label:'Bolo Series' },
+  { key:'moro',   label:'Moro Series' },
+  { key:'combat', label:'Combat Series' },
+  { key:'outdoor', label:'Outdoor Series' },
+  { key:'international', label:'International Series' },
 ];
 
 function buildFCFilters() {
@@ -506,8 +616,8 @@ function buildFCFilters() {
 function applyFCFilter() {
   buildFCFilters();
   fcVisibleData = fcActiveFilter === 'all'
-    ? [...ALL_BLADES]
-    : ALL_BLADES.filter(b => b.category === fcActiveFilter);
+    ? [...COMPLETE_COLLECTION]
+    : COMPLETE_COLLECTION.filter(b => b.category === fcActiveFilter);
   applyFCSort(true);
 }
 
@@ -535,7 +645,7 @@ function renderFCGrid(blades) {
     return;
   }
   empty.style.display = 'none';
-  count.textContent   = `Showing ${blades.length} of ${ALL_BLADES.length} blades`;
+  count.textContent   = `Showing ${blades.length} of ${COMPLETE_COLLECTION.length} blades`;
   label.textContent   = `${blades.length} blade${blades.length!==1?'s':''}`;
 
   blades.forEach((blade, idx) => {
@@ -563,7 +673,7 @@ function renderFCGrid(blades) {
         <h3 class="fc-name">${blade.name}</h3>
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
         <div class="fc-foot">
-          <span class="fc-price">${blade.price >= 1000 ? '₱'+blade.price.toLocaleString() : '—'}</span>
+          <span class="fc-price">${formatBladePrice(blade)}</span>
           <div class="fc-arr">→</div>
         </div>
       </div>`;
@@ -579,7 +689,7 @@ function openFullCatalog() {
   fcActiveFilter = 'all';
   fcActiveSort   = 'default';
   buildFCFilters();
-  renderFCGrid(ALL_BLADES);
+  renderFCGrid(COMPLETE_COLLECTION);
   modal.scrollTop = 0;
   document.getElementById('fcSort').value = 'default';
   // Focus for accessibility
@@ -608,7 +718,7 @@ document.addEventListener('keydown', e => {
    QUICK VIEW DRAWER
    ============================================================ */
 function openDrawer(id) {
-  const blade = ALL_BLADES.find(b => b.id === id);
+  const blade = COMPLETE_COLLECTION.find(b => b.id === id) || ALL_BLADES.find(b => b.id === id);
   if (!blade) return;
 
   document.getElementById('qdBody').innerHTML = `
@@ -638,7 +748,7 @@ function openDrawer(id) {
       <tr><td>Edge Grind</td><td>${blade.edge}</td></tr>
       <tr><td>Sheath</td><td>${blade.sheath}</td></tr>
     </table>
-    <div class="qd-price">₱${blade.price.toLocaleString()}</div>
+    <div class="qd-price">${formatBladePrice(blade)}</div>
     <div class="qd-ctas">
       <button class="btn-primary" onclick="closeDrawer();closeFullCatalog();scrollToContact('${blade.name}')">
         Inquire About This Blade
@@ -884,6 +994,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /* --- FILTER PILLS (CATALOG) --- */
+  renderCatalogPreview();
   const filterPills = document.querySelectorAll('.filter-bar .filter-pill');
   const bladeCards = document.querySelectorAll('.blade-card');
   const filterCount = document.getElementById('filterCount');
@@ -1091,7 +1202,7 @@ function scrollToContact(bladeName) {
 }
 
 function openQuickView(bladeName) {
-  const blade = ALL_BLADES.find(b => b.name === bladeName);
+  const blade = COMPLETE_COLLECTION.find(b => b.name === bladeName) || ALL_BLADES.find(b => b.name === bladeName);
   if (!blade) return;
   openDrawer(blade.id);
 }
