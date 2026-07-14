@@ -475,29 +475,37 @@ const COMPLETE_COLLECTION = [
   makeCollectionBlade('itak-tagalog', 'Itak Tagalog', 'itak', 'Itak Series', true),
   makeCollectionBlade('pinuti', 'Pinuti', 'itak', 'Itak Series', true),
   makeCollectionBlade('itak-tinegre', 'Itak Tinegre', 'itak', 'Itak Series', true),
-  makeCollectionBlade('buneng', 'Buneng', 'itak', 'Itak Series'),
   makeCollectionBlade('talunasan', 'Talunasan', 'itak', 'Itak Series'),
   makeCollectionBlade('military-bolo', 'Military Bolo', 'bolo', 'Bolo Series', true),
-  makeCollectionBlade('modern-ab-bolo', 'Modern AB Bolo', 'bolo', 'Bolo Series'),
-  makeCollectionBlade('ilocano-bolo', 'Ilocano Bolo', 'bolo', 'Bolo Series'),
-  makeCollectionBlade('dahon-palay', 'Dahon Palay', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('modern-ab-bolo', 'Modern Andres Bolo', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('ilocano-bolo', 'Ilocano Bolo', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('dahon-palay', 'Dahon Palay', 'bolo', 'Bolo Series'),
+  makeCollectionBlade('jungle-cleaver-bolo', 'Jungle Cleaver Bolo', 'bolo', 'Bolo Series'),
   makeCollectionBlade('cleaver-bolo', 'Cleaver Bolo', 'bolo', 'Bolo Series'),
-  makeCollectionBlade('garab', 'Garab', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('garab', 'Garab', 'bolo', 'Bolo Series'),
   makeCollectionBlade('barung', 'Barung', 'moro', 'Moro Series', true),
   makeCollectionBlade('kris', 'Kris', 'moro', 'Moro Series', true),
   makeCollectionBlade('kampilan', 'Kampilan', 'moro', 'Moro Series', true),
   makeCollectionBlade('panabas', 'Panabas', 'moro', 'Moro Series'),
+  makeCollectionBlade('traditional-panabas', 'Traditional Panabas', 'moro', 'Moro Series'),
   makeCollectionBlade('gayang', 'Gayang', 'moro', 'Moro Series'),
   makeCollectionBlade('ginunting', 'Ginunting', 'combat', 'Combat Series', true),
   makeCollectionBlade('modern-talibong', 'Modern Talibong', 'combat', 'Combat Series', true),
   makeCollectionBlade('bushcraft', 'Bushcraft', 'outdoor', 'Outdoor Series'),
   makeCollectionBlade('hunting', 'Hunting', 'outdoor', 'Outdoor Series'),
-  makeCollectionBlade('chef', 'Chef', 'outdoor', 'Outdoor Series'),
+  makeCollectionBlade('karanto', 'Karanto', 'outdoor', 'Outdoor Series'),
+  makeCollectionBlade('karambit-big', 'Karambit Big', 'outdoor', 'Outdoor Series'),
+  makeCollectionBlade('karambit-small', 'Karambit Small', 'outdoor', 'Outdoor Series'),
   makeCollectionBlade('katana', 'Katana', 'international', 'International Series'),
   makeCollectionBlade('shirasaya', 'Shirasaya', 'international', 'International Series'),
   makeCollectionBlade('khukri', 'Khukri', 'international', 'International Series'),
   makeCollectionBlade('gladius', 'Gladius', 'international', 'International Series'),
   makeCollectionBlade('jambiya', 'Jambiya', 'international', 'International Series'),
+  makeCollectionBlade('serbian-chefs-knife', 'Serbian Chef’s Knife / Almazan', 'kitchen', 'Kitchen Series'),
+  makeCollectionBlade('standard-chefs-knife', 'Standard Chef’s Knife / Gyuto', 'kitchen', 'Kitchen Series'),
+  makeCollectionBlade('santoku', 'Santoku / Bunka Hybrid', 'kitchen', 'Kitchen Series'),
+  makeCollectionBlade('sujihiki', 'Sujihiki / Carving Knife', 'kitchen', 'Kitchen Series'),
+  makeCollectionBlade('yanagiba', 'Yanagiba / Sashimi Knife', 'kitchen', 'Kitchen Series'),
 ];
 
 const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
@@ -599,6 +607,7 @@ const FC_CATEGORIES = [
   { key:'combat', label:'Combat Series' },
   { key:'outdoor', label:'Outdoor Series' },
   { key:'international', label:'International Series' },
+  { key:'kitchen', label:'Kitchen Series' },
 ];
 
 function buildFCFilters() {
@@ -682,6 +691,13 @@ function renderFCGrid(blades) {
   });
 }
 
+let isClosingFullCatalogFromHistory = false;
+
+function isFullCatalogOpen() {
+  const modal = document.getElementById('fullCatalogModal');
+  return modal && modal.style.display === 'block';
+}
+
 function openFullCatalog() {
   const modal = document.getElementById('fullCatalogModal');
   modal.style.display = 'block';
@@ -695,12 +711,29 @@ function openFullCatalog() {
   // Focus for accessibility
   document.getElementById('fcTitle').focus();
   document.getElementById('fcTitle').setAttribute('tabindex','-1');
+
+  if (!history.state || history.state.modal !== 'fullCatalog') {
+    history.pushState({ modal: 'fullCatalog' }, '', '#full-collection');
+  }
 }
 
 function closeFullCatalog() {
+  if (isFullCatalogOpen() && history.state && history.state.modal === 'fullCatalog' && !isClosingFullCatalogFromHistory) {
+    history.back();
+    return;
+  }
+
   document.getElementById('fullCatalogModal').style.display = 'none';
   document.body.style.overflow = '';
 }
+
+window.addEventListener('popstate', () => {
+  if (!isFullCatalogOpen()) return;
+
+  isClosingFullCatalogFromHistory = true;
+  closeFullCatalog();
+  isClosingFullCatalogFromHistory = false;
+});
 
 /* Close on Escape */
 document.addEventListener('keydown', e => {
