@@ -34,6 +34,10 @@
     <li><a href="#contact" class="nav-link">Inquire</a></li>
   </ul>
   <div class="nav-cta">
+    <button class="inquiry-list-toggle" type="button" onclick="openInquiryListModal()" aria-label="Open inquiry list">
+      <span aria-hidden="true">☰</span>
+      <span class="inquiry-list-badge" id="inquiryListCount" hidden></span>
+    </button>
     <a href="#contact" class="btn-primary">Commission a Blade</a>
   </div>
   <button class="nav-mobile-toggle" aria-label="Open menu" id="mobileToggle">
@@ -49,6 +53,9 @@
   <a href="#gallery" class="mobile-link">Gallery</a>
   <a href="#testimonials" class="mobile-link">Stories</a>
   <a href="#contact" class="mobile-link">Inquire</a>
+  <button class="mobile-inquiry-list" type="button" onclick="openInquiryListModal()">
+    Inquiry List <span class="inquiry-list-badge" id="mobileInquiryListCount" hidden></span>
+  </button>
 </div>
 
 <!-- ============================================================
@@ -362,6 +369,30 @@
   display:none;position:fixed;inset:0;z-index:2999;
   background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
 "></div>
+
+<div class="inquiry-list-modal" id="inquiryListModal" role="dialog" aria-modal="true" aria-labelledby="inquiryListTitle">
+  <div class="inquiry-list-backdrop" onclick="closeInquiryListModal()" aria-hidden="true"></div>
+  <section class="inquiry-list-panel">
+    <div class="inquiry-list-head">
+      <div>
+        <span class="inquiry-list-kicker">Quote Builder</span>
+        <h2 id="inquiryListTitle">Inquiry List</h2>
+      </div>
+      <div class="inquiry-list-head-actions">
+        <span id="inquiryListModalCount">0 blades</span>
+        <button type="button" class="inquiry-list-close" onclick="closeInquiryListModal()" aria-label="Close inquiry list">×</button>
+      </div>
+    </div>
+
+    <div class="inquiry-list-body" id="inquiryListBody"></div>
+
+    <div class="inquiry-list-actions">
+      <button type="button" class="btn-ghost" id="clearInquiryListBtn" onclick="clearInquiryList()">Clear List</button>
+      <!-- <button type="button" class="btn-ghost" onclick="closeInquiryListModal()">Close Modal</button> -->
+      <button type="button" class="btn-primary" id="sendInquiryListBtn" onclick="sendInquiryList()">Send Inquiry</button>
+    </div>
+  </section>
+</div>
 
 
 
