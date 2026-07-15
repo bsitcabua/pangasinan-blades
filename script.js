@@ -94,418 +94,586 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
   }, HERO_SLIDESHOW_INTERVAL);
 })();
 
-/* ============================================================
-   FULL CATALOG DATA — 24 Blades
-   ============================================================ */
-const ALL_BLADES = [
-  /* ---- Kampilan ---- */
-  {
-    id:'k1', name:'Kampilan ng Bayani', category:'kampilan',
-    material:'High-Carbon Damascus 1075/15N20', length:'28 in', weight:'680g',
-    handle:'Carabao Horn · Brass Pins', edge:'Single-bevel convex',
-    hrc:'58–61', sheath:'Water buffalo leather', price:28500, badge:'Limited Edition',
-    desc:'The sword of the hero — 240-fold Damascus pattern forged over three days. A commanding presence in any collection.',
-    bg:'#110f08', gradColor:'#3a2010',
-    svgPath:`<path d="M38 172 L38 155 L228 104 Q270 88 276 77 Q266 68 242 76 L48 128 L38 118 L32 140 Z" fill="#8a8a8a" stroke="#bbb" stroke-width=".8"/>
-    <path d="M228 104 Q270 88 276 77" stroke="#C8963C" stroke-width="1.2" fill="none" opacity=".85"/>
-    <path d="M48 128 L225 80" stroke="#E0D8C8" stroke-width=".5" opacity=".3"/>
-    <path d="M55 136 Q110 116 165 100 Q215 86 228 82" stroke="#999" stroke-width="1.5" fill="none" opacity=".22"/>
-    <rect x="22" y="153" width="20" height="52" rx="3" fill="#5a3a1a" stroke="#7a5a2a" stroke-width="1"/>
-    <rect x="25" y="159" width="14" height="3" rx="1" fill="#C8963C" opacity=".55"/>
-    <rect x="25" y="172" width="14" height="3" rx="1" fill="#C8963C" opacity=".55"/>
-    <rect x="25" y="185" width="14" height="3" rx="1" fill="#C8963C" opacity=".55"/>
-    <circle cx="200" cy="92" r="2" fill="#C8963C" opacity=".7"/>
-    <circle cx="184" cy="85" r="1.2" fill="#E8C86A" opacity=".6"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="3">KAMPILAN</text>`
-  },
-  {
-    id:'k2', name:'Kampilan Hari ng Digma', category:'kampilan',
-    material:'High-Carbon 1080', length:'30 in', weight:'720g',
-    handle:'Narra Hardwood · Rattan Wrap', edge:'Single-bevel convex',
-    hrc:'57–60', sheath:'Embossed leather', price:22000, badge:'In Stock',
-    desc:'The war king — a longer blade profile for reach and authority. Rattan-wrapped handle for superior grip.',
-    bg:'#0f0b08', gradColor:'#2a1808',
-    svgPath:`<path d="M35 175 L35 158 L248 100 Q285 84 290 73 Q278 63 252 72 L46 130 L35 120 L29 143 Z" fill="#888" stroke="#aaa" stroke-width=".8"/>
-    <path d="M248 100 Q285 84 290 73" stroke="#C8963C" stroke-width="1" fill="none" opacity=".8"/>
-    <rect x="20" y="156" width="18" height="56" rx="2" fill="#2a1808" stroke="#4a3015" stroke-width="1"/>
-    <line x1="20" y1="165" x2="38" y2="165" stroke="#8a6030" stroke-width="2" opacity=".45"/>
-    <line x1="20" y1="177" x2="38" y2="177" stroke="#8a6030" stroke-width="2" opacity=".45"/>
-    <line x1="20" y1="189" x2="38" y2="189" stroke="#8a6030" stroke-width="2" opacity=".45"/>
-    <text x="155" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="3">KAMPILAN</text>`
-  },
-  {
-    id:'k3', name:'Kampilan Lapu-Lapu', category:'kampilan',
-    material:'Laminated San Mai', length:'26 in', weight:'640g',
-    handle:'Molave Wood · Brass Guard', edge:'Single-bevel hollow',
-    hrc:'59–62', sheath:'Carved wood kaluban', price:36000, badge:'Made to Order',
-    desc:'Named for the great chieftain who never yielded — this San Mai laminate offers exceptional edge retention with a tough spine.',
-    bg:'#090c0e', gradColor:'#102030',
-    svgPath:`<path d="M36 170 L36 154 L218 106 Q262 91 268 80 Q258 70 235 78 L46 128 L36 118 L30 140 Z" fill="#7a7a7a" stroke="#aaa" stroke-width=".8"/>
-    <path d="M46 128 L218 80" stroke="#E0D8C8" stroke-width=".5" opacity=".35"/>
-    <rect x="20" y="152" width="20" height="54" rx="3" fill="#2a1a0c" stroke="#5a4020" stroke-width="1"/>
-    <rect x="17" y="148" width="26" height="8" rx="2" fill="#C8963C" opacity=".7"/>
-    <rect x="23" y="158" width="14" height="3" rx="1" fill="#C8963C" opacity=".4"/>
-    <rect x="23" y="172" width="14" height="3" rx="1" fill="#C8963C" opacity=".4"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="3">KAMPILAN</text>`
-  },
-  /* ---- Bolo ---- */
-  {
-    id:'b1', name:'Bolo ng Lupa', category:'bolo',
-    material:'High-Carbon 1075', length:'18 in', weight:'380g',
-    handle:'Narra Hardwood', edge:'Single-bevel convex',
-    hrc:'55–58', sheath:'Vegetable-tanned leather', price:8900, badge:'In Stock',
-    desc:'The farmer\'s companion — a classic Tagalog-style bolo with perfect balance for everyday work and display.',
-    bg:'#0a0f0a', gradColor:'#1a2a10',
-    svgPath:`<path d="M28 163 L28 150 L205 118 Q244 109 252 100 Q244 91 218 96 L40 132 L28 122 L22 140 Z" fill="#999" stroke="#bbb" stroke-width=".8"/>
-    <path d="M28 163 Q80 168 130 160 Q180 152 205 118" stroke="#666" stroke-width="1" fill="none" opacity=".35"/>
-    <rect x="10" y="148" width="22" height="48" rx="4" fill="#3a2010" stroke="#5a3a18" stroke-width="1"/>
-    <path d="M14 157 Q21 155 30 157 Q21 160 14 157Z" fill="#5a3a18" opacity=".6"/>
-    <path d="M14 170 Q21 168 30 170 Q21 173 14 170Z" fill="#5a3a18" opacity=".6"/>
-    <rect x="24" y="144" width="10" height="8" rx="1" fill="#888" stroke="#aaa" stroke-width=".5"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">BOLO</text>`
-  },
-  {
-    id:'b2', name:'Bolo Talibong', category:'bolo',
-    material:'Stainless 440C', length:'20 in', weight:'420g',
-    handle:'Carabao Horn', edge:'Single-bevel convex',
-    hrc:'56–59', sheath:'Brown leather', price:9800, badge:'In Stock',
-    desc:'The Visayan bolo — a wider, more aggressive clip-point blade profile from the southern islands tradition.',
-    bg:'#0b0808', gradColor:'#201010',
-    svgPath:`<path d="M26 166 L26 152 L195 116 Q240 102 250 90 Q238 78 210 88 L38 132 L26 120 L20 142 Z" fill="#aaa" stroke="#ccc" stroke-width=".8"/>
-    <path d="M195 116 Q240 102 250 90 Q238 78 210 88" stroke="#C8963C" stroke-width=".9" fill="none" opacity=".7"/>
-    <rect x="8" y="150" width="20" height="50" rx="3" fill="#2a1a08" stroke="#4a3018" stroke-width="1"/>
-    <path d="M11 160 Q18 158 26 160" stroke="#6a4a20" stroke-width="1" fill="none" opacity=".5"/>
-    <path d="M11 172 Q18 170 26 172" stroke="#6a4a20" stroke-width="1" fill="none" opacity=".5"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="3">TALIBONG</text>`
-  },
-  {
-    id:'b3', name:'Bolo Barong Tagalog', category:'bolo',
-    material:'Damascus 1075/15N20', length:'16 in', weight:'340g',
-    handle:'Narra · Ivory Pins', edge:'Double-bevel',
-    hrc:'58–61', sheath:'Embossed ceremonial leather', price:18500, badge:'Limited Edition',
-    desc:'A ceremonial piece inspired by the traditional barong — leaf-shaped blade with full Damascus pattern and ivory handle pins.',
-    bg:'#08080c', gradColor:'#101018',
-    svgPath:`<path d="M25 168 L25 152 L155 118 Q190 105 198 94 Q190 82 168 90 L35 130 L25 118 L19 138 Z" fill="#888" stroke="#aaa" stroke-width=".8"/>
-    <path d="M35 130 Q80 116 128 106 Q162 98 155 90" stroke="#C8963C" stroke-width=".8" fill="none" opacity=".45"/>
-    <path d="M38 138 Q80 124 125 114 Q155 106 158 98" stroke="#888" stroke-width="1.5" fill="none" opacity=".2"/>
-    <rect x="8" y="150" width="20" height="50" rx="3" fill="#3a2010" stroke="#5a3a18" stroke-width="1"/>
-    <circle cx="18" cy="163" r="3" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <circle cx="18" cy="182" r="3" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <text x="130" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="2">BARONG TAGALOG</text>`
-  },
-  /* ---- Itak ---- */
-  {
-    id:'i1', name:'Itak ng Bundok', category:'itak',
-    material:'Stainless 440C', length:'16 in', weight:'310g',
-    handle:'Carabao Horn', edge:'Single-bevel convex',
-    hrc:'56–59', sheath:'Natural leather', price:6500, badge:'In Stock',
-    desc:'The mountain itak — a forward-curved work blade from the Cordillera tradition, built for utility and decades of service.',
-    bg:'#100808', gradColor:'#280a0a',
-    svgPath:`<path d="M28 166 L28 153 L185 110 Q232 89 247 73 Q250 60 240 56 Q222 58 200 73 L43 130 L28 120 L22 142 Z" fill="#aaa" stroke="#ccc" stroke-width=".8"/>
-    <path d="M185 110 Q232 89 247 73 Q250 60 240 56" stroke="#C8963C" stroke-width="1" fill="none" opacity=".75"/>
-    <path d="M12 148 Q12 168 18 200 L30 200 Q36 168 36 148 Q34 142 24 142 Q14 142 12 148Z" fill="#2a1a08" stroke="#4a3018" stroke-width="1"/>
-    <path d="M15 162 Q24 159 33 162" stroke="#6a4a20" stroke-width="1" fill="none" opacity=".5"/>
-    <path d="M15 174 Q24 171 33 174" stroke="#6a4a20" stroke-width="1" fill="none" opacity=".5"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">ITAK</text>`
-  },
-  {
-    id:'i2', name:'Itak Pangasinan Heritage', category:'itak',
-    material:'High-Carbon 1080', length:'18 in', weight:'360g',
-    handle:'Molave · Brass Bolster', edge:'Single-bevel convex',
-    hrc:'57–60', sheath:'Hand-stitched leather', price:11500, badge:'In Stock',
-    desc:'Our provincial heritage design — the classic Pangasinan itak profile, refined over decades into its most elegant expression.',
-    bg:'#0e0908', gradColor:'#221204',
-    svgPath:`<path d="M26 168 L26 154 L188 108 Q234 88 248 72 Q252 58 242 54 Q224 56 202 72 L40 132 L26 120 L20 144 Z" fill="#999" stroke="#bbb" stroke-width=".8"/>
-    <path d="M188 108 Q234 88 248 72" stroke="#C8963C" stroke-width=".9" fill="none" opacity=".7"/>
-    <rect x="8" y="152" width="22" height="52" rx="4" fill="#2a1a0c" stroke="#5a3a18" stroke-width="1"/>
-    <rect x="7" y="148" width="24" height="8" rx="2" fill="#C8963C" opacity=".55"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">ITAK</text>`
-  },
-  {
-    id:'i3', name:'Itak Sandata Damascus', category:'itak',
-    material:'Damascus 1075/15N20', length:'20 in', weight:'400g',
-    handle:'Carabao Horn · Silver Pins', edge:'Single-bevel hollow',
-    hrc:'58–61', sheath:'Tooled leather', price:21000, badge:'Made to Order',
-    desc:'The weapon itak — upgraded with Damascus steel and precision hollow grind. A collector\'s piece that remains fully functional.',
-    bg:'#0a080e', gradColor:'#14100a',
-    svgPath:`<path d="M24 168 L24 153 L182 110 Q228 89 244 73 Q248 59 237 55 Q220 56 196 72 L38 132 L24 120 L18 143 Z" fill="#888" stroke="#aaa" stroke-width=".8"/>
-    <path d="M38 132 Q90 112 145 98 Q190 86 188 78" stroke="#999" stroke-width="1.4" fill="none" opacity=".22"/>
-    <path d="M41 140 Q92 120 146 106 Q190 94 186 86" stroke="#777" stroke-width="1" fill="none" opacity=".16"/>
-    <rect x="7" y="150" width="20" height="53" rx="3" fill="#2a1808" stroke="#4a2808" stroke-width="1"/>
-    <circle cx="17" cy="165" r="3.5" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <circle cx="17" cy="185" r="3.5" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <text x="148" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">ITAK</text>`
-  },
-  /* ---- Kalis ---- */
-  {
-    id:'kl1', name:'Kalis ng Datu', category:'kalis',
-    material:'Laminated Steel', length:'24 in', weight:'540g',
-    handle:'Narra Hardwood · Brass', edge:'Double-bevel hollow',
-    hrc:'60–63', sheath:'Carved narra kaluban', price:42000, badge:'Made to Order',
-    desc:'The wavy kalis — a prestige weapon of the Philippine nobility, demanding months of hand-labor to produce each wave.',
-    bg:'#080810', gradColor:'#181828',
-    svgPath:`<path d="M32 172 L32 156 Q58 144 74 128 Q90 112 112 118 Q132 124 152 108 Q172 92 193 98 Q222 93 242 82 Q232 72 212 76 Q186 81 166 96 Q146 111 126 106 Q106 101 84 116 Q62 131 44 140 L32 130 L28 150 Z" fill="#888" stroke="#bbb" stroke-width=".8"/>
-    <path d="M44 140 Q62 131 84 116 Q106 101 126 106 Q146 111 166 96 Q186 81 212 76" stroke="#C8963C" stroke-width=".9" fill="none" opacity=".5"/>
-    <rect x="16" y="152" width="20" height="52" rx="3" fill="#1a1a3a" stroke="#2a2a5a" stroke-width="1"/>
-    <rect x="19" y="158" width="14" height="2" rx="1" fill="#C8963C" opacity=".45"/>
-    <rect x="19" y="170" width="14" height="2" rx="1" fill="#C8963C" opacity=".45"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">KALIS</text>`
-  },
-  {
-    id:'kl2', name:'Kalis ng Datu Puti', category:'kalis',
-    material:'San Mai — W2 core', length:'26 in', weight:'580g',
-    handle:'Narra · Brass Fittings', edge:'Double-bevel hollow',
-    hrc:'60–63 core', sheath:'Carved narra', price:52000, badge:'Made to Order',
-    desc:'Named for the legendary Datu — San Mai laminate for supreme edge retention paired with the iconic wavy double-edged form.',
-    bg:'#0a0a12', gradColor:'#141428',
-    svgPath:`<path d="M30 172 L30 156 Q56 144 72 128 Q88 112 110 118 Q130 124 150 108 Q170 92 190 98 Q220 93 240 82 Q230 72 210 76 Q184 81 164 96 Q144 111 124 106 Q104 101 82 116 Q60 131 42 140 L30 130 L26 150 Z" fill="#7a7a7a" stroke="#aaa" stroke-width=".8"/>
-    <path d="M42 140 Q60 131 82 116 Q104 101 124 106 Q144 111 164 96 Q184 81 210 76" stroke="#C8963C" stroke-width=".9" fill="none" opacity=".55"/>
-    <rect x="14" y="152" width="20" height="52" rx="3" fill="#1a1a3a" stroke="#3a3a6a" stroke-width="1"/>
-    <rect x="12" y="148" width="24" height="8" rx="2" fill="#C8963C" opacity=".65"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">KALIS</text>`
-  },
-  {
-    id:'kl3', name:'Kalis Sundang', category:'kalis',
-    material:'High-Carbon 1075', length:'20 in', weight:'460g',
-    handle:'Carabao Horn · Rattan', edge:'Double-bevel convex',
-    hrc:'56–59', sheath:'Black leather', price:24500, badge:'In Stock',
-    desc:'The shorter sundang-style kalis — a Moro blade form with a tighter wave pattern and aggressive double-edge profile.',
-    bg:'#0a0808', gradColor:'#200a0a',
-    svgPath:`<path d="M32 170 L32 155 Q54 144 68 130 Q82 116 100 121 Q118 126 135 113 Q152 100 170 104 Q194 99 212 89 Q204 80 186 84 Q162 89 144 103 Q127 116 110 111 Q93 106 76 119 Q59 132 44 141 L32 131 L28 149 Z" fill="#8a8a8a" stroke="#bbb" stroke-width=".8"/>
-    <path d="M44 141 Q59 132 76 119 Q93 106 110 111 Q127 116 144 103 Q162 89 186 84" stroke="#C8963C" stroke-width=".9" fill="none" opacity=".48"/>
-    <rect x="16" y="152" width="19" height="50" rx="3" fill="#2a1a08" stroke="#4a3018" stroke-width="1"/>
-    <text x="140" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">KALIS</text>`
-  },
-  /* ---- Punyal ---- */
-  {
-    id:'p1', name:'Punyal Hari', category:'punyal',
-    material:'Damascus', length:'12 in', weight:'220g',
-    handle:'Purple Heart Wood · Brass', edge:'Double-bevel hollow',
-    hrc:'58–61', sheath:'Tooled ceremonial leather', price:18000, badge:'Limited Edition',
-    desc:'The king\'s dagger — a short double-edged punyal with Damascus steel and rare purple heart wood handle. A prestige collector piece.',
-    bg:'#0a080a', gradColor:'#1a101a',
-    svgPath:`<path d="M150 38 L134 156 L150 162 L166 156 Z" fill="#aaa" stroke="#ccc" stroke-width=".8"/>
-    <path d="M150 38 L134 156" stroke="#999" fill="none" stroke-width="1"/>
-    <path d="M150 38 L166 156" stroke="#ccc" fill="none" stroke-width=".9"/>
-    <rect x="118" y="153" width="64" height="8" rx="2" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <rect x="135" y="159" width="30" height="42" rx="4" fill="#3a1a3a" stroke="#5a2a5a" stroke-width="1"/>
-    <line x1="135" y1="168" x2="165" y2="168" stroke="#C8963C" stroke-width="1.5" opacity=".4"/>
-    <line x1="135" y1="179" x2="165" y2="179" stroke="#C8963C" stroke-width="1.5" opacity=".4"/>
-    <ellipse cx="150" cy="202" rx="16" ry="6" fill="#888" stroke="#aaa" stroke-width=".5"/>
-    <text x="150" y="175" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".15" letter-spacing="3">PUNYAL</text>`
-  },
-  {
-    id:'p2', name:'Punyal Kawal', category:'punyal',
-    material:'High-Carbon 1075', length:'10 in', weight:'195g',
-    handle:'Narra · Rattan Wrap', edge:'Double-bevel convex',
-    hrc:'55–58', sheath:'Simple leather', price:9500, badge:'In Stock',
-    desc:'The soldier\'s punyal — a no-frills sidearm dagger meant to be carried and used. Elegant in its simplicity.',
-    bg:'#0c0808', gradColor:'#221008',
-    svgPath:`<path d="M150 40 L136 152 L150 158 L164 152 Z" fill="#999" stroke="#bbb" stroke-width=".8"/>
-    <rect x="120" y="149" width="60" height="7" rx="2" fill="#C8963C" opacity=".65"/>
-    <rect x="137" y="154" width="26" height="44" rx="3" fill="#2a1808" stroke="#4a2808" stroke-width="1"/>
-    <line x1="137" y1="163" x2="163" y2="163" stroke="#8a6030" stroke-width="1.5" opacity=".5"/>
-    <line x1="137" y1="173" x2="163" y2="173" stroke="#8a6030" stroke-width="1.5" opacity=".5"/>
-    <line x1="137" y1="183" x2="163" y2="183" stroke="#8a6030" stroke-width="1.5" opacity=".5"/>
-    <ellipse cx="150" cy="199" rx="14" ry="5" fill="#888"/>
-    <text x="150" y="175" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".15" letter-spacing="3">PUNYAL</text>`
-  },
-  {
-    id:'p3', name:'Punyal Ginoo Damascus', category:'punyal',
-    material:'Damascus 1075/15N20', length:'14 in', weight:'260g',
-    handle:'Carabao Horn · Gold Inlay', edge:'Double-bevel hollow',
-    hrc:'59–62', sheath:'Embossed gold-stamped leather', price:28000, badge:'Made to Order',
-    desc:'The gentleman\'s dagger — a longer punyal with Damascus blade and hand-inlaid gold motifs on the carabao horn handle.',
-    bg:'#080a10', gradColor:'#101428',
-    svgPath:`<path d="M150 36 L133 158 L150 164 L167 158 Z" fill="#888" stroke="#aaa" stroke-width=".8"/>
-    <path d="M150 36 L133 158" stroke="#888" fill="none" stroke-width="1"/>
-    <path d="M150 36 L167 158" stroke="#bbb" fill="none" stroke-width=".9"/>
-    <path d="M144 80 Q150 76 156 80 Q150 84 144 80" stroke="#C8963C" stroke-width=".8" fill="none" opacity=".5"/>
-    <path d="M143 110 Q150 106 157 110 Q150 114 143 110" stroke="#C8963C" stroke-width=".8" fill="none" opacity=".5"/>
-    <rect x="116" y="155" width="68" height="9" rx="2" fill="#C8963C" stroke="#E8A840" stroke-width=".6"/>
-    <rect x="133" y="162" width="34" height="40" rx="4" fill="#2a1a08" stroke="#4a3018" stroke-width="1"/>
-    <circle cx="150" cy="175" r="3" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <circle cx="150" cy="191" r="3" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <text x="150" y="178" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".15" letter-spacing="3">PUNYAL</text>`
-  },
-  /* ---- Panabas ---- */
-  {
-    id:'pb1', name:'Panabas Dagat', category:'panabas',
-    material:'High-Carbon 1080', length:'32 in', weight:'920g',
-    handle:'Long hardwood · Rattan wrap', edge:'Single-bevel convex',
-    hrc:'55–58', sheath:'Canvas sleeve', price:35000, badge:'Made to Order',
-    desc:'The sea panabas — a large polearm-class blade from the Maranao tradition. Commands respect on both water and land.',
-    bg:'#080a08', gradColor:'#101a10',
-    svgPath:`<path d="M18 166 L18 150 L78 120 L242 68 Q272 53 274 43 Q256 33 232 43 L68 104 L18 132 L14 150 Z" fill="#888" stroke="#aaa" stroke-width=".8"/>
-    <path d="M242 68 Q272 53 274 43" stroke="#C8963C" stroke-width="1.2" fill="none" opacity=".82"/>
-    <path d="M18 150 L68 104 L232 43" stroke="#555" stroke-width="3" fill="none" opacity=".45"/>
-    <rect x="2" y="148" width="18" height="52" rx="3" fill="#2a1808" stroke="#4a2808" stroke-width="1"/>
-    <line x1="2" y1="155" x2="20" y2="155" stroke="#8a6030" stroke-width="2" opacity=".5"/>
-    <line x1="2" y1="165" x2="20" y2="165" stroke="#8a6030" stroke-width="2" opacity=".5"/>
-    <line x1="2" y1="175" x2="20" y2="175" stroke="#8a6030" stroke-width="2" opacity=".5"/>
-    <text x="152" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="3">PANABAS</text>`
-  },
-  {
-    id:'pb2', name:'Panabas ng Datu', category:'panabas',
-    material:'Damascus 1075/15N20', length:'28 in', weight:'840g',
-    handle:'Molave · Brass Collar', edge:'Single-bevel hollow',
-    hrc:'58–61', sheath:'Embossed leather wrap', price:52000, badge:'Limited Edition',
-    desc:'A ceremonial panabas reserved for chieftains — Damascus steel gives this blade both beauty and unmatched authority.',
-    bg:'#0a0808', gradColor:'#1e0808',
-    svgPath:`<path d="M20 165 L20 149 L76 120 L235 69 Q264 55 266 45 Q250 35 228 45 L66 106 L20 132 L15 150 Z" fill="#7a7a7a" stroke="#999" stroke-width=".8"/>
-    <path d="M235 69 Q264 55 266 45" stroke="#C8963C" stroke-width="1.1" fill="none" opacity=".85"/>
-    <path d="M36 128 Q100 104 165 82 Q216 64 234 54" stroke="#888" stroke-width="1.5" fill="none" opacity=".2"/>
-    <rect x="4" y="147" width="18" height="52" rx="2" fill="#2a1808" stroke="#4a2808" stroke-width="1"/>
-    <rect x="2" y="143" width="22" height="8" rx="2" fill="#C8963C" opacity=".55"/>
-    <text x="148" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="3">PANABAS</text>`
-  },
-  {
-    id:'pb3', name:'Panabas Sanggalang', category:'panabas',
-    material:'High-Carbon 1075', length:'24 in', weight:'760g',
-    handle:'Hardwood · Iron Bolster', edge:'Single-bevel convex',
-    hrc:'55–57', sheath:'Heavy canvas', price:18500, badge:'In Stock',
-    desc:'The defender panabas — a shorter, more maneuverable version designed for close-quarters use. Iron bolster adds balance.',
-    bg:'#0c0a08', gradColor:'#201810',
-    svgPath:`<path d="M22 164 L22 149 L74 121 L218 72 Q246 58 248 48 Q233 39 212 49 L64 107 L22 131 L17 149 Z" fill="#999" stroke="#bbb" stroke-width=".8"/>
-    <path d="M218 72 Q246 58 248 48" stroke="#C8963C" stroke-width="1" fill="none" opacity=".75"/>
-    <rect x="5" y="147" width="19" height="50" rx="2" fill="#2a1808" stroke="#4a2808" stroke-width="1"/>
-    <rect x="4" y="143" width="21" height="8" rx="2" fill="#666" opacity=".8"/>
-    <text x="140" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="3">PANABAS</text>`
-  },
-  /* ---- Ginunting ---- */
-  {
-    id:'g1', name:'Ginunting ng Luzon', category:'ginunting',
-    material:'High-Carbon 1075', length:'22 in', weight:'480g',
-    handle:'Molave · Brass Guard', edge:'Single-bevel convex',
-    hrc:'57–60', sheath:'Embossed leather', price:16500, badge:'In Stock',
-    desc:'The Philippine Marine Corps combat blade — the legendary ginunting in its most refined civilian collector form.',
-    bg:'#0a0c0a', gradColor:'#121e12',
-    svgPath:`<path d="M30 170 L30 154 Q80 148 120 138 Q170 125 200 108 Q240 88 252 76 Q242 64 222 72 Q190 82 155 100 Q115 120 80 132 Q50 142 30 148 L30 135 L24 153 Z" fill="#999" stroke="#bbb" stroke-width=".8"/>
-    <path d="M200 108 Q240 88 252 76 Q242 64 222 72" stroke="#C8963C" stroke-width=".9" fill="none" opacity=".75"/>
-    <rect x="12" y="152" width="22" height="52" rx="3" fill="#2a1a0c" stroke="#4a3020" stroke-width="1"/>
-    <rect x="11" y="148" width="24" height="8" rx="2" fill="#C8963C" opacity=".6"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="2">GINUNTING</text>`
-  },
-  {
-    id:'g2', name:'Ginunting Damascus Elite', category:'ginunting',
-    material:'Damascus 1075/15N20', length:'22 in', weight:'500g',
-    handle:'Carabao Horn · Silver Collar', edge:'Single-bevel convex',
-    hrc:'58–61', sheath:'Tactical leather', price:32000, badge:'Made to Order',
-    desc:'The collector-grade ginunting — Damascus blade with the same geometry as the service blade but elevated to heirloom quality.',
-    bg:'#0a0808', gradColor:'#180a08',
-    svgPath:`<path d="M29 170 L29 154 Q78 148 118 138 Q168 125 198 108 Q238 88 250 76 Q240 63 220 71 Q188 82 152 100 Q113 120 78 132 Q48 142 28 148 L28 135 L22 153 Z" fill="#888" stroke="#aaa" stroke-width=".8"/>
-    <path d="M38 148 Q88 136 135 120 Q175 106 198 92" stroke="#888" stroke-width="1.5" fill="none" opacity=".2"/>
-    <path d="M41 156 Q90 144 136 128 Q175 114 198 100" stroke="#666" stroke-width="1" fill="none" opacity=".15"/>
-    <rect x="10" y="152" width="22" height="52" rx="3" fill="#2a1a0c" stroke="#4a3020" stroke-width="1"/>
-    <circle cx="21" cy="167" r="4" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="2">GINUNTING</text>`
-  },
-  /* ---- Pirah ---- */
-  {
-    id:'pi1', name:'Pirah Mindanao', category:'pirah',
-    material:'High-Carbon 1080', length:'18 in', weight:'380g',
-    handle:'Narra · Rattan Wrap', edge:'Single-bevel convex',
-    hrc:'55–58', sheath:'Leather slip', price:12000, badge:'In Stock',
-    desc:'The Lumad pirah — a recurved blade from Mindanao\'s highland peoples. Excellent for both utility and martial arts practice.',
-    bg:'#0c0808', gradColor:'#200e08',
-    svgPath:`<path d="M28 168 L28 153 Q60 148 90 142 Q130 134 165 116 Q195 100 205 85 Q195 72 175 80 Q148 92 118 108 Q82 126 58 134 Q36 141 26 147 L26 134 L20 151 Z" fill="#999" stroke="#bbb" stroke-width=".8"/>
-    <path d="M165 116 Q195 100 205 85 Q195 72 175 80" stroke="#C8963C" stroke-width=".9" fill="none" opacity=".72"/>
-    <rect x="10" y="151" width="20" height="50" rx="3" fill="#2a1808" stroke="#4a2808" stroke-width="1"/>
-    <line x1="10" y1="161" x2="30" y2="161" stroke="#8a6030" stroke-width="1.5" opacity=".5"/>
-    <line x1="10" y1="173" x2="30" y2="173" stroke="#8a6030" stroke-width="1.5" opacity=".5"/>
-    <text x="142" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">PIRAH</text>`
-  },
-  {
-    id:'pi2', name:'Pirah Batik Damascus', category:'pirah',
-    material:'Damascus 1075/15N20', length:'20 in', weight:'420g',
-    handle:'Ebony · Brass Fittings', edge:'Single-bevel hollow',
-    hrc:'58–61', sheath:'Batik-fabric wrapped leather', price:26500, badge:'Limited Edition',
-    desc:'The art pirah — Damascus blade with ebony handle and batik fabric-wrapped sheath reflecting the weave traditions of Mindanao.',
-    bg:'#08080a', gradColor:'#101018',
-    svgPath:`<path d="M26 170 L26 154 Q58 148 88 142 Q128 134 162 116 Q192 100 202 84 Q192 71 172 79 Q145 91 115 108 Q80 126 56 134 Q34 141 24 148 L24 134 L18 152 Z" fill="#888" stroke="#aaa" stroke-width=".8"/>
-    <path d="M38 150 Q85 136 130 118 Q165 104 182 90" stroke="#888" stroke-width="1.5" fill="none" opacity=".2"/>
-    <rect x="8" y="152" width="20" height="50" rx="3" fill="#0a0a0a" stroke="#2a2a2a" stroke-width="1"/>
-    <circle cx="18" cy="166" r="3.5" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <circle cx="18" cy="185" r="3.5" fill="#C8963C" stroke="#E8A840" stroke-width=".5"/>
-    <text x="140" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="4">PIRAH</text>`
-  },
-  /* ---- Special / Collector ---- */
-  {
-    id:'s1', name:'Sibat Sandata Set', category:'set',
-    material:'High-Carbon 1075 + Damascus', length:'Various', weight:'1200g total',
-    handle:'Matched Narra · Brass', edge:'Mixed',
-    hrc:'55–61', sheath:'Fitted leather roll', price:68000, badge:'Collector Set',
-    desc:'The complete sandata triad — bolo, punyal, and itak in matched materials with a fitted presentation roll. The ultimate collection piece.',
-    bg:'#0a0808', gradColor:'#201010',
-    svgPath:`
-    <g transform="translate(20,55) rotate(-8)">
-      <path d="M0 20 L0 10 L200 2 Q225 -4 227 -12 Q215 -20 196 -13 L4 4 L0 -4 L-4 9 Z" fill="#888" stroke="#aaa" stroke-width=".7"/>
-      <rect x="-12" y="10" width="15" height="42" rx="2" fill="#2a1508"/>
-    </g>
-    <g transform="translate(50,92) rotate(-3)">
-      <path d="M0 16 L0 8 L145 2 Q165 -3 167 -9 Q156 -16 140 -10 L3 3 L0 -4 L-4 7 Z" fill="#999" stroke="#bbb" stroke-width=".7"/>
-      <rect x="-10" y="8" width="14" height="38" rx="2" fill="#1a1808"/>
-    </g>
-    <g transform="translate(130,60) rotate(90)">
-      <path d="M0 100 L-8 14 L8 14 Z" fill="#aaa" stroke="#ccc" stroke-width=".7"/>
-      <rect x="-12" y="96" width="24" height="36" rx="3" fill="#3a1a3a" stroke="#5a2a5a" stroke-width="1"/>
-      <rect x="-14" y="92" width="28" height="7" rx="2" fill="#C8963C" opacity=".65"/>
-    </g>
-    <text x="150" y="192" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".2" letter-spacing="2">SANDATA SET</text>`
-  },
-  {
-    id:'s2', name:'Balaraw Heirloom', category:'set',
-    material:'W2 Tool Steel', length:'14 in', weight:'295g',
-    handle:'Ivory-tone bone · Gold', edge:'Double-bevel hollow',
-    hrc:'62–64', sheath:'Gold-stamped black leather', price:45000, badge:'Heirloom',
-    desc:'The balaraw — a Malay-tradition push dagger with a uniquely shaped T-handle, hand-ground W2 blade with a distinct hamon line.',
-    bg:'#08080a', gradColor:'#120a10',
-    svgPath:`
-    <path d="M150 38 L136 155 L150 161 L164 155 Z" fill="#aaa" stroke="#ccc" stroke-width=".8"/>
-    <path d="M148 80 Q152 82 150 86 Q148 90 150 94 Q152 98 150 102 Q148 106 150 110" stroke="#E8E0D0" stroke-width=".8" fill="none" opacity=".4"/>
-    <rect x="116" y="152" width="68" height="9" rx="2" fill="#C8963C" stroke="#E8A840" stroke-width=".6"/>
-    <rect x="100" y="156" width="100" height="12" rx="3" fill="#1a0808" stroke="#3a1818" stroke-width="1"/>
-    <rect x="133" y="167" width="34" height="38" rx="3" fill="#1a1010" stroke="#3a2020" stroke-width="1"/>
-    <circle cx="150" cy="180" r="5" fill="#C8963C" stroke="#E8A840" stroke-width=".6"/>
-    <text x="150" y="185" text-anchor="middle" font-family="Georgia" font-size="9" fill="#C8963C" opacity=".15" letter-spacing="3">BALARAW</text>`
-  }
-];
 
 const COMPLETE_COLLECTION = [
-  { id: 1, slug: 'itak-tagalog', image: '', name: 'Itak Tagalog', category: 'itak', series: 'Itak Series', featured: true, status: 'ready-stock', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 2, slug: 'pinuti', image: '', name: 'Pinuti', category: 'itak', series: 'Itak Series', featured: true, status: 'made-to-order', details: { bladeLength: '14 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 3, slug: 'itak-tinegre', image: '', name: 'Itak Tinegre', category: 'itak', series: 'Itak Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 4, slug: 'talunasan', image: '', name: 'Talunasan', category: 'itak', series: 'Itak Series', featured: false, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 5, slug: 'military-bolo', image: '', name: 'Military Bolo', category: 'bolo', series: 'Bolo Series', featured: true, status: 'ready-stock', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 6, slug: 'modern-ab-bolo', image: '', name: 'Modern Andres Bolo', category: 'bolo', series: 'Bolo Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 7, slug: 'ilocano-bolo', image: '', name: 'Ilocano Bolo', category: 'bolo', series: 'Bolo Series', featured: true, status: 'made-to-order', details: { bladeLength: '17 in', steel: '5160 Carbon Steel', handle: 'Chico Wood', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 8, slug: 'dahon-palay', image: '', name: 'Dahon Palay', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 9, slug: 'jungle-cleaver-bolo', image: '', name: 'Jungle Cleaver Bolo', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '14 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 10, slug: 'cleaver-bolo', image: '', name: 'Cleaver Bolo', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '13 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 11, slug: 'garab', image: '', name: 'Garab', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '15 in', steel: '5160 Carbon Steel', handle: 'Chico Wood', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 12, slug: 'barung', image: '', name: 'Barung', category: 'moro', series: 'Moro Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
-  { id: 13, slug: 'kris', image: '', name: 'Kris', category: 'moro', series: 'Moro Series', featured: true, status: 'made-to-order', details: { bladeLength: '22 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
-  { id: 14, slug: 'kampilan', image: '', name: 'Kampilan', category: 'moro', series: 'Moro Series', featured: true, status: 'made-to-order', details: { bladeLength: '28 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 15, slug: 'panabas', image: '', name: 'Panabas', category: 'moro', series: 'Moro Series', featured: false, status: 'made-to-order', details: { bladeLength: '24 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
-  { id: 16, slug: 'traditional-panabas', image: '', name: 'Traditional Panabas', category: 'moro', series: 'Moro Series', featured: false, status: 'made-to-order', details: { bladeLength: '26 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
-  { id: 17, slug: 'gayang', image: '', name: 'Gayang', category: 'moro', series: 'Moro Series', featured: false, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 18, slug: 'ginunting', image: '', name: 'Ginunting', category: 'combat', series: 'Combat Series', featured: true, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 19, slug: 'modern-talibong', image: '', name: 'Modern Talibong', category: 'combat', series: 'Combat Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 20, slug: 'bushcraft', image: '', name: 'Bushcraft', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '10 in', steel: '5160 Carbon Steel', handle: 'Chico Wood', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 21, slug: 'hunting', image: '', name: 'Hunting', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '12 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 22, slug: 'karanto', image: '', name: 'Karanto', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '12 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 23, slug: 'karambit-big', image: '', name: 'Karambit Big', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '8 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 24, slug: 'karambit-small', image: '', name: 'Karambit Small', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '6 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 25, slug: 'katana', image: '', name: 'Katana', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '28 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 26, slug: 'shirasaya', image: '', name: 'Shirasaya', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '27 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
-  { id: 27, slug: 'khukri', image: '', name: 'Khukri', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '12 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 28, slug: 'gladius', image: '', name: 'Gladius', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '20 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 29, slug: 'jambiya', image: '', name: 'Jambiya', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '10 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 30, slug: 'serbian-chefs-knife', image: '', name: 'Serbian Chef Knife / Almazan', category: 'kitchen', series: 'Kitchen Series', featured: true, status: 'made-to-order', details: { bladeLength: '8 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
-  { id: 31, slug: 'standard-chefs-knife', image: '', name: 'Standard Chef Knife / Gyuto', category: 'kitchen', series: 'Kitchen Series', featured: true, status: 'made-to-order', details: { bladeLength: '8 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
-  { id: 32, slug: 'santoku', image: '', name: 'Santoku / Bunka Hybrid', category: 'kitchen', series: 'Kitchen Series', featured: false, status: 'made-to-order', details: { bladeLength: '7 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
-  { id: 33, slug: 'sujihiki', image: '', name: 'Sujihiki / Carving Knife', category: 'kitchen', series: 'Kitchen Series', featured: false, status: 'made-to-order', details: { bladeLength: '10 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
-  { id: 34, slug: 'yanagiba', image: '', name: 'Yanagiba / Sashimi Knife', category: 'kitchen', series: 'Kitchen Series', featured: true, status: 'made-to-order', details: { bladeLength: '10 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
+   {
+      "id":1,
+      "slug":"itak-tagalog",
+      "image":"assets/images/collection/itak_series/itak_tagalog.png",
+      "name":"Itak Tagalog",
+      "category":"itak",
+      "series":"Itak Series",
+      "featured":true,
+      "status":"ready-stock",
+      "details":{
+         "bladeLength":"16 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":2,
+      "slug":"pinuti",
+      "image":"assets/images/collection/itak_series/pinuti.png",
+      "name":"Pinuti",
+      "category":"itak",
+      "series":"Itak Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"14 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":3,
+      "slug":"itak-tinegre",
+      "image":"assets/images/collection/itak_series/itak_tinegre.png",
+      "name":"Itak Tinegre",
+      "category":"itak",
+      "series":"Itak Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"18 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":4,
+      "slug":"talunasan",
+      "image":"assets/images/collection/itak_series/talunasan.png",
+      "name":"Talunasan",
+      "category":"itak",
+      "series":"Itak Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"16 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":5,
+      "slug":"military-bolo",
+      "image":"assets/images/collection/bolo_series/fulltang_military_bolo.png",
+      "name":"Military Bolo",
+      "category":"bolo",
+      "series":"Bolo Series",
+      "featured":true,
+      "status":"ready-stock",
+      "details":{
+         "bladeLength":"18 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":6,
+      "slug":"modern-ab-bolo",
+      "image":"assets/images/collection/bolo_series/modern_andres_bolo.png",
+      "name":"Modern Andres Bolo",
+      "category":"bolo",
+      "series":"Bolo Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"18 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":7,
+      "slug":"ilocano-bolo",
+      "image":"assets/images/collection/bolo_series/ilocano_bolo.png",
+      "name":"Ilocano Bolo",
+      "category":"bolo",
+      "series":"Bolo Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"17 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Chico Wood",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":8,
+      "slug":"dahon-palay",
+      "image":"assets/images/collection/bolo_series/dahon_palay.png",
+      "name":"Dahon Palay",
+      "category":"bolo",
+      "series":"Bolo Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"16 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":9,
+      "slug":"jungle-cleaver-bolo",
+      "image":"assets/images/collection/bolo_series/jungle_cleaver_bolo.png",
+      "name":"Jungle Cleaver Bolo",
+      "category":"bolo",
+      "series":"Bolo Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"14 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":10,
+      "slug":"cleaver-bolo",
+      "image":"assets/images/collection/bolo_series/cleaver_bolo.png",
+      "name":"Cleaver Bolo",
+      "category":"bolo",
+      "series":"Bolo Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"13 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":11,
+      "slug":"garab",
+      "image":"assets/images/collection/bolo_series/garab.png",
+      "name":"Garab",
+      "category":"bolo",
+      "series":"Bolo Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"15 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Chico Wood",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":12,
+      "slug":"barung",
+      "image":"assets/images/collection/moro_series/barung.png",
+      "name":"Barung",
+      "category":"moro",
+      "series":"Moro Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"18 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Kamagong",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":13,
+      "slug":"kris",
+      "image":"assets/images/collection/moro_series/kris.png",
+      "name":"Kris",
+      "category":"moro",
+      "series":"Moro Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"22 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Kamagong",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":14,
+      "slug":"kampilan",
+      "image":"assets/images/collection/moro_series/kampilan.png",
+      "name":"Kampilan",
+      "category":"moro",
+      "series":"Moro Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"28 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":15,
+      "slug":"panabas",
+      "image":"assets/images/collection/moro_series/panabas.png",
+      "name":"Panabas",
+      "category":"moro",
+      "series":"Moro Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"24 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Kamagong",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":16,
+      "slug":"traditional-panabas",
+      "image":"assets/images/collection/moro_series/traditional_panabas.png",
+      "name":"Traditional Panabas",
+      "category":"moro",
+      "series":"Moro Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"26 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Kamagong",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":17,
+      "slug":"gayang",
+      "image":"assets/images/collection/moro_series/gayang.png",
+      "name":"Gayang",
+      "category":"moro",
+      "series":"Moro Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"16 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":18,
+      "slug":"ginunting",
+      "image":"assets/images/collection/combat_series/regular_ginunting.png",
+      "name":"Ginunting",
+      "category":"combat",
+      "series":"Combat Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"16 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":19,
+      "slug":"modern-talibong",
+      "image":"assets/images/collection/combat_series/modern_talibong.png",
+      "name":"Modern Talibong",
+      "category":"combat",
+      "series":"Combat Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"18 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":20,
+      "slug":"bushcraft",
+      "image":"assets/images/collection/outdoor_series/bushcraft.png",
+      "name":"Bushcraft",
+      "category":"outdoor",
+      "series":"Outdoor Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"10 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Chico Wood",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":21,
+      "slug":"hunting",
+      "image":"assets/images/collection/outdoor_series/hunting_knife.png",
+      "name":"Hunting",
+      "category":"outdoor",
+      "series":"Outdoor Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"12 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":22,
+      "slug":"karanto",
+      "image":"assets/images/collection/outdoor_series/karanto.png",
+      "name":"Karanto",
+      "category":"outdoor",
+      "series":"Outdoor Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"12 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":23,
+      "slug":"karambit-big",
+      "image":"assets/images/collection/outdoor_series/karambit_big.png",
+      "name":"Karambit Big",
+      "category":"outdoor",
+      "series":"Outdoor Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"8 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":24,
+      "slug":"karambit-small",
+      "image":"assets/images/collection/outdoor_series/karambit_small.png",
+      "name":"Karambit Small",
+      "category":"outdoor",
+      "series":"Outdoor Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"6 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":25,
+      "slug":"katana",
+      "image":"assets/images/collection/international_series/katana.png",
+      "name":"Katana",
+      "category":"international",
+      "series":"International Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"28 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":26,
+      "slug":"shirasaya",
+      "image":"assets/images/collection/international_series/shirasaya_katana.png",
+      "name":"Shirasaya",
+      "category":"international",
+      "series":"International Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"27 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Mahogany",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":27,
+      "slug":"khukri",
+      "image":"assets/images/collection/international_series/khukri.png",
+      "name":"Khukri",
+      "category":"international",
+      "series":"International Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"12 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":28,
+      "slug":"gladius",
+      "image":"assets/images/collection/international_series/gladius.png",
+      "name":"Gladius",
+      "category":"international",
+      "series":"International Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"20 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":29,
+      "slug":"jambiya",
+      "image":"assets/images/collection/international_series/jambiya.png",
+      "name":"Jambiya",
+      "category":"international",
+      "series":"International Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"10 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Kamagong",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":30,
+      "slug":"serbian-chefs-knife",
+      "image":"assets/images/collection/kitchen_series/almazan.png",
+      "name":"Serbian Chef Knife / Almazan",
+      "category":"kitchen",
+      "series":"Kitchen Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"8 in",
+         "steel":"5160 Carbon Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"57-60 HRC"
+      }
+   },
+   {
+      "id":31,
+      "slug":"standard-chefs-knife",
+      "image":"assets/images/collection/kitchen_series/gyuto.png",
+      "name":"Standard Chef Knife / Gyuto",
+      "category":"kitchen",
+      "series":"Kitchen Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"8 in",
+         "steel":"304 Stainless Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"15-20 HRC (approximately 70-90 HRB)"
+      }
+   },
+   {
+      "id":32,
+      "slug":"santoku",
+      "image":"assets/images/collection/kitchen_series/santoku.png",
+      "name":"Santoku / Bunka Hybrid",
+      "category":"kitchen",
+      "series":"Kitchen Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"7 in",
+         "steel":"304 Stainless Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"15-20 HRC (approximately 70-90 HRB)"
+      }
+   },
+   {
+      "id":33,
+      "slug":"sujihiki",
+      "image":"assets/images/collection/kitchen_series/sujihiki.png",
+      "name":"Sujihiki / Carving Knife",
+      "category":"kitchen",
+      "series":"Kitchen Series",
+      "featured":false,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"10 in",
+         "steel":"304 Stainless Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"15-20 HRC (approximately 70-90 HRB)"
+      }
+   },
+   {
+      "id":34,
+      "slug":"yanagiba",
+      "image":"assets/images/collection/kitchen_series/yanagiba.png",
+      "name":"Yanagiba / Sashimi Knife",
+      "category":"kitchen",
+      "series":"Kitchen Series",
+      "featured":true,
+      "status":"made-to-order",
+      "details":{
+         "bladeLength":"10 in",
+         "steel":"304 Stainless Steel",
+         "handle":"Mahogany",
+         "sheath":"Leather Sheath",
+         "hardness":"15-20 HRC (approximately 70-90 HRB)"
+      }
+   }
 ].map(makeCollectionBlade);
 
 const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
@@ -523,11 +691,17 @@ function renderCatalogPreview() {
     card.innerHTML = `
       <div class="blade-card-img">
         <div class="blade-card-img-inner">
-          <div class="blade-svg-wrap">
-            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-              ${blade.svgPath}
-            </svg>
-          </div>
+          ${
+            blade.image
+              ? `<img src="${blade.image}" alt="${blade.name}" class="blade-card-image">`
+              : `
+                <div class="blade-svg-wrap">
+                  <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+                    ${blade.svgPath}
+                  </svg>
+                </div>
+              `
+          }
         </div>
         <div class="blade-card-overlay">
           <button class="quick-btn" onclick="openQuickView('${blade.name}')">Quick View</button>
@@ -704,7 +878,7 @@ function getQuickBuildSelection(bladeId) {
 }
 
 function inquireQuickBuild(bladeId) {
-  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId)) || ALL_BLADES.find(b => String(b.id) === String(bladeId));
+  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId));
   const selection = getQuickBuildSelection(bladeId);
   const buildText = selection
     ? `Custom build request:\nSteel: ${selection.steel}\nBlade Length: ${selection.bladeLength}\nHardness: ${selection.hardness}\nHandle: ${selection.handle}\nSheath / Scabbard: ${selection.sheath}`
@@ -743,13 +917,14 @@ function updateInquiryBadge() {
 }
 
 function addCurrentBuildToInquiryList(bladeId) {
-  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId)) || ALL_BLADES.find(b => String(b.id) === String(bladeId));
+  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId));
   const selection = getQuickBuildSelection(bladeId);
   if (!blade || !selection) return;
 
   const item = {
     id: blade.id,
     name: blade.name,
+    image: blade.image,
     series: blade.series || blade.category,
     status: blade.status,
     selection,
@@ -814,16 +989,58 @@ function renderInquiryListModal() {
     return;
   }
 
-  body.innerHTML = inquiryList.map(item => `
-    <article class="inquiry-list-item">
-      <div>
-        <span class="inquiry-list-series">${escapeHtml(item.series)}</span>
-        <h3>${escapeHtml(item.name)}</h3>
-        <p>${escapeHtml(formatBuildDetails(item.selection)).replace(/\n/g, '<br>')}</p>
-      </div>
-      <button type="button" class="inquiry-list-remove" onclick="removeInquiryItem(${item.id})" aria-label="Remove ${escapeHtml(item.name)} from inquiry list">Remove</button>
-    </article>
-  `).join('');
+  body.innerHTML = inquiryList.map((item, index) => `
+  <article class="inquiry-list-item">
+
+    <div class="inquiry-list-thumb">
+      ${
+        item.image
+          ? `
+            <img 
+              src="${item.image}" 
+              alt="${escapeHtml(item.name)}"
+              class="inquiry-list-img">
+          `
+          : `
+            <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+              <rect width="300" height="200" fill="${item.bg || '#111'}"/>
+              <defs>
+                <radialGradient id="inq${item.id}" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="${item.gradColor || '#777'}" stop-opacity=".8"/>
+                  <stop offset="100%" stop-color="${item.bg || '#111'}"/>
+                </radialGradient>
+              </defs>
+
+              <rect width="300" height="200" fill="url(#inq${item.id})"/>
+
+              ${item.svgPath || ''}
+            </svg>
+          `
+      }
+    </div>
+
+
+    <div class="inquiry-list-info">
+      <span class="inquiry-list-series">
+        ${escapeHtml(item.series)}
+      </span>
+
+      <h3>${escapeHtml(item.name)}</h3>
+
+      <p>
+        ${escapeHtml(formatBuildDetails(item.selection)).replace(/\n/g, '<br>')}
+      </p>
+    </div>
+
+    <button 
+      type="button" 
+      class="inquiry-list-remove"
+      onclick="removeInquiryItem(${item.id})">
+      Remove
+    </button>
+  </article>
+  ${index < inquiryList.length - 1 ? '<hr class="inquiry-list-divider">' : ''}
+`).join('');
 }
 
 function openInquiryListModal() {
@@ -919,15 +1136,23 @@ function renderFCGrid(blades) {
     card.style.animationDelay = `${idx * 30}ms`;
     card.innerHTML = `
       <div class="fc-card-img">
-        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="200" fill="${blade.bg}"/>
-          <defs><radialGradient id="fcg${blade.id}" cx="50%" cy="50%" r="48%">
-            <stop offset="0%" stop-color="${blade.gradColor}" stop-opacity=".7"/>
-            <stop offset="100%" stop-color="${blade.bg}"/>
-          </radialGradient></defs>
-          <rect width="300" height="200" fill="url(#fcg${blade.id})"/>
-          ${blade.svgPath}
-        </svg>
+        ${
+          blade.image
+            ? `<img src="${blade.image}" alt="${blade.name}" class="fc-card-image">`
+            : `
+              <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                <rect width="300" height="200" fill="${blade.bg}"/>
+                <defs>
+                  <radialGradient id="fcg${blade.id}" cx="50%" cy="50%" r="48%">
+                    <stop offset="0%" stop-color="${blade.gradColor}" stop-opacity=".7"/>
+                    <stop offset="100%" stop-color="${blade.bg}"/>
+                  </radialGradient>
+                </defs>
+                <rect width="300" height="200" fill="url(#fcg${blade.id})"/>
+                ${blade.svgPath}
+              </svg>
+            `
+        }
         <div class="fc-card-overlay">
           <button class="fc-qbtn" onclick="event.stopPropagation();openDrawer('${blade.id}')">Quick View</button>
           <button class="fc-qbtn" onclick="event.stopPropagation();closeFullCatalog();scrollToContact('${blade.name}')">Inquire</button>
@@ -1008,21 +1233,31 @@ document.addEventListener('keydown', e => {
    QUICK VIEW DRAWER
    ============================================================ */
 function openDrawer(id) {
-  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(id)) || ALL_BLADES.find(b => String(b.id) === String(id));
+  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(id));
   if (!blade) return;
   const details = getBladeDetails(blade);
 
   document.getElementById('qdBody').innerHTML = `
     <div class="qd-blade-img">
-      <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
-        <rect width="400" height="300" fill="${blade.bg}"/>
-        <defs><radialGradient id="qdg${blade.id}" cx="50%" cy="50%" r="52%">
-          <stop offset="0%" stop-color="${blade.gradColor}" stop-opacity=".8"/>
-          <stop offset="100%" stop-color="${blade.bg}"/>
-        </radialGradient></defs>
-        <rect width="400" height="300" fill="url(#qdg${blade.id})"/>
-        <g transform="scale(1.35) translate(10,25)">${blade.svgPath}</g>
-      </svg>
+      ${
+        blade.image
+          ? `<img src="${blade.image}" alt="${blade.name}" class="qd-blade-image">`
+          : `
+            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
+              <rect width="400" height="300" fill="${blade.bg}"/>
+              <defs>
+                <radialGradient id="qdg${blade.id}" cx="50%" cy="50%" r="52%">
+                  <stop offset="0%" stop-color="${blade.gradColor}" stop-opacity=".8"/>
+                  <stop offset="100%" stop-color="${blade.bg}"/>
+                </radialGradient>
+              </defs>
+              <rect width="400" height="300" fill="url(#qdg${blade.id})"/>
+              <g transform="scale(1.35) translate(10,25)">
+                ${blade.svgPath}
+              </g>
+            </svg>
+          `
+      }
     </div>
     <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">
       ✦ ${blade.badge}
@@ -1495,7 +1730,7 @@ function scrollToContact(bladeName, buildDetails = '') {
 }
 
 function openQuickView(bladeName) {
-  const blade = COMPLETE_COLLECTION.find(b => b.name === bladeName) || ALL_BLADES.find(b => b.name === bladeName);
+  const blade = COMPLETE_COLLECTION.find(b => b.name === bladeName);
   if (!blade) return;
   openDrawer(blade.id);
 }

@@ -735,6 +735,14 @@ ul { list-style: none; }
 }
 .blade-card:hover .blade-card-img-inner { transform: scale(1.07); }
 
+
+.blade-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Use 'cover' if you want the image to fill the area */
+  display: block;
+}
+
 /* Blade silhouette SVGs inside cards */
 .blade-svg-wrap {
   position: absolute;
@@ -1879,11 +1887,18 @@ ul { list-style: none; }
 }
 .fc-card:hover { background:#222; border-color:var(--ash); }
 .fc-card-img {
-  height:240px;
+  height:340px;
   overflow:hidden;
   position:relative;
   background:var(--ash);
 }
+.fc-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* or cover if you want the image to fill the area */
+  display: block;
+}
+
 .fc-card-img svg { width:100%;height:100%;display:block; transition:transform .6s cubic-bezier(.16,1,.3,1); }
 .fc-card:hover .fc-card-img svg { transform:scale(1.07); }
 .fc-card-overlay {
@@ -1926,6 +1941,12 @@ ul { list-style: none; }
 /* Filter pills shared class already defined (.filter-pill) — reuse */
 
 /* Quick Drawer content */
+.qd-blade-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* or cover if you prefer */
+  display: block;
+}
 .qd-blade-img { width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--steel);margin-bottom:24px; }
 .qd-blade-img svg { width:100%;height:100%;display:block; }
 .qd-title { font-family:var(--font-display);font-size:28px;font-weight:600;color:var(--white);line-height:1.15;margin-bottom:8px; }
@@ -2066,19 +2087,50 @@ ul { list-style: none; }
   overflow-y: auto;
   padding: 10px 34px;
 }
+
 .inquiry-list-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.inquiry-list-thumb {
+  width: 340px;
+  height: 200px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #111;
+}
+
+.inquiry-list-thumb img,
+.inquiry-list-thumb svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.inquiry-list-thumb img {
+  object-fit: contain;
+}
+/* .inquiry-list-item {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 24px;
   padding: 22px 0;
   border-bottom: 1px solid var(--ash);
-}
+} */
 .inquiry-list-series {
   color: var(--gold);
   font-size: 9px;
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
+}
+.inquiry-list-divider {
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  margin: 20px 0;
 }
 .inquiry-list-item h3 {
   color: var(--white);
