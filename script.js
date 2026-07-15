@@ -501,11 +501,11 @@ const COMPLETE_COLLECTION = [
   makeCollectionBlade('khukri', 'Khukri', 'international', 'International Series'),
   makeCollectionBlade('gladius', 'Gladius', 'international', 'International Series'),
   makeCollectionBlade('jambiya', 'Jambiya', 'international', 'International Series'),
-  makeCollectionBlade('serbian-chefs-knife', 'Serbian Chef’s Knife / Almazan', 'kitchen', 'Kitchen Series'),
-  makeCollectionBlade('standard-chefs-knife', 'Standard Chef’s Knife / Gyuto', 'kitchen', 'Kitchen Series'),
+  makeCollectionBlade('serbian-chefs-knife', 'Serbian Chef’s Knife / Almazan', 'kitchen', 'Kitchen Series', true),
+  makeCollectionBlade('standard-chefs-knife', 'Standard Chef’s Knife / Gyuto', 'kitchen', 'Kitchen Series', true),
   makeCollectionBlade('santoku', 'Santoku / Bunka Hybrid', 'kitchen', 'Kitchen Series'),
   makeCollectionBlade('sujihiki', 'Sujihiki / Carving Knife', 'kitchen', 'Kitchen Series'),
-  makeCollectionBlade('yanagiba', 'Yanagiba / Sashimi Knife', 'kitchen', 'Kitchen Series'),
+  makeCollectionBlade('yanagiba', 'Yanagiba / Sashimi Knife', 'kitchen', 'Kitchen Series', true),
 ];
 
 const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
