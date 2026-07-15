@@ -472,41 +472,41 @@ const ALL_BLADES = [
 ];
 
 const COMPLETE_COLLECTION = [
-  makeCollectionBlade('itak-tagalog', 'Itak Tagalog', 'itak', 'Itak Series', true, { status: 'ready-stock', leadTime: 'Ships after availability is confirmed' }),
-  makeCollectionBlade('pinuti', 'Pinuti', 'itak', 'Itak Series', true),
-  makeCollectionBlade('itak-tinegre', 'Itak Tinegre', 'itak', 'Itak Series', true),
-  makeCollectionBlade('talunasan', 'Talunasan', 'itak', 'Itak Series'),
-  makeCollectionBlade('military-bolo', 'Military Bolo', 'bolo', 'Bolo Series', true, { status: 'ready-stock', leadTime: 'Ships after availability is confirmed' }),
-  makeCollectionBlade('modern-ab-bolo', 'Modern Andres Bolo', 'bolo', 'Bolo Series', true),
-  makeCollectionBlade('ilocano-bolo', 'Ilocano Bolo', 'bolo', 'Bolo Series', true),
-  makeCollectionBlade('dahon-palay', 'Dahon Palay', 'bolo', 'Bolo Series'),
-  makeCollectionBlade('jungle-cleaver-bolo', 'Jungle Cleaver Bolo', 'bolo', 'Bolo Series'),
-  makeCollectionBlade('cleaver-bolo', 'Cleaver Bolo', 'bolo', 'Bolo Series'),
-  makeCollectionBlade('garab', 'Garab', 'bolo', 'Bolo Series'),
-  makeCollectionBlade('barung', 'Barung', 'moro', 'Moro Series', true),
-  makeCollectionBlade('kris', 'Kris', 'moro', 'Moro Series', true),
-  makeCollectionBlade('kampilan', 'Kampilan', 'moro', 'Moro Series', true),
-  makeCollectionBlade('panabas', 'Panabas', 'moro', 'Moro Series'),
-  makeCollectionBlade('traditional-panabas', 'Traditional Panabas', 'moro', 'Moro Series'),
-  makeCollectionBlade('gayang', 'Gayang', 'moro', 'Moro Series'),
-  makeCollectionBlade('ginunting', 'Ginunting', 'combat', 'Combat Series', true),
-  makeCollectionBlade('modern-talibong', 'Modern Talibong', 'combat', 'Combat Series', true),
-  makeCollectionBlade('bushcraft', 'Bushcraft', 'outdoor', 'Outdoor Series'),
-  makeCollectionBlade('hunting', 'Hunting', 'outdoor', 'Outdoor Series'),
-  makeCollectionBlade('karanto', 'Karanto', 'outdoor', 'Outdoor Series'),
-  makeCollectionBlade('karambit-big', 'Karambit Big', 'outdoor', 'Outdoor Series'),
-  makeCollectionBlade('karambit-small', 'Karambit Small', 'outdoor', 'Outdoor Series'),
-  makeCollectionBlade('katana', 'Katana', 'international', 'International Series'),
-  makeCollectionBlade('shirasaya', 'Shirasaya', 'international', 'International Series'),
-  makeCollectionBlade('khukri', 'Khukri', 'international', 'International Series'),
-  makeCollectionBlade('gladius', 'Gladius', 'international', 'International Series'),
-  makeCollectionBlade('jambiya', 'Jambiya', 'international', 'International Series'),
-  makeCollectionBlade('serbian-chefs-knife', 'Serbian Chef’s Knife / Almazan', 'kitchen', 'Kitchen Series', true),
-  makeCollectionBlade('standard-chefs-knife', 'Standard Chef’s Knife / Gyuto', 'kitchen', 'Kitchen Series', true),
-  makeCollectionBlade('santoku', 'Santoku / Bunka Hybrid', 'kitchen', 'Kitchen Series'),
-  makeCollectionBlade('sujihiki', 'Sujihiki / Carving Knife', 'kitchen', 'Kitchen Series'),
-  makeCollectionBlade('yanagiba', 'Yanagiba / Sashimi Knife', 'kitchen', 'Kitchen Series', true),
-];
+  { id: 1, slug: 'itak-tagalog', name: 'Itak Tagalog', category: 'itak', series: 'Itak Series', featured: true, status: 'ready-stock', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 2, slug: 'pinuti', name: 'Pinuti', category: 'itak', series: 'Itak Series', featured: true, status: 'made-to-order', details: { bladeLength: '14 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 3, slug: 'itak-tinegre', name: 'Itak Tinegre', category: 'itak', series: 'Itak Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 4, slug: 'talunasan', name: 'Talunasan', category: 'itak', series: 'Itak Series', featured: false, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 5, slug: 'military-bolo', name: 'Military Bolo', category: 'bolo', series: 'Bolo Series', featured: true, status: 'ready-stock', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 6, slug: 'modern-ab-bolo', name: 'Modern Andres Bolo', category: 'bolo', series: 'Bolo Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 7, slug: 'ilocano-bolo', name: 'Ilocano Bolo', category: 'bolo', series: 'Bolo Series', featured: true, status: 'made-to-order', details: { bladeLength: '17 in', steel: '5160 Carbon Steel', handle: 'Chico Wood', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 8, slug: 'dahon-palay', name: 'Dahon Palay', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 9, slug: 'jungle-cleaver-bolo', name: 'Jungle Cleaver Bolo', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '14 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 10, slug: 'cleaver-bolo', name: 'Cleaver Bolo', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '13 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 11, slug: 'garab', name: 'Garab', category: 'bolo', series: 'Bolo Series', featured: false, status: 'made-to-order', details: { bladeLength: '15 in', steel: '5160 Carbon Steel', handle: 'Chico Wood', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 12, slug: 'barung', name: 'Barung', category: 'moro', series: 'Moro Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
+  { id: 13, slug: 'kris', name: 'Kris', category: 'moro', series: 'Moro Series', featured: true, status: 'made-to-order', details: { bladeLength: '22 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
+  { id: 14, slug: 'kampilan', name: 'Kampilan', category: 'moro', series: 'Moro Series', featured: true, status: 'made-to-order', details: { bladeLength: '28 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 15, slug: 'panabas', name: 'Panabas', category: 'moro', series: 'Moro Series', featured: false, status: 'made-to-order', details: { bladeLength: '24 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
+  { id: 16, slug: 'traditional-panabas', name: 'Traditional Panabas', category: 'moro', series: 'Moro Series', featured: false, status: 'made-to-order', details: { bladeLength: '26 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Kamagong', hardness: '57-60 HRC' } },
+  { id: 17, slug: 'gayang', name: 'Gayang', category: 'moro', series: 'Moro Series', featured: false, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 18, slug: 'ginunting', name: 'Ginunting', category: 'combat', series: 'Combat Series', featured: true, status: 'made-to-order', details: { bladeLength: '16 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 19, slug: 'modern-talibong', name: 'Modern Talibong', category: 'combat', series: 'Combat Series', featured: true, status: 'made-to-order', details: { bladeLength: '18 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 20, slug: 'bushcraft', name: 'Bushcraft', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '10 in', steel: '5160 Carbon Steel', handle: 'Chico Wood', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 21, slug: 'hunting', name: 'Hunting', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '12 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 22, slug: 'karanto', name: 'Karanto', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '12 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 23, slug: 'karambit-big', name: 'Karambit Big', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '8 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 24, slug: 'karambit-small', name: 'Karambit Small', category: 'outdoor', series: 'Outdoor Series', featured: false, status: 'made-to-order', details: { bladeLength: '6 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 25, slug: 'katana', name: 'Katana', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '28 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 26, slug: 'shirasaya', name: 'Shirasaya', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '27 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Mahogany', hardness: '57-60 HRC' } },
+  { id: 27, slug: 'khukri', name: 'Khukri', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '12 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 28, slug: 'gladius', name: 'Gladius', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '20 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 29, slug: 'jambiya', name: 'Jambiya', category: 'international', series: 'International Series', featured: false, status: 'made-to-order', details: { bladeLength: '10 in', steel: '5160 Carbon Steel', handle: 'Kamagong', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 30, slug: 'serbian-chefs-knife', name: 'Serbian Chef Knife / Almazan', category: 'kitchen', series: 'Kitchen Series', featured: true, status: 'made-to-order', details: { bladeLength: '8 in', steel: '5160 Carbon Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '57-60 HRC' } },
+  { id: 31, slug: 'standard-chefs-knife', name: 'Standard Chef Knife / Gyuto', category: 'kitchen', series: 'Kitchen Series', featured: true, status: 'made-to-order', details: { bladeLength: '8 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
+  { id: 32, slug: 'santoku', name: 'Santoku / Bunka Hybrid', category: 'kitchen', series: 'Kitchen Series', featured: false, status: 'made-to-order', details: { bladeLength: '7 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
+  { id: 33, slug: 'sujihiki', name: 'Sujihiki / Carving Knife', category: 'kitchen', series: 'Kitchen Series', featured: false, status: 'made-to-order', details: { bladeLength: '10 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
+  { id: 34, slug: 'yanagiba', name: 'Yanagiba / Sashimi Knife', category: 'kitchen', series: 'Kitchen Series', featured: true, status: 'made-to-order', details: { bladeLength: '10 in', steel: '304 Stainless Steel', handle: 'Mahogany', sheath: 'Leather Sheath', hardness: '15-20 HRC (approximately 70-90 HRB)' } },
+].map(makeCollectionBlade);
 
 const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
 
@@ -552,29 +552,32 @@ function renderCatalogPreview() {
   }
 }
 
-function makeCollectionBlade(id, name, category, series, featured, options = {}) {
+function makeCollectionBlade(product) {
+  const { id, slug, name, category, series, featured, status, details } = product;
   return {
     id,
+    slug,
     name,
     category,
     series,
-    featured: Boolean(featured),
-    material: options.material || 'Select your preferred steel',
-    length: options.length || 'Custom length available',
-    weight: options.weight || 'Varies by final build',
-    handle: options.handle || 'Choose from available hardwoods or horn',
-    edge: options.edge || 'Profile matched to intended use',
-    hrc: options.hrc || 'Confirmed with your selected steel',
-    sheath: options.sheath || 'Custom-fit scabbard or sheath available',
-    price: options.price || 0,
-    status: options.status || 'made-to-order',
-    customizable: options.customizable !== false,
-    leadTime: options.leadTime || 'Lead time confirmed with your quote',
-    badge: options.status === 'ready-stock' ? 'Ready Stock' : 'Made to Order',
-    desc: options.desc || `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
+    featured,
+    material: details.steel,
+    length: details.bladeLength,
+    weight: 'Varies by final build',
+    handle: details.handle,
+    edge: 'Profile matched to intended use',
+    hrc: details.hardness,
+    sheath: details.sheath,
+    price: 0,
+    status,
+    customizable: true,
+    leadTime: status === 'ready-stock' ? 'Ships after availability is confirmed' : 'Lead time confirmed with your quote',
+    badge: status === 'ready-stock' ? 'Ready Stock' : 'Made to Order',
+    desc: `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
     bg: '#111111',
     gradColor: '#222222',
     svgPath: blankBladePlaceholder(name, series),
+    details,
   };
 }
 
@@ -599,6 +602,116 @@ function formatBladePrice(blade) {
 function productStatusMarkup(blade, className = 'product-status') {
   const ready = blade.status === 'ready-stock';
   return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Ready Stock' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Customizable</span>` : ''}`;
+}
+
+const BUILD_OPTIONS = {
+  steel: ['5160 Carbon Steel', '304 Stainless Steel'],
+  handle: ['Kamagong', 'Mahogany', 'Chico Wood', 'Carabao Horn', 'Buffalo Horn'],
+  sheath: ['Mahogany', 'Chico Wood', 'Kamagong (Optional with additional cost)', 'Leather Sheath'],
+};
+
+const STEEL_HARDNESS = {
+  '5160 Carbon Steel': '57-60 HRC',
+  '304 Stainless Steel': '15-20 HRC (approximately 70-90 HRB)',
+};
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getBladeDetails(blade) {
+  return blade.details || {
+    steel: blade.material,
+    bladeLength: blade.length,
+    hardness: blade.hrc,
+    handle: blade.handle,
+    sheath: blade.sheath,
+  };
+}
+
+function buildOptionsMarkup(options, selectedValue) {
+  const values = options.includes(selectedValue) ? options : [selectedValue, ...options];
+  return values.map(value => `<option value="${escapeHtml(value)}"${value === selectedValue ? ' selected' : ''}>${escapeHtml(value)}</option>`).join('');
+}
+
+function quickBuildConfiguratorMarkup(blade) {
+  const details = getBladeDetails(blade);
+  const hardness = STEEL_HARDNESS[details.steel] || details.hardness;
+
+  return `
+    <div class="qd-configurator" data-blade-id="${blade.id}">
+      <label class="qd-config-field">
+        <span>Steel</span>
+        <select class="qd-config-control" data-config-field="steel" onchange="updateQuickBuildHardness(${blade.id})">
+          ${buildOptionsMarkup(BUILD_OPTIONS.steel, details.steel)}
+        </select>
+      </label>
+      <label class="qd-config-field">
+        <span>Blade Length</span>
+        <input class="qd-config-control" data-config-field="bladeLength" type="text" value="${escapeHtml(details.bladeLength)}" placeholder="Example: 16 in">
+      </label>
+      <label class="qd-config-field">
+        <span>Hardness</span>
+        <output class="qd-config-control qd-config-output" data-config-field="hardness">${escapeHtml(hardness)}</output>
+      </label>
+      <label class="qd-config-field">
+        <span>Handle</span>
+        <select class="qd-config-control" data-config-field="handle">
+          ${buildOptionsMarkup(BUILD_OPTIONS.handle, details.handle)}
+        </select>
+      </label>
+      <label class="qd-config-field">
+        <span>Sheath / Scabbard</span>
+        <select class="qd-config-control" data-config-field="sheath">
+          ${buildOptionsMarkup(BUILD_OPTIONS.sheath, details.sheath)}
+        </select>
+      </label>
+      <p class="qd-config-note">Defaults are loaded from this blade. Change any field to request a custom build.</p>
+    </div>`;
+}
+
+function updateQuickBuildHardness(bladeId) {
+  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
+  if (!wrapper) return;
+
+  const steel = wrapper.querySelector('[data-config-field="steel"]')?.value;
+  const hardness = wrapper.querySelector('[data-config-field="hardness"]');
+  if (hardness) hardness.textContent = STEEL_HARDNESS[steel] || 'Confirm with maker';
+}
+
+function getQuickBuildSelection(bladeId) {
+  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
+  if (!wrapper) return null;
+
+  const readField = field => {
+    const control = wrapper.querySelector(`[data-config-field="${field}"]`);
+    return control ? control.value || control.textContent.trim() : '';
+  };
+
+  return {
+    steel: readField('steel'),
+    bladeLength: readField('bladeLength'),
+    hardness: readField('hardness'),
+    handle: readField('handle'),
+    sheath: readField('sheath'),
+  };
+}
+
+function inquireQuickBuild(bladeId) {
+  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId)) || ALL_BLADES.find(b => String(b.id) === String(bladeId));
+  const selection = getQuickBuildSelection(bladeId);
+  const buildText = selection
+    ? `Custom build request:\nSteel: ${selection.steel}\nBlade Length: ${selection.bladeLength}\nHardness: ${selection.hardness}\nHandle: ${selection.handle}\nSheath / Scabbard: ${selection.sheath}`
+    : '';
+
+  closeDrawer();
+  closeFullCatalog();
+  scrollToContact(blade?.name || '', buildText);
 }
 
 // A zero price is intentionally shown as a quote request, never as unavailable.
@@ -766,8 +879,9 @@ document.addEventListener('keydown', e => {
    QUICK VIEW DRAWER
    ============================================================ */
 function openDrawer(id) {
-  const blade = COMPLETE_COLLECTION.find(b => b.id === id) || ALL_BLADES.find(b => b.id === id);
+  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(id)) || ALL_BLADES.find(b => String(b.id) === String(id));
   if (!blade) return;
+  const details = getBladeDetails(blade);
 
   document.getElementById('qdBody').innerHTML = `
     <div class="qd-blade-img">
@@ -789,21 +903,16 @@ function openDrawer(id) {
     <p class="qd-desc">${blade.desc}</p>
     <p class="qd-order-note">${blade.status === 'ready-stock' ? 'Ready stock is limited. Please confirm availability before purchase.' : 'Made after your order is confirmed.'} ${blade.customizable ? 'Custom length, steel, handle, scabbard, finish, and engraving are available on request.' : ''}</p>
     <details class="qd-spec-details" open>
-      <summary>Build specifications</summary>
-      <table class="qd-specs">
-      <tr><td>Steel</td><td>${blade.material}</td></tr>
-      <tr><td>Blade Length</td><td>${blade.length}</td></tr>
-      <tr><td>Weight</td><td>${blade.weight}</td></tr>
-      <tr><td>Hardness</td><td>${blade.hrc} HRC</td></tr>
-      <tr><td>Handle</td><td>${blade.handle}</td></tr>
-      <tr><td>Edge Grind</td><td>${blade.edge}</td></tr>
-      <tr><td>Sheath</td><td>${blade.sheath}</td></tr>
+      <summary>Custom build details</summary>
+      ${quickBuildConfiguratorMarkup(blade)}
+      <table class="qd-specs qd-specs-compact">
+        <tr><td>Default Edge Grind</td><td>${details.edge || blade.edge}</td></tr>
       </table>
     </details>
     <p class="qd-lead-time"><strong>Ordering:</strong> ${blade.leadTime}</p>
     <div class="qd-price">${formatBladePrice(blade)}</div>
     <div class="qd-ctas">
-      <button class="btn-primary" onclick="closeDrawer();closeFullCatalog();scrollToContact('${blade.name}')">
+      <button class="btn-primary" onclick="inquireQuickBuild(${blade.id})">
         Inquire About This Blade
       </button>
       <button class="btn-ghost" onclick="closeDrawer()">Continue Browsing</button>
@@ -1238,7 +1347,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /* --- UTILITY FUNCTIONS --- */
-function scrollToContact(bladeName) {
+function scrollToContact(bladeName, buildDetails = '') {
   document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
   if (bladeName) {
     setTimeout(() => {
@@ -1247,7 +1356,7 @@ function scrollToContact(bladeName) {
         subjectEl.value = 'Existing Blade';
         const msgEl = document.getElementById('message');
         if (msgEl && !msgEl.value) {
-          msgEl.value = `I'm interested in the ${bladeName}. `;
+          msgEl.value = `I'm interested in the ${bladeName}. ${buildDetails ? `\n\n${buildDetails}` : ''}`;
           msgEl.focus();
         }
       }
