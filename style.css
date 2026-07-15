@@ -1907,3 +1907,35 @@ ul { list-style: none; }
   #quickDrawer{width:100vw!important}
 }
 @media(max-width:480px){ #fcGrid{grid-template-columns:1fr!important} }
+
+/* ============================================================
+   CATALOG COMMERCE LAYER
+   Clear order states and custom-commission information.
+   ============================================================ */
+.catalog-intro { max-width: 390px; text-align: right; }
+.catalog-order-note {
+  max-width: 1300px;
+  margin: -20px auto 34px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--ash);
+}
+.catalog-note-item { min-height: 84px; padding: 18px 22px; display: grid; grid-template-columns: 12px 1fr; column-gap: 10px; align-content: center; }
+.catalog-note-item + .catalog-note-item { border-left: 1px solid var(--ash); }
+.catalog-note-item strong { color: var(--bone); font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.catalog-note-item span:last-child { grid-column: 2; color: var(--silver); font-size: 12px; line-height: 1.45; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; }
+.status-made { background: var(--gold); }.status-ready { background: #79a87b; }.status-custom { background: #8b9fc9; }
+.product-status-row, .qd-statuses { display: flex; flex-wrap: wrap; gap: 6px; }
+.product-status { display: inline-flex; align-items: center; gap: 5px; color: var(--silver); font-size: 8px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.product-status i { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }.product-status.is-ready i { background: #79a87b; }.product-status.is-custom i { background: #8b9fc9; }
+.blade-card-body .product-status-row { min-height: 14px; }.fc-status { font-size: 7px; }.fc-card .product-status-row { min-height: 13px; }
+.custom-orders { background: var(--obsidian); padding: var(--section-pad) 60px; border-top: 1px solid var(--ash); }
+.custom-orders-inner { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr); gap: 100px; align-items: center; }
+.custom-orders-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 28px; }.custom-orders-copy .section-body { max-width: 520px; }
+.custom-orders-panel { background: var(--steel); border: 1px solid var(--ash); padding: clamp(30px, 4vw, 50px); }
+.custom-options { display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 28px; border-bottom: 1px solid var(--ash); }.custom-options span { border: 1px solid var(--gold-dim); color: var(--gold-light); font-size: 10px; letter-spacing: .08em; padding: 7px 10px; }
+.custom-steps { list-style: none; margin: 0; padding: 12px 0; }.custom-steps li { display: grid; grid-template-columns: 42px 1fr; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--ash); }.custom-steps b { color: var(--gold); font-family: var(--font-display); font-size: 18px; font-weight: 500; }.custom-steps strong { color: var(--white); font-family: var(--font-display); font-size: 19px; font-weight: 500; }.custom-steps p, .custom-orders-footnote { color: var(--silver); font-size: 13px; line-height: 1.7; margin-top: 4px; }.custom-orders-footnote { margin-top: 20px; }
+.qd-order-note, .qd-lead-time { color: var(--silver); font-size: 13px; line-height: 1.7; margin: 18px 0; padding-left: 14px; border-left: 2px solid var(--gold-dim); }.qd-lead-time strong { color: var(--bone); font-weight: 500; }
+.qd-spec-details { margin: 22px 0; border-top: 1px solid var(--ash); border-bottom: 1px solid var(--ash); }.qd-spec-details summary { list-style: none; cursor: pointer; padding: 15px 0; color: var(--gold); font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }.qd-spec-details summary::-webkit-details-marker { display: none; }.qd-spec-details summary::after { content: '+'; float: right; font-size: 18px; line-height: .7; }.qd-spec-details[open] summary::after { content: '-'; }.qd-specs { margin-bottom: 12px; }
+@media (max-width: 768px) { .catalog-intro { text-align: left; }.catalog-order-note { grid-template-columns: 1fr; margin: -24px auto 30px; }.catalog-note-item + .catalog-note-item { border-left: 0; border-top: 1px solid var(--ash); }.custom-orders { padding: var(--section-pad) 24px; }.custom-orders-inner { grid-template-columns: 1fr; gap: 48px; }.custom-orders-panel { padding: 28px 22px; } }

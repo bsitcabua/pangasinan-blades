@@ -147,9 +147,15 @@
       <span class="eyebrow reveal">The Collection</span>
       <h2 class="section-title reveal reveal-delay-1" id="catalogTitle">Blades of the<br>Philippine Tradition</h2>
     </div>
-    <p class="section-body reveal reveal-delay-2" style="max-width:320px; text-align:right;">
-      Each piece is forged to order or sourced from our limited in-stock collection. No two blades are identical.
+    <p class="section-body reveal reveal-delay-2 catalog-intro">
+      Every blade is made by hand. Choose a ready-stock piece when available, or commission the profile, materials, and finish that fit your purpose.
     </p>
+  </div>
+
+  <div class="catalog-order-note reveal" aria-label="Ordering information">
+    <div class="catalog-note-item"><span class="status-dot status-made" aria-hidden="true"></span><strong>Made to Order</strong><span>Built after your specifications are confirmed.</span></div>
+    <div class="catalog-note-item"><span class="status-dot status-ready" aria-hidden="true"></span><strong>Ready Stock</strong><span>Available only when a finished piece is on hand.</span></div>
+    <div class="catalog-note-item"><span class="status-dot status-custom" aria-hidden="true"></span><strong>Custom Orders Accepted</strong><span>Most designs can be tailored for you.</span></div>
   </div>
 
   <div class="filter-bar reveal" role="group" aria-label="Filter blades">
@@ -159,8 +165,8 @@
     <button class="filter-pill" data-filter="moro">Moro Series</button>
     <button class="filter-pill" data-filter="combat">Combat Series</button>
     <button class="filter-pill" data-filter="kitchen">Kitchen Series</button>
-    <button class="filter-pill" onclick="openFullCatalog()">View Full Catalog</button>
-    <span class="filter-count" id="filterCount">11 blades</span>
+    <button class="filter-pill filter-full-catalog" type="button" onclick="openFullCatalog()">View Full Catalog</button>
+    <span class="filter-count" id="filterCount">Featured blades</span>
   </div>
 
   <div class="catalog-grid" id="catalogGrid">
@@ -168,13 +174,35 @@
   </div>
 
   <div class="catalog-footer reveal">
-    <button class="btn-ghost" onclick="openFullCatalog()">View All 26 Blades &nbsp;→</button>
+    <button class="btn-ghost" type="button" onclick="openFullCatalog()">View the Complete Collection &rarr;</button>
   </div>
 </section>
 
 <!-- ============================================================
   FULL CATALOG MODAL — Complete Collection
 ============================================================ -->
+<section class="custom-orders" id="custom-orders" aria-labelledby="customOrdersTitle">
+  <div class="custom-orders-inner">
+    <div class="custom-orders-copy reveal">
+      <span class="eyebrow">Built Around Your Hand</span>
+      <h2 class="section-title" id="customOrdersTitle">Your Blade.<br>Your Specifications.</h2>
+      <p class="section-body">Nearly every design in our collection can become a personal commission. Start from a traditional profile or bring your own reference; our team will help shape a build that is practical, balanced, and distinctly yours.</p>
+      <a class="btn-primary" href="#contact">Start a Custom Order</a>
+    </div>
+    <div class="custom-orders-panel reveal reveal-delay-1">
+      <div class="custom-options" aria-label="Customizable options">
+        <span>Blade length</span><span>Steel selection</span><span>Handle material</span><span>Scabbard material</span><span>Finish and fittings</span><span>Engraving</span>
+      </div>
+      <ol class="custom-steps">
+        <li><b>01</b><div><strong>Share your idea</strong><p>Tell us the blade style, intended use, and the details you have in mind.</p></div></li>
+        <li><b>02</b><div><strong>Confirm the build</strong><p>We recommend materials, finalize the specifications, and provide your quote.</p></div></li>
+        <li><b>03</b><div><strong>Forge your commission</strong><p>Your blade is handmade, inspected, and prepared for delivery.</p></div></li>
+      </ol>
+      <p class="custom-orders-footnote">Lead time and final pricing depend on the selected materials and level of detail.</p>
+    </div>
+  </div>
+</section>
+
 <div id="fullCatalogModal" role="dialog" aria-modal="true" aria-labelledby="fcTitle" style="
   display:none;
   position:fixed;inset:0;z-index:2000;

@@ -472,11 +472,11 @@ const ALL_BLADES = [
 ];
 
 const COMPLETE_COLLECTION = [
-  makeCollectionBlade('itak-tagalog', 'Itak Tagalog', 'itak', 'Itak Series', true),
+  makeCollectionBlade('itak-tagalog', 'Itak Tagalog', 'itak', 'Itak Series', true, { status: 'ready-stock', leadTime: 'Ships after availability is confirmed' }),
   makeCollectionBlade('pinuti', 'Pinuti', 'itak', 'Itak Series', true),
   makeCollectionBlade('itak-tinegre', 'Itak Tinegre', 'itak', 'Itak Series', true),
   makeCollectionBlade('talunasan', 'Talunasan', 'itak', 'Itak Series'),
-  makeCollectionBlade('military-bolo', 'Military Bolo', 'bolo', 'Bolo Series', true),
+  makeCollectionBlade('military-bolo', 'Military Bolo', 'bolo', 'Bolo Series', true, { status: 'ready-stock', leadTime: 'Ships after availability is confirmed' }),
   makeCollectionBlade('modern-ab-bolo', 'Modern Andres Bolo', 'bolo', 'Bolo Series', true),
   makeCollectionBlade('ilocano-bolo', 'Ilocano Bolo', 'bolo', 'Bolo Series', true),
   makeCollectionBlade('dahon-palay', 'Dahon Palay', 'bolo', 'Bolo Series'),
@@ -536,10 +536,11 @@ function renderCatalogPreview() {
       </div>
       <div class="blade-card-body">
         <span class="blade-badge">${blade.series}</span>
+        <div class="product-status-row">${productStatusMarkup(blade)}</div>
         <h3 class="blade-name">${blade.name}</h3>
-        <p class="blade-meta">Product photo coming soon</p>
+        <p class="blade-meta">${blade.length} · ${blade.material}</p>
         <div class="blade-footer">
-          <span class="blade-price">Available Soon</span>
+          <span class="blade-price">Request a Quote</span>
           <div class="blade-arrow" aria-hidden="true">→</div>
         </div>
       </div>`;
@@ -551,23 +552,26 @@ function renderCatalogPreview() {
   }
 }
 
-function makeCollectionBlade(id, name, category, series, featured) {
+function makeCollectionBlade(id, name, category, series, featured, options = {}) {
   return {
     id,
     name,
     category,
     series,
     featured: Boolean(featured),
-    material: 'Details coming soon',
-    length: 'TBA',
-    weight: 'TBA',
-    handle: 'TBA',
-    edge: 'TBA',
-    hrc: 'TBA',
-    sheath: 'TBA',
-    price: 0,
-    badge: series,
-    desc: `${name} from the ${series}. Full specifications and product photography will be added soon.`,
+    material: options.material || 'Select your preferred steel',
+    length: options.length || 'Custom length available',
+    weight: options.weight || 'Varies by final build',
+    handle: options.handle || 'Choose from available hardwoods or horn',
+    edge: options.edge || 'Profile matched to intended use',
+    hrc: options.hrc || 'Confirmed with your selected steel',
+    sheath: options.sheath || 'Custom-fit scabbard or sheath available',
+    price: options.price || 0,
+    status: options.status || 'made-to-order',
+    customizable: options.customizable !== false,
+    leadTime: options.leadTime || 'Lead time confirmed with your quote',
+    badge: options.status === 'ready-stock' ? 'Ready Stock' : 'Made to Order',
+    desc: options.desc || `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
     bg: '#111111',
     gradColor: '#222222',
     svgPath: blankBladePlaceholder(name, series),
@@ -590,6 +594,16 @@ function blankBladePlaceholder(name, series) {
 
 function formatBladePrice(blade) {
   return blade.price >= 1000 ? `₱${blade.price.toLocaleString()}` : 'Available Soon';
+}
+
+function productStatusMarkup(blade, className = 'product-status') {
+  const ready = blade.status === 'ready-stock';
+  return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Ready Stock' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Customizable</span>` : ''}`;
+}
+
+// A zero price is intentionally shown as a quote request, never as unavailable.
+function formatBladePrice(blade) {
+  return blade.price >= 1000 ? `PHP ${blade.price.toLocaleString()}` : 'Request a Quote';
 }
 
 /* ============================================================
@@ -678,7 +692,8 @@ function renderFCGrid(blades) {
         </div>
       </div>
       <div class="fc-card-body">
-        <span class="fc-badge ${blade.badge==='Sold Out'?'sold':''}">${blade.badge}</span>
+        <div class="product-status-row">${productStatusMarkup(blade, 'fc-status')}</div>
+        <span class="fc-badge">${blade.series}</span>
         <h3 class="fc-name">${blade.name}</h3>
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
         <div class="fc-foot">
@@ -772,7 +787,10 @@ function openDrawer(id) {
     <h2 class="qd-title" id="qdTitle">${blade.name}</h2>
     <p class="qd-meta">${blade.category.charAt(0).toUpperCase()+blade.category.slice(1)} · ${blade.material} · ${blade.length}</p>
     <p class="qd-desc">${blade.desc}</p>
-    <table class="qd-specs">
+    <p class="qd-order-note">${blade.status === 'ready-stock' ? 'Ready stock is limited. Please confirm availability before purchase.' : 'Made after your order is confirmed.'} ${blade.customizable ? 'Custom length, steel, handle, scabbard, finish, and engraving are available on request.' : ''}</p>
+    <details class="qd-spec-details" open>
+      <summary>Build specifications</summary>
+      <table class="qd-specs">
       <tr><td>Steel</td><td>${blade.material}</td></tr>
       <tr><td>Blade Length</td><td>${blade.length}</td></tr>
       <tr><td>Weight</td><td>${blade.weight}</td></tr>
@@ -780,7 +798,9 @@ function openDrawer(id) {
       <tr><td>Handle</td><td>${blade.handle}</td></tr>
       <tr><td>Edge Grind</td><td>${blade.edge}</td></tr>
       <tr><td>Sheath</td><td>${blade.sheath}</td></tr>
-    </table>
+      </table>
+    </details>
+    <p class="qd-lead-time"><strong>Ordering:</strong> ${blade.leadTime}</p>
     <div class="qd-price">${formatBladePrice(blade)}</div>
     <div class="qd-ctas">
       <button class="btn-primary" onclick="closeDrawer();closeFullCatalog();scrollToContact('${blade.name}')">
@@ -1052,6 +1072,7 @@ document.addEventListener('DOMContentLoaded', function() {
       filterPills.forEach(p => p.classList.remove('active'));
       this.classList.add('active');
       const filter = this.getAttribute('data-filter');
+      if (!filter) return;
       let visible = 0;
       bladeCards.forEach(card => {
         const cat = card.getAttribute('data-category');
