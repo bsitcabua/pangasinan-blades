@@ -10,43 +10,53 @@
 const HERO_SLIDES = [
   {
     image: 'assets/images/header/regular_ginunting.png',
-    name: 'Regular Ginunting'
+    name: 'Regular Ginunting',
+    description: 'A traditional Filipino utility and fighting blade known for its balanced curved profile.'
   },
   {
     image: 'assets/images/header/tactical_ginunting.png',
-    name: 'Tactical Ginunting'
+    name: 'Tactical Ginunting',
+    description: 'A modern interpretation of the classic Ginunting, built for outdoor, tactical, and field use.'
   },
   {
     image: 'assets/images/header/modern_andres_bolo.png',
-    name: 'Modern Andres Bolo'
+    name: 'Modern Andres Bolo',
+    description: 'A contemporary bolo designed for powerful cutting, bushcraft, and everyday utility.'
   },
   {
     image: 'assets/images/header/military_bolo.png',
-    name: 'Military Bolo'
+    name: 'Military Bolo',
+    description: 'Inspired by service blades used for survival, clearing vegetation, and field work.'
   },
   {
     image: 'assets/images/header/itak_tagalog.png',
-    name: 'Itak Tagalog'
+    name: 'Itak Tagalog',
+    description: 'A classic Tagalog blade valued for its versatility in farming, utility, and traditional use.'
   },
   {
     image: 'assets/images/header/itak_tinegre.png',
-    name: 'Itak Tinegre'
+    name: 'Itak Tinegre',
+    description: 'A robust Filipino blade featuring a distinctive profile for powerful chopping performance.'
   },
   {
     image: 'assets/images/header/garab.png',
-    name: 'Garab'
+    name: 'Garab',
+    description: 'A traditional harvesting blade with a curved edge designed for efficient cutting.'
   },
   {
     image: 'assets/images/header/dahon_palay.png',
-    name: 'Dahon Palay'
+    name: 'Dahon Palay',
+    description: 'Named after the shape of a rice leaf, featuring an elegant profile and excellent balance.'
   },
   {
     image: 'assets/images/header/gayang.png',
-    name: 'Gayang'
+    name: 'Gayang',
+    description: 'A long, graceful Filipino blade crafted for both traditional heritage and practical use.'
   },
   {
     image: 'assets/images/header/barong.png',
-    name: 'Barong'
+    name: 'Barong',
+    description: 'A leaf-shaped blade traditionally associated with the Moro peoples of the southern Philippines.'
   }
 ];
 
@@ -56,7 +66,7 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
   const container = document.getElementById('heroSlideshow');
   const bladeName = document.getElementById('heroBladeName');
 
-  if (!container || !HERO_SLIDES.length) return;
+  if (!container || !bladeName || !HERO_SLIDES.length) return;
 
   HERO_SLIDES.forEach((item, i) => {
     const slide = document.createElement('div');
@@ -69,8 +79,18 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
 
   const slides = container.querySelectorAll('.hero-slide');
   const bladeTitle = bladeName.querySelector('strong');
+  const bladeDescription = document.getElementById('heroBladeDescription');
 
-  bladeTitle.textContent = HERO_SLIDES[0].name;
+  function updateHeroSlideText(slide) {
+    if (bladeTitle) bladeTitle.textContent = slide.name || '';
+
+    if (!bladeDescription) return;
+    const description = slide.description?.trim() || '';
+    bladeDescription.textContent = description;
+    bladeDescription.hidden = !description;
+  }
+
+  updateHeroSlideText(HERO_SLIDES[0]);
 
   if (slides.length < 2) return;
 
@@ -85,7 +105,7 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
     bladeName.classList.add('changing');
 
     setTimeout(() => {
-      bladeTitle.textContent = HERO_SLIDES[next].name;
+      updateHeroSlideText(HERO_SLIDES[next]);
 
       bladeName.classList.remove('changing');
     }, 250);
