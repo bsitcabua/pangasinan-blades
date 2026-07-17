@@ -1907,7 +1907,7 @@ function openDrawer(id) {
   const details = getBladeDetails(blade);
 
   document.getElementById('qdBody').innerHTML = `
-    <div class="qd-blade-img">
+    <div class="qd-blade-img" data-zoom-source>
       ${
         blade.image
           ? `<img src="${blade.image}" alt="${blade.name}" class="qd-blade-image">`
@@ -1927,6 +1927,7 @@ function openDrawer(id) {
             </svg>
           `
       }
+      <span class="qd-zoom-lens" aria-hidden="true"></span>
     </div>
     <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">
       ✦ ${blade.badge}
@@ -1954,17 +1955,136 @@ function openDrawer(id) {
 
   const drawer   = document.getElementById('quickDrawer');
   const backdrop = document.getElementById('drawerBackdrop');
+  drawer.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
   backdrop.style.display = 'block';
   // Force reflow then animate
   requestAnimationFrame(() => {
+    drawer.scrollTop = 0;
     drawer.style.transform  = 'translateX(0%)';
   });
+
+  initQuickViewZoom();
 }
 
 function closeDrawer() {
+  resetQuickViewZoom();
   document.getElementById('quickDrawer').style.transform  = 'translateX(100%)';
   document.getElementById('drawerBackdrop').style.display = 'none';
+
+  const inquiryListOpen = document.getElementById('inquiryListModal')?.classList.contains('open');
+  if (!isFullCatalogOpen() && !inquiryListOpen) {
+    document.body.style.overflow = '';
+  }
 }
+
+const QUICK_VIEW_ZOOM_SCALE = 3.5;
+const QUICK_VIEW_ZOOM_GAP = 16;
+const QUICK_VIEW_ZOOM_MIN_SIZE = 280;
+const QUICK_VIEW_ZOOM_MAX_SIZE = 600;
+
+function resetQuickViewZoom() {
+  const source = document.querySelector('[data-zoom-source]');
+  const preview = document.getElementById('qdZoomPreview');
+  const previewContent = document.getElementById('qdZoomPreviewContent');
+
+  source?.classList.remove('is-zooming');
+  preview?.classList.remove('is-visible');
+  if (previewContent) previewContent.replaceChildren();
+}
+
+function getQuickViewZoomPlacement() {
+  const drawer = document.getElementById('quickDrawer');
+  if (!drawer) return null;
+
+  const drawerRect = drawer.getBoundingClientRect();
+  const viewportGap = 12;
+  const leftSpace = drawerRect.left - QUICK_VIEW_ZOOM_GAP - viewportGap;
+  const rightSpace = window.innerWidth - drawerRect.right - QUICK_VIEW_ZOOM_GAP - viewportGap;
+  const useLeft = leftSpace >= QUICK_VIEW_ZOOM_MIN_SIZE;
+  const available = useLeft ? leftSpace : rightSpace;
+
+  if (available < QUICK_VIEW_ZOOM_MIN_SIZE) return null;
+
+  const size = Math.min(QUICK_VIEW_ZOOM_MAX_SIZE, available, window.innerHeight - viewportGap * 2);
+  if (size < QUICK_VIEW_ZOOM_MIN_SIZE) return null;
+
+  return {
+    size,
+    left: useLeft
+      ? drawerRect.left - QUICK_VIEW_ZOOM_GAP - size
+      : drawerRect.right + QUICK_VIEW_ZOOM_GAP
+  };
+}
+
+function initQuickViewZoom() {
+  resetQuickViewZoom();
+
+  const source = document.querySelector('[data-zoom-source]');
+  const visual = source?.querySelector('img, svg');
+  const lens = source?.querySelector('.qd-zoom-lens');
+  const preview = document.getElementById('qdZoomPreview');
+  const previewContent = document.getElementById('qdZoomPreviewContent');
+
+  if (!source || !visual || !lens || !preview || !previewContent) return;
+
+  let zoomedVisual = null;
+  let placement = null;
+
+  const hideZoom = () => resetQuickViewZoom();
+
+  source.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'touch') return;
+
+    placement = getQuickViewZoomPlacement();
+    if (!placement) return;
+
+    const sourceRect = source.getBoundingClientRect();
+    zoomedVisual = visual.cloneNode(true);
+    zoomedVisual.removeAttribute('id');
+    zoomedVisual.style.width = `${sourceRect.width}px`;
+    zoomedVisual.style.height = `${sourceRect.height}px`;
+
+    previewContent.replaceChildren(zoomedVisual);
+    preview.style.width = `${placement.size}px`;
+    preview.style.height = `${placement.size}px`;
+    preview.style.left = `${placement.left}px`;
+    preview.style.top = `${Math.min(
+      Math.max(12, sourceRect.top),
+      window.innerHeight - placement.size - 12
+    )}px`;
+
+    source.classList.add('is-zooming');
+    preview.classList.add('is-visible');
+  });
+
+  source.addEventListener('pointermove', event => {
+    if (!placement || !zoomedVisual || !preview.classList.contains('is-visible')) return;
+
+    const sourceRect = source.getBoundingClientRect();
+    const x = Math.min(sourceRect.width, Math.max(0, event.clientX - sourceRect.left));
+    const y = Math.min(sourceRect.height, Math.max(0, event.clientY - sourceRect.top));
+    const lensWidth = Math.min(sourceRect.width, placement.size / QUICK_VIEW_ZOOM_SCALE);
+    const lensHeight = Math.min(sourceRect.height, placement.size / QUICK_VIEW_ZOOM_SCALE);
+    const lensLeft = Math.min(sourceRect.width - lensWidth, Math.max(0, x - lensWidth / 2));
+    const lensTop = Math.min(sourceRect.height - lensHeight, Math.max(0, y - lensHeight / 2));
+
+    lens.style.width = `${lensWidth}px`;
+    lens.style.height = `${lensHeight}px`;
+    lens.style.left = `${lensLeft}px`;
+    lens.style.top = `${lensTop}px`;
+
+    zoomedVisual.style.transformOrigin = 'top left';
+    zoomedVisual.style.transform = `translate(${placement.size / 2 - x * QUICK_VIEW_ZOOM_SCALE}px, ${
+      placement.size / 2 - y * QUICK_VIEW_ZOOM_SCALE
+    }px) scale(${QUICK_VIEW_ZOOM_SCALE})`;
+  });
+
+  source.addEventListener('pointerleave', hideZoom);
+  source.addEventListener('pointercancel', hideZoom);
+}
+
+window.addEventListener('resize', resetQuickViewZoom);
 
 (function() {
   const canvas = document.getElementById('heroCanvas');
