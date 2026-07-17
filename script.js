@@ -846,8 +846,30 @@ function quickBuildConfiguratorMarkup(blade) {
           ${buildOptionsMarkup(BUILD_OPTIONS.sheath, details.sheath)}
         </select>
       </label>
+      <div class="qd-quantity-field">
+        <span>Quantity</span>
+        <div class="qd-quantity-stepper">
+          <button type="button" onclick="changeQuickBuildQuantity(${blade.id}, -1)" aria-label="Decrease quantity">-</button>
+          <input class="qd-config-control" data-config-field="quantity" type="number" min="1" value="1" inputmode="numeric" onchange="setQuickBuildQuantity(${blade.id}, this.value)">
+          <button type="button" onclick="changeQuickBuildQuantity(${blade.id}, 1)" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
       <p class="qd-config-note">Defaults are loaded from this blade. Change any field to request a custom build.</p>
     </div>`;
+}
+
+function setQuickBuildQuantity(bladeId, value) {
+  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
+  const quantityInput = wrapper?.querySelector('[data-config-field="quantity"]');
+  if (!quantityInput) return;
+  quantityInput.value = Math.max(1, Number(value) || 1);
+}
+
+function changeQuickBuildQuantity(bladeId, step) {
+  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
+  const quantityInput = wrapper?.querySelector('[data-config-field="quantity"]');
+  if (!quantityInput) return;
+  setQuickBuildQuantity(bladeId, (Number(quantityInput.value) || 1) + step);
 }
 
 function updateQuickBuildHardness(bladeId) {
@@ -874,6 +896,9 @@ function getQuickBuildSelection(bladeId) {
     hardness: readField('hardness'),
     handle: readField('handle'),
     sheath: readField('sheath'),
+    engraving: readField('engraving'),
+    customization: readField('customization'),
+    quantity: Math.max(1, Number(readField('quantity')) || 1),
   };
 }
 
@@ -881,7 +906,7 @@ function inquireQuickBuild(bladeId) {
   const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId));
   const selection = getQuickBuildSelection(bladeId);
   const buildText = selection
-    ? `Custom build request:\nSteel: ${selection.steel}\nBlade Length: ${selection.bladeLength}\nHardness: ${selection.hardness}\nHandle: ${selection.handle}\nSheath / Scabbard: ${selection.sheath}`
+    ? `Custom build request:\n${formatBuildDetails(selection, selection.quantity)}`
     : '';
 
   closeDrawer();
@@ -889,18 +914,89 @@ function inquireQuickBuild(bladeId) {
   scrollToContact(blade?.name || '', buildText);
 }
 
+const INQUIRY_LIST_STORAGE_KEY = 'pangasinanBladesInquiryList';
 let inquiryList = [];
+let pendingDuplicateItem = null;
+let pendingDuplicateIndex = -1;
 
-function formatBuildDetails(selection) {
-  return `Steel: ${selection.steel}
-Blade Length: ${selection.bladeLength}
-Hardness: ${selection.hardness}
-Handle: ${selection.handle}
-Sheath / Scabbard: ${selection.sheath}`;
+function formatBuildDetails(selection, quantity) {
+  return [
+    `Blade Length: ${selection.bladeLength}`,
+    `Blade Material: ${selection.steel}`,
+    `Hardness: ${selection.hardness}`,
+    `Handle: ${selection.handle}`,
+    `Scabbard: ${selection.sheath}`,
+    selection.engraving ? `Engraving: ${selection.engraving}` : '',
+    selection.customization ? `Customization: ${selection.customization}` : '',
+    quantity ? `Quantity: ${quantity}` : '',
+  ].filter(Boolean).join('\n');
+}
+
+function getInquiryListCount() {
+  return inquiryList.reduce((total, item) => total + (Number(item.quantity) || 1), 0);
+}
+
+function normalizeSpecValue(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function createInquiryItemKey(item) {
+  const selection = item.selection || {};
+  const keyParts = {
+    name: item.name,
+    steel: selection.steel,
+    bladeLength: selection.bladeLength,
+    hardness: selection.hardness,
+    handle: selection.handle,
+    sheath: selection.sheath,
+    engraving: selection.engraving,
+    customization: selection.customization,
+    status: item.status,
+  };
+  return Object.entries(keyParts)
+    .map(([key, value]) => `${key}:${normalizeSpecValue(value)}`)
+    .join('|');
+}
+
+function refreshInquiryItemKeys() {
+  inquiryList = inquiryList.map(item => ({
+    ...item,
+    key: item.key || createInquiryItemKey(item),
+  }));
+}
+
+function saveInquiryList() {
+  try {
+    refreshInquiryItemKeys();
+    localStorage.setItem(INQUIRY_LIST_STORAGE_KEY, JSON.stringify(inquiryList));
+  } catch (error) {
+    console.warn('Unable to save inquiry list:', error);
+  }
+}
+
+function loadInquiryList() {
+  try {
+    const saved = localStorage.getItem(INQUIRY_LIST_STORAGE_KEY);
+    const parsed = saved ? JSON.parse(saved) : [];
+    inquiryList = Array.isArray(parsed)
+      ? parsed
+          .filter(item => item && item.id && item.name && item.selection)
+          .map(item => ({
+            ...item,
+            quantity: Math.max(1, Number(item.quantity) || 1),
+            key: item.key || createInquiryItemKey(item),
+          }))
+      : [];
+  } catch (error) {
+    inquiryList = [];
+    localStorage.removeItem(INQUIRY_LIST_STORAGE_KEY);
+  }
+
+  updateInquiryBadge();
 }
 
 function updateInquiryBadge() {
-  const count = inquiryList.length;
+  const count = getInquiryListCount();
   const badge = document.getElementById('inquiryListCount');
   const mobileBadge = document.getElementById('mobileInquiryListCount');
   const label = count ? String(count) : '';
@@ -921,6 +1017,8 @@ function addCurrentBuildToInquiryList(bladeId) {
   const selection = getQuickBuildSelection(bladeId);
   if (!blade || !selection) return;
 
+  const quantity = Math.max(1, Number(selection.quantity) || 1);
+  delete selection.quantity;
   const item = {
     id: blade.id,
     name: blade.name,
@@ -928,45 +1026,186 @@ function addCurrentBuildToInquiryList(bladeId) {
     series: blade.series || blade.category,
     status: blade.status,
     selection,
+    quantity,
   };
-  const existingIndex = inquiryList.findIndex(entry => String(entry.id) === String(item.id));
-
-  if (existingIndex >= 0) {
-    inquiryList[existingIndex] = item;
-  } else {
-    inquiryList.push(item);
-  }
-
-  updateInquiryBadge();
-  closeDrawer();
-  // openInquiryListModal();
+  addInquiryItem(item);
 }
 
-function removeInquiryItem(bladeId) {
-  inquiryList = inquiryList.filter(item => String(item.id) !== String(bladeId));
+function addInquiryItem(item) {
+  const keyedItem = {
+    ...item,
+    quantity: Math.max(1, Number(item.quantity) || 1),
+    key: item.key || createInquiryItemKey(item),
+  };
+  const existingIndex = inquiryList.findIndex(entry => (entry.key || createInquiryItemKey(entry)) === keyedItem.key);
+
+  if (existingIndex >= 0) {
+    showDuplicateInquiryConfirmation(keyedItem, existingIndex);
+    return;
+  }
+
+  inquiryList.push(keyedItem);
+  saveInquiryList();
+  updateInquiryBadge();
+  closeDrawer();
+  openInquiryListModal();
+}
+
+function addCustomOrderToInquiryList(customOrder) {
+  const selection = {
+    steel: customOrder.steel || '',
+    bladeLength: customOrder.bladeLength || '',
+    hardness: customOrder.hardness || '',
+    handle: customOrder.handle || '',
+    sheath: customOrder.sheath || customOrder.scabbard || '',
+    engraving: customOrder.engraving || '',
+    customization: customOrder.customization || customOrder.notes || '',
+  };
+
+  addInquiryItem({
+    id: customOrder.id || `custom-${Date.now()}`,
+    name: customOrder.name || customOrder.bladeName || 'Custom Blade Order',
+    image: customOrder.image || '',
+    series: customOrder.series || 'Custom Order',
+    status: customOrder.status || 'custom-order',
+    selection,
+    quantity: Math.max(1, Number(customOrder.quantity) || 1),
+  });
+}
+
+function confirmDuplicateInquiryItem() {
+  if (!pendingDuplicateItem || pendingDuplicateIndex < 0) return;
+
+  inquiryList[pendingDuplicateIndex] = {
+    ...inquiryList[pendingDuplicateIndex],
+    quantity: (Number(inquiryList[pendingDuplicateIndex].quantity) || 1) + (Number(pendingDuplicateItem.quantity) || 1),
+  };
+  pendingDuplicateItem = null;
+  pendingDuplicateIndex = -1;
+  closeDuplicateInquiryModal();
+  saveInquiryList();
+  updateInquiryBadge();
+  renderInquiryListModal();
+  closeDrawer();
+  openInquiryListModal();
+}
+
+function cancelDuplicateInquiryItem() {
+  pendingDuplicateItem = null;
+  pendingDuplicateIndex = -1;
+  closeDuplicateInquiryModal();
+}
+
+function showDuplicateInquiryConfirmation(item, existingIndex) {
+  pendingDuplicateItem = item;
+  pendingDuplicateIndex = existingIndex;
+  const existing = inquiryList[existingIndex];
+  const modal = document.getElementById('duplicateInquiryModal');
+  const body = document.getElementById('duplicateInquiryBody');
+
+  if (!modal || !body) {
+    if (confirm('An item with the same specifications is already in your Inquiry List. Would you like to add the selected quantity to the existing item?')) {
+      confirmDuplicateInquiryItem();
+    }
+    return;
+  }
+
+  body.innerHTML = `
+    <strong>${escapeHtml(item.name)}</strong>
+    <span>Existing quantity: ${Number(existing.quantity) || 1}</span>
+    <span>Selected quantity: ${Number(item.quantity) || 1}</span>
+    <span>Updated quantity after continue: ${(Number(existing.quantity) || 1) + (Number(item.quantity) || 1)}</span>
+  `;
+  modal.classList.add('open');
+}
+
+function closeDuplicateInquiryModal() {
+  document.getElementById('duplicateInquiryModal')?.classList.remove('open');
+}
+
+function removeInquiryItem(itemKey) {
+  itemKey = decodeURIComponent(itemKey);
+  inquiryList = inquiryList.filter(item => item.key !== itemKey);
+  saveInquiryList();
+  updateInquiryBadge();
+  renderInquiryListModal();
+}
+
+function setInquiryItemQuantity(itemKey, quantity) {
+  itemKey = decodeURIComponent(itemKey);
+  const item = inquiryList.find(entry => entry.key === itemKey);
+  if (!item) return;
+
+  item.quantity = Math.max(1, Number(quantity) || 1);
+  saveInquiryList();
   updateInquiryBadge();
   renderInquiryListModal();
 }
 
 function clearInquiryList() {
   inquiryList = [];
+  pendingDuplicateItem = null;
+  pendingDuplicateIndex = -1;
+  saveInquiryList();
   updateInquiryBadge();
   renderInquiryListModal();
 }
 
 function inquiryListMessage() {
-  return inquiryList.map((item, index) => `${index + 1}. ${item.name}
-${formatBuildDetails(item.selection)}`).join('\n\n');
+  return `Inquiry List\n\n${inquiryList.map(item => `${item.name}
+${formatBuildDetails(item.selection, item.quantity)}`).join('\n\n')}`;
 }
 
 function sendInquiryList() {
   if (!inquiryList.length) return;
 
-  const label = inquiryList.length === 1 ? inquiryList[0].name : `${inquiryList.length} selected blades`;
+  const total = getInquiryListCount();
+  const label = total === 1 ? inquiryList[0].name : `${total} selected blades`;
   closeInquiryListModal();
   closeDrawer();
   closeFullCatalog();
-  scrollToContact(label, `Inquiry list:\n\n${inquiryListMessage()}`);
+  scrollToContact(label, inquiryListMessage());
+}
+
+function setInquiryListNotice(message, type = 'success') {
+  const notice = document.getElementById('inquiryListNotice');
+  if (!notice) return;
+  notice.textContent = message;
+  notice.className = `inquiry-list-notice ${type}`;
+  notice.hidden = false;
+  window.clearTimeout(setInquiryListNotice.timer);
+  setInquiryListNotice.timer = window.setTimeout(() => {
+    notice.hidden = true;
+  }, 3000);
+}
+
+function fallbackCopyText(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  const copied = document.execCommand('copy');
+  textarea.remove();
+  return copied;
+}
+
+async function copyInquiryList() {
+  if (!inquiryList.length) return;
+
+  const text = inquiryListMessage();
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else if (!fallbackCopyText(text)) {
+      throw new Error('Fallback copy command failed');
+    }
+    setInquiryListNotice('Inquiry list copied to clipboard.', 'success');
+  } catch (error) {
+    setInquiryListNotice('Copy failed. Please try again.', 'error');
+  }
 }
 
 function renderInquiryListModal() {
@@ -974,11 +1213,14 @@ function renderInquiryListModal() {
   const count = document.getElementById('inquiryListModalCount');
   const sendButton = document.getElementById('sendInquiryListBtn');
   const clearButton = document.getElementById('clearInquiryListBtn');
+  const copyButton = document.getElementById('copyInquiryListBtn');
   if (!body) return;
 
-  if (count) count.textContent = `${inquiryList.length} blade${inquiryList.length === 1 ? '' : 's'}`;
+  const total = getInquiryListCount();
+  if (count) count.textContent = `${total} blade${total === 1 ? '' : 's'}`;
   if (sendButton) sendButton.disabled = inquiryList.length === 0;
   if (clearButton) clearButton.disabled = inquiryList.length === 0;
+  if (copyButton) copyButton.disabled = inquiryList.length === 0;
 
   if (!inquiryList.length) {
     body.innerHTML = `
@@ -1028,14 +1270,18 @@ function renderInquiryListModal() {
       <h3>${escapeHtml(item.name)}</h3>
 
       <p>
-        ${escapeHtml(formatBuildDetails(item.selection)).replace(/\n/g, '<br>')}
+        ${escapeHtml(formatBuildDetails(item.selection, item.quantity)).replace(/\n/g, '<br>')}
       </p>
+      <label class="inquiry-list-qty">
+        <span>Quantity</span>
+        <input type="number" min="1" value="${item.quantity || 1}" onchange="setInquiryItemQuantity('${encodeURIComponent(item.key)}', this.value)">
+      </label>
     </div>
 
     <button 
       type="button" 
       class="inquiry-list-remove"
-      onclick="removeInquiryItem(${item.id})">
+      onclick="removeInquiryItem('${encodeURIComponent(item.key)}')">
       Remove
     </button>
   </article>
@@ -1182,6 +1428,7 @@ function isFullCatalogOpen() {
 
 function openFullCatalog() {
   const modal = document.getElementById('fullCatalogModal');
+  if (!modal) return;
   modal.style.display = 'block';
   document.body.style.overflow = 'hidden';
   fcActiveFilter = 'all';
@@ -1199,6 +1446,11 @@ function openFullCatalog() {
   }
 }
 
+function openFullCatalogFromHash() {
+  if (window.location.hash !== '#full-collection') return;
+  openFullCatalog();
+}
+
 function closeFullCatalog() {
   if (isFullCatalogOpen() && history.state && history.state.modal === 'fullCatalog' && !isClosingFullCatalogFromHistory) {
     history.back();
@@ -1210,12 +1462,19 @@ function closeFullCatalog() {
 }
 
 window.addEventListener('popstate', () => {
+  if (window.location.hash === '#full-collection') {
+    openFullCatalog();
+    return;
+  }
+
   if (!isFullCatalogOpen()) return;
 
   isClosingFullCatalogFromHistory = true;
   closeFullCatalog();
   isClosingFullCatalogFromHistory = false;
 });
+
+window.addEventListener('hashchange', openFullCatalogFromHash);
 
 /* Close on Escape */
 document.addEventListener('keydown', e => {
@@ -1430,6 +1689,8 @@ function closeDrawer() {
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
+  loadInquiryList();
+  openFullCatalogFromHash();
 
   /* --- HERO ENTRANCE --- */
   setTimeout(() => {
