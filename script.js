@@ -405,295 +405,685 @@ const COMPLETE_COLLECTION = [
          "hardness":"57-60 HRC"
       }
    },
-   {
-      "id":18,
-      "slug":"ginunting",
-      "image":"assets/images/collection/combat_series/regular_ginunting.png",
-      "name":"Ginunting",
-      "category":"combat",
-      "series":"Combat Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"16 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":19,
-      "slug":"modern-talibong",
-      "image":"assets/images/collection/combat_series/modern_talibong.png",
-      "name":"Modern Talibong",
-      "category":"combat",
-      "series":"Combat Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"18 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":20,
-      "slug":"bushcraft",
-      "image":"assets/images/collection/outdoor_series/bushcraft.png",
-      "name":"Bushcraft",
-      "category":"outdoor",
-      "series":"Outdoor Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"10 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Chico Wood",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":21,
-      "slug":"hunting",
-      "image":"assets/images/collection/outdoor_series/hunting_knife.png",
-      "name":"Hunting",
-      "category":"outdoor",
-      "series":"Outdoor Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"12 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":22,
-      "slug":"karanto",
-      "image":"assets/images/collection/outdoor_series/karanto.png",
-      "name":"Karanto",
-      "category":"outdoor",
-      "series":"Outdoor Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"12 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":23,
-      "slug":"karambit-big",
-      "image":"assets/images/collection/outdoor_series/karambit_big.png",
-      "name":"Karambit Big",
-      "category":"outdoor",
-      "series":"Outdoor Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"8 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":24,
-      "slug":"karambit-small",
-      "image":"assets/images/collection/outdoor_series/karambit_small.png",
-      "name":"Karambit Small",
-      "category":"outdoor",
-      "series":"Outdoor Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"6 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":25,
-      "slug":"katana",
-      "image":"assets/images/collection/international_series/katana.png",
-      "name":"Katana",
-      "category":"international",
-      "series":"International Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"28 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":26,
-      "slug":"shirasaya",
-      "image":"assets/images/collection/international_series/shirasaya_katana.png",
-      "name":"Shirasaya",
-      "category":"international",
-      "series":"International Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"27 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":27,
-      "slug":"khukri",
-      "image":"assets/images/collection/international_series/khukri.png",
-      "name":"Khukri",
-      "category":"international",
-      "series":"International Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"12 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":28,
-      "slug":"gladius",
-      "image":"assets/images/collection/international_series/gladius.png",
-      "name":"Gladius",
-      "category":"international",
-      "series":"International Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"20 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":29,
-      "slug":"jambiya",
-      "image":"assets/images/collection/international_series/jambiya.png",
-      "name":"Jambiya",
-      "category":"international",
-      "series":"International Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"10 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":30,
-      "slug":"serbian-chefs-knife",
-      "image":"assets/images/collection/kitchen_series/almazan.png",
-      "name":"Serbian Chef Knife / Almazan",
-      "category":"kitchen",
-      "series":"Kitchen Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"8 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":31,
-      "slug":"standard-chefs-knife",
-      "image":"assets/images/collection/kitchen_series/gyuto.png",
-      "name":"Standard Chef Knife / Gyuto",
-      "category":"kitchen",
-      "series":"Kitchen Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"8 in",
-         "steel":"304 Stainless Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"15-20 HRC (approximately 70-90 HRB)"
-      }
-   },
-   {
-      "id":32,
-      "slug":"santoku",
-      "image":"assets/images/collection/kitchen_series/santoku.png",
-      "name":"Santoku / Bunka Hybrid",
-      "category":"kitchen",
-      "series":"Kitchen Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"7 in",
-         "steel":"304 Stainless Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"15-20 HRC (approximately 70-90 HRB)"
-      }
-   },
-   {
-      "id":33,
-      "slug":"sujihiki",
-      "image":"assets/images/collection/kitchen_series/sujihiki.png",
-      "name":"Sujihiki / Carving Knife",
-      "category":"kitchen",
-      "series":"Kitchen Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"10 in",
-         "steel":"304 Stainless Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"15-20 HRC (approximately 70-90 HRB)"
-      }
-   },
-   {
-      "id":34,
-      "slug":"yanagiba",
-      "image":"assets/images/collection/kitchen_series/yanagiba.png",
-      "name":"Yanagiba / Sashimi Knife",
-      "category":"kitchen",
-      "series":"Kitchen Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"10 in",
-         "steel":"304 Stainless Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"15-20 HRC (approximately 70-90 HRB)"
-      }
-   }
+{
+
+  "id": 18,
+
+  "slug": "regular-ginunting",
+
+  "image": "assets/images/collection/combat_series/regular_ginunting.png",
+
+  "name": "Regular Ginunting",
+
+  "category": "combat",
+
+  "series": "Combat Series",
+
+  "featured": true,
+
+  "status": "made-to-order",
+
+  "details": {
+
+    "bladeLength": "16 in",
+
+    "steel": "5160 Carbon Steel",
+
+    "handle": "Kamagong",
+
+    "sheath": "Leather Sheath",
+
+    "hardness": "57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id": 19,
+
+  "slug": "modern-talibong",
+
+  "image": "assets/images/collection/combat_series/modern_talibong.png",
+
+  "name": "Modern Talibong",
+
+  "category": "combat",
+
+  "series": "Combat Series",
+
+  "featured": false,
+
+  "status": "made-to-order",
+
+  "details": {
+
+    "bladeLength": "18 in",
+
+    "steel": "5160 Carbon Steel",
+
+    "handle": "Kamagong",
+
+    "sheath": "Leather Sheath",
+
+    "hardness": "57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id": 20,
+
+  "slug": "all-purpose-tactical-ginunting",
+
+  "image": "assets/images/collection/combat_series/all_purpose_tactical_ginunting_blade_profile.png",
+
+  "name": "All Purpose Tactical Ginunting",
+
+  "category": "combat",
+
+  "series": "Combat Series",
+
+  "featured": false,
+
+  "status": "made-to-order",
+
+  "details": {
+
+    "bladeLength": "15 in",
+
+    "steel": "5160 Carbon Steel",
+
+    "handle": "Chico Wood",
+
+    "sheath": "Leather Sheath",
+
+    "hardness": "57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id": 21,
+
+  "slug": "tactical-ginunting",
+
+  "image": "assets/images/collection/combat_series/tactical_ginunting.png",
+
+  "name": "Tactical Ginunting",
+
+  "category": "combat",
+
+  "series": "Combat Series",
+
+  "featured": true,
+
+  "status": "made-to-order",
+
+  "details": {
+
+    "bladeLength": "16 in",
+
+    "steel": "5160 Carbon Steel",
+
+    "handle": "Kamagong",
+
+    "sheath": "Leather Sheath",
+
+    "hardness": "57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id": 22,
+
+  "slug": "talibong",
+
+  "image": "assets/images/collection/combat_series/talibong.png",
+
+  "name": "Talibong",
+
+  "category": "combat",
+
+  "series": "Combat Series",
+
+  "featured": true,
+
+  "status": "made-to-order",
+
+  "details": {
+
+    "bladeLength": "19 in",
+
+    "steel": "5160 Carbon Steel",
+
+    "handle": "Kamagong",
+
+    "sheath": "Leather Sheath",
+
+    "hardness": "57-60 HRC"
+
+  }
+
+},
+
+{ 
+
+  "id":23,
+
+  "slug":"bushcraft",
+
+  "image":"assets/images/collection/outdoor_series/bushcraft.png",
+
+  "name":"Bushcraft",
+
+  "category":"outdoor",
+
+  "series":"Outdoor Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"10 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Chico Wood",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":24,
+
+  "slug":"hunting",
+
+  "image":"assets/images/collection/outdoor_series/hunting_knife.png",
+
+  "name":"Hunting",
+
+  "category":"outdoor",
+
+  "series":"Outdoor Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"12 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Kamagong",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":25,
+
+  "slug":"karanto",
+
+  "image":"assets/images/collection/outdoor_series/karanto.png",
+
+  "name":"Karanto",
+
+  "category":"outdoor",
+
+  "series":"Outdoor Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"12 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":26,
+
+  "slug":"karambit-big",
+
+  "image":"assets/images/collection/outdoor_series/karambit_big.png",
+
+  "name":"Karambit Big",
+
+  "category":"outdoor",
+
+  "series":"Outdoor Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"8 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Kamagong",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":27,
+
+  "slug":"karambit-small",
+
+  "image":"assets/images/collection/outdoor_series/karambit_small.png",
+
+  "name":"Karambit Small",
+
+  "category":"outdoor",
+
+  "series":"Outdoor Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"6 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Kamagong",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":28,
+
+  "slug":"katana",
+
+  "image":"assets/images/collection/international_series/katana.png",
+
+  "name":"Katana",
+
+  "category":"international",
+
+  "series":"International Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"28 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Kamagong",
+
+    "sheath":"Mahogany",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":29,
+
+  "slug":"shirasaya",
+
+  "image":"assets/images/collection/international_series/shirasaya_katana.png",
+
+  "name":"Shirasaya",
+
+  "category":"international",
+
+  "series":"International Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"27 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Mahogany",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":30,
+
+  "slug":"khukri",
+
+  "image":"assets/images/collection/international_series/khukri.png",
+
+  "name":"Khukri",
+
+  "category":"international",
+
+  "series":"International Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"12 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Kamagong",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":31,
+
+  "slug":"gladius",
+
+  "image":"assets/images/collection/international_series/gladius.png",
+
+  "name":"Gladius",
+
+  "category":"international",
+
+  "series":"International Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"20 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":32,
+
+  "slug":"jambiya",
+
+  "image":"assets/images/collection/international_series/jambiya.png",
+
+  "name":"Jambiya",
+
+  "category":"international",
+
+  "series":"International Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"10 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Kamagong",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":33,
+
+  "slug":"serbian-chefs-knife",
+
+  "image":"assets/images/collection/kitchen_series/almazan.png",
+
+  "name":"Serbian Chef Knife / Almazan",
+
+  "category":"kitchen",
+
+  "series":"Kitchen Series",
+
+  "featured":true,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"8 in",
+
+    "steel":"5160 Carbon Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"57-60 HRC"
+
+  }
+
+},
+
+{
+
+  "id":34,
+
+  "slug":"standard-chefs-knife",
+
+  "image":"assets/images/collection/kitchen_series/gyuto.png",
+
+  "name":"Standard Chef Knife / Gyuto",
+
+  "category":"kitchen",
+
+  "series":"Kitchen Series",
+
+  "featured":true,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"8 in",
+
+    "steel":"304 Stainless Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"15-20 HRC (approximately 70-90 HRB)"
+
+  }
+
+},
+
+{
+
+  "id":35,
+
+  "slug":"santoku",
+
+  "image":"assets/images/collection/kitchen_series/santoku.png",
+
+  "name":"Santoku / Bunka Hybrid",
+
+  "category":"kitchen",
+
+  "series":"Kitchen Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"7 in",
+
+    "steel":"304 Stainless Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"15-20 HRC (approximately 70-90 HRB)"
+
+  }
+
+},
+
+{
+
+  "id":36,
+
+  "slug":"sujihiki",
+
+  "image":"assets/images/collection/kitchen_series/sujihiki.png",
+
+  "name":"Sujihiki / Carving Knife",
+
+  "category":"kitchen",
+
+  "series":"Kitchen Series",
+
+  "featured":false,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"10 in",
+
+    "steel":"304 Stainless Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"15-20 HRC (approximately 70-90 HRB)"
+
+  }
+
+},
+
+{
+
+  "id":37,
+
+  "slug":"yanagiba",
+
+  "image":"assets/images/collection/kitchen_series/yanagiba.png",
+
+  "name":"Yanagiba / Sashimi Knife",
+
+  "category":"kitchen",
+
+  "series":"Kitchen Series",
+
+  "featured":true,
+
+  "status":"made-to-order",
+
+  "details":{
+
+    "bladeLength":"10 in",
+
+    "steel":"304 Stainless Steel",
+
+    "handle":"Mahogany",
+
+    "sheath":"Leather Sheath",
+
+    "hardness":"15-20 HRC (approximately 70-90 HRB)"
+
+  }
+
+}
 ].map(makeCollectionBlade);
 
 const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
