@@ -115,976 +115,7 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
 })();
 
 
-const COMPLETE_COLLECTION = [
-   {
-      "id":1,
-      "slug":"itak-tagalog",
-      "image":"assets/images/collection/itak_series/itak_tagalog.png",
-      "name":"Itak Tagalog",
-      "category":"itak",
-      "series":"Itak Series",
-      "featured":true,
-      "status":"ready-stock",
-      "details":{
-         "bladeLength":"16 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":2,
-      "slug":"pinuti",
-      "image":"assets/images/collection/itak_series/pinuti.png",
-      "name":"Pinuti",
-      "category":"itak",
-      "series":"Itak Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"14 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":3,
-      "slug":"itak-tinegre",
-      "image":"assets/images/collection/itak_series/itak_tinegre.png",
-      "name":"Itak Tinegre",
-      "category":"itak",
-      "series":"Itak Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"18 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":4,
-      "slug":"talunasan",
-      "image":"assets/images/collection/itak_series/talunasan.png",
-      "name":"Talunasan",
-      "category":"itak",
-      "series":"Itak Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"16 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":5,
-      "slug":"military-bolo",
-      "image":"assets/images/collection/bolo_series/fulltang_military_bolo.png",
-      "name":"Military Bolo",
-      "category":"bolo",
-      "series":"Bolo Series",
-      "featured":true,
-      "status":"ready-stock",
-      "details":{
-         "bladeLength":"18 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":6,
-      "slug":"modern-ab-bolo",
-      "image":"assets/images/collection/bolo_series/modern_andres_bolo.png",
-      "name":"Modern Andres Bolo",
-      "category":"bolo",
-      "series":"Bolo Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"18 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":7,
-      "slug":"ilocano-bolo",
-      "image":"assets/images/collection/bolo_series/ilocano_bolo.png",
-      "name":"Ilocano Bolo",
-      "category":"bolo",
-      "series":"Bolo Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"17 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Chico Wood",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":8,
-      "slug":"dahon-palay",
-      "image":"assets/images/collection/bolo_series/dahon_palay.png",
-      "name":"Dahon Palay",
-      "category":"bolo",
-      "series":"Bolo Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"16 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":9,
-      "slug":"jungle-cleaver-bolo",
-      "image":"assets/images/collection/bolo_series/jungle_cleaver_bolo.png",
-      "name":"Jungle Cleaver Bolo",
-      "category":"bolo",
-      "series":"Bolo Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"14 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":10,
-      "slug":"cleaver-bolo",
-      "image":"assets/images/collection/bolo_series/cleaver_bolo.png",
-      "name":"Cleaver Bolo",
-      "category":"bolo",
-      "series":"Bolo Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"13 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Mahogany",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":11,
-      "slug":"garab",
-      "image":"assets/images/collection/bolo_series/garab.png",
-      "name":"Garab",
-      "category":"bolo",
-      "series":"Bolo Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"15 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Chico Wood",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":12,
-      "slug":"barung",
-      "image":"assets/images/collection/moro_series/barung.png",
-      "name":"Barung",
-      "category":"moro",
-      "series":"Moro Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"18 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Kamagong",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":13,
-      "slug":"kris",
-      "image":"assets/images/collection/moro_series/kris.png",
-      "name":"Kris",
-      "category":"moro",
-      "series":"Moro Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"22 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Kamagong",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":14,
-      "slug":"kampilan",
-      "image":"assets/images/collection/moro_series/kampilan.png",
-      "name":"Kampilan",
-      "category":"moro",
-      "series":"Moro Series",
-      "featured":true,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"28 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Mahogany",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":15,
-      "slug":"panabas",
-      "image":"assets/images/collection/moro_series/panabas.png",
-      "name":"Panabas",
-      "category":"moro",
-      "series":"Moro Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"24 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Kamagong",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":16,
-      "slug":"traditional-panabas",
-      "image":"assets/images/collection/moro_series/traditional_panabas.png",
-      "name":"Traditional Panabas",
-      "category":"moro",
-      "series":"Moro Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"26 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Kamagong",
-         "hardness":"57-60 HRC"
-      }
-   },
-   {
-      "id":17,
-      "slug":"gayang",
-      "image":"assets/images/collection/moro_series/gayang.png",
-      "name":"Gayang",
-      "category":"moro",
-      "series":"Moro Series",
-      "featured":false,
-      "status":"made-to-order",
-      "details":{
-         "bladeLength":"16 in",
-         "steel":"5160 Carbon Steel",
-         "handle":"Kamagong",
-         "sheath":"Leather Sheath",
-         "hardness":"57-60 HRC"
-      }
-   },
-{
-
-  "id": 18,
-
-  "slug": "regular-ginunting",
-
-  "image": "assets/images/collection/combat_series/regular_ginunting.png",
-
-  "name": "Regular Ginunting",
-
-  "category": "combat",
-
-  "series": "Combat Series",
-
-  "featured": true,
-
-  "status": "made-to-order",
-
-  "details": {
-
-    "bladeLength": "16 in",
-
-    "steel": "5160 Carbon Steel",
-
-    "handle": "Kamagong",
-
-    "sheath": "Leather Sheath",
-
-    "hardness": "57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id": 19,
-
-  "slug": "modern-talibong",
-
-  "image": "assets/images/collection/combat_series/modern_talibong.png",
-
-  "name": "Modern Talibong",
-
-  "category": "combat",
-
-  "series": "Combat Series",
-
-  "featured": false,
-
-  "status": "made-to-order",
-
-  "details": {
-
-    "bladeLength": "18 in",
-
-    "steel": "5160 Carbon Steel",
-
-    "handle": "Kamagong",
-
-    "sheath": "Leather Sheath",
-
-    "hardness": "57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id": 20,
-
-  "slug": "all-purpose-tactical-ginunting",
-
-  "image": "assets/images/collection/combat_series/all_purpose_tactical_ginunting_blade_profile.png",
-
-  "name": "All Purpose Tactical Ginunting",
-
-  "category": "combat",
-
-  "series": "Combat Series",
-
-  "featured": false,
-
-  "status": "made-to-order",
-
-  "details": {
-
-    "bladeLength": "15 in",
-
-    "steel": "5160 Carbon Steel",
-
-    "handle": "Chico Wood",
-
-    "sheath": "Leather Sheath",
-
-    "hardness": "57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id": 21,
-
-  "slug": "tactical-ginunting",
-
-  "image": "assets/images/collection/combat_series/tactical_ginunting.png",
-
-  "name": "Tactical Ginunting",
-
-  "category": "combat",
-
-  "series": "Combat Series",
-
-  "featured": true,
-
-  "status": "made-to-order",
-
-  "details": {
-
-    "bladeLength": "16 in",
-
-    "steel": "5160 Carbon Steel",
-
-    "handle": "Kamagong",
-
-    "sheath": "Leather Sheath",
-
-    "hardness": "57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id": 22,
-
-  "slug": "talibong",
-
-  "image": "assets/images/collection/combat_series/talibong.png",
-
-  "name": "Talibong",
-
-  "category": "combat",
-
-  "series": "Combat Series",
-
-  "featured": true,
-
-  "status": "made-to-order",
-
-  "details": {
-
-    "bladeLength": "19 in",
-
-    "steel": "5160 Carbon Steel",
-
-    "handle": "Kamagong",
-
-    "sheath": "Leather Sheath",
-
-    "hardness": "57-60 HRC"
-
-  }
-
-},
-
-{ 
-
-  "id":23,
-
-  "slug":"bushcraft",
-
-  "image":"assets/images/collection/outdoor_series/bushcraft.png",
-
-  "name":"Bushcraft",
-
-  "category":"outdoor",
-
-  "series":"Outdoor Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"10 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Chico Wood",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":24,
-
-  "slug":"hunting",
-
-  "image":"assets/images/collection/outdoor_series/hunting_knife.png",
-
-  "name":"Hunting",
-
-  "category":"outdoor",
-
-  "series":"Outdoor Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"12 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Kamagong",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":25,
-
-  "slug":"karanto",
-
-  "image":"assets/images/collection/outdoor_series/karanto.png",
-
-  "name":"Karanto",
-
-  "category":"outdoor",
-
-  "series":"Outdoor Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"12 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":26,
-
-  "slug":"karambit-big",
-
-  "image":"assets/images/collection/outdoor_series/karambit_big.png",
-
-  "name":"Karambit Big",
-
-  "category":"outdoor",
-
-  "series":"Outdoor Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"8 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Kamagong",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":27,
-
-  "slug":"karambit-small",
-
-  "image":"assets/images/collection/outdoor_series/karambit_small.png",
-
-  "name":"Karambit Small",
-
-  "category":"outdoor",
-
-  "series":"Outdoor Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"6 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Kamagong",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":28,
-
-  "slug":"katana",
-
-  "image":"assets/images/collection/international_series/katana.png",
-
-  "name":"Katana",
-
-  "category":"international",
-
-  "series":"International Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"28 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Kamagong",
-
-    "sheath":"Mahogany",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":29,
-
-  "slug":"shirasaya",
-
-  "image":"assets/images/collection/international_series/shirasaya_katana.png",
-
-  "name":"Shirasaya",
-
-  "category":"international",
-
-  "series":"International Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"27 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Mahogany",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":30,
-
-  "slug":"khukri",
-
-  "image":"assets/images/collection/international_series/khukri.png",
-
-  "name":"Khukri",
-
-  "category":"international",
-
-  "series":"International Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"12 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Kamagong",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":31,
-
-  "slug":"gladius",
-
-  "image":"assets/images/collection/international_series/gladius.png",
-
-  "name":"Gladius",
-
-  "category":"international",
-
-  "series":"International Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"20 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":32,
-
-  "slug":"jambiya",
-
-  "image":"assets/images/collection/international_series/jambiya.png",
-
-  "name":"Jambiya",
-
-  "category":"international",
-
-  "series":"International Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"10 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Kamagong",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":33,
-
-  "slug":"serbian-chefs-knife",
-
-  "image":"assets/images/collection/kitchen_series/almazan.png",
-
-  "name":"Serbian Chef Knife / Almazan",
-
-  "category":"kitchen",
-
-  "series":"Kitchen Series",
-
-  "featured":true,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"8 in",
-
-    "steel":"5160 Carbon Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"57-60 HRC"
-
-  }
-
-},
-
-{
-
-  "id":34,
-
-  "slug":"standard-chefs-knife",
-
-  "image":"assets/images/collection/kitchen_series/gyuto.png",
-
-  "name":"Standard Chef Knife / Gyuto",
-
-  "category":"kitchen",
-
-  "series":"Kitchen Series",
-
-  "featured":true,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"8 in",
-
-    "steel":"304 Stainless Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"15-20 HRC (approximately 70-90 HRB)"
-
-  }
-
-},
-
-{
-
-  "id":35,
-
-  "slug":"santoku",
-
-  "image":"assets/images/collection/kitchen_series/santoku.png",
-
-  "name":"Santoku / Bunka Hybrid",
-
-  "category":"kitchen",
-
-  "series":"Kitchen Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"7 in",
-
-    "steel":"304 Stainless Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"15-20 HRC (approximately 70-90 HRB)"
-
-  }
-
-},
-
-{
-
-  "id":36,
-
-  "slug":"sujihiki",
-
-  "image":"assets/images/collection/kitchen_series/sujihiki.png",
-
-  "name":"Sujihiki / Carving Knife",
-
-  "category":"kitchen",
-
-  "series":"Kitchen Series",
-
-  "featured":false,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"10 in",
-
-    "steel":"304 Stainless Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"15-20 HRC (approximately 70-90 HRB)"
-
-  }
-
-},
-
-{
-
-  "id":37,
-
-  "slug":"yanagiba",
-
-  "image":"assets/images/collection/kitchen_series/yanagiba.png",
-
-  "name":"Yanagiba / Sashimi Knife",
-
-  "category":"kitchen",
-
-  "series":"Kitchen Series",
-
-  "featured":true,
-
-  "status":"made-to-order",
-
-  "details":{
-
-    "bladeLength":"10 in",
-
-    "steel":"304 Stainless Steel",
-
-    "handle":"Mahogany",
-
-    "sheath":"Leather Sheath",
-
-    "hardness":"15-20 HRC (approximately 70-90 HRB)"
-
-  }
-
-}
-].map(makeCollectionBlade);
+const COMPLETE_COLLECTION = (window.PANGASINAN_PRODUCTS || []).map(makeCollectionBlade);
 
 const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
 
@@ -1098,12 +129,15 @@ function renderCatalogPreview() {
     const card = document.createElement('article');
     card.className = 'blade-card';
     card.setAttribute('data-category', blade.category);
+    card.setAttribute('role', 'link');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `View details for ${blade.name}`);
     card.innerHTML = `
       <div class="blade-card-img">
         <div class="blade-card-img-inner">
           ${
             blade.image
-              ? `<img src="${blade.image}" alt="${blade.name}" class="blade-card-image">`
+              ? `<img src="${blade.image}" width="3664" height="2691" loading="lazy" decoding="async" alt="${blade.name}" class="blade-card-image">`
               : `
                 <div class="blade-svg-wrap">
                   <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
@@ -1113,21 +147,21 @@ function renderCatalogPreview() {
               `
           }
         </div>
-        <div class="blade-card-overlay">
-          <button class="quick-btn" onclick="openQuickView('${blade.name}')">Quick View</button>
-          <button class="quick-btn" onclick="scrollToContact('${blade.name}')">Inquire</button>
-        </div>
       </div>
       <div class="blade-card-body">
         <span class="blade-badge">${blade.series}</span>
         <div class="product-status-row">${productStatusMarkup(blade)}</div>
         <h3 class="blade-name">${blade.name}</h3>
         <p class="blade-meta">${blade.length} · ${blade.material}</p>
-        <div class="blade-footer">
-          <span class="blade-price">Request a Quote</span>
-          <div class="blade-arrow" aria-hidden="true">→</div>
-        </div>
       </div>`;
+    card.addEventListener('click', () => {
+      window.location.href = `collection/index.html?id=${blade.id}`;
+    });
+    card.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      window.location.href = `collection/index.html?id=${blade.id}`;
+    });
     grid.appendChild(card);
   });
 
@@ -1192,7 +226,7 @@ function productStatusMarkup(blade, className = 'product-status') {
 const BUILD_OPTIONS = {
   steel: ['5160 Carbon Steel', '304 Stainless Steel'],
   handle: ['Kamagong', 'Mahogany', 'Chico Wood', 'Carabao Horn', 'Buffalo Horn'],
-  sheath: ['Mahogany', 'Chico Wood', 'Kamagong (Optional with additional cost)', 'Leather Sheath'],
+  sheath: ['Mahogany', 'Chico Wood', 'Kamagong (With additional cost)', 'Kydex (With additional cost)'],
 };
 
 const STEEL_HARDNESS = {
@@ -1324,12 +358,46 @@ function inquireQuickBuild(bladeId) {
   scrollToContact(blade?.name || '', buildText);
 }
 
-const INQUIRY_LIST_STORAGE_KEY = 'pangasinanBladesInquiryList';
+const INQUIRY_STORE = window.PangasinanInquiry;
+const INQUIRY_LIST_STORAGE_KEY = INQUIRY_STORE?.STORAGE_KEY || 'pangasinanBladesInquiryList';
 let inquiryList = [];
 let pendingDuplicateItem = null;
 let pendingDuplicateIndex = -1;
+let pendingRemoveInquiryKey = null;
+const dialogFocusStack = [];
+
+function getDialogControls(dialog) {
+  return Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+}
+
+function activateDialogFocus(dialog, initialFocus) {
+  if (!dialog || dialogFocusStack.some(entry => entry.dialog === dialog)) return;
+  dialogFocusStack.push({ dialog, opener: document.activeElement });
+  window.setTimeout(() => (initialFocus || getDialogControls(dialog)[0])?.focus?.(), 0);
+}
+
+function deactivateDialogFocus(dialog) {
+  const index = dialogFocusStack.findIndex(entry => entry.dialog === dialog);
+  if (index < 0) return;
+  const [{ opener }] = dialogFocusStack.splice(index, 1);
+  const activeEntry = dialogFocusStack[dialogFocusStack.length - 1];
+  if (activeEntry) getDialogControls(activeEntry.dialog)[0]?.focus?.();
+  else opener?.focus?.();
+}
+
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Tab' || !dialogFocusStack.length) return;
+  const dialog = dialogFocusStack[dialogFocusStack.length - 1].dialog;
+  const controls = getDialogControls(dialog);
+  if (!controls.length) return;
+  const first = controls[0];
+  const last = controls[controls.length - 1];
+  if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+  else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+});
 
 function formatBuildDetails(selection, quantity) {
+  if (INQUIRY_STORE) return INQUIRY_STORE.formatDetails(selection, quantity);
   return [
     `Blade Length: ${selection.bladeLength}`,
     `Blade Material: ${selection.steel}`,
@@ -1342,6 +410,20 @@ function formatBuildDetails(selection, quantity) {
   ].filter(Boolean).join('\n');
 }
 
+function inquirySpecsMarkup(selection = {}) {
+  const specs = [
+    ['Blade Length', selection.bladeLength],
+    ['Blade Material', selection.steel],
+    ['Hardness', selection.hardness],
+    ['Handle', selection.handle],
+    ['Scabbard', selection.sheath],
+    ['Engraving', selection.engraving],
+    ['Customization', selection.customization],
+  ].filter(([, value]) => String(value || '').trim());
+
+  return `<dl class="inquiry-specs">${specs.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+}
+
 function getInquiryListCount() {
   return inquiryList.reduce((total, item) => total + (Number(item.quantity) || 1), 0);
 }
@@ -1351,6 +433,7 @@ function normalizeSpecValue(value) {
 }
 
 function createInquiryItemKey(item) {
+  if (INQUIRY_STORE) return INQUIRY_STORE.createKey(item);
   const selection = item.selection || {};
   const keyParts = {
     name: item.name,
@@ -1378,13 +461,19 @@ function refreshInquiryItemKeys() {
 function saveInquiryList() {
   try {
     refreshInquiryItemKeys();
-    localStorage.setItem(INQUIRY_LIST_STORAGE_KEY, JSON.stringify(inquiryList));
+    inquiryList = INQUIRY_STORE ? INQUIRY_STORE.save(inquiryList) : inquiryList;
+    if (!INQUIRY_STORE) localStorage.setItem(INQUIRY_LIST_STORAGE_KEY, JSON.stringify(inquiryList));
   } catch (error) {
     console.warn('Unable to save inquiry list:', error);
   }
 }
 
 function loadInquiryList() {
+  if (INQUIRY_STORE) {
+    inquiryList = INQUIRY_STORE.load();
+    updateInquiryBadge();
+    return;
+  }
   try {
     const saved = localStorage.getItem(INQUIRY_LIST_STORAGE_KEY);
     const parsed = saved ? JSON.parse(saved) : [];
@@ -1527,18 +616,44 @@ function showDuplicateInquiryConfirmation(item, existingIndex) {
     <span>Updated quantity after continue: ${(Number(existing.quantity) || 1) + (Number(item.quantity) || 1)}</span>
   `;
   modal.classList.add('open');
+  activateDialogFocus(modal);
 }
 
 function closeDuplicateInquiryModal() {
-  document.getElementById('duplicateInquiryModal')?.classList.remove('open');
+  const modal = document.getElementById('duplicateInquiryModal');
+  modal?.classList.remove('open');
+  deactivateDialogFocus(modal);
 }
 
 function removeInquiryItem(itemKey) {
-  itemKey = decodeURIComponent(itemKey);
-  inquiryList = inquiryList.filter(item => item.key !== itemKey);
+  const decodedKey = decodeURIComponent(itemKey);
+  const item = inquiryList.find(entry => entry.key === decodedKey);
+  const modal = document.getElementById('removeInquiryModal');
+  const body = document.getElementById('removeInquiryBody');
+  if (!item || !modal || !body) return;
+  pendingRemoveInquiryKey = decodedKey;
+  body.innerHTML = `<strong>${escapeHtml(item.name)}</strong><span>This blade and its selected specifications will be removed from your Inquiry List.</span>`;
+  modal.classList.add('open');
+  activateDialogFocus(modal);
+}
+
+function cancelRemoveInquiryItem() {
+  pendingRemoveInquiryKey = null;
+  const modal = document.getElementById('removeInquiryModal');
+  modal?.classList.remove('open');
+  deactivateDialogFocus(modal);
+}
+
+function confirmRemoveInquiryItem() {
+  if (!pendingRemoveInquiryKey) return;
+  inquiryList = inquiryList.filter(item => item.key !== pendingRemoveInquiryKey);
+  pendingRemoveInquiryKey = null;
   saveInquiryList();
   updateInquiryBadge();
   renderInquiryListModal();
+  const modal = document.getElementById('removeInquiryModal');
+  modal?.classList.remove('open');
+  deactivateDialogFocus(modal);
 }
 
 function setInquiryItemQuantity(itemKey, quantity) {
@@ -1553,15 +668,32 @@ function setInquiryItemQuantity(itemKey, quantity) {
 }
 
 function clearInquiryList() {
+  if (!inquiryList.length) return;
+  const modal = document.getElementById('clearInquiryModal');
+  if (!modal) return;
+  modal.classList.add('open');
+  activateDialogFocus(modal);
+}
+
+function cancelClearInquiryList() {
+  const modal = document.getElementById('clearInquiryModal');
+  modal?.classList.remove('open');
+  deactivateDialogFocus(modal);
+}
+
+function confirmClearInquiryList() {
   inquiryList = [];
   pendingDuplicateItem = null;
   pendingDuplicateIndex = -1;
+  pendingRemoveInquiryKey = null;
   saveInquiryList();
   updateInquiryBadge();
   renderInquiryListModal();
+  cancelClearInquiryList();
 }
 
 function inquiryListMessage() {
+  if (INQUIRY_STORE) return INQUIRY_STORE.message(inquiryList);
   return `Inquiry List\n\n${inquiryList.map(item => `${item.name}
 ${formatBuildDetails(item.selection, item.quantity)}`).join('\n\n')}`;
 }
@@ -1575,18 +707,6 @@ function sendInquiryList() {
   closeDrawer();
   closeFullCatalog();
   scrollToContact(label, inquiryListMessage());
-}
-
-function setInquiryListNotice(message, type = 'success') {
-  const notice = document.getElementById('inquiryListNotice');
-  if (!notice) return;
-  notice.textContent = message;
-  notice.className = `inquiry-list-notice ${type}`;
-  notice.hidden = false;
-  window.clearTimeout(setInquiryListNotice.timer);
-  setInquiryListNotice.timer = window.setTimeout(() => {
-    notice.hidden = true;
-  }, 3000);
 }
 
 function fallbackCopyText(text) {
@@ -1606,16 +726,21 @@ async function copyInquiryList() {
   if (!inquiryList.length) return;
 
   const text = inquiryListMessage();
+  const button = document.getElementById('copyInquiryListBtn');
   try {
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(text);
     } else if (!fallbackCopyText(text)) {
       throw new Error('Fallback copy command failed');
     }
-    setInquiryListNotice('Inquiry list copied to clipboard.', 'success');
+    if (button) button.textContent = 'Inquiry List Copied';
   } catch (error) {
-    setInquiryListNotice('Copy failed. Please try again.', 'error');
+    if (button) button.textContent = 'Copy Failed';
   }
+  window.clearTimeout(copyInquiryList.timer);
+  copyInquiryList.timer = window.setTimeout(() => {
+    if (button) button.textContent = 'Copy Inquiry List';
+  }, 2500);
 }
 
 function renderInquiryListModal() {
@@ -1648,8 +773,12 @@ function renderInquiryListModal() {
       ${
         item.image
           ? `
-            <img 
-              src="${item.image}" 
+            <img
+              src="${item.image}"
+              width="3664"
+              height="2691"
+              loading="lazy"
+              decoding="async"
               alt="${escapeHtml(item.name)}"
               class="inquiry-list-img">
           `
@@ -1673,29 +802,21 @@ function renderInquiryListModal() {
 
 
     <div class="inquiry-list-info">
-      <span class="inquiry-list-series">
-        ${escapeHtml(item.series)}
-      </span>
+      <div class="inquiry-list-item-head">
+        <span class="inquiry-list-series">${escapeHtml(item.series)}</span>
+        <button type="button" class="inquiry-list-remove" onclick="removeInquiryItem('${encodeURIComponent(item.key)}')">Remove</button>
+      </div>
 
       <h3>${escapeHtml(item.name)}</h3>
 
-      <p>
-        ${escapeHtml(formatBuildDetails(item.selection, item.quantity)).replace(/\n/g, '<br>')}
-      </p>
+      ${inquirySpecsMarkup(item.selection)}
       <label class="inquiry-list-qty">
         <span>Quantity</span>
         <input type="number" min="1" value="${item.quantity || 1}" onchange="setInquiryItemQuantity('${encodeURIComponent(item.key)}', this.value)">
       </label>
     </div>
 
-    <button 
-      type="button" 
-      class="inquiry-list-remove"
-      onclick="removeInquiryItem('${encodeURIComponent(item.key)}')">
-      Remove
-    </button>
   </article>
-  ${index < inquiryList.length - 1 ? '<hr class="inquiry-list-divider">' : ''}
 `).join('');
 }
 
@@ -1705,20 +826,17 @@ function openInquiryListModal() {
   if (!modal) return;
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  activateDialogFocus(modal);
 }
 
 function closeInquiryListModal() {
   const modal = document.getElementById('inquiryListModal');
   if (!modal) return;
   modal.classList.remove('open');
+  deactivateDialogFocus(modal);
   if (!isFullCatalogOpen() && document.getElementById('quickDrawer')?.style.transform !== 'translateX(0%)') {
     document.body.style.overflow = '';
   }
-}
-
-// A zero price is intentionally shown as a quote request, never as unavailable.
-function formatBladePrice(blade) {
-  return blade.price >= 1000 ? `PHP ${blade.price.toLocaleString()}` : 'Request a Quote';
 }
 
 /* ============================================================
@@ -1789,12 +907,15 @@ function renderFCGrid(blades) {
   blades.forEach((blade, idx) => {
     const card = document.createElement('div');
     card.className = 'fc-card';
+    card.setAttribute('role', 'link');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `View details for ${blade.name}`);
     card.style.animationDelay = `${idx * 30}ms`;
     card.innerHTML = `
       <div class="fc-card-img">
         ${
           blade.image
-            ? `<img src="${blade.image}" alt="${blade.name}" class="fc-card-image">`
+            ? `<img src="${blade.image}" width="3664" height="2691" loading="lazy" decoding="async" alt="${blade.name}" class="fc-card-image">`
             : `
               <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
                 <rect width="300" height="200" fill="${blade.bg}"/>
@@ -1809,22 +930,21 @@ function renderFCGrid(blades) {
               </svg>
             `
         }
-        <div class="fc-card-overlay">
-          <button class="fc-qbtn" onclick="event.stopPropagation();openDrawer('${blade.id}')">Quick View</button>
-          <button class="fc-qbtn" onclick="event.stopPropagation();closeFullCatalog();scrollToContact('${blade.name}')">Inquire</button>
-        </div>
       </div>
       <div class="fc-card-body">
         <div class="product-status-row">${productStatusMarkup(blade, 'fc-status')}</div>
         <span class="fc-badge">${blade.series}</span>
         <h3 class="fc-name">${blade.name}</h3>
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
-        <div class="fc-foot">
-          <span class="fc-price">${formatBladePrice(blade)}</span>
-          <div class="fc-arr">→</div>
-        </div>
       </div>`;
-    card.addEventListener('click', () => openDrawer(blade.id));
+    card.addEventListener('click', () => {
+      window.location.href = `collection/index.html?id=${blade.id}`;
+    });
+    card.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      window.location.href = `collection/index.html?id=${blade.id}`;
+    });
     grid.appendChild(card);
   });
 }
@@ -1847,9 +967,9 @@ function openFullCatalog() {
   renderFCGrid(COMPLETE_COLLECTION);
   modal.scrollTop = 0;
   document.getElementById('fcSort').value = 'default';
-  // Focus for accessibility
-  document.getElementById('fcTitle').focus();
-  document.getElementById('fcTitle').setAttribute('tabindex','-1');
+  const title = document.getElementById('fcTitle');
+  title.setAttribute('tabindex','-1');
+  activateDialogFocus(modal, title);
 
   if (!history.state || history.state.modal !== 'fullCatalog') {
     history.pushState({ modal: 'fullCatalog' }, '', '#full-collection');
@@ -1867,7 +987,9 @@ function closeFullCatalog() {
     return;
   }
 
-  document.getElementById('fullCatalogModal').style.display = 'none';
+  const modal = document.getElementById('fullCatalogModal');
+  modal.style.display = 'none';
+  deactivateDialogFocus(modal);
   document.body.style.overflow = '';
 }
 
@@ -1889,10 +1011,18 @@ window.addEventListener('hashchange', openFullCatalogFromHash);
 /* Close on Escape */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    if (document.getElementById('quickDrawer').style.transform === 'translateX(0px)'
-        || document.getElementById('quickDrawer').style.transform === 'translateX(0%)') {
+    if (document.getElementById('clearInquiryModal')?.classList.contains('open')) {
+      cancelClearInquiryList();
+    } else if (document.getElementById('removeInquiryModal')?.classList.contains('open')) {
+      cancelRemoveInquiryItem();
+    } else if (document.getElementById('duplicateInquiryModal')?.classList.contains('open')) {
+      cancelDuplicateInquiryItem();
+    } else if (document.getElementById('inquiryListModal')?.classList.contains('open')) {
+      closeInquiryListModal();
+    } else if (document.getElementById('quickDrawer')?.style.transform === 'translateX(0px)'
+        || document.getElementById('quickDrawer')?.style.transform === 'translateX(0%)') {
       closeDrawer();
-    } else {
+    } else if (isFullCatalogOpen()) {
       closeFullCatalog();
     }
   }
@@ -1910,7 +1040,7 @@ function openDrawer(id) {
     <div class="qd-blade-img" data-zoom-source>
       ${
         blade.image
-          ? `<img src="${blade.image}" alt="${blade.name}" class="qd-blade-image">`
+          ? `<img src="${blade.image}" width="3664" height="2691" decoding="async" alt="${blade.name}" class="qd-blade-image">`
           : `
             <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
               <rect width="400" height="300" fill="${blade.bg}"/>
@@ -1950,6 +1080,7 @@ function openDrawer(id) {
         Add to Inquiry List
       </button>
       <button class="btn-ghost" onclick="inquireQuickBuild(${blade.id})">Send Inquiry Now</button>
+      <a class="btn-ghost" href="collection/index.html?id=${blade.id}">View Full Details</a>
       <button class="btn-ghost" onclick="closeDrawer()">Continue Browsing</button>
     </div>`;
 
@@ -1965,12 +1096,14 @@ function openDrawer(id) {
   });
 
   initQuickViewZoom();
+  activateDialogFocus(drawer);
 }
 
 function closeDrawer() {
   resetQuickViewZoom();
   document.getElementById('quickDrawer').style.transform  = 'translateX(100%)';
   document.getElementById('drawerBackdrop').style.display = 'none';
+  deactivateDialogFocus(document.getElementById('quickDrawer'));
 
   const inquiryListOpen = document.getElementById('inquiryListModal')?.classList.contains('open');
   if (!isFullCatalogOpen() && !inquiryListOpen) {
@@ -2222,6 +1355,15 @@ document.addEventListener('DOMContentLoaded', function() {
   loadInquiryList();
   openFullCatalogFromHash();
 
+  const contactPrefill = sessionStorage.getItem('pangasinanBladesContactPrefill');
+  if (contactPrefill) {
+    const subject = document.getElementById('subject');
+    const message = document.getElementById('message');
+    if (subject) subject.value = 'Existing Blade';
+    if (message) message.value = contactPrefill;
+    sessionStorage.removeItem('pangasinanBladesContactPrefill');
+  }
+
   /* --- HERO ENTRANCE --- */
   setTimeout(() => {
     document.getElementById('heroRule').classList.add('animate');
@@ -2447,12 +1589,14 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryLightbox.classList.add('open');
     galleryLightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    activateDialogFocus(galleryLightbox, galleryLightboxClose);
   }
 
   function closeGalleryLightbox() {
     galleryLightbox.classList.remove('open');
     galleryLightbox.setAttribute('aria-hidden', 'true');
     galleryLightboxImage.innerHTML = '';
+    deactivateDialogFocus(galleryLightbox);
     document.body.style.overflow = '';
   }
 

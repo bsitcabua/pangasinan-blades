@@ -1,0 +1,384 @@
+(function initializeProductPage() {
+  'use strict';
+
+  const store = window.PangasinanInquiry;
+  const products = Array.isArray(window.PANGASINAN_PRODUCTS) ? window.PANGASINAN_PRODUCTS : [];
+  const productId = Number(new URLSearchParams(window.location.search).get('id'));
+  const product = products.find(candidate => Number(candidate.id) === productId);
+  if (!store || !product) {
+    document.querySelector('main')?.replaceChildren(Object.assign(document.createElement('p'), {
+      className: 'product-load-error',
+      textContent: 'This blade could not be found. Return to the collection to choose another product.',
+    }));
+    return;
+  }
+  const hardnessBySteel = {
+    '5160 Carbon Steel': '57-60 HRC',
+    '304 Stainless Steel': '15-20 HRC (approximately 70-90 HRB)',
+  };
+  let items = store.load();
+  let pendingDuplicate = null;
+  let pendingRemoveKey = null;
+  let activeDialog = null;
+  let returnFocus = null;
+
+  const inquiryModal = document.getElementById('productInquiryModal');
+  const duplicateModal = document.getElementById('productDuplicateModal');
+  const removeModal = document.getElementById('productRemoveModal');
+  const clearModal = document.getElementById('productClearModal');
+
+  function assetPath(value = '') {
+    if (!value || /^(?:https?:|data:|\/|\.\.\/|\.\/)/.test(value)) return value;
+    return `../${value}`;
+  }
+
+  function productDescription(item) {
+    return `${item.name} from the ${item.series}. Configure blade length, steel, handle, and scabbard materials for a made-to-order inquiry.`;
+  }
+
+  function orderingNote(item) {
+    return item.status === 'ready-stock'
+      ? 'A finished piece may be available. Confirm current availability before purchase; custom specifications can also be requested.'
+      : 'Made after your specifications are confirmed. Final price and production timing are provided with your quotation.';
+  }
+
+  function setMeta(selector, attribute, value) {
+    let element = document.head.querySelector(selector);
+    if (!element) {
+      element = document.createElement(attribute === 'href' ? 'link' : 'meta');
+      if (selector.includes('canonical')) element.rel = 'canonical';
+      else if (selector.includes('property=')) element.setAttribute('property', selector.match(/property="([^"]+)/)?.[1] || '');
+      else element.name = selector.match(/name="([^"]+)/)?.[1] || '';
+      document.head.appendChild(element);
+    }
+    element.setAttribute(attribute, value);
+  }
+
+  function renderProduct() {
+    const details = product.details || {};
+    const description = productDescription(product);
+    const image = assetPath(product.image);
+    document.title = `${product.name} | Pangasinan Blades`;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+    document.querySelectorAll('[data-product-name]').forEach(element => { element.textContent = product.name; });
+    document.querySelector('[data-product-series]').textContent = product.series;
+    document.querySelector('[data-product-description]').textContent = description;
+    document.querySelector('[data-product-ordering-note]').textContent = orderingNote(product);
+    const productImage = document.querySelector('[data-product-image]');
+    productImage.src = image;
+    productImage.alt = product.name;
+    const availability = product.status === 'ready-stock' ? 'Ready Stock' : 'Made to Order';
+    const statusClass = product.status === 'ready-stock' ? 'is-ready' : 'is-made';
+    document.querySelector('[data-product-statuses]').innerHTML = `<span class="product-status ${statusClass}"><i aria-hidden="true"></i>${availability}</span><span class="product-status is-custom"><i aria-hidden="true"></i>Customizable</span>`;
+    ['steel', 'bladeLength', 'handle', 'sheath'].forEach(name => {
+      const control = document.querySelector(`[data-product-field="${name}"]`);
+      if (control && details[name]) control.value = details[name];
+    });
+    document.querySelector('[data-product-field="hardness"]').textContent = details.hardness || hardnessBySteel[details.steel] || 'Confirm with maker';
+
+    const canonical = `https://pangasinanblades.com/collection/index.html?id=${product.id}`;
+    const absoluteImage = `https://pangasinanblades.com/${product.image.replace(/^\//, '')}`;
+    setMeta('link[rel="canonical"]', 'href', canonical);
+    setMeta('meta[property="og:title"]', 'content', `${product.name} | Pangasinan Blades`);
+    setMeta('meta[property="og:description"]', 'content', description);
+    setMeta('meta[property="og:url"]', 'content', canonical);
+    setMeta('meta[property="og:image"]', 'content', absoluteImage);
+
+    const related = products.filter(candidate => candidate.category === product.category && candidate.id !== product.id).slice(0, 3);
+    document.querySelector('[data-related-products]').innerHTML = related.map(candidate => `<article class="product-related-card"><a href="index.html?id=${candidate.id}"><img src="${escapeHtml(assetPath(candidate.image))}" width="3664" height="2691" loading="lazy" decoding="async" alt="${escapeHtml(candidate.name)}"><span>${escapeHtml(candidate.series)}</span><h3>${escapeHtml(candidate.name)}</h3><span class="product-related-link">View Full Details &rarr;</span></a></article>`).join('');
+
+    const schema = document.createElement('script');
+    schema.type = 'application/ld+json';
+    schema.textContent = JSON.stringify({ '@context': 'https://schema.org', '@type': 'Product', name: product.name, image: [absoluteImage], description, category: product.series, brand: { '@type': 'Brand', name: 'Pangasinan Blades' }, material: details.steel });
+    document.head.appendChild(schema);
+  }
+
+  function escapeHtml(value = '') {
+    return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+  }
+
+  function inquirySpecsMarkup(selection = {}) {
+    const specs = [
+      ['Blade Length', selection.bladeLength],
+      ['Blade Material', selection.steel],
+      ['Hardness', selection.hardness],
+      ['Handle', selection.handle],
+      ['Scabbard', selection.sheath],
+      ['Engraving', selection.engraving],
+      ['Customization', selection.customization],
+    ].filter(([, value]) => String(value || '').trim());
+    return `<dl class="inquiry-specs">${specs.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+  }
+
+  renderProduct();
+
+  function initializeProductZoom() {
+    const media = document.querySelector('.product-media');
+    const sourceImage = document.querySelector('[data-product-image]');
+    const lens = document.querySelector('.product-zoom-lens');
+    const preview = document.querySelector('[data-product-zoom-preview]');
+    const zoomImage = document.querySelector('[data-product-zoom-image]');
+    const zoomScale = 3.5;
+    const gap = 16;
+    const viewportGap = 12;
+
+    if (!media || !sourceImage || !lens || !preview || !zoomImage) return;
+    zoomImage.src = sourceImage.src;
+    zoomImage.alt = '';
+
+    function hideZoom() {
+      media.classList.remove('is-zooming');
+      preview.classList.remove('is-visible');
+    }
+
+    function placement(mediaRect) {
+      const rightSpace = window.innerWidth - mediaRect.right - gap - viewportGap;
+      const leftSpace = mediaRect.left - gap - viewportGap;
+      const useRight = rightSpace >= 320 || rightSpace >= leftSpace;
+      const available = useRight ? rightSpace : leftSpace;
+      const size = Math.min(600, available, window.innerHeight - viewportGap * 2);
+      if (size < 320) return null;
+      return {
+        size,
+        left: useRight ? mediaRect.right + gap : mediaRect.left - gap - size,
+        top: Math.max(viewportGap, Math.min(mediaRect.top, window.innerHeight - size - viewportGap)),
+      };
+    }
+
+    media.addEventListener('pointermove', event => {
+      if (window.matchMedia('(max-width: 900px), (hover: none), (pointer: coarse)').matches) return hideZoom();
+      const mediaRect = media.getBoundingClientRect();
+      const imageRect = sourceImage.getBoundingClientRect();
+      const target = placement(mediaRect);
+      const insideImage = event.clientX >= imageRect.left && event.clientX <= imageRect.right
+        && event.clientY >= imageRect.top && event.clientY <= imageRect.bottom;
+      if (!target || !insideImage) return hideZoom();
+
+      const x = event.clientX - imageRect.left;
+      const y = event.clientY - imageRect.top;
+      const lensWidth = Math.min(imageRect.width, target.size / zoomScale);
+      const lensHeight = Math.min(imageRect.height, target.size / zoomScale);
+      const imageLeftInMedia = imageRect.left - mediaRect.left;
+      const imageTopInMedia = imageRect.top - mediaRect.top;
+      const lensLeft = imageLeftInMedia + Math.min(imageRect.width - lensWidth, Math.max(0, x - lensWidth / 2));
+      const lensTop = imageTopInMedia + Math.min(imageRect.height - lensHeight, Math.max(0, y - lensHeight / 2));
+
+      lens.style.width = `${lensWidth}px`;
+      lens.style.height = `${lensHeight}px`;
+      lens.style.left = `${lensLeft}px`;
+      lens.style.top = `${lensTop}px`;
+      preview.style.width = `${target.size}px`;
+      preview.style.height = `${target.size}px`;
+      preview.style.left = `${target.left}px`;
+      preview.style.top = `${target.top}px`;
+      zoomImage.style.width = `${imageRect.width}px`;
+      zoomImage.style.height = `${imageRect.height}px`;
+      zoomImage.style.transform = `translate(${target.size / 2 - x * zoomScale}px, ${target.size / 2 - y * zoomScale}px) scale(${zoomScale})`;
+      media.classList.add('is-zooming');
+      preview.classList.add('is-visible');
+    });
+
+    media.addEventListener('pointerleave', hideZoom);
+    media.addEventListener('pointercancel', hideZoom);
+    window.addEventListener('scroll', hideZoom, { passive: true });
+    window.addEventListener('resize', hideZoom);
+  }
+
+  initializeProductZoom();
+
+  function field(name) {
+    const control = document.querySelector(`[data-product-field="${name}"]`);
+    return control ? control.value || control.textContent.trim() : '';
+  }
+
+  function selectedBuild() {
+    return {
+      steel: field('steel'),
+      bladeLength: field('bladeLength'),
+      hardness: field('hardness'),
+      handle: field('handle'),
+      sheath: field('sheath'),
+      engraving: '',
+      customization: '',
+    };
+  }
+
+  function selectedQuantity() {
+    return Math.max(1, Number(field('quantity')) || 1);
+  }
+
+  function currentItem() {
+    return {
+      id: product.id,
+      name: product.name,
+      image: product.image,
+      series: product.series,
+      status: product.status,
+      selection: selectedBuild(),
+      quantity: selectedQuantity(),
+    };
+  }
+
+  function updateBadges() {
+    const count = store.count(items);
+    document.querySelectorAll('[data-inquiry-count]').forEach(badge => {
+      badge.textContent = count ? String(count) : '';
+      badge.hidden = count === 0;
+    });
+  }
+
+  function focusable(dialog) {
+    return Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+  }
+
+  function openDialog(dialog) {
+    if (!dialog) return;
+    returnFocus = document.activeElement;
+    activeDialog = dialog;
+    dialog.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    focusable(dialog)[0]?.focus();
+  }
+
+  function closeDialog(dialog) {
+    if (!dialog) return;
+    dialog.classList.remove('open');
+    const remainingDialog = document.querySelector('.inquiry-list-modal.open, .duplicate-inquiry-modal.open');
+    if (activeDialog === dialog) activeDialog = remainingDialog;
+    if (!remainingDialog) document.body.style.overflow = '';
+    returnFocus?.focus?.();
+  }
+
+  function imagePath(value) {
+    if (!value || /^(?:https?:|data:)/.test(value)) return value;
+    const normalized = value.replace(/^(?:\.\.\/)+/, '').replace(/^\.\//, '').replace(/^\//, '');
+    return window.location.protocol === 'file:' ? `../${normalized}` : `/${normalized}`;
+  }
+
+  function renderInquiryList() {
+    items = store.load();
+    updateBadges();
+    const body = document.querySelector('[data-inquiry-body]');
+    const controls = document.querySelectorAll('[data-copy-inquiry], [data-clear-inquiry], [data-send-inquiry]');
+    controls.forEach(control => { control.disabled = items.length === 0; });
+    if (!body) return;
+    if (!items.length) {
+      body.innerHTML = '<div class="inquiry-list-empty"><strong>No blades added yet.</strong><span>Configure a blade and add it to begin your inquiry.</span></div>';
+      return;
+    }
+    body.innerHTML = items.map(item => `<article class="inquiry-list-item"><div class="inquiry-list-thumb">${item.image ? `<img class="product-inquiry-image" src="${escapeHtml(imagePath(item.image))}" alt="${escapeHtml(item.name)}">` : ''}</div><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}">Remove</button></div><h3>${escapeHtml(item.name)}</h3>${inquirySpecsMarkup(item.selection)}<label class="inquiry-list-qty"><span>Quantity</span><input type="number" min="1" value="${item.quantity}" data-item-quantity="${encodeURIComponent(item.key)}"></label></div></article>`).join('');
+  }
+
+  function addCurrent(mode) {
+    const result = store.add(items, currentItem());
+    if (result.duplicateIndex >= 0) {
+      pendingDuplicate = { item: result.item, index: result.duplicateIndex, mode };
+      const existing = items[result.duplicateIndex];
+      document.querySelector('[data-duplicate-body]').innerHTML = `<strong>${escapeHtml(result.item.name)}</strong><span>Existing quantity: ${existing.quantity}</span><span>Selected quantity: ${result.item.quantity}</span><span>Continue to combine these matching specifications.</span>`;
+      openDialog(duplicateModal);
+      return;
+    }
+    items = result.items;
+    updateBadges();
+    if (mode === 'inquire') return goToContact();
+    renderInquiryList();
+    openDialog(inquiryModal);
+  }
+
+  function goToContact() {
+    sessionStorage.setItem('pangasinanBladesContactPrefill', store.message(items));
+    window.location.href = window.location.protocol === 'file:' ? '../index.html#contact' : '/#contact';
+  }
+
+  async function copyList() {
+    if (!items.length) return;
+    const button = document.querySelector('[data-copy-inquiry]');
+    try {
+      await navigator.clipboard.writeText(store.message(items));
+      if (button) button.textContent = 'Inquiry List Copied';
+    } catch (error) {
+      if (button) button.textContent = 'Copy Failed';
+    }
+    window.clearTimeout(copyList.timer);
+    copyList.timer = window.setTimeout(() => {
+      if (button) button.textContent = 'Copy Inquiry List';
+    }, 2500);
+  }
+
+  document.querySelector('[data-product-field="steel"]')?.addEventListener('change', event => {
+    const hardness = document.querySelector('[data-product-field="hardness"]');
+    if (hardness) hardness.textContent = hardnessBySteel[event.target.value] || 'Confirm with maker';
+  });
+
+  document.querySelectorAll('[data-quantity-step]').forEach(button => button.addEventListener('click', () => {
+    const input = document.querySelector('[data-product-field="quantity"]');
+    input.value = Math.max(1, (Number(input.value) || 1) + Number(button.dataset.quantityStep));
+  }));
+  document.querySelector('[data-product-field="quantity"]')?.addEventListener('change', event => { event.target.value = Math.max(1, Number(event.target.value) || 1); });
+  document.querySelector('[data-add-inquiry]')?.addEventListener('click', () => addCurrent('list'));
+  document.querySelector('[data-inquire-now]')?.addEventListener('click', () => addCurrent('inquire'));
+  document.querySelectorAll('[data-open-inquiry]').forEach(button => button.addEventListener('click', () => { renderInquiryList(); openDialog(inquiryModal); }));
+  document.querySelectorAll('[data-close-inquiry]').forEach(button => button.addEventListener('click', () => closeDialog(inquiryModal)));
+  document.querySelectorAll('[data-cancel-duplicate]').forEach(button => button.addEventListener('click', () => { pendingDuplicate = null; closeDialog(duplicateModal); }));
+  document.querySelector('[data-confirm-duplicate]')?.addEventListener('click', () => {
+    if (!pendingDuplicate) return;
+    const mode = pendingDuplicate.mode;
+    items = store.merge(items, pendingDuplicate.index, pendingDuplicate.item.quantity);
+    pendingDuplicate = null;
+    closeDialog(duplicateModal);
+    updateBadges();
+    if (mode === 'inquire') goToContact(); else { renderInquiryList(); openDialog(inquiryModal); }
+  });
+  document.querySelector('[data-copy-inquiry]')?.addEventListener('click', copyList);
+  document.querySelector('[data-clear-inquiry]')?.addEventListener('click', () => {
+    if (items.length) openDialog(clearModal);
+  });
+  document.querySelector('[data-send-inquiry]')?.addEventListener('click', goToContact);
+  document.querySelector('[data-inquiry-body]')?.addEventListener('change', event => {
+    const encoded = event.target.dataset.itemQuantity;
+    if (!encoded) return;
+    items = store.setQuantity(items, decodeURIComponent(encoded), event.target.value);
+    renderInquiryList();
+  });
+  document.querySelector('[data-inquiry-body]')?.addEventListener('click', event => {
+    const button = event.target.closest('[data-remove-item]');
+    if (!button) return;
+    const key = decodeURIComponent(button.dataset.removeItem);
+    const item = items.find(entry => entry.key === key);
+    const body = document.querySelector('[data-remove-body]');
+    if (!item || !body) return;
+    pendingRemoveKey = key;
+    body.innerHTML = `<strong>${escapeHtml(item.name)}</strong><span>This blade and its selected specifications will be removed from your Inquiry List.</span>`;
+    openDialog(removeModal);
+  });
+  document.querySelectorAll('[data-cancel-remove]').forEach(button => button.addEventListener('click', () => {
+    pendingRemoveKey = null;
+    closeDialog(removeModal);
+  }));
+  document.querySelector('[data-confirm-remove]')?.addEventListener('click', () => {
+    if (!pendingRemoveKey) return;
+    items = store.remove(items, pendingRemoveKey);
+    pendingRemoveKey = null;
+    closeDialog(removeModal);
+    renderInquiryList();
+  });
+  document.querySelectorAll('[data-cancel-clear]').forEach(button => button.addEventListener('click', () => closeDialog(clearModal)));
+  document.querySelector('[data-confirm-clear]')?.addEventListener('click', () => {
+    items = store.save([]);
+    pendingRemoveKey = null;
+    closeDialog(clearModal);
+    renderInquiryList();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && activeDialog) closeDialog(activeDialog);
+    if (event.key !== 'Tab' || !activeDialog) return;
+    const controls = focusable(activeDialog);
+    if (!controls.length) return;
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+
+  updateBadges();
+})();
