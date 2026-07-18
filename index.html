@@ -142,7 +142,7 @@
     "@type": "Organization",
     "name": "Pangasinan Blades",
     "url": "https://pangasinanblades.com/",
-    "logo": "https://pangasinanblades.comassets/favicon_io/android-chrome-512x512.png",
+    "logo": "https://pangasinanblades.com/assets/favicon_io/android-chrome-512x512.png",
     "description": "Pangasinan Blades creates premium Filipino blades using durable Leaf Spring 5160 steel, traditional blade profiles, hardwood handles, and custom-made options.",
     "sameAs": [
       "https://www.facebook.com/emcpangasinanblades"
@@ -151,6 +151,14 @@
       "@type": "Country",
       "name": "Philippines"
     }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Pangasinan Blades",
+    "url": "https://pangasinanblades.com/"
   }
   </script>
 </head>
@@ -208,7 +216,7 @@
 
   <div class="hero-content">
     <span class="hero-rule" id="heroRule" aria-hidden="true"></span>
-    <p class="hero-eyebrow" id="heroEyebrow">Handcrafted in Pangasinan, Philippines</p>
+    <p class="hero-eyebrow" id="heroEyebrow">Crafted in Pangasinan, Philippines</p>
     <h1 class="hero-headline" id="heroHeadline">Forged with Skill.<br>Sharpened for Precision.</h1>
     <p class="hero-sub" id="heroSub">Each blade carries five centuries of Filipino craftsmanship — tempered by hand, finished by legacy.</p>
     <div class="hero-ctas" id="heroCtas">
@@ -263,7 +271,7 @@
   <div class="brand-story-grid">
     <div class="brand-story-image reveal">
       <div class="brand-story-img-wrap">
-        <img src="assets/images/heritage/pangasinan_story.png" alt="Traditional bladesmith forging a handcrafted Filipino blade in Pozorrubio, Pangasinan" class="brand-story-img" loading="lazy">
+        <img src="assets/images/heritage/pangasinan_story.png" width="1536" height="1024" alt="Blade workshop in Pozorrubio, Pangasinan" class="brand-story-img" loading="lazy" decoding="async">
       </div>
       <div class="brand-story-img-overlay" aria-hidden="true"></div>
       <span class="brand-story-num" aria-hidden="true">Since 2008 · Pozorrubio, Pangasinan</span>
@@ -287,7 +295,7 @@
       </p>
 
       <p class="reveal reveal-delay-3">
-        Today, we proudly continue Pozorrubio's bladesmithing heritage by combining time-honored forging techniques with modern craftsmanship. Every blade is handcrafted with precision, built for performance, and made to honor the legacy of our community.
+        Today, we proudly continue Pozorrubio's bladesmithing heritage. Our blades are crafted using a combination of precision machinery, skilled craftsmanship, and careful hand-finishing.
       </p>
 
       <div class="reveal reveal-delay-4">
@@ -314,8 +322,8 @@
       <span class="stat-label">Generations of Master Craftsmen</span>
     </div>
     <div class="stat-item reveal reveal-delay-2">
-      <span class="stat-number" data-count="100" data-suffix="%">0</span>
-      <span class="stat-label">Handmade — Crafted with Precision</span>
+      <span class="stat-number" data-count="3" data-suffix="">0</span>
+      <span class="stat-label">Precision, Craft, and Hand-Finishing</span>
     </div>
   </div>
 </div>
@@ -330,7 +338,7 @@
       <h2 class="section-title reveal reveal-delay-1" id="catalogTitle">Blades of the<br>Philippine Tradition</h2>
     </div>
     <p class="section-body reveal reveal-delay-2 catalog-intro">
-      Every blade is made by hand. Choose a ready-stock piece when available, or commission the profile, materials, and finish that fit your purpose.
+      Each blade combines precision machinery, skilled craftsmanship, and careful hand-finishing. Choose a ready-stock piece when available, or commission the profile, materials, and finish that fit your purpose.
     </p>
   </div>
 
@@ -539,7 +547,7 @@
   </div>
 </div>
 
-<!-- Quick View Drawer -->
+<!-- Quick View Drawer temporarily disabled
 <div id="quickDrawer" role="dialog" aria-modal="true" aria-labelledby="qdTitle" style="
   position:fixed;top:0;right:0;bottom:0;
   width:min(520px,100vw);
@@ -572,6 +580,8 @@
   background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
 "></div>
 
+-->
+
 <div class="inquiry-list-modal" id="inquiryListModal" role="dialog" aria-modal="true" aria-labelledby="inquiryListTitle">
   <div class="inquiry-list-backdrop" onclick="closeInquiryListModal()" aria-hidden="true"></div>
   <section class="inquiry-list-panel">
@@ -594,7 +604,6 @@
       <!-- <button type="button" class="btn-ghost" onclick="closeInquiryListModal()">Close Modal</button> -->
       <button type="button" class="btn-primary" id="sendInquiryListBtn" onclick="sendInquiryList()">Send Inquiry</button>
     </div>
-    <p class="inquiry-list-notice" id="inquiryListNotice" hidden></p> 
   </section>
 </div>
 
@@ -608,6 +617,32 @@
     <div class="duplicate-inquiry-actions">
       <button type="button" class="btn-ghost" onclick="cancelDuplicateInquiryItem()">Cancel</button>
       <button type="button" class="btn-primary" onclick="confirmDuplicateInquiryItem()">Continue</button>
+    </div>
+  </section>
+</div>
+
+<div class="duplicate-inquiry-modal" id="removeInquiryModal" role="dialog" aria-modal="true" aria-labelledby="removeInquiryTitle">
+  <div class="duplicate-inquiry-backdrop" onclick="cancelRemoveInquiryItem()" aria-hidden="true"></div>
+  <section class="duplicate-inquiry-panel">
+    <span class="inquiry-list-kicker">Confirm Removal</span>
+    <h2 id="removeInquiryTitle">Remove this blade?</h2>
+    <div class="duplicate-inquiry-body" id="removeInquiryBody"></div>
+    <div class="duplicate-inquiry-actions">
+      <button type="button" class="btn-ghost" onclick="cancelRemoveInquiryItem()">Cancel</button>
+      <button type="button" class="btn-primary" onclick="confirmRemoveInquiryItem()">Remove Item</button>
+    </div>
+  </section>
+</div>
+
+<div class="duplicate-inquiry-modal" id="clearInquiryModal" role="dialog" aria-modal="true" aria-labelledby="clearInquiryTitle">
+  <div class="duplicate-inquiry-backdrop" onclick="cancelClearInquiryList()" aria-hidden="true"></div>
+  <section class="duplicate-inquiry-panel">
+    <span class="inquiry-list-kicker">Confirm Clear List</span>
+    <h2 id="clearInquiryTitle">Clear your Inquiry List?</h2>
+    <div class="duplicate-inquiry-body"><span>All selected blades, quantities, and custom specifications will be removed. This action cannot be undone.</span></div>
+    <div class="duplicate-inquiry-actions">
+      <button type="button" class="btn-ghost" onclick="cancelClearInquiryList()">Cancel</button>
+      <button type="button" class="btn-primary" onclick="confirmClearInquiryList()">Clear Entire List</button>
     </div>
   </section>
 </div>
@@ -867,8 +902,8 @@
           <path d="M16 40 Q16 26 24 18 Q32 26 32 40" stroke="currentColor" stroke-width="1" opacity="0.5" fill="none"/>
           <path d="M4 40 L44 40" stroke="currentColor" stroke-width="1.5"/>
         </svg>
-        <h3 class="why-card-title">100% Hand-Forged</h3>
-        <p class="why-card-body">No CNC. No casting. No shortcuts. Every blade is shaped by hammer on anvil, exactly as it was done five centuries ago. The machine has never touched our steel.</p>
+        <h3 class="why-card-title">Precision and Craftsmanship</h3>
+        <p class="why-card-body">Crafted using a combination of precision machinery, skilled craftsmanship, and careful hand-finishing.</p>
       </div>
       <div class="why-card reveal reveal-delay-1">
         <svg class="why-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -1456,8 +1491,8 @@
     <!-- Success state (hidden by default) -->
     <div id="formSuccess" style="display:none; text-align:center; padding:60px 40px; border:1px solid var(--gold-dim);">
       <div style="font-size:36px; margin-bottom:24px; color:var(--gold);">✦</div>
-      <h3 style="font-family:var(--font-display);font-size:28px;color:var(--white);margin-bottom:16px;">Message Received</h3>
-      <p style="color:var(--silver);font-size:15px;line-height:1.8;max-width:360px;margin:0 auto 32px;">We've received your inquiry and will respond within 24 hours. In the meantime, feel free to browse the full collection.</p>
+      <h3 style="font-family:var(--font-display);font-size:28px;color:var(--white);margin-bottom:16px;">Inquiry Prepared</h3>
+      <p style="color:var(--silver);font-size:15px;line-height:1.8;max-width:420px;margin:0 auto 32px;">This form is not connected to an email service yet. Please send your inquiry through the listed email address or WhatsApp.</p>
       <a href="#catalog" class="btn-text">Browse the Collection <span class="arrow">→</span></a>
     </div>
   </div>
@@ -1516,7 +1551,7 @@
 
   <div class="footer-base">
     <span class="footer-copy">© 2025 Pangasinan Blades. All rights reserved.</span>
-    <span class="footer-flag">Handcrafted in the Philippines 🇵🇭</span>
+    <span class="footer-flag">Crafted in the Philippines 🇵🇭</span>
     <nav class="footer-legal" aria-label="Legal links">
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Service</a>
@@ -1536,6 +1571,8 @@
 <!-- ============================================================
      MAIN JS — Scroll, Reveal, Nav, FAQ, Carousel, Stats
      ============================================================ -->
+<script src="js/products-data.js"></script>
+<script src="js/inquiry-list.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
