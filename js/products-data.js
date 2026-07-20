@@ -80,7 +80,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "18 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -148,7 +148,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "14 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -165,7 +165,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "13 in",
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -199,7 +199,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "18 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Kamagong",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -216,7 +216,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "22 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Kamagong",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -250,7 +250,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "24 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Kamagong",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -267,7 +267,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "26 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Kamagong",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -284,7 +284,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "16 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -301,7 +301,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "16 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -318,7 +318,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "18 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -335,7 +335,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "15 in",
       "steel": "5160 Carbon Steel",
       "handle": "Chico Wood",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -352,7 +352,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "16 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -369,7 +369,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "19 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -386,7 +386,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "10 in",
       "steel": "5160 Carbon Steel",
       "handle": "Chico Wood",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -403,7 +403,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "12 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -420,7 +420,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "12 in",
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -437,7 +437,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "8 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -454,7 +454,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "6 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -505,7 +505,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "12 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -522,7 +522,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "20 in",
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -539,7 +539,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "10 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -556,7 +556,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "8 in",
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
@@ -573,7 +573,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "8 in",
       "steel": "304 Stainless Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
   },
@@ -590,7 +590,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "7 in",
       "steel": "304 Stainless Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
   },
@@ -607,7 +607,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "10 in",
       "steel": "304 Stainless Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
   },
@@ -624,7 +624,7 @@ window.PANGASINAN_PRODUCTS = [
       "bladeLength": "10 in",
       "steel": "304 Stainless Steel",
       "handle": "Mahogany",
-      "sheath": "Leather Sheath",
+      "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
   }

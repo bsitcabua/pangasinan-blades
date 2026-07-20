@@ -722,20 +722,100 @@ function fallbackCopyText(text) {
   return copied;
 }
 
+function openCopySuccessModal() {
+  const modal = document.getElementById('copySuccessModal');
+  if (!modal || modal.classList.contains('open')) return;
+  const emailError = document.getElementById('copyEmailError');
+  if (emailError) emailError.hidden = true;
+  modal.classList.add('open');
+  activateDialogFocus(modal);
+}
+
+function sendCopiedInquiryViaEmail() {
+  const emailError = document.getElementById('copyEmailError');
+  if (!inquiryList.length) {
+    if (emailError) emailError.hidden = false;
+    return;
+  }
+  if (emailError) emailError.hidden = true;
+  const inquiryText = inquiryListMessage();
+  const subject = 'Pangasinan Blades Product Inquiry';
+  const separator = '--------------------------------------------------';
+  const body = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${inquiryText}\n${separator}\n\nCustomer Information\n\nName:\nComplete Address:\nPhone Number:\n\nAdditional Notes:\n(Optional)\n\n${separator}\n\nPlease let me know:\n\n• Product availability\n• Total cost\n• Shipping fee\n• Estimated production time\n• Estimated delivery time\n\nThank you!\n\nBest regards,`;
+  window.location.href = `mailto:inquire@pangasinanblades.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+function buildMessengerInquiryMessage() {
+  const separator = '--------------------------------------------------';
+  return `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${inquiryListMessage()}\n${separator}\n\nFill fill up this form\nComplete name:\nAddress:\nPhone:\nEmail:\n\nPlease let me know the availability, total cost, shipping fee, and estimated production time.\n\nThank you!`;
+}
+
+async function sendCopiedInquiryViaMessenger(button) {
+  const errorMessage = document.getElementById('copyEmailError');
+  if (!inquiryList.length) {
+    if (errorMessage) {
+      errorMessage.textContent = 'Your inquiry list is empty. Please add at least one item before continuing.';
+      errorMessage.hidden = false;
+    }
+    return;
+  }
+  if (errorMessage) errorMessage.hidden = true;
+  const originalLabel = button?.querySelector('span:last-child')?.textContent || 'Send via Messenger';
+  const label = button?.querySelector('span:last-child');
+  if (label) label.textContent = 'Opening Messenger...';
+  const messengerWindow = window.open('https://m.me/emcpangasinanblades', '_blank');
+  if (!messengerWindow) {
+    if (errorMessage) {
+      errorMessage.textContent = 'Unable to open Messenger. Please allow pop-ups and try again.';
+      errorMessage.hidden = false;
+    }
+    if (label) label.textContent = originalLabel;
+    return;
+  }
+  messengerWindow.opener = null;
+  try {
+    const message = buildMessengerInquiryMessage();
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(message);
+    } else if (!fallbackCopyText(message)) {
+      throw new Error('Fallback copy command failed');
+    }
+  } catch (error) {
+    if (errorMessage) {
+      errorMessage.textContent = 'Unable to copy the inquiry message. Please try again or copy it manually.';
+      errorMessage.hidden = false;
+    }
+  } finally {
+    if (label) label.textContent = originalLabel;
+  }
+}
+
+function closeCopySuccessModal() {
+  const modal = document.getElementById('copySuccessModal');
+  if (!modal?.classList.contains('open')) return;
+  modal.classList.remove('open');
+  deactivateDialogFocus(modal);
+  window.setTimeout(() => document.getElementById('copyInquiryListBtn')?.focus(), 0);
+}
+
 async function copyInquiryList() {
   if (!inquiryList.length) return;
 
   const text = inquiryListMessage();
   const button = document.getElementById('copyInquiryListBtn');
+  const errorMessage = document.getElementById('copyInquiryError');
+  if (errorMessage) errorMessage.hidden = true;
   try {
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(text);
     } else if (!fallbackCopyText(text)) {
       throw new Error('Fallback copy command failed');
     }
-    if (button) button.textContent = 'Inquiry List Copied';
+    if (button) button.textContent = 'Copied!';
+    openCopySuccessModal();
   } catch (error) {
     if (button) button.textContent = 'Copy Failed';
+    if (errorMessage) errorMessage.hidden = false;
   }
   window.clearTimeout(copyInquiryList.timer);
   copyInquiryList.timer = window.setTimeout(() => {
@@ -1011,7 +1091,9 @@ window.addEventListener('hashchange', openFullCatalogFromHash);
 /* Close on Escape */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    if (document.getElementById('clearInquiryModal')?.classList.contains('open')) {
+    if (document.getElementById('copySuccessModal')?.classList.contains('open')) {
+      closeCopySuccessModal();
+    } else if (document.getElementById('clearInquiryModal')?.classList.contains('open')) {
       cancelClearInquiryList();
     } else if (document.getElementById('removeInquiryModal')?.classList.contains('open')) {
       cancelRemoveInquiryItem();

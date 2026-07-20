@@ -604,6 +604,7 @@
       <!-- <button type="button" class="btn-ghost" onclick="closeInquiryListModal()">Close Modal</button> -->
       <button type="button" class="btn-primary" id="sendInquiryListBtn" onclick="sendInquiryList()">Send Inquiry</button>
     </div>
+    <p class="copy-inquiry-error" id="copyInquiryError" role="alert" hidden>Unable to copy the inquiry list. Please try again or copy it manually.</p>
   </section>
 </div>
 
@@ -647,12 +648,29 @@
   </section>
 </div>
 
+<div class="duplicate-inquiry-modal copy-success-modal" id="copySuccessModal" role="dialog" aria-modal="true" aria-labelledby="copySuccessTitle" aria-describedby="copySuccessDescription">
+  <div class="duplicate-inquiry-backdrop" aria-hidden="true"></div>
+  <section class="duplicate-inquiry-panel copy-success-panel">
+    <button type="button" class="inquiry-list-close copy-success-close" onclick="closeCopySuccessModal()" aria-label="Close copied inquiry dialog">&times;</button>
+    <span class="copy-success-check" aria-hidden="true">&#10003;</span>
+    <h2 id="copySuccessTitle">Inquiry List Copied</h2>
+    <p id="copySuccessDescription">Your inquiry list has been copied to your clipboard and is ready to send. Choose Messenger to open our conversation, or Email to create a new inquiry message.</p>
+    <p class="copy-success-hint">When you choose Messenger, a complete inquiry message and customer-information form will be copied. Paste it into the Pangasinan Blades conversation, fill in your details, then send it.</p>
+    <div class="copy-success-actions">
+      <button class="btn-primary messenger-action" type="button" onclick="sendCopiedInquiryViaMessenger(this)"><svg class="copy-action-svg messenger-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#007FFF" d="M24 0C10.745 0 0 9.949 0 22.222c0 6.993 3.49 13.231 8.944 17.305V48l8.172-4.485A25.63 25.63 0 0 0 24 44.444c13.255 0 24-9.949 24-22.222C48 9.949 37.255 0 24 0Zm2.385 29.926-6.112-6.519-11.925 6.519L21.466 16l6.261 6.519L39.503 16 26.385 29.926Z"/></svg><span>Send via Messenger</span></button>
+      <button class="btn-ghost" type="button" onclick="sendCopiedInquiryViaEmail()"><svg class="copy-action-svg email-icon" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 1694.235h1920V226H0v1468.235ZM112.941 376.664V338.94H1807.06v37.723L960 1111.233l-847.059-734.57ZM1807.06 526.198v950.513l-351.134-438.89-88.32 70.475 378.353 472.998H174.042l378.353-472.998-88.32-70.475-351.134 438.89V526.198L960 1260.768l847.059-734.57Z" fill-rule="evenodd"/></svg>Send via Email</button>
+      <button type="button" class="btn-ghost" onclick="closeCopySuccessModal()">Close</button>
+    </div>
+    <p class="copy-email-error" id="copyEmailError" role="alert" hidden>Your inquiry list is empty. Please add at least one item before continuing.</p>
+  </section>
+</div>
+
 
 
 <!-- ============================================================
      SECTION 04 — FEATURED MASTERPIECES
      ============================================================ -->
-<section class="featured" id="masterpieces" aria-labelledby="featuredTitle">
+<section class="featured" id="masterpieces" aria-labelledby="featuredTitle" hidden>
 
   <!-- Featured 01 -->
   <div class="featured-piece">
@@ -1184,83 +1202,79 @@
 
         <div class="testi-card active reveal">
           <span class="testi-quote-mark" aria-hidden="true">"</span>
-          <p class="testi-body">I've collected blades from across Southeast Asia for over twenty years. The Kampilan ng Bayani is the first piece that made me stop and just hold it for a long time. The balance, the Damascus pattern, the weight — it is perfect. This is not a replica. This is a true ancestral weapon.</p>
+          <p class="testi-body">Hi from Belgium, 
+I received my tactical ginunting yesterday & have been practicing with it for several hours since. Not only is the blade beautiful but when you buy your tool from Pangasinan you will meet a kind, honest person who cares about his work and also about you. His great service will make your wonderful blade more greater. 
+For the record, I've been ordering other tools and blades from various phillipino suppliers for over 1 month and half & they still haven't been shipped. 
+At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend them.👍</p>
           <div class="testi-stars" aria-label="5 out of 5 stars">
             <span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span>
           </div>
           <div class="testi-author">
             <div class="testi-avatar" aria-hidden="true">AR</div>
             <div>
-              <p class="testi-name">Arsenio Reyes</p>
-              <p class="testi-role">Weapons Collector · Quezon City, PH</p>
-              <a href="#catalog" class="testi-blade">Kampilan ng Bayani</a>
+              <p class="testi-name">Andriamanalina Razakazo</p>
+              <p class="testi-role">Weapons Collector · Jette Belgique, Belgium</p>
+              <a href="#catalog" class="testi-blade">Tactical Ginunting</a>
+              <br/>
+              <small>October 2, 2024</small>
             </div>
           </div>
         </div>
 
         <div class="testi-card reveal reveal-delay-1">
           <span class="testi-quote-mark" aria-hidden="true">"</span>
-          <p class="testi-body">I ordered the Bolo ng Lupa as a gift for my father on his 70th birthday. He grew up in Pangasinan and hasn't lived there for forty years. When he unwrapped it and read the certificate — that the steel came from the same province — he cried. I can't put a price on that moment.</p>
+          <p class="testi-body">Excellent service and very high quality products. I am a repeat customer.</p>
           <div class="testi-stars" aria-label="5 out of 5 stars">
             <span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span>
           </div>
           <div class="testi-author">
-            <div class="testi-avatar" aria-hidden="true">ML</div>
+            <div class="testi-avatar" aria-hidden="true">AM</div>
             <div>
-              <p class="testi-name">Maria Lourdes Santos</p>
-              <p class="testi-role">Overseas Filipino · Los Angeles, CA</p>
-              <a href="#catalog" class="testi-blade">Bolo ng Lupa</a>
+              <p class="testi-name">Albert Moreno</p>
+              <p class="testi-role">Marine Corps · Olongapo City, PH</p>
+              <a href="#catalog" class="testi-blade">Moon Kris</a>
+              <br/>
+              <small>October 2, 2024</small>
             </div>
           </div>
         </div>
 
         <div class="testi-card reveal reveal-delay-2">
           <span class="testi-quote-mark" aria-hidden="true">"</span>
-          <p class="testi-body">As an Arnis practitioner, I'm particular about my training equipment. The Itak ng Bundok has an edge geometry that I have never found in any commercially produced blade. It holds an edge through weeks of heavy use and sharpens back to a mirror finish in minutes. Functional mastery.</p>
+          <p class="testi-body">Maganda ang mga gawa nila. solid at polido. very accommodating pa cla. cgurado mag oorder ako ulit. maraming salamat po.</p>
           <div class="testi-stars" aria-label="5 out of 5 stars">
             <span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span>
           </div>
           <div class="testi-author">
-            <div class="testi-avatar" aria-hidden="true">JV</div>
+            <div class="testi-avatar" aria-hidden="true">RB</div>
             <div>
-              <p class="testi-name">Jerome Villanueva</p>
-              <p class="testi-role">Arnis Grandmaster · Cebu City, PH</p>
-              <a href="#catalog" class="testi-blade">Itak ng Bundok</a>
+              <p class="testi-name">Robert Bautista</p>
+              <p class="testi-role">Blade Collector · Laguna City, PH</p>
+              <a href="#catalog" class="testi-blade">Khukri</a>
+              <br/>
+              <small>October 6, 2024</small>
             </div>
           </div>
         </div>
 
         <div class="testi-card reveal">
           <span class="testi-quote-mark" aria-hidden="true">"</span>
-          <p class="testi-body">The packaging alone is extraordinary — aged leather roll, brass clasp, the certificate in calligraphy on rice paper. My husband thought I had spent five times more than I did. The Kalis commission took nine weeks but every message from the craftsman kept us excited the whole time. Worth every moment.</p>
+          <p class="testi-body">Excellent quality blades, and very prompt communication despite time zone differences. I have ordered many blades from here and have been more than happy with the artistry and functionality of their products. Their blades are sharp, strong, and beautiful. I would recommend them to any collector, Filipino Martial Arts practitioner, or anyone looking for a reliable bladed tool. My only complaint is that every time I order a blade, they make a post about an even more beautiful piece and I want to buy that one too!</p>
           <div class="testi-stars" aria-label="5 out of 5 stars">
             <span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span>
           </div>
           <div class="testi-author">
-            <div class="testi-avatar" aria-hidden="true">GC</div>
+            <div class="testi-avatar" aria-hidden="true">JC</div>
             <div>
-              <p class="testi-name">Gabriela Cruz-Mendoza</p>
-              <p class="testi-role">Gift Buyer · Manila, PH</p>
-              <a href="#catalog" class="testi-blade">Kalis ng Datu</a>
+              <p class="testi-name">Jonathan Cruz</p>
+              <p class="testi-role">Blade Collector · West Gardiner, USA</p>
+              <a href="#catalog" class="testi-blade">Multiple Swords</a>
+              <br/>
+              <small>July 15, 2026</small>
             </div>
           </div>
         </div>
 
-        <div class="testi-card reveal reveal-delay-1">
-          <span class="testi-quote-mark" aria-hidden="true">"</span>
-          <p class="testi-body">From a curatorial standpoint, the provenance documentation and forge-mark authentication system is genuinely impressive. We acquired three pieces for our permanent collection of pre-colonial Filipino material culture. Pangasinan Blades is keeping a living tradition alive in a way most museums can only dream of preserving.</p>
-          <div class="testi-stars" aria-label="5 out of 5 stars">
-            <span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span><span class="testi-star" aria-hidden="true">★</span>
-          </div>
-          <div class="testi-author">
-            <div class="testi-avatar" aria-hidden="true">PB</div>
-            <div>
-              <p class="testi-name">Prof. Patricia Bautista</p>
-              <p class="testi-role">Cultural Curator · Ayala Museum</p>
-              <a href="#catalog" class="testi-blade">Kampilan · Kalis · Panabas</a>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
@@ -1306,7 +1320,7 @@
             <span class="faq-toggle" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" role="region">
-            <div class="faq-answer-inner">We primarily work with High-Carbon 1075 and 1080 for their excellent toughness-to-hardness ratio. For Damascus pieces, we layer 1075 with 15N20 nickel steel to achieve the distinctive pattern. Our laminated blades use W2 tool steel for the cutting edge core.</div>
+            <div class="faq-answer-inner">We primarily use Leaf Spring 5160 high-carbon steel, valued for its excellent toughness, durability, and edge retention. It is well-suited for functional blades that are built for hard use while maintaining reliable performance. For selected knife models, we also offer 304 stainless steel, which provides excellent corrosion resistance and is ideal for users who prefer a low-maintenance blade for everyday use.</div>
           </div>
         </div>
 
@@ -1330,15 +1344,6 @@
           </div>
         </div>
 
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            How do I maintain my blade?
-            <span class="faq-toggle" aria-hidden="true">+</span>
-          </button>
-          <div class="faq-answer" role="region">
-            <div class="faq-answer-inner">High-carbon steel requires more care than stainless. After each use, wipe clean and apply a thin coat of food-grade mineral oil or camellia oil. Store in a dry location — the leather sheath is beautiful but should not be used for long-term storage as leather retains moisture. Every blade ships with a care card.</div>
-          </div>
-        </div>
       </div>
 
       <div>
@@ -1378,17 +1383,7 @@
             <span class="faq-toggle" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" role="region">
-            <div class="faq-answer-inner">In-stock blades can be returned within 14 days if unused and in original condition. Custom commissions are non-refundable once forging has begun. If a blade arrives damaged in transit, we will replace or repair it at our cost — document the damage immediately upon receipt and contact us within 48 hours.</div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Do you offer gift wrapping or presentation packaging?
-            <span class="faq-toggle" aria-hidden="true">+</span>
-          </button>
-          <div class="faq-answer" role="region">
-            <div class="faq-answer-inner">All blades ship in our signature presentation — a handmade leather roll tied with waxed cord, inside a black kraft box with the Pangasinan Blades seal. Gift orders can include a handwritten message card on rice paper. A premium wooden display box (narra or mahogany) is available as an add-on.</div>
+            <div class="faq-answer-inner">Due to the handcrafted nature of our products, all sales are final and we do not accept returns or refunds. If your order arrives with a manufacturing defect or is damaged during shipping, please contact us as soon as possible. We will inspect the issue and, if confirmed, repair the item at no additional cost or replace it with an available equivalent. If a replacement is not immediately available, the item will be repaired and returned to you free of charge.</div>
           </div>
         </div>
       </div>
@@ -1421,21 +1416,22 @@
 
       <div class="contact-alt reveal reveal-delay-4">
         <div class="contact-alt-item">
-          <div class="contact-alt-icon" aria-hidden="true">📱</div>
-          <div>WhatsApp: <a href="https://wa.me/639171234567" target="_blank" rel="noopener">+63 917 123 4567</a></div>
+          <div class="contact-alt-icon" aria-hidden="true">
+            <svg viewBox="126.445 2.281 589 589" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><circle cx="420.945" cy="296.781" r="294.5" fill="#3c5a9a"></circle><path d="M516.704 92.677h-65.239c-38.715 0-81.777 16.283-81.777 72.402.189 19.554 0 38.281 0 59.357H324.9v71.271h46.174v205.177h84.847V294.353h56.002l5.067-70.117h-62.531s.14-31.191 0-40.249c0-22.177 23.076-20.907 24.464-20.907 10.981 0 32.332.032 37.813 0V92.677h-.032z" fill="#ffffff"></path></g></svg>
+          </div>
+          <div><a href="https://www.facebook.com/emcpangasinanblades" target="_blank" rel="noopener">Pangasinan Blades</a></div>
         </div>
         <div class="contact-alt-item">
-          <div class="contact-alt-icon" aria-hidden="true">✉</div>
-          <div><a href="mailto:inquire@pangasinanblades.ph">inquire@pangasinanblades.ph</a></div>
+          <div class="contact-alt-icon" aria-hidden="true">
+            <svg class="copy-action-svg email-icon" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 1694.235h1920V226H0v1468.235ZM112.941 376.664V338.94H1807.06v37.723L960 1111.233l-847.059-734.57ZM1807.06 526.198v950.513l-351.134-438.89-88.32 70.475 378.353 472.998H174.042l378.353-472.998-88.32-70.475-351.134 438.89V526.198L960 1260.768l847.059-734.57Z" fill-rule="evenodd"/></svg>
+          </div>
+          <div><a href="mailto:inquire@pangasinanblades.com">inquire@pangasinanblades.com</a></div>
         </div>
         <div class="contact-alt-item">
-          <div class="contact-alt-icon" aria-hidden="true">📍</div>
-          <div>Pangasinan Province, Philippines<br>
-          <span style="font-size:12px;color:var(--silver);">Workshop visits by appointment only</span></div>
-        </div>
-        <div class="contact-alt-item">
-          <div class="contact-alt-icon" aria-hidden="true">🕐</div>
-          <div>Mon – Sat, 8:00 AM – 6:00 PM PHT</div>
+          <div class="contact-alt-icon" aria-hidden="true">
+            <svg viewBox="0 -0.5 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="si-glyph si-glyph-pin-location" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>1060</title> <defs> </defs> <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g transform="translate(3.000000, 0.000000)" fill="#c20000"> <path d="M5.469,0.021 C2.453,0.021 0.009,2.317 0.009,5.151 C0.009,5.883 0.175,6.579 0.467,7.208 L5.469,15.876 L10.469,7.208 C10.763,6.579 10.928,5.884 10.928,5.151 C10.928,2.316 8.484,0.021 5.469,0.021 L5.469,0.021 Z M5.492,9.042 C3.535,9.042 1.95,7.446 1.95,5.475 C1.95,3.506 3.535,1.91 5.492,1.91 C7.446,1.91 9.031,3.507 9.031,5.475 C9.031,7.446 7.446,9.042 5.492,9.042 L5.492,9.042 Z" class="si-glyph-fill"> </path> <path d="M7.979,5.504 C7.979,6.88 6.871,7.996 5.5,7.996 C4.133,7.996 3.023,6.88 3.023,5.504 C3.023,4.131 4.132,3.014 5.5,3.014 C6.87,3.014 7.979,4.131 7.979,5.504 L7.979,5.504 Z" class="si-glyph-fill"> </path> </g> </g> </g></svg>
+          </div>
+          <div>Pozorrubio, Pangasinan, Philippines</div>
         </div>
       </div>
     </div>
@@ -1508,10 +1504,10 @@
       <div class="footer-logo">Pangasinan <span>Blades</span></div>
       <p class="footer-tagline">Forged in Pangasinan. Kept for generations. Every blade is a letter to the future, written in fire and steel.</p>
       <div class="footer-socials" aria-label="Social media links">
-        <a class="social-btn" href="#" aria-label="Facebook" title="Facebook">f</a>
-        <a class="social-btn" href="#" aria-label="Instagram" title="Instagram">ig</a>
-        <a class="social-btn" href="#" aria-label="YouTube" title="YouTube">▷</a>
-        <a class="social-btn" href="#" aria-label="TikTok" title="TikTok">tt</a>
+        <a class="social-btn" href="https://www.facebook.com/emcpangasinanblades" target="_blank" aria-label="Facebook" title="Facebook">f</a>
+        <a class="social-btn" href="https://www.instagram.com/pangasinanblades" target="_blank" aria-label="Instagram" title="Instagram">ig</a>
+        <!-- <a class="social-btn" href="#" aria-label="YouTube" title="YouTube">▷</a> -->
+        <!-- <a class="social-btn" href="#" aria-label="TikTok" title="TikTok">tt</a> -->
       </div>
     </div>
 

@@ -26,6 +26,7 @@
   const duplicateModal = document.getElementById('productDuplicateModal');
   const removeModal = document.getElementById('productRemoveModal');
   const clearModal = document.getElementById('productClearModal');
+  const copySuccessModal = document.getElementById('productCopySuccessModal');
 
   function assetPath(value = '') {
     if (!value || /^(?:https?:|data:|\/|\.\.\/|\.\/)/.test(value)) return value;
@@ -293,11 +294,31 @@
   async function copyList() {
     if (!items.length) return;
     const button = document.querySelector('[data-copy-inquiry]');
+    const errorMessage = document.querySelector('[data-copy-error]');
+    const inquiryText = store.message(items);
+    if (errorMessage) errorMessage.hidden = true;
     try {
-      await navigator.clipboard.writeText(store.message(items));
-      if (button) button.textContent = 'Inquiry List Copied';
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(inquiryText);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = inquiryText;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand('copy');
+        textarea.remove();
+        if (!copied) throw new Error('Fallback copy command failed');
+      }
+      if (button) button.textContent = 'Copied!';
+      const emailError = document.querySelector('[data-copy-email-error]');
+      if (emailError) emailError.hidden = true;
+      openDialog(copySuccessModal);
     } catch (error) {
       if (button) button.textContent = 'Copy Failed';
+      if (errorMessage) errorMessage.hidden = false;
     }
     window.clearTimeout(copyList.timer);
     copyList.timer = window.setTimeout(() => {
@@ -330,6 +351,75 @@
     if (mode === 'inquire') goToContact(); else { renderInquiryList(); openDialog(inquiryModal); }
   });
   document.querySelector('[data-copy-inquiry]')?.addEventListener('click', copyList);
+  document.querySelectorAll('[data-close-copy-success]').forEach(control => control.addEventListener('click', () => {
+    closeDialog(copySuccessModal);
+    window.setTimeout(() => document.querySelector('[data-copy-inquiry]')?.focus(), 0);
+  }));
+  document.querySelector('[data-send-copy-email]')?.addEventListener('click', () => {
+    items = store.load();
+    const emailError = document.querySelector('[data-copy-email-error]');
+    if (!items.length) {
+      if (emailError) emailError.hidden = false;
+      return;
+    }
+    if (emailError) emailError.hidden = true;
+    const inquiryText = store.message(items);
+    const subject = 'Pangasinan Blades Product Inquiry';
+    const separator = '--------------------------------------------------';
+    const body = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${inquiryText}\n${separator}\n\nCustomer Information\n\nName:\nComplete Address:\nPhone Number:\n\nAdditional Notes:\n(Optional)\n\n${separator}\n\nPlease let me know:\n\n• Product availability\n• Total cost\n• Shipping fee\n• Estimated production time\n• Estimated delivery time\n\nThank you!\n\nBest regards,`;
+    window.location.href = `mailto:inquire@pangasinanblades.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+  document.querySelector('[data-send-copy-messenger]')?.addEventListener('click', async event => {
+    items = store.load();
+    const errorMessage = document.querySelector('[data-copy-email-error]');
+    if (!items.length) {
+      if (errorMessage) {
+        errorMessage.textContent = 'Your inquiry list is empty. Please add at least one item before continuing.';
+        errorMessage.hidden = false;
+      }
+      return;
+    }
+    if (errorMessage) errorMessage.hidden = true;
+    const button = event.currentTarget;
+    const label = button.querySelector('span:last-child');
+    const originalLabel = label?.textContent || 'Send via Messenger';
+    if (label) label.textContent = 'Opening Messenger...';
+    const messengerWindow = window.open('https://m.me/emcpangasinanblades', '_blank');
+    if (!messengerWindow) {
+      if (errorMessage) {
+        errorMessage.textContent = 'Unable to open Messenger. Please allow pop-ups and try again.';
+        errorMessage.hidden = false;
+      }
+      if (label) label.textContent = originalLabel;
+      return;
+    }
+    messengerWindow.opener = null;
+    try {
+      const separator = '--------------------------------------------------';
+      const message = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${store.message(items)}\n${separator}\n\nFill fill up this form\nComplete name:\nAddress:\nPhone:\nEmail:\n\nPlease let me know the availability, total cost, shipping fee, and estimated production time.\n\nThank you!`;
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(message);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = message;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const copied = document.execCommand('copy');
+        textarea.remove();
+        if (!copied) throw new Error('Fallback copy command failed');
+      }
+    } catch (error) {
+      if (errorMessage) {
+        errorMessage.textContent = 'Unable to copy the inquiry message. Please try again or copy it manually.';
+        errorMessage.hidden = false;
+      }
+    } finally {
+      if (label) label.textContent = originalLabel;
+    }
+  });
   document.querySelector('[data-clear-inquiry]')?.addEventListener('click', () => {
     if (items.length) openDialog(clearModal);
   });
