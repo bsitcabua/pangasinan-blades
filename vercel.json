@@ -4,7 +4,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": ".",
   "rewrites": [
-    { "source": "/share", "destination": "/api/share" }
+    { "source": "/share", "destination": "/api/share" },
+    { "source": "/share/", "destination": "/api/share" }
   ],
   "cleanUrls": true,
   "trailingSlash": true
