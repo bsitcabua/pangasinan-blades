@@ -1513,7 +1513,9 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
     <h2 id="shareDialogTitle" data-share-title>Share</h2>
     <p id="shareDialogDescription" data-share-description></p>
     <div class="share-actions" aria-label="Sharing options">
+      <button type="button" data-share-action="native"><span class="share-action-icon" aria-hidden="true">+</span>Share to Apps</button>
       <button type="button" data-share-action="copy"><span class="share-action-icon" aria-hidden="true">&#128279;</span>Copy Link</button>
+      <button type="button" data-share-action="qr"><span class="share-action-icon" aria-hidden="true">&#9638;</span>QR Code</button>
       <button type="button" data-share-action="facebook"><span class="share-action-icon" aria-hidden="true">f</span>Facebook</button>
       <button type="button" data-share-action="messenger"><span class="share-action-icon" aria-hidden="true">m</span>Messenger</button>
       <button type="button" data-share-action="whatsapp"><span class="share-action-icon" aria-hidden="true">w</span>WhatsApp</button>
@@ -1521,6 +1523,13 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
       <button type="button" data-share-action="telegram"><span class="share-action-icon" aria-hidden="true">t</span>Telegram</button>
       <button type="button" data-share-action="linkedin"><span class="share-action-icon" aria-hidden="true">in</span>LinkedIn</button>
       <button type="button" data-share-action="email"><span class="share-action-icon" aria-hidden="true">@</span>Email</button>
+    </div>
+    <div class="share-qr" data-share-qr hidden>
+      <div class="share-qr-code" data-share-qr-code>
+        <img src="assets/favicon_io/android-chrome-512x512.png" alt="" class="share-qr-logo">
+      </div>
+      <strong data-share-qr-label>Scan to open</strong>
+      <span>Point a phone camera at the code to open this blade.</span>
     </div>
     <p class="share-status" data-share-status aria-live="polite"></p>
   </section>
@@ -1537,6 +1546,7 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
 <script src="js/products-data.js"></script>
 <script src="js/inquiry-list.js"></script>
 <script src="script.js"></script>
+<script src="js/vendor/qrcode.min.js"></script>
 <script src="js/share.js"></script>
 <script>
   window.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
