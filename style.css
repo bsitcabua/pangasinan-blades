@@ -1159,11 +1159,15 @@ summary:focus-visible {
   cursor: pointer;
   background: var(--charcoal);
   transition: opacity 0.25s ease, transform 0.25s ease;
+  outline: none;
 }
+.gallery-item:focus-visible { box-shadow: inset 0 0 0 2px var(--gold); }
 .gallery-item.is-hidden { display: none; }
 .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-.gallery-item:nth-child(4) { grid-column: span 2; }
-.gallery-item:nth-child(7) { grid-column: span 2; }
+.gallery-item:nth-child(4),
+.gallery-item:nth-child(7),
+.gallery-item:nth-child(10),
+.gallery-item:nth-child(13) { grid-column: span 2; }
 .gallery-grid.is-filtered .gallery-item {
   grid-column: auto;
   grid-row: auto;
@@ -1180,20 +1184,49 @@ summary:focus-visible {
   justify-content: center;
   transition: transform 0.6s var(--ease-out);
 }
+.gallery-item-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
 .gallery-item:nth-child(1) .gallery-item-bg { height: 443px; }
-.gallery-item:hover .gallery-item-bg { transform: scale(1.06); }
+.gallery-item:hover .gallery-item-bg,
+.gallery-item:focus-visible .gallery-item-bg { transform: scale(1.06); }
 
 .gallery-item-hover {
   position: absolute;
   inset: 0;
-  background: rgba(8,8,8,0.7);
+  background: linear-gradient(to top, rgba(8,8,8,0.94), rgba(8,8,8,0.12) 72%);
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
   opacity: 0;
   transition: opacity 0.35s ease;
 }
-.gallery-item:hover .gallery-item-hover { opacity: 1; }
+.gallery-item:hover .gallery-item-hover,
+.gallery-item:focus-visible .gallery-item-hover { opacity: 1; }
+.gallery-item-meta {
+  min-width: 0;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.gallery-item-meta strong {
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.gallery-item-meta span {
+  color: rgba(226,217,200,0.76);
+  font-size: 12px;
+  line-height: 1.55;
+}
 .gallery-expand {
   width: 48px;
   height: 48px;
@@ -1206,7 +1239,8 @@ summary:focus-visible {
   transform: scale(0.85);
   transition: transform 0.3s var(--ease-out), border-color 0.3s ease;
 }
-.gallery-item:hover .gallery-expand { transform: scale(1); border-color: var(--gold); }
+.gallery-item:hover .gallery-expand,
+.gallery-item:focus-visible .gallery-expand { transform: scale(1); border-color: var(--gold); }
 
 .gallery-lightbox {
   position: fixed;
@@ -1239,10 +1273,11 @@ summary:focus-visible {
   border: 1px solid rgba(200,150,60,0.22);
   overflow: hidden;
 }
-.gallery-lightbox-image svg {
+.gallery-lightbox-image img {
   width: 100%;
-  height: auto;
+  height: 100%;
   max-height: calc(100vh - 220px);
+  object-fit: contain;
   display: block;
 }
 .gallery-lightbox-caption {
@@ -1256,7 +1291,21 @@ summary:focus-visible {
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
-.gallery-lightbox-caption span:first-child { color: var(--gold); }
+.gallery-lightbox-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.gallery-lightbox-copy strong { color: var(--gold); font-weight: 600; }
+.gallery-lightbox-copy > span {
+  color: var(--silver);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+}
 .gallery-lightbox-close,
 .gallery-lightbox-nav {
   position: absolute;
@@ -1759,7 +1808,8 @@ summary:focus-visible {
   .why-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-item:nth-child(1) { grid-column: span 2; }
-  .gallery-item:nth-child(4), .gallery-item:nth-child(7) { grid-column: span 2; }
+  .gallery-item:nth-child(4), .gallery-item:nth-child(7),
+  .gallery-item:nth-child(10), .gallery-item:nth-child(13) { grid-column: span 2; }
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 48px; }
   .contact-inner { grid-template-columns: 1fr; gap: 60px; }
 }
@@ -1882,14 +1932,15 @@ summary:focus-visible {
   .gallery { padding: var(--section-pad) 24px; }
   .gallery-grid { grid-template-columns: 1fr 1fr; }
   .gallery-item:nth-child(1) { grid-column: span 2; }
-  .gallery-item:nth-child(4), .gallery-item:nth-child(7) { grid-column: span 2; }
+  .gallery-item:nth-child(4), .gallery-item:nth-child(7),
+  .gallery-item:nth-child(10), .gallery-item:nth-child(13) { grid-column: span 2; }
   .gallery-lightbox { padding: 76px 18px 88px; }
   .gallery-lightbox-figure { max-height: calc(100vh - 164px); }
   .gallery-lightbox-image {
     min-height: 240px;
     max-height: calc(100vh - 240px);
   }
-  .gallery-lightbox-image svg { max-height: calc(100vh - 240px); }
+  .gallery-lightbox-image img { max-height: calc(100vh - 240px); }
   .gallery-lightbox-nav {
     top: auto;
     bottom: 22px;

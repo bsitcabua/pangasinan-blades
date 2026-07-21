@@ -1631,12 +1631,51 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /* --- GALLERY FILTER PILLS --- */
+  const WORKSHOP_GALLERY = [
+    { image: 'fire_forge.png', width: 1070, height: 1470, categories: 'forge workshop', title: 'Forge Fire', description: 'The intense heat that prepares high-carbon steel for shaping.', alt: 'Forge fire glowing inside the Pangasinan Blades workshop' },
+    { image: 'forging_metal.png', width: 1024, height: 1536, categories: 'forge craftsmanship', title: 'Forging the Blade', description: 'Heated steel is shaped through controlled hammer work.', alt: 'A Pangasinan Blades craftsman forging heated blade steel' },
+    { image: 'smoke_forge.png', width: 1023, height: 1537, categories: 'forge workshop', title: 'At the Forge', description: 'Smoke and heat mark the early stages of the blade-making process.', alt: 'Smoke rising from the working forge in the blade workshop' },
+    { image: 'quenching.png', width: 1024, height: 1535, categories: 'forge finishing', title: 'Heat Treatment', description: 'The heated blade is quenched to develop strength and dependable edge performance.', alt: 'A heated blade being quenched during heat treatment' },
+    { image: 'grinding.png', width: 1023, height: 1537, categories: 'finishing craftsmanship', title: 'Blade Grinding', description: 'The blade profile and bevels are refined with careful, even passes.', alt: 'A craftsman grinding the profile of a handmade blade' },
+    { image: 'grinding_sparks.png', width: 992, height: 1586, categories: 'finishing craftsmanship', title: 'Precision Grinding', description: 'Controlled grinding removes material while preserving the intended geometry.', alt: 'Sparks flying during precision blade grinding' },
+    { image: 'craftsmanship.png', width: 1023, height: 1537, categories: 'craftsmanship workshop', title: 'Hand Craftsmanship', description: 'Skilled hands guide each stage of a made-to-order blade.', alt: 'Hand craftsmanship inside the Pangasinan Blades workshop' },
+    { image: 'craftsmanship2.png', width: 1023, height: 1537, categories: 'craftsmanship workshop', title: 'Workshop Craft', description: 'Traditional experience and modern precision come together at the bench.', alt: 'Traditional blade craftsmanship at the workshop bench' },
+    { image: 'finished_1.jpg', width: 1536, height: 2048, categories: 'finished craftsmanship', title: 'Finished Blade', description: 'A completed Pangasinan blade prepared for final inspection.', alt: 'A completed handcrafted Pangasinan blade' },
+    { image: 'finished_2.jpg', width: 1536, height: 2048, categories: 'finished craftsmanship', title: 'Hand-Finished Profile', description: 'A refined blade profile showing balanced proportions and a clean finish.', alt: 'Close view of a hand-finished blade profile' },
+    { image: 'finished_3.jpg', width: 1728, height: 1296, categories: 'finished workshop', title: 'Completed Blade Selection', description: 'Finished work representing the range of traditional forms made in the workshop.', alt: 'A selection of completed blades from Pangasinan Blades' },
+    { image: 'finished_4.jpg', width: 1536, height: 2048, categories: 'finished craftsmanship', title: 'Final Assembly', description: 'Blade, handle, and scabbard brought together as a complete piece.', alt: 'A fully assembled handcrafted blade and scabbard' },
+    { image: 'finished_5.jpg', width: 1536, height: 2048, categories: 'finished craftsmanship', title: 'Ready for Inspection', description: 'A completed blade checked for finish, fit, and overall craftsmanship.', alt: 'A finished blade ready for workshop inspection' },
+    { image: 'finished_6.jpg', width: 1536, height: 2048, categories: 'finished craftsmanship', title: 'Finished Craftsmanship', description: 'Careful hand finishing gives each made-to-order blade its individual character.', alt: 'Detailed craftsmanship on a completed Pangasinan blade' },
+    { image: 'finished_7.jpg', width: 864, height: 648, categories: 'finished workshop', title: 'Workshop Selection', description: 'Completed pieces displaying the workshop’s practical and traditional blade forms.', alt: 'Finished blades displayed together in the workshop' }
+  ];
+
   const galleryPills = document.querySelectorAll('.gallery-filters .filter-pill');
   const galleryGrid = document.getElementById('galleryGrid');
+  if (galleryGrid) {
+    galleryGrid.innerHTML = WORKSHOP_GALLERY.map((item) => `
+      <article class="gallery-item" role="listitem" tabindex="0"
+        data-gallery-category="${item.categories}"
+        data-gallery-title="${item.title}"
+        data-gallery-description="${item.description}"
+        aria-label="View ${item.title}">
+        <div class="gallery-item-bg">
+          <img src="assets/images/workshop/${item.image}" width="${item.width}" height="${item.height}"
+            alt="${item.alt}" loading="lazy" decoding="async">
+        </div>
+        <div class="gallery-item-hover" aria-hidden="true">
+          <div class="gallery-item-meta">
+            <strong>${item.title}</strong>
+            <span>${item.description}</span>
+          </div>
+          <span class="gallery-expand">+</span>
+        </div>
+      </article>`).join('');
+  }
   const galleryItems = document.querySelectorAll('.gallery-item[data-gallery-category]');
   const galleryLightbox = document.getElementById('galleryLightbox');
   const galleryLightboxImage = document.getElementById('galleryLightboxImage');
   const galleryLightboxTitle = document.getElementById('galleryLightboxTitle');
+  const galleryLightboxDescription = document.getElementById('galleryLightboxDescription');
   const galleryLightboxCount = document.getElementById('galleryLightboxCount');
   const galleryLightboxClose = document.getElementById('galleryLightboxClose');
   const galleryLightboxPrev = document.getElementById('galleryLightboxPrev');
@@ -1652,15 +1691,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const activeItem = visibleItems[galleryActiveIndex];
     if (!activeItem || !galleryLightboxImage) return;
 
-    const svg = activeItem.querySelector('svg');
-    const title = svg ? svg.getAttribute('aria-label') || 'Gallery image' : 'Gallery image';
+    const sourceImage = activeItem.querySelector('img');
+    const title = activeItem.dataset.galleryTitle || sourceImage?.alt || 'Gallery image';
+    const description = activeItem.dataset.galleryDescription || '';
     galleryLightboxImage.innerHTML = '';
-    if (svg) {
-      const fullImage = svg.cloneNode(true);
-      fullImage.removeAttribute('style');
+    if (sourceImage) {
+      const fullImage = sourceImage.cloneNode();
+      fullImage.removeAttribute('loading');
       galleryLightboxImage.appendChild(fullImage);
     }
     galleryLightboxTitle.textContent = title;
+    galleryLightboxDescription.textContent = description;
     galleryLightboxCount.textContent = `${galleryActiveIndex + 1} / ${visibleItems.length}`;
   }
 
@@ -1709,6 +1750,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   galleryItems.forEach(item => {
     item.addEventListener('click', () => openGalleryLightbox(item));
+    item.addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openGalleryLightbox(item);
+    });
   });
 
   if (galleryLightbox) {
