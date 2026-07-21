@@ -2866,14 +2866,16 @@ summary:focus-visible {
   .duplicate-inquiry-body { margin: 18px 0; padding: 14px; }
   .duplicate-inquiry-actions {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(108px, 128px));
+    justify-content: end;
+    gap: 8px;
   }
   .duplicate-inquiry-actions > button {
     width: 100%;
     min-width: 0;
-    min-height: 48px;
-    padding: 11px 10px;
+    min-height: 44px;
+    padding: 9px 10px;
+    font-size: 9px;
     white-space: normal;
     line-height: 1.35;
   }
