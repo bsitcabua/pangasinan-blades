@@ -1520,7 +1520,97 @@ summary:focus-visible {
 .faq-item.open .faq-answer { max-height: 300px; }
 
 /* ============================================================
-   SECTION 10 — CONTACT
+   SECTION 10 — SHIPPING, LEGAL & CARE
+   ============================================================ */
+.customer-guides {
+  background: var(--charcoal);
+  padding: var(--section-pad) 60px;
+  scroll-margin-top: var(--nav-h);
+}
+.customer-guides-inner { max-width: 1300px; margin: 0 auto; }
+.customer-guides-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.65fr);
+  align-items: end;
+  gap: 60px;
+  margin-bottom: 80px;
+}
+.customer-guides-header .eyebrow,
+.customer-guides-header .section-title { grid-column: 1; }
+.customer-guides-header .section-title { margin-top: -8px; }
+.customer-guides-header .section-body { grid-column: 2; grid-row: 1 / span 2; }
+.customer-guides-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 80px;
+}
+.guide-column { min-width: 0; }
+.guide-column-care {
+  padding-left: 80px;
+  border-left: 1px solid var(--ash);
+  scroll-margin-top: calc(var(--nav-h) + 28px);
+}
+.guide-column-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  min-height: 104px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--gold-dim);
+}
+.guide-column-heading .eyebrow { margin-bottom: 8px; }
+.guide-column-heading h3 {
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  line-height: 1.15;
+}
+.guide-number {
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+}
+.guide-item {
+  padding: 28px 0;
+  border-bottom: 1px solid var(--ash);
+  scroll-margin-top: calc(var(--nav-h) + 28px);
+}
+.guide-item h4 {
+  margin-bottom: 10px;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.guide-item p,
+.guide-list {
+  color: var(--silver);
+  font-size: 14px;
+  line-height: 1.85;
+}
+.guide-item p + p { margin-top: 12px; }
+.guide-list { display: grid; gap: 9px; }
+.guide-list li { position: relative; padding-left: 18px; }
+.guide-list li::before {
+  content: '';
+  position: absolute;
+  top: 0.8em;
+  left: 0;
+  width: 6px;
+  height: 1px;
+  background: var(--gold);
+}
+.guide-safety {
+  padding-left: 20px;
+  border-left: 2px solid var(--gold);
+}
+
+/* ============================================================
+   SECTION 11 — CONTACT
    ============================================================ */
 .contact {
   background: var(--charcoal);
@@ -1812,6 +1902,8 @@ summary:focus-visible {
   .gallery-item:nth-child(10), .gallery-item:nth-child(13) { grid-column: span 2; }
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 48px; }
   .contact-inner { grid-template-columns: 1fr; gap: 60px; }
+  .customer-guides-grid { gap: 0 48px; }
+  .guide-column-care { padding-left: 48px; }
 }
 
 @media (max-width: 768px) {
@@ -1958,6 +2050,13 @@ summary:focus-visible {
 
   .faq { padding: var(--section-pad) 24px; }
   .faq-grid { grid-template-columns: 1fr; gap: 0; }
+
+  .customer-guides { padding: var(--section-pad) 24px; }
+  .customer-guides-header { grid-template-columns: 1fr; gap: 22px; margin-bottom: 56px; }
+  .customer-guides-header .section-body { grid-column: 1; grid-row: auto; }
+  .customer-guides-grid { grid-template-columns: 1fr; gap: 64px; }
+  .guide-column-care { padding-left: 0; border-left: 0; }
+  .guide-column-heading { min-height: 0; }
 
   .contact { padding: var(--section-pad) 24px; }
   .form-row { grid-template-columns: 1fr; gap: 24px; }
