@@ -704,8 +704,19 @@ function sendInquiryList() {
   const total = getInquiryListCount();
   const label = total === 1 ? inquiryList[0].name : `${total} selected blades`;
   closeInquiryListModal();
-  closeDrawer();
-  closeFullCatalog();
+
+  const drawer = document.getElementById('quickDrawer');
+  if (drawer) closeDrawer();
+
+  const fullCatalog = document.getElementById('fullCatalogModal');
+  if (fullCatalog && isFullCatalogOpen()) {
+    fullCatalog.style.display = 'none';
+    deactivateDialogFocus(fullCatalog);
+    if (window.location.hash === '#full-collection') {
+      history.replaceState(null, '', `${window.location.pathname}${window.location.search}#contact`);
+    }
+  }
+  document.body.style.overflow = '';
   scrollToContact(label, inquiryListMessage());
 }
 
@@ -1182,10 +1193,14 @@ function openDrawer(id) {
 }
 
 function closeDrawer() {
+  const drawer = document.getElementById('quickDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
+  if (!drawer) return;
+
   resetQuickViewZoom();
-  document.getElementById('quickDrawer').style.transform  = 'translateX(100%)';
-  document.getElementById('drawerBackdrop').style.display = 'none';
-  deactivateDialogFocus(document.getElementById('quickDrawer'));
+  drawer.style.transform = 'translateX(100%)';
+  if (backdrop) backdrop.style.display = 'none';
+  deactivateDialogFocus(drawer);
 
   const inquiryListOpen = document.getElementById('inquiryListModal')?.classList.contains('open');
   if (!isFullCatalogOpen() && !inquiryListOpen) {
@@ -1776,15 +1791,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* --- UTILITY FUNCTIONS --- */
 function scrollToContact(bladeName, buildDetails = '') {
-  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  const contact = document.getElementById('contact');
+  if (!contact) return;
+
+  contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
   if (bladeName) {
     setTimeout(() => {
       const subjectEl = document.getElementById('inquiryType');
       if (subjectEl) {
         subjectEl.value = 'Product Availability';
         const msgEl = document.getElementById('message');
-        if (msgEl && !msgEl.value) {
+        if (msgEl) {
           msgEl.value = `I'm interested in the ${bladeName}. ${buildDetails ? `\n\n${buildDetails}` : ''}`;
+          msgEl.dispatchEvent(new Event('input', { bubbles: true }));
           msgEl.focus();
         }
       }
