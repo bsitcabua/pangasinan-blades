@@ -497,7 +497,6 @@ function loadInquiryList() {
 function updateInquiryBadge() {
   const count = getInquiryListCount();
   const badge = document.getElementById('inquiryListCount');
-  const mobileBadge = document.getElementById('mobileInquiryListCount');
   const label = count ? String(count) : '';
 
   if (badge) {
@@ -505,10 +504,6 @@ function updateInquiryBadge() {
     badge.hidden = count === 0;
   }
 
-  if (mobileBadge) {
-    mobileBadge.textContent = label;
-    mobileBadge.hidden = count === 0;
-  }
 }
 
 function addCurrentBuildToInquiryList(bladeId) {
@@ -1532,22 +1527,50 @@ document.addEventListener('DOMContentLoaded', function() {
   /* --- MOBILE NAV --- */
   const mobileToggle = document.getElementById('mobileToggle');
   const mobileMenu = document.getElementById('mobileMenu');
-  const mobileClose = document.getElementById('mobileClose');
   const mobileLinks = document.querySelectorAll('.mobile-link');
 
+  function setMobileMenu(open, restoreFocus = false) {
+    mobileMenu.classList.toggle('open', open);
+    mobileToggle.classList.toggle('is-open', open);
+    mobileToggle.setAttribute('aria-expanded', String(open));
+    mobileToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    mobileMenu.setAttribute('aria-hidden', String(!open));
+    document.body.style.overflow = open ? 'hidden' : '';
+
+    if (open) window.setTimeout(() => mobileLinks[0]?.focus(), 300);
+    else if (restoreFocus) mobileToggle.focus();
+  }
+
   mobileToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('open');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    setMobileMenu(!mobileMenu.classList.contains('open'));
   });
-  mobileClose.addEventListener('click', () => {
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
+
+  mobileMenu.addEventListener('click', event => {
+    if (event.target === mobileMenu) setMobileMenu(false, true);
   });
+
+  document.addEventListener('click', event => {
+    if (!mobileMenu.classList.contains('open')) return;
+    if (mobileMenu.contains(event.target) || mobileToggle.contains(event.target)) return;
+    setMobileMenu(false, true);
+  });
+
   mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
+      setMobileMenu(false, true);
     });
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && mobileMenu.classList.contains('open')) {
+      setMobileMenu(false, true);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && mobileMenu.classList.contains('open')) {
+      setMobileMenu(false);
+    }
   });
 
   /* --- FILTER PILLS (CATALOG) --- */
