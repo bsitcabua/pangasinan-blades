@@ -2526,6 +2526,43 @@ summary:focus-visible {
 .share-action-icon { width: 26px; height: 26px; flex: 0 0 26px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--gold-dim); color: var(--gold-light); font-weight: 700; text-transform: none; }
 .share-status { min-height: 24px; margin-top: 16px; color: var(--gold-light); font-size: 12px; line-height: 1.5; }
 .share-status.is-error { color: #e48a82; }
+.share-qr {
+  margin-top: 22px;
+  padding: 22px;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  border: 1px solid var(--ash);
+  background: var(--steel);
+  text-align: center;
+}
+.share-qr[hidden] { display: none; }
+.share-qr-code {
+  position: relative;
+  width: min(280px, 100%);
+  aspect-ratio: 1;
+  margin-bottom: 8px;
+  padding: 10px;
+  background: #fff;
+}
+.share-qr-code canvas,
+.share-qr-code > img:not(.share-qr-logo),
+.share-qr-code table { width: 100% !important; height: 100% !important; display: block; }
+.share-qr-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  width: 64px;
+  height: 64px;
+  padding: 4px;
+  border: 5px solid #fff;
+  background: #080808;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+}
+.share-qr strong { color: var(--white); font: 500 18px/1.3 var(--font-display); }
+.share-qr > span { color: var(--silver); font-size: 11px; line-height: 1.5; }
 .share-dialog-open { overflow: hidden; }
 
 @media (hover: none), (pointer: coarse) { .share-card-button { opacity: 1; transform: none; } }
@@ -2540,6 +2577,9 @@ summary:focus-visible {
   .share-panel { max-height: 88svh; overflow-y: auto; padding: 30px 20px max(24px, env(safe-area-inset-bottom)); border-width: 1px 0 0; }
   .share-actions { gap: 8px; }
   .share-actions button { min-height: 46px; padding: 8px 10px; font-size: 10px; }
+  .share-qr { padding: 16px 12px; }
+  .share-qr-code { width: min(240px, 100%); }
+  .share-qr-logo { width: 56px; height: 56px; }
   .share-card-button { top: 10px; right: 10px; }
 }
 

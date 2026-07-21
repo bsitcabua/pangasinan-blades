@@ -9,6 +9,9 @@
   const titleElement = modal.querySelector('[data-share-title]');
   const descriptionElement = modal.querySelector('[data-share-description]');
   const statusElement = modal.querySelector('[data-share-status]');
+  const qrPanel = modal.querySelector('[data-share-qr]');
+  const qrCode = modal.querySelector('[data-share-qr-code]');
+  const qrLabel = modal.querySelector('[data-share-qr-label]');
   const panel = modal.querySelector('.share-panel');
   let activeShare = null;
   let returnFocus = null;
@@ -69,6 +72,9 @@
     returnFocus = trigger;
     titleElement.textContent = `Share ${data.heading}`;
     descriptionElement.textContent = data.description;
+    const nativeButton = panel.querySelector('[data-share-action="native"]');
+    if (nativeButton) nativeButton.hidden = typeof navigator.share !== 'function';
+    if (qrPanel) qrPanel.hidden = true;
     setStatus('');
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
@@ -123,7 +129,26 @@
     };
 
     try {
-      if (action === 'copy') {
+      if (action === 'native') {
+        if (typeof navigator.share === 'function') {
+          await navigator.share({ title, text: activeShare.description, url });
+        }
+      } else if (action === 'qr') {
+        if (!qrPanel || !qrCode || typeof global.QRCode !== 'function') throw new Error('QR generator unavailable');
+        qrCode.querySelectorAll('canvas, table, img:not(.share-qr-logo)').forEach(element => element.remove());
+        new global.QRCode(qrCode, {
+          text: url,
+          width: 280,
+          height: 280,
+          colorDark: '#080808',
+          colorLight: '#ffffff',
+          correctLevel: global.QRCode.CorrectLevel.H,
+        });
+        qrLabel.textContent = activeShare.heading === 'The Complete Collection' ? 'Scan to open the collection' : `Scan to open ${activeShare.heading}`;
+        qrPanel.hidden = false;
+        qrPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        setStatus('QR code ready to scan.');
+      } else if (action === 'copy') {
         await copyText(url);
         setStatus('Share link copied to clipboard.');
       } else if (action === 'messenger') {
@@ -143,20 +168,13 @@
         else popup(links[action]);
       }
     } catch (error) {
+      if (error?.name === 'AbortError') return;
       setStatus('Unable to copy the share information. Please try again.', true);
     }
   }
 
   async function shareFromTrigger(trigger) {
     const data = dataForTrigger(trigger);
-    if (typeof navigator.share === 'function') {
-      try {
-        await navigator.share({ title: data.title, text: data.description, url: data.url });
-        return;
-      } catch (error) {
-        if (error?.name === 'AbortError') return;
-      }
-    }
     openModal(data, trigger);
   }
 
