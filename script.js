@@ -704,8 +704,19 @@ function sendInquiryList() {
   const total = getInquiryListCount();
   const label = total === 1 ? inquiryList[0].name : `${total} selected blades`;
   closeInquiryListModal();
-  closeDrawer();
-  closeFullCatalog();
+
+  const drawer = document.getElementById('quickDrawer');
+  if (drawer) closeDrawer();
+
+  const fullCatalog = document.getElementById('fullCatalogModal');
+  if (fullCatalog && isFullCatalogOpen()) {
+    fullCatalog.style.display = 'none';
+    deactivateDialogFocus(fullCatalog);
+    if (window.location.hash === '#full-collection') {
+      history.replaceState(null, '', `${window.location.pathname}${window.location.search}#contact`);
+    }
+  }
+  document.body.style.overflow = '';
   scrollToContact(label, inquiryListMessage());
 }
 
@@ -1182,10 +1193,14 @@ function openDrawer(id) {
 }
 
 function closeDrawer() {
+  const drawer = document.getElementById('quickDrawer');
+  const backdrop = document.getElementById('drawerBackdrop');
+  if (!drawer) return;
+
   resetQuickViewZoom();
-  document.getElementById('quickDrawer').style.transform  = 'translateX(100%)';
-  document.getElementById('drawerBackdrop').style.display = 'none';
-  deactivateDialogFocus(document.getElementById('quickDrawer'));
+  drawer.style.transform = 'translateX(100%)';
+  if (backdrop) backdrop.style.display = 'none';
+  deactivateDialogFocus(drawer);
 
   const inquiryListOpen = document.getElementById('inquiryListModal')?.classList.contains('open');
   if (!isFullCatalogOpen() && !inquiryListOpen) {
@@ -1776,15 +1791,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* --- UTILITY FUNCTIONS --- */
 function scrollToContact(bladeName, buildDetails = '') {
-  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  const contact = document.getElementById('contact');
+  if (!contact) return;
+
+  contact.scrollIntoView({ behavior: 'smooth', block: 'start' });
   if (bladeName) {
     setTimeout(() => {
-      const subjectEl = document.getElementById('subject');
+      const subjectEl = document.getElementById('inquiryType');
       if (subjectEl) {
-        subjectEl.value = 'Existing Blade';
+        subjectEl.value = 'Product Availability';
         const msgEl = document.getElementById('message');
-        if (msgEl && !msgEl.value) {
+        if (msgEl) {
           msgEl.value = `I'm interested in the ${bladeName}. ${buildDetails ? `\n\n${buildDetails}` : ''}`;
+          msgEl.dispatchEvent(new Event('input', { bubbles: true }));
           msgEl.focus();
         }
       }
@@ -1798,12 +1817,95 @@ function openQuickView(bladeName) {
   openDrawer(blade.id);
 }
 
-function handleFormSubmit(e) {
-  e.preventDefault();
+let contactFormSubmitting = false;
+
+function setContactFormStatus(type = '', message = '') {
+  const status = document.getElementById('formStatus');
+  if (!status) return;
+  status.className = `form-status${type ? ` is-visible is-${type}` : ''}`;
+  status.textContent = message;
+}
+
+function setContactSubmitState(isLoading) {
+  const button = document.getElementById('contactSubmit');
+  if (!button) return;
+  const label = button.querySelector('.contact-submit-label');
+  button.disabled = isLoading;
+  button.classList.toggle('is-loading', isLoading);
+  button.setAttribute('aria-busy', String(isLoading));
+  if (label) label.textContent = isLoading ? 'Sending...' : 'Send Your Inquiry';
+}
+
+async function handleFormSubmit(event) {
+  event.preventDefault();
+  if (contactFormSubmitting) return;
+
+  const form = event.currentTarget;
+  const message = form.elements.message;
+  const trimmedMessage = message.value.trim();
+  message.setCustomValidity(trimmedMessage.length < 10
+    ? 'Please enter at least 10 characters.'
+    : '');
+
+  if (!form.checkValidity()) {
+    setContactFormStatus('error', 'Please complete all required fields and check that your email and message are valid.');
+    form.reportValidity();
+    form.querySelector(':invalid')?.focus();
+    return;
+  }
+
+  contactFormSubmitting = true;
+  setContactFormStatus();
+  setContactSubmitState(true);
+  console.log('Submitting inquiry...');
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' }
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || result.success !== true) throw new Error(result.message || 'Submission failed');
+
+    form.reset();
+    document.getElementById('messageCounter').textContent = '0 / 2000';
+    setContactFormStatus('success', 'Thank you! Your inquiry has been sent successfully. We will get back to you as soon as possible.');
+    console.log('Inquiry submitted successfully.');
+  } catch (error) {
+    setContactFormStatus('error', "We couldn't send your inquiry right now. Please try again later or contact us through Facebook Messenger.");
+    console.error('Submission failed.', error);
+  } finally {
+    contactFormSubmitting = false;
+    setContactSubmitState(false);
+  }
+}
+
+function initializeContactForm() {
   const form = document.getElementById('contactForm');
-  const success = document.getElementById('formSuccess');
-  form.style.display = 'none';
-  success.style.display = 'block';
+  const message = document.getElementById('message');
+  if (!form || form.dataset.initialized === 'true') return;
+
+  form.dataset.initialized = 'true';
+  form.addEventListener('submit', handleFormSubmit);
+  form.addEventListener('input', () => {
+    const status = document.getElementById('formStatus');
+    if (status?.classList.contains('is-error')) setContactFormStatus();
+  });
+
+  if (message) {
+    message.addEventListener('input', () => {
+      message.setCustomValidity('');
+      const counter = document.getElementById('messageCounter');
+      if (counter) counter.textContent = `${message.value.length} / 2000`;
+    });
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeContactForm, { once: true });
+} else {
+  initializeContactForm();
 }
 
 function handleNewsletterSubmit() {

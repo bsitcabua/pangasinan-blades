@@ -1330,15 +1330,22 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
       </div>
     </div>
 
-    <form class="contact-form reveal reveal-delay-1" id="contactForm" novalidate onsubmit="handleFormSubmit(event)">
+    <form class="contact-form reveal reveal-delay-1" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+      <input type="hidden" name="access_key" value="6eb9019f-5190-4ed5-b833-4d772f251daf">
+      <input type="hidden" name="subject" value="Pangasinan Blades Product Inquiry">
+      <input type="hidden" name="from_name" value="Pangasinan Blades Website">
+      <div class="form-honeypot" aria-hidden="true">
+        <label for="botcheck">Leave this field empty</label>
+        <input type="checkbox" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off">
+      </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label" for="firstName">First Name *</label>
-          <input class="form-input" type="text" id="firstName" name="firstName" placeholder="Juan" required autocomplete="given-name">
+          <input class="form-input" type="text" id="firstName" name="first_name" placeholder="Juan" required autocomplete="given-name">
         </div>
         <div class="form-group">
           <label class="form-label" for="lastName">Last Name *</label>
-          <input class="form-input" type="text" id="lastName" name="lastName" placeholder="dela Cruz" required autocomplete="family-name">
+          <input class="form-input" type="text" id="lastName" name="last_name" placeholder="Dela Cruz" required autocomplete="family-name">
         </div>
       </div>
 
@@ -1349,42 +1356,52 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
         </div>
         <div class="form-group">
           <label class="form-label" for="phone">Phone (optional)</label>
-          <input class="form-input" type="tel" id="phone" name="phone" placeholder="+63 900 000 0000" autocomplete="tel">
+          <input class="form-input" type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" autocomplete="tel">
         </div>
       </div>
 
       <div class="form-group">
-        <label class="form-label" for="subject">Inquiry Type *</label>
-        <select class="form-select" id="subject" name="subject" required>
+        <label class="form-label" for="address">Complete Address (optional)</label>
+        <input class="form-input" type="text" id="address" name="complete_address" placeholder="Street, Barangay, City or Municipality, Province, Postal Code" autocomplete="street-address">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inquiryType">Inquiry Type *</label>
+        <select class="form-select" id="inquiryType" name="inquiry_type" required>
           <option value="" disabled selected>Select an inquiry type</option>
-          <option value="General Inquiry">General Inquiry</option>
-          <option value="Commission Request">Commission a Custom Blade</option>
-          <option value="Existing Blade">Ask About an Existing Blade</option>
-          <option value="Order Question">Order or Shipping Question</option>
-          <option value="Media">Media or Press</option>
-          <option value="Workshop Visit">Workshop Visit Request</option>
+          <option value="Product Availability">Product Availability</option>
+          <option value="Custom Blade Order">Custom Blade Order</option>
+          <option value="Price Quotation">Price Quotation</option>
+          <option value="International Order">International Order</option>
+          <option value="Shipping Inquiry">Shipping Inquiry</option>
+          <option value="Existing Order Status">Existing Order Status</option>
+          <option value="Repair / Warranty">Repair / Warranty</option>
+          <option value="Wholesale">Wholesale</option>
+          <option value="Collaboration">Collaboration</option>
+          <option value="Other">Other</option>
         </select>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="message">Your Message *</label>
-        <textarea class="form-textarea" id="message" name="message" rows="5" placeholder="Tell us about the blade you're looking for, or any questions you have..." required></textarea>
+        <textarea class="form-textarea" id="message" name="message" rows="8" minlength="10" maxlength="2000" placeholder="Tell us about the blade you're looking for. Include the blade name, length, steel, handle material, scabbard, quantity, or any questions you have." required aria-describedby="messageCounter"></textarea>
+        <div class="form-counter" id="messageCounter" aria-live="polite">0 / 2000</div>
+      </div>
+
+      <div class="form-consent">
+        <input type="checkbox" id="privacyConsent" name="privacy_consent" value="Agreed" required>
+        <label for="privacyConsent">I agree that Pangasinan Blades may use the information provided to respond to my inquiry.</label>
       </div>
 
       <div class="form-submit">
-        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;padding:20px;font-size:12px;">
-          Send Your Inquiry &nbsp;→
+        <button type="submit" class="btn-primary contact-submit" id="contactSubmit">
+          <span class="contact-submit-spinner" aria-hidden="true"></span>
+          <span class="contact-submit-label">Send Your Inquiry</span>
+          <span aria-hidden="true">→</span>
         </button>
       </div>
+      <div class="form-status" id="formStatus" role="status" aria-live="polite" aria-atomic="true"></div>
     </form>
-
-    <!-- Success state (hidden by default) -->
-    <div id="formSuccess" style="display:none; text-align:center; padding:60px 40px; border:1px solid var(--gold-dim);">
-      <div style="font-size:36px; margin-bottom:24px; color:var(--gold);">✦</div>
-      <h3 style="font-family:var(--font-display);font-size:28px;color:var(--white);margin-bottom:16px;">Inquiry Prepared</h3>
-      <p style="color:var(--silver);font-size:15px;line-height:1.8;max-width:420px;margin:0 auto 32px;">This form is not connected to an email service yet. Please send your inquiry through the listed email address or WhatsApp.</p>
-      <a href="#catalog" class="btn-text">Browse the Collection <span class="arrow">→</span></a>
-    </div>
   </div>
 </section>
 
