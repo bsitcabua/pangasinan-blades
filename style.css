@@ -1746,37 +1746,20 @@ summary:focus-visible {
   accent-color: var(--gold);
 }
 .form-consent input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  display: grid;
-  place-content: center;
+  appearance: auto !important;
+  -webkit-appearance: checkbox !important;
+  display: inline-block !important;
   width: 20px;
   height: 20px;
   min-width: 20px;
   margin-top: 1px;
   flex: 0 0 20px;
-  border: 1px solid rgba(200,150,60,0.65);
-  border-radius: 2px;
-  background: rgba(8,8,8,0.72);
+  opacity: 1;
+  visibility: visible;
+  accent-color: var(--gold);
+  color-scheme: dark;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.form-consent input[type="checkbox"]::before {
-  content: '';
-  width: 5px;
-  height: 10px;
-  border: solid #080808;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg) scale(0);
-  transform-origin: center;
-  transition: transform 0.18s var(--ease-out);
-}
-.form-consent input[type="checkbox"]:checked {
-  background: var(--gold);
-  border-color: var(--gold);
-}
-.form-consent input[type="checkbox"]:checked::before { transform: rotate(45deg) scale(1); }
-.form-consent input[type="checkbox"]:hover { border-color: var(--gold); }
 .form-consent input[type="checkbox"]:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 3px;
