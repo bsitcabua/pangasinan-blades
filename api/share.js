@@ -3,7 +3,7 @@
 const products = require('../data/products.json');
 
 const SITE_URL = 'https://www.pangasinanblades.com';
-const SHARE_PREVIEW_VERSION = '2';
+const SHARE_PREVIEW_VERSION = '3';
 
 function escapeHtml(value = '') {
   return String(value)
@@ -46,21 +46,23 @@ module.exports = function shareProduct(request, response) {
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>${escapeHtml(title)}</title>
   <meta name="description" content="${escapeHtml(description)}">
-  <meta name="robots" content="noindex,follow,max-image-preview:large">
-  <link rel="canonical" href="${escapeHtml(destination)}">
-  <meta property="og:type" content="product">
+  <link rel="canonical" href="${escapeHtml(shareUrl)}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_PH">
   <meta property="og:site_name" content="Pangasinan Blades">
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:url" content="${escapeHtml(shareUrl)}">
   <meta property="og:image" content="${escapeHtml(image)}">
   <meta property="og:image:secure_url" content="${escapeHtml(image)}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="3664">
+  <meta property="og:image:height" content="2691">
   <meta property="og:image:alt" content="${escapeHtml(product.name)} handcrafted blade">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(description)}">
   <meta name="twitter:image" content="${escapeHtml(image)}">
-  <meta http-equiv="refresh" content="0;url=${escapeHtml(destination)}">
 </head>
 <body>
   <p>Opening <a href="${escapeHtml(destination)}">${escapeHtml(product.name)}</a> at Pangasinan Blades.</p>
