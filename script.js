@@ -1908,14 +1908,107 @@ if (document.readyState === 'loading') {
   initializeContactForm();
 }
 
-function handleNewsletterSubmit() {
-  const input = document.querySelector('.newsletter-input');
-  if (input && input.value.includes('@')) {
-    const btn = document.querySelector('.newsletter-btn');
-    btn.textContent = 'Subscribed ✓';
-    btn.style.background = '#2a5a1a';
-    btn.style.borderColor = '#2a5a1a';
-    btn.disabled = true;
-    input.value = '';
+function initializeBrevoNewsletterState() {
+  const form = document.getElementById('sib-form');
+  const button = form?.querySelector('.newsletter-submit');
+  const loader = button?.querySelector('.progress-indicator__icon');
+  const email = document.getElementById('newsletterEmail');
+  const fieldError = document.getElementById('newsletterFieldError');
+  const success = document.getElementById('success-message');
+  const error = document.getElementById('error-message');
+  if (!form || !button || !email || form.dataset.stateSync === 'true') return;
+
+  form.dataset.stateSync = 'true';
+  let resetTimer = 0;
+
+  function resetNewsletterButton() {
+    window.clearTimeout(resetTimer);
+    button.disabled = false;
+    button.removeAttribute('aria-busy');
+    loader?.classList.add('sib-hide-loader-icon');
   }
+
+  function panelIsActive(panel) {
+    return panel?.classList.contains('sib-form-message-panel--active')
+      || panel?.getAttribute('aria-hidden') === 'false'
+      || panel?.style.display === 'block';
+  }
+
+  function syncNewsletterState() {
+    if (!panelIsActive(success) && !panelIsActive(error)) return;
+    resetNewsletterButton();
+    if (panelIsActive(success)) form.reset();
+  }
+
+  const observer = new MutationObserver(syncNewsletterState);
+  [success, error].forEach(panel => {
+    if (panel) observer.observe(panel, { attributes: true, childList: true, subtree: true });
+  });
+
+  function validateNewsletterEmail() {
+    const value = email.value.trim();
+    email.setCustomValidity('');
+    const message = !value
+      ? 'Please enter your email address.'
+      : (email.validity.typeMismatch ? 'Please enter a valid email address.' : '');
+
+    email.setCustomValidity(message);
+    email.setAttribute('aria-invalid', String(Boolean(message)));
+    if (fieldError) fieldError.textContent = message;
+    return !message;
+  }
+
+  email.addEventListener('input', () => {
+    email.setCustomValidity('');
+    email.removeAttribute('aria-invalid');
+    if (fieldError) fieldError.textContent = '';
+  });
+
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if (!validateNewsletterEmail()) {
+      resetNewsletterButton();
+      email.focus();
+      return;
+    }
+
+    button.disabled = true;
+    button.setAttribute('aria-busy', 'true');
+    loader?.classList.remove('sib-hide-loader-icon');
+    success?.classList.remove('sib-form-message-panel--active');
+    error?.classList.remove('sib-form-message-panel--active');
+    window.clearTimeout(resetTimer);
+    resetTimer = window.setTimeout(resetNewsletterButton, 15000);
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || result.success !== true) {
+        throw new Error(result.message || 'Subscription failed');
+      }
+
+      form.reset();
+      success?.classList.add('sib-form-message-panel--active');
+      error?.classList.remove('sib-form-message-panel--active');
+    } catch (submissionError) {
+      console.error('Newsletter subscription failed.', submissionError);
+      error?.classList.add('sib-form-message-panel--active');
+      success?.classList.remove('sib-form-message-panel--active');
+    } finally {
+      resetNewsletterButton();
+    }
+  });
 }
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeBrevoNewsletterState, { once: true });
+} else {
+  initializeBrevoNewsletterState();
+}
+
