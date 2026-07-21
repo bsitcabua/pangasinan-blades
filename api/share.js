@@ -2,7 +2,8 @@
 
 const products = require('../data/products.json');
 
-const SITE_URL = 'https://pangasinanblades.com';
+const SITE_URL = 'https://www.pangasinanblades.com';
+const SHARE_PREVIEW_VERSION = '2';
 
 function escapeHtml(value = '') {
   return String(value)
@@ -23,15 +24,16 @@ module.exports = function shareProduct(request, response) {
   const product = products.find(item => Number(item.id) === productId);
 
   if (!product) {
-    response.writeHead(302, { Location: `${SITE_URL}/index.html#full-collection` });
+    response.writeHead(302, { Location: `${SITE_URL}/#full-collection` });
     response.end();
     return;
   }
 
   const title = `${product.name} | Pangasinan Blades`;
   const description = descriptionFor(product);
-  const destination = `${SITE_URL}/collection/index.html?id=${product.id}`;
-  const shareUrl = `${SITE_URL}/share?id=${product.id}`;
+  const destination = `${SITE_URL}/collection/?id=${product.id}`;
+  const version = String(request.query.v || SHARE_PREVIEW_VERSION).replace(/[^a-zA-Z0-9._-]/g, '');
+  const shareUrl = `${SITE_URL}/share/?id=${product.id}&v=${encodeURIComponent(version)}`;
   const image = `${SITE_URL}/${product.image.replace(/^\//, '')}`;
   const safeDestination = JSON.stringify(destination).replace(/</g, '\\u003c');
 
