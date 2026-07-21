@@ -1,7 +1,8 @@
 (function initializeProductSharing(global) {
   'use strict';
 
-  const SITE_URL = 'https://pangasinanblades.com';
+  const SITE_URL = 'https://www.pangasinanblades.com';
+  const SHARE_PREVIEW_VERSION = '2';
   const modal = document.querySelector('[data-share-modal]');
   if (!modal) return;
 
@@ -25,8 +26,8 @@
       details.handle && `Handle: ${details.handle}`,
       details.sheath && `Scabbard: ${details.sheath}`,
     ].filter(Boolean).join('\n');
-    const destinationUrl = `${SITE_URL}/collection/index.html?id=${encodeURIComponent(product.id)}`;
-    const url = `${SITE_URL}/share?id=${encodeURIComponent(product.id)}`;
+    const destinationUrl = `${SITE_URL}/collection/?id=${encodeURIComponent(product.id)}`;
+    const url = `${SITE_URL}/share/?id=${encodeURIComponent(product.id)}&v=${SHARE_PREVIEW_VERSION}`;
     return {
       title: `${product.name} | Pangasinan Blades`,
       heading: product.name,
