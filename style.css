@@ -2449,6 +2449,100 @@ summary:focus-visible {
 }
 @media(max-width:480px){ #fcGrid{grid-template-columns:1fr!important} }
 
+/* ============================================================
+   PRODUCT + COLLECTION SHARING
+   ============================================================ */
+.share-header-button,
+.share-card-button,
+.product-share-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.share-header-button {
+  min-width: 44px;
+  height: 40px;
+  padding: 0 14px;
+  gap: 8px;
+  border: 1px solid var(--ash);
+  color: var(--bone);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: border-color .25s ease, color .25s ease, background .25s ease;
+}
+.share-header-button:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-ghost); }
+.share-header-button svg,
+.share-card-button svg,
+.product-share-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.share-card-button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(200,150,60,.45);
+  background: rgba(8,8,8,.78);
+  color: var(--bone);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity .25s ease, transform .25s ease, color .25s ease, border-color .25s ease;
+}
+.blade-card:hover .share-card-button,
+.fc-card:hover .share-card-button,
+.share-card-button:focus-visible { opacity: 1; transform: none; }
+.share-card-button:hover { color: var(--gold); border-color: var(--gold); }
+.share-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.share-modal.open { display: flex; }
+.share-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; background: rgba(8,8,8,.88); backdrop-filter: blur(12px); cursor: default; }
+.share-panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 610px);
+  padding: 38px;
+  border: 1px solid var(--gold-dim);
+  background: var(--charcoal);
+  box-shadow: 0 24px 80px rgba(0,0,0,.65);
+}
+.share-close { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border: 1px solid var(--ash); color: var(--bone); font-size: 25px; transition: color .2s ease, border-color .2s ease; }
+.share-close:hover { color: var(--gold); border-color: var(--gold); }
+.share-kicker { display: block; margin-bottom: 12px; color: var(--gold); font-size: 9px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
+.share-panel h2 { max-width: calc(100% - 44px); color: var(--white); font: 600 clamp(28px, 4vw, 40px)/1.15 var(--font-display); }
+.share-panel > p:not(.share-status) { max-width: 520px; margin-top: 14px; color: var(--silver); font-size: 13px; line-height: 1.7; }
+.share-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 28px; }
+.share-actions button { min-height: 50px; padding: 10px 14px; display: flex; align-items: center; gap: 11px; border: 1px solid var(--ash); color: var(--bone); background: var(--steel); font-size: 11px; font-weight: 500; letter-spacing: .05em; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+.share-actions button:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-ghost); }
+.share-action-icon { width: 26px; height: 26px; flex: 0 0 26px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--gold-dim); color: var(--gold-light); font-weight: 700; text-transform: none; }
+.share-status { min-height: 24px; margin-top: 16px; color: var(--gold-light); font-size: 12px; line-height: 1.5; }
+.share-status.is-error { color: #e48a82; }
+.share-dialog-open { overflow: hidden; }
+
+@media (hover: none), (pointer: coarse) { .share-card-button { opacity: 1; transform: none; } }
+@media (max-width: 600px) {
+  .fc-modal-nav { padding-left: 16px !important; padding-right: 16px !important; gap: 10px !important; }
+  .fc-modal-nav #fcCountLabel { display: none; }
+  .fc-modal-nav > div { min-width: 0; font-size: 16px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fc-modal-nav > div > span:last-child { display: none; }
+  .share-header-button { padding: 0 10px; }
+  .share-header-button span { display: none; }
+  .share-modal { align-items: flex-end; padding: 0; }
+  .share-panel { max-height: 88svh; overflow-y: auto; padding: 30px 20px max(24px, env(safe-area-inset-bottom)); border-width: 1px 0 0; }
+  .share-actions { gap: 8px; }
+  .share-actions button { min-height: 46px; padding: 8px 10px; font-size: 10px; }
+  .share-card-button { top: 10px; right: 10px; }
+}
+
 @media (max-width: 600px) {
   .newsletter-form-row { flex-direction: column; gap: 12px; }
   .newsletter-input { border-right: 1px solid var(--ash); }

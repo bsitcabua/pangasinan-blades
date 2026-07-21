@@ -428,7 +428,7 @@
 ">
 
   <!-- Modal Nav Bar -->
-  <div style="
+  <div class="fc-modal-nav" style="
     position:sticky;top:0;z-index:10;
     background:rgba(8,8,8,0.95);
     backdrop-filter:blur(18px);
@@ -442,6 +442,10 @@
       <span style="font-family:var(--font-body);font-size:11px;font-weight:400;color:var(--silver);letter-spacing:0.14em;margin-left:16px;text-transform:uppercase;">Full Collection</span>
     </div>
     <span id="fcCountLabel" style="margin-left:auto;font-size:11px;color:var(--silver);letter-spacing:0.1em;"></span>
+    <button class="share-header-button" type="button" data-share-trigger data-share-kind="collection" aria-label="Share the complete collection">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
+      <span>Share</span>
+    </button>
     <button onclick="closeFullCatalog()" aria-label="Close full catalog" style="
       width:40px;height:40px;
       border:1px solid var(--ash);
@@ -1501,6 +1505,27 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
 <!-- Back to top -->
 <button class="back-top" id="backTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+<div class="share-modal" data-share-modal role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="shareDialogTitle" aria-describedby="shareDialogDescription">
+  <button class="share-backdrop" type="button" data-share-close aria-label="Close share dialog"></button>
+  <section class="share-panel" role="document">
+    <button class="share-close" type="button" data-share-close aria-label="Close share dialog">&times;</button>
+    <span class="share-kicker">Share Pangasinan Blades</span>
+    <h2 id="shareDialogTitle" data-share-title>Share</h2>
+    <p id="shareDialogDescription" data-share-description></p>
+    <div class="share-actions" aria-label="Sharing options">
+      <button type="button" data-share-action="copy"><span class="share-action-icon" aria-hidden="true">&#128279;</span>Copy Link</button>
+      <button type="button" data-share-action="facebook"><span class="share-action-icon" aria-hidden="true">f</span>Facebook</button>
+      <button type="button" data-share-action="messenger"><span class="share-action-icon" aria-hidden="true">m</span>Messenger</button>
+      <button type="button" data-share-action="whatsapp"><span class="share-action-icon" aria-hidden="true">w</span>WhatsApp</button>
+      <button type="button" data-share-action="x"><span class="share-action-icon" aria-hidden="true">X</span>X</button>
+      <button type="button" data-share-action="telegram"><span class="share-action-icon" aria-hidden="true">t</span>Telegram</button>
+      <button type="button" data-share-action="linkedin"><span class="share-action-icon" aria-hidden="true">in</span>LinkedIn</button>
+      <button type="button" data-share-action="email"><span class="share-action-icon" aria-hidden="true">@</span>Email</button>
+    </div>
+    <p class="share-status" data-share-status aria-live="polite"></p>
+  </section>
+</div>
+
 <!-- ============================================================
      HERO CANVAS — Cinematic Particle Forge
      ============================================================ -->
@@ -1512,6 +1537,7 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
 <script src="js/products-data.js"></script>
 <script src="js/inquiry-list.js"></script>
 <script src="script.js"></script>
+<script src="js/share.js"></script>
 <script>
   window.REQUIRED_CODE_ERROR_MESSAGE = "Please choose a country code";
   window.LOCALE = "en";

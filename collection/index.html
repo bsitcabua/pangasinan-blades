@@ -64,6 +64,10 @@
         <div class="product-page-actions">
           <button class="btn-primary" type="button" data-add-inquiry>Add to Inquiry List</button>
           <button class="btn-ghost" type="button" data-inquire-now>Inquire About This Blade</button>
+          <button class="btn-ghost product-share-button" type="button" data-share-trigger data-share-kind="product">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
+            Share This Blade
+          </button>
         </div>
       </div>
     </article>
@@ -114,8 +118,30 @@
     <section class="duplicate-inquiry-panel copy-success-panel"><button type="button" class="inquiry-list-close copy-success-close" data-close-copy-success aria-label="Close copied inquiry dialog">&times;</button><span class="copy-success-check" aria-hidden="true">&#10003;</span><h2 id="productCopySuccessTitle">Inquiry List Copied</h2><p id="productCopySuccessDescription">Your inquiry list has been copied to your clipboard and is ready to send. Choose Messenger to open our conversation, or Email to create a new inquiry message.</p><p class="copy-success-hint">When you choose Messenger, a complete inquiry message and customer-information form will be copied. Paste it into the Pangasinan Blades conversation, fill in your details, then send it.</p><div class="copy-success-actions"><button class="btn-primary messenger-action" type="button" data-send-copy-messenger><svg class="copy-action-svg messenger-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#007FFF" d="M24 0C10.745 0 0 9.949 0 22.222c0 6.993 3.49 13.231 8.944 17.305V48l8.172-4.485A25.63 25.63 0 0 0 24 44.444c13.255 0 24-9.949 24-22.222C48 9.949 37.255 0 24 0Zm2.385 29.926-6.112-6.519-11.925 6.519L21.466 16l6.261 6.519L39.503 16 26.385 29.926Z"/></svg><span>Send via Messenger</span></button><button class="btn-ghost" type="button" data-send-copy-email><svg class="copy-action-svg email-icon" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 1694.235h1920V226H0v1468.235ZM112.941 376.664V338.94H1807.06v37.723L960 1111.233l-847.059-734.57ZM1807.06 526.198v950.513l-351.134-438.89-88.32 70.475 378.353 472.998H174.042l378.353-472.998-88.32-70.475-351.134 438.89V526.198L960 1260.768l847.059-734.57Z" fill-rule="evenodd"/></svg><span>Send via Email</span></button><button type="button" class="btn-ghost" data-close-copy-success>Close</button></div><p class="copy-email-error" data-copy-email-error role="alert" hidden>Your inquiry list is empty. Please add at least one item before continuing.</p></section>
   </div>
 
+  <div class="share-modal" data-share-modal role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="shareDialogTitle" aria-describedby="shareDialogDescription">
+    <button class="share-backdrop" type="button" data-share-close aria-label="Close share dialog"></button>
+    <section class="share-panel" role="document">
+      <button class="share-close" type="button" data-share-close aria-label="Close share dialog">&times;</button>
+      <span class="share-kicker">Share Pangasinan Blades</span>
+      <h2 id="shareDialogTitle" data-share-title>Share</h2>
+      <p id="shareDialogDescription" data-share-description></p>
+      <div class="share-actions" aria-label="Sharing options">
+        <button type="button" data-share-action="copy"><span class="share-action-icon" aria-hidden="true">&#128279;</span>Copy Link</button>
+        <button type="button" data-share-action="facebook"><span class="share-action-icon" aria-hidden="true">f</span>Facebook</button>
+        <button type="button" data-share-action="messenger"><span class="share-action-icon" aria-hidden="true">m</span>Messenger</button>
+        <button type="button" data-share-action="whatsapp"><span class="share-action-icon" aria-hidden="true">w</span>WhatsApp</button>
+        <button type="button" data-share-action="x"><span class="share-action-icon" aria-hidden="true">X</span>X</button>
+        <button type="button" data-share-action="telegram"><span class="share-action-icon" aria-hidden="true">t</span>Telegram</button>
+        <button type="button" data-share-action="linkedin"><span class="share-action-icon" aria-hidden="true">in</span>LinkedIn</button>
+        <button type="button" data-share-action="email"><span class="share-action-icon" aria-hidden="true">@</span>Email</button>
+      </div>
+      <p class="share-status" data-share-status aria-live="polite"></p>
+    </section>
+  </div>
+
   <script src="../js/products-data.js"></script>
   <script src="../js/inquiry-list.js"></script>
   <script src="../js/product-page.js"></script>
+  <script src="../js/share.js"></script>
 </body>
 </html>
