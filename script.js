@@ -147,6 +147,9 @@ function renderCatalogPreview() {
               `
           }
         </div>
+        <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
+        </button>
       </div>
       <div class="blade-card-body">
         <span class="blade-badge">${blade.series}</span>
@@ -154,10 +157,12 @@ function renderCatalogPreview() {
         <h3 class="blade-name">${blade.name}</h3>
         <p class="blade-meta">${blade.length} · ${blade.material}</p>
       </div>`;
-    card.addEventListener('click', () => {
+    card.addEventListener('click', event => {
+      if (event.target.closest('[data-share-trigger]')) return;
       window.location.href = `collection/index.html?id=${blade.id}`;
     });
     card.addEventListener('keydown', event => {
+      if (event.target.closest('[data-share-trigger]')) return;
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
       window.location.href = `collection/index.html?id=${blade.id}`;
@@ -1016,6 +1021,9 @@ function renderFCGrid(blades) {
               </svg>
             `
         }
+        <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
+        </button>
       </div>
       <div class="fc-card-body">
         <div class="product-status-row">${productStatusMarkup(blade, 'fc-status')}</div>
@@ -1023,10 +1031,12 @@ function renderFCGrid(blades) {
         <h3 class="fc-name">${blade.name}</h3>
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
       </div>`;
-    card.addEventListener('click', () => {
+    card.addEventListener('click', event => {
+      if (event.target.closest('[data-share-trigger]')) return;
       window.location.href = `collection/index.html?id=${blade.id}`;
     });
     card.addEventListener('keydown', event => {
+      if (event.target.closest('[data-share-trigger]')) return;
       if (event.key !== 'Enter' && event.key !== ' ') return;
       event.preventDefault();
       window.location.href = `collection/index.html?id=${blade.id}`;
