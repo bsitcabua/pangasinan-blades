@@ -183,22 +183,18 @@
     </button>
     <a href="#contact" class="btn-primary">Commission a Blade</a>
   </div>
-  <button class="nav-mobile-toggle" aria-label="Open menu" id="mobileToggle">
+  <button class="nav-mobile-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu" id="mobileToggle">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
-  <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Mobile navigation" aria-hidden="true">
   <a href="#story" class="mobile-link">Our Story</a>
   <a href="#catalog" class="mobile-link">Catalog</a>
   <a href="#forging" class="mobile-link">The Craft</a>
   <a href="#gallery" class="mobile-link">Gallery</a>
   <a href="#testimonials" class="mobile-link">Stories</a>
   <a href="#contact" class="mobile-link">Inquire</a>
-  <button class="mobile-inquiry-list" type="button" onclick="openInquiryListModal()">
-    Inquiry List <span class="inquiry-list-badge" id="mobileInquiryListCount" hidden></span>
-  </button>
 </div>
 
 <!-- ============================================================
