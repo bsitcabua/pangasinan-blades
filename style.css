@@ -2797,14 +2797,65 @@ summary:focus-visible {
   transition: border-color .25s ease, color .25s ease;
 }
 .inquiry-list-close:hover { border-color: var(--gold); color: var(--gold); }
-.inquiry-list-body {
+.inquiry-list-content {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+}
+.inquiry-list-body {
   padding: 10px 34px;
 }
+.inquiry-customer-fields {
+  margin: 22px 34px 28px;
+  padding: 22px;
+  border: 1px solid rgba(200,150,60,.24);
+  min-width: 0;
+}
+.inquiry-customer-fields legend {
+  padding: 0 10px;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+.inquiry-customer-fields > p {
+  margin: 0 0 18px;
+  color: var(--silver);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.inquiry-customer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.inquiry-customer-grid label { display: grid; gap: 7px; min-width: 0; }
+.inquiry-customer-grid label > span {
+  color: var(--gold);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.inquiry-customer-grid input,
+.inquiry-customer-grid textarea {
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 11px;
+  border: 1px solid var(--ash);
+  border-radius: 0;
+  background: rgba(8,8,8,.55);
+  color: var(--bone);
+  font: 12px/1.5 var(--font-body);
+  outline: none;
+}
+.inquiry-customer-grid textarea { resize: vertical; }
+.inquiry-customer-grid input:focus,
+.inquiry-customer-grid textarea:focus { border-color: var(--gold); }
+.inquiry-customer-grid input::placeholder,
+.inquiry-customer-grid textarea::placeholder { color: #666; }
+.inquiry-customer-wide { grid-column: 1 / -1; }
 
 .inquiry-list-item {
   display: flex;
@@ -3223,6 +3274,9 @@ summary:focus-visible {
   .inquiry-list-head-actions { gap: 10px; }
   .inquiry-list-close { color: var(--bone); border-color: var(--gold-dim); }
   .inquiry-list-body { padding: 10px 18px 18px; }
+  .inquiry-customer-fields { margin: 14px 18px 22px; padding: 18px; }
+  .inquiry-customer-grid { grid-template-columns: 1fr; }
+  .inquiry-customer-wide { grid-column: auto; }
   .inquiry-list-actions {
     position: relative;
     z-index: 2;

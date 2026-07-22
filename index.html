@@ -302,14 +302,14 @@
       <h2 class="section-title reveal reveal-delay-1" id="catalogTitle">Blades of the<br>Philippine Tradition</h2>
     </div>
     <p class="section-body reveal reveal-delay-2 catalog-intro">
-      Each blade combines precision machinery, skilled craftsmanship, and careful hand-finishing. Choose a ready-stock piece when available, or commission the profile, materials, and finish that fit your purpose.
+      Each blade combines precision machinery, skilled craftsmanship, and careful hand-finishing. Choose a design, request your preferred specifications, and we will confirm whether a finished piece is available or a new build is required.
     </p>
   </div>
 
   <div class="catalog-order-note reveal" aria-label="Ordering information">
     <div class="catalog-note-item"><span class="status-dot status-made" aria-hidden="true"></span><strong>Made to Order</strong><span>Built after your specifications are confirmed.</span></div>
-    <div class="catalog-note-item"><span class="status-dot status-ready" aria-hidden="true"></span><strong>Ready Stock</strong><span>Available only when a finished piece is on hand.</span></div>
-    <div class="catalog-note-item"><span class="status-dot status-custom" aria-hidden="true"></span><strong>Custom Orders Accepted</strong><span>Most designs can be tailored for you.</span></div>
+    <div class="catalog-note-item"><span class="status-dot status-ready" aria-hidden="true"></span><strong>Stock Confirmation Required</strong><span>Finished pieces may be available. Request a quotation so we can confirm current stock.</span></div>
+    <div class="catalog-note-item"><span class="status-dot status-custom" aria-hidden="true"></span><strong>Custom Orders Welcome</strong><span>Most designs can be tailored to your preferred dimensions, materials, and finish.</span></div>
   </div>
 
   <div class="filter-bar reveal" role="group" aria-label="Filter blades">
@@ -574,7 +574,21 @@
       </div>
     </div>
 
-    <div class="inquiry-list-body" id="inquiryListBody"></div>
+    <div class="inquiry-list-content">
+      <div class="inquiry-list-body" id="inquiryListBody"></div>
+      <fieldset class="inquiry-customer-fields">
+        <legend>Customer Information</legend>
+        <p>Used only for this browser session and included in your quotation message.</p>
+        <div class="inquiry-customer-grid">
+          <label><span>First Name</span><input type="text" data-inquiry-customer-field="firstName" autocomplete="given-name" placeholder="Juan"></label>
+          <label><span>Last Name</span><input type="text" data-inquiry-customer-field="lastName" autocomplete="family-name" placeholder="Dela Cruz"></label>
+          <label><span>Email</span><input type="email" data-inquiry-customer-field="email" autocomplete="email" placeholder="juan@email.com"></label>
+          <label><span>Phone Number</span><input type="tel" data-inquiry-customer-field="phone" autocomplete="tel" placeholder="+63 912 345 6789"></label>
+          <label class="inquiry-customer-wide"><span>Complete Address</span><input type="text" data-inquiry-customer-field="address" autocomplete="street-address" placeholder="Street, Barangay, City or Municipality, Province, Postal Code"></label>
+          <label class="inquiry-customer-wide"><span>Additional Notes</span><textarea data-inquiry-customer-field="notes" maxlength="500" rows="3" placeholder="Add delivery details, questions, or other information for the quotation"></textarea></label>
+        </div>
+      </fieldset>
+    </div>
 
     <div class="inquiry-list-actions">
       <button type="button" class="btn-ghost" id="copyInquiryListBtn" onclick="copyInquiryList()">Copy Inquiry List</button>
@@ -1231,7 +1245,7 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
           <h4>Payment Policy</h4>
           <ul class="guide-list">
             <li>Custom and made-to-order work requires a 50% down payment before production begins.</li>
-            <li>Ready-stock items require full payment to reserve and prepare the item for shipment.</li>
+            <li>A finished item confirmed as available requires full payment to reserve and prepare it for shipment.</li>
             <li>The remaining custom-order balance, including shipping, must be paid before dispatch.</li>
             <li>Accepted methods include GCash, bank transfer, PayPal, and Western Union, subject to confirmation.</li>
           </ul>

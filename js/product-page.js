@@ -36,6 +36,32 @@
   const clearModal = document.getElementById('productClearModal');
   const copySuccessModal = document.getElementById('productCopySuccessModal');
 
+  function getCustomer() {
+    return store.loadCustomer?.() || {};
+  }
+
+  function populateCustomerControls(customer = getCustomer()) {
+    document.querySelectorAll('[data-inquiry-customer-field]').forEach(control => {
+      const value = customer[control.dataset.inquiryCustomerField] || '';
+      if (control.value !== value) control.value = value;
+    });
+  }
+
+  function saveCustomerControls() {
+    if (!store.saveCustomer) return {};
+    const customer = getCustomer();
+    document.querySelectorAll('[data-inquiry-customer-field]').forEach(control => {
+      customer[control.dataset.inquiryCustomerField] = control.value;
+    });
+    return store.saveCustomer(customer);
+  }
+
+  function quotationText(options = {}) {
+    return store.quotation
+      ? store.quotation(items, { customer: getCustomer(), ...options })
+      : store.message(items);
+  }
+
   function assetPath(value = '') {
     if (!value || /^(?:https?:|data:|\/|\.\.\/|\.\/)/.test(value)) return value;
     return `../${value}`;
@@ -47,7 +73,7 @@
 
   function orderingNote(item) {
     return item.status === 'ready-stock'
-      ? 'A finished piece may be available. Confirm current availability before purchase; custom specifications can also be requested.'
+      ? 'A finished piece may be available. Request a quotation so we can confirm current stock; custom specifications can also be requested.'
       : 'Made after your specifications are confirmed. Final price and production timing are provided with your quotation.';
   }
 
@@ -81,9 +107,9 @@
       productImage.parentElement?.classList.add('product-image-unavailable');
       productImage.parentElement?.setAttribute('data-image-label', `${product.name} image unavailable`);
     }, { once: true });
-    const availability = product.status === 'ready-stock' ? 'Ready Stock - Confirm Availability' : 'Made to Order';
+    const availability = product.status === 'ready-stock' ? 'Check Availability' : 'Made to Order';
     const statusClass = product.status === 'ready-stock' ? 'is-ready' : 'is-made';
-    document.querySelector('[data-product-statuses]').innerHTML = `<span class="product-status ${statusClass}"><i aria-hidden="true"></i>${availability}</span><span class="product-status is-custom"><i aria-hidden="true"></i>Customizable</span>`;
+    document.querySelector('[data-product-statuses]').innerHTML = `<span class="product-status ${statusClass}"><i aria-hidden="true"></i>${availability}</span><span class="product-status is-custom"><i aria-hidden="true"></i>Custom Orders Welcome</span>`;
     ['steel', 'bladeLength', 'handle', 'sheath'].forEach(name => {
       const control = document.querySelector(`[data-product-field="${name}"]`);
       if (control && details[name]) control.value = details[name];
@@ -340,7 +366,8 @@
   }
 
   function goToContact() {
-    sessionStorage.setItem('pangasinanBladesContactPrefill', store.message(items));
+    const message = quotationText({ includeCustomer: false, includeGreeting: false, includeClosing: false });
+    sessionStorage.setItem('pangasinanBladesContactPrefill', message);
     window.location.href = window.location.protocol === 'file:' ? '../index.html#contact' : '/#contact';
   }
 
@@ -348,7 +375,7 @@
     if (!items.length) return;
     const button = document.querySelector('[data-copy-inquiry]');
     const errorMessage = document.querySelector('[data-copy-error]');
-    const inquiryText = store.message(items);
+    const inquiryText = quotationText();
     if (errorMessage) errorMessage.hidden = true;
     try {
       if (navigator.clipboard && window.isSecureContext) {
@@ -416,10 +443,8 @@
       return;
     }
     if (emailError) emailError.hidden = true;
-    const inquiryText = store.message(items);
     const subject = 'Pangasinan Blades Product Inquiry';
-    const separator = '--------------------------------------------------';
-    const body = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${inquiryText}\n${separator}\n\nCustomer Information\n\nName:\nComplete Address:\nPhone Number:\n\nAdditional Notes:\n(Optional)\n\n${separator}\n\nPlease let me know:\n\n• Product availability\n• Total cost\n• Shipping fee\n• Estimated production time\n• Estimated delivery time\n\nThank you!\n\nBest regards,`;
+    const body = quotationText();
     window.location.href = `mailto:inquire@pangasinanblades.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
   document.querySelector('[data-send-copy-messenger]')?.addEventListener('click', async event => {
@@ -448,8 +473,7 @@
     }
     messengerWindow.opener = null;
     try {
-      const separator = '--------------------------------------------------';
-      const message = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${store.message(items)}\n${separator}\n\nFill fill up this form\nComplete name:\nAddress:\nPhone:\nEmail:\n\nPlease let me know the availability, total cost, shipping fee, and estimated production time.\n\nThank you!`;
+      const message = quotationText();
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(message);
       } else {
@@ -527,6 +551,9 @@
     const output = editor?.querySelector('[data-edit-field="hardness"]');
     if (output) output.textContent = hardnessBySteel[event.target.value] || 'Confirm with maker';
   });
+  document.querySelectorAll('[data-inquiry-customer-field]').forEach(control => {
+    control.addEventListener('input', saveCustomerControls);
+  });
   document.querySelector('[data-inquiry-body]')?.addEventListener('click', event => {
     const editButton = event.target.closest('[data-edit-toggle]');
     if (editButton) {
@@ -586,5 +613,6 @@
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
 
+  populateCustomerControls();
   updateBadges();
 })();
