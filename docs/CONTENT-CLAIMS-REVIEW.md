@@ -63,6 +63,6 @@ Confirm before treating these as binding customer policies:
 - `index.html:1390`: response within 24 hours.
 - Contact phone, email, hours, workshop-visit policy, social links, privacy, terms, and shipping/legal links.
 
-## Contact Form Limitation
+## Contact Form Integration
 
-The contact form has no backend. Its completion state now explicitly says the form is not connected to an email service and directs customers to the listed email or WhatsApp details.
+The contact form submits to Web3Forms and the newsletter submits to Brevo from browser JavaScript. Provider keys and endpoints are public by design and must be restricted and monitored in their respective dashboards.

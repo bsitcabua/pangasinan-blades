@@ -16,7 +16,7 @@ npm run validate
 - `sitemap.xml`
 - `docs/PRODUCT-URLS.md`
 
-`js/product-page.js` reads the numeric ID from `collection/index.html?id={id}` and loads the matching record from `js/products-data.js`; `data/products.json` remains the only manually maintained product source.
+`js/product-page.js` reads the numeric ID from `/collection/?id={id}` and loads the matching record from `js/products-data.js`; `data/products.json` remains the only manually maintained product source.
 
 ## Add A Product
 
@@ -37,7 +37,15 @@ Supported `status` values currently used by the site are `made-to-order` and `re
 - Output directory: `.`
 - Node.js: 18 or newer
 
-No rewrite configuration is required. Product links use `collection/index.html?id={id}` on deployed hosting and through `file:///`.
+`vercel.json` rewrites `/share/` to the dynamic social-preview endpoint and applies browser security headers. Product links use `/collection/?id={id}` on deployed hosting; the generated `collection/index.html?id={id}` path remains available for local `file:///` testing.
+
+## Public Form Integrations
+
+The contact form submits to Web3Forms and the newsletter submits to Brevo. Their browser-facing keys and endpoints are necessarily public. Restrict Web3Forms submissions to the production domain in the provider dashboard and monitor both providers for abuse.
+
+## QRCode.js
+
+`js/vendor/qrcode.min.js` is QRCode.js 1.0.0, distributed under the MIT license. Source: https://github.com/davidshimjs/qrcodejs. Review upstream releases and replace the vendored file deliberately when updating.
 
 ## Product Data And Inquiry State
 

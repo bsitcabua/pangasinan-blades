@@ -9,58 +9,68 @@
    ============================================================ */
 const HERO_SLIDES = [
   {
-    image: 'assets/images/header/regular_ginunting.png',
+    image: 'assets/images/header/regular_ginunting.webp',
     name: 'Regular Ginunting',
     description: 'A traditional Filipino utility and fighting blade known for its balanced curved profile.'
   },
   {
-    image: 'assets/images/header/tactical_ginunting.png',
+    image: 'assets/images/header/tactical_ginunting.webp',
     name: 'Tactical Ginunting',
     description: 'A modern interpretation of the classic Ginunting, built for outdoor, tactical, and field use.'
   },
   {
-    image: 'assets/images/header/modern_andres_bolo.png',
+    image: 'assets/images/header/modern_andres_bolo.webp',
     name: 'Modern Andres Bolo',
     description: 'A contemporary bolo designed for powerful cutting, bushcraft, and everyday utility.'
   },
   {
-    image: 'assets/images/header/military_bolo.png',
+    image: 'assets/images/header/military_bolo.webp',
     name: 'Military Bolo',
     description: 'Inspired by service blades used for survival, clearing vegetation, and field work.'
   },
   {
-    image: 'assets/images/header/itak_tagalog.png',
+    image: 'assets/images/header/itak_tagalog.webp',
     name: 'Itak Tagalog',
     description: 'A classic Tagalog blade valued for its versatility in farming, utility, and traditional use.'
   },
   {
-    image: 'assets/images/header/itak_tinegre.png',
+    image: 'assets/images/header/itak_tinegre.webp',
     name: 'Itak Tinegre',
     description: 'A robust Filipino blade featuring a distinctive profile for powerful chopping performance.'
   },
   {
-    image: 'assets/images/header/garab.png',
+    image: 'assets/images/header/garab.webp',
     name: 'Garab',
     description: 'A traditional harvesting blade with a curved edge designed for efficient cutting.'
   },
   {
-    image: 'assets/images/header/dahon_palay.png',
+    image: 'assets/images/header/dahon_palay.webp',
     name: 'Dahon Palay',
     description: 'Named after the shape of a rice leaf, featuring an elegant profile and excellent balance.'
   },
   {
-    image: 'assets/images/header/gayang.png',
+    image: 'assets/images/header/gayang.webp',
     name: 'Gayang',
     description: 'A long, graceful Filipino blade crafted for both traditional heritage and practical use.'
   },
   {
-    image: 'assets/images/header/barong.png',
+    image: 'assets/images/header/barong.webp',
     name: 'Barong',
     description: 'A leaf-shaped blade traditionally associated with the Moro peoples of the southern Philippines.'
   }
 ];
 
 const HERO_SLIDESHOW_INTERVAL = 6000;
+
+document.addEventListener('error', event => {
+  const image = event.target;
+  if (!(image instanceof HTMLImageElement)) return;
+  const frame = image.parentElement;
+  if (!frame) return;
+  image.hidden = true;
+  frame.classList.add('image-unavailable');
+  frame.setAttribute('data-image-label', `${image.alt || 'Product'} image unavailable`);
+}, true);
 
 (function initHeroSlideshow() {
   const container = document.getElementById('heroSlideshow');
@@ -72,7 +82,8 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
     const slide = document.createElement('div');
 
     slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
-    slide.style.backgroundImage = `url('${item.image}')`;
+    slide.dataset.backgroundImage = item.image;
+    if (i === 0) slide.style.backgroundImage = `url('${item.image}')`;
 
     container.insertBefore(slide, bladeName);
   });
@@ -99,6 +110,10 @@ const HERO_SLIDESHOW_INTERVAL = 6000;
   setInterval(() => {
     const next = (current + 1) % slides.length;
 
+    if (!slides[next].style.backgroundImage) {
+      slides[next].style.backgroundImage = `url('${slides[next].dataset.backgroundImage}')`;
+    }
+
     slides[current].classList.remove('active');
     slides[next].classList.add('active');
 
@@ -119,6 +134,13 @@ const COMPLETE_COLLECTION = (window.PANGASINAN_PRODUCTS || []).map(makeCollectio
 
 const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
 
+function productDetailsUrl(productId) {
+  const query = `?id=${encodeURIComponent(productId)}`;
+  return window.location.protocol === 'file:'
+    ? `collection/index.html${query}`
+    : `/collection/${query}`;
+}
+
 function renderCatalogPreview() {
   const grid = document.getElementById('catalogGrid');
   const count = document.getElementById('filterCount');
@@ -129,10 +151,8 @@ function renderCatalogPreview() {
     const card = document.createElement('article');
     card.className = 'blade-card';
     card.setAttribute('data-category', blade.category);
-    card.setAttribute('role', 'link');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `View details for ${blade.name}`);
     card.innerHTML = `
+      <a class="blade-card-link" href="${productDetailsUrl(blade.id)}" aria-label="View details for ${blade.name}">
       <div class="blade-card-img">
         <div class="blade-card-img-inner">
           ${
@@ -147,26 +167,16 @@ function renderCatalogPreview() {
               `
           }
         </div>
-        <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
-        </button>
       </div>
       <div class="blade-card-body">
         <span class="blade-badge">${blade.series}</span>
         <div class="product-status-row">${productStatusMarkup(blade)}</div>
         <h3 class="blade-name">${blade.name}</h3>
         <p class="blade-meta">${blade.length} · ${blade.material}</p>
-      </div>`;
-    card.addEventListener('click', event => {
-      if (event.target.closest('[data-share-trigger]')) return;
-      window.location.href = `collection/index.html?id=${blade.id}`;
-    });
-    card.addEventListener('keydown', event => {
-      if (event.target.closest('[data-share-trigger]')) return;
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      event.preventDefault();
-      window.location.href = `collection/index.html?id=${blade.id}`;
-    });
+      </div></a>
+      <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
+      </button>`;
     grid.appendChild(card);
   });
 
@@ -196,7 +206,7 @@ function makeCollectionBlade(product) {
     status,
     customizable: true,
     leadTime: status === 'ready-stock' ? 'Ships after availability is confirmed' : 'Lead time confirmed with your quote',
-    badge: status === 'ready-stock' ? 'Ready Stock' : 'Made to Order',
+    badge: status === 'ready-stock' ? 'Ready Stock - Confirm Availability' : 'Made to Order',
     desc: `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
     bg: '#111111',
     gradColor: '#222222',
@@ -225,7 +235,7 @@ function formatBladePrice(blade) {
 
 function productStatusMarkup(blade, className = 'product-status') {
   const ready = blade.status === 'ready-stock';
-  return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Ready Stock' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Customizable</span>` : ''}`;
+  return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Ready Stock - Confirm Availability' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Customizable</span>` : ''}`;
 }
 
 const BUILD_OPTIONS = {
@@ -987,8 +997,7 @@ function applyFCSearch(value = '') {
 function applyFCSort(skipRead) {
   if (!skipRead) fcActiveSort = document.getElementById('fcSort').value;
   const sorted = [...fcVisibleData];
-  if (fcActiveSort === 'price-asc')  sorted.sort((a,b) => a.price - b.price);
-  if (fcActiveSort === 'price-desc') sorted.sort((a,b) => b.price - a.price);
+  if (fcActiveSort === 'default')    sorted.sort((a,b) => Number(b.featured) - Number(a.featured) || a.id - b.id);
   if (fcActiveSort === 'name')       sorted.sort((a,b) => a.name.localeCompare(b.name));
   renderFCGrid(sorted);
 }
@@ -1015,13 +1024,11 @@ function renderFCGrid(blades) {
   label.textContent   = `${blades.length} blade${blades.length!==1?'s':''}`;
 
   blades.forEach((blade, idx) => {
-    const card = document.createElement('div');
+    const card = document.createElement('article');
     card.className = 'fc-card';
-    card.setAttribute('role', 'link');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `View details for ${blade.name}`);
     card.style.animationDelay = `${idx * 30}ms`;
     card.innerHTML = `
+      <a class="fc-card-link" href="${productDetailsUrl(blade.id)}" aria-label="View details for ${blade.name}">
       <div class="fc-card-img">
         ${
           blade.image
@@ -1040,26 +1047,16 @@ function renderFCGrid(blades) {
               </svg>
             `
         }
-        <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
-        </button>
       </div>
       <div class="fc-card-body">
         <div class="product-status-row">${productStatusMarkup(blade, 'fc-status')}</div>
         <span class="fc-badge">${blade.series}</span>
         <h3 class="fc-name">${blade.name}</h3>
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
-      </div>`;
-    card.addEventListener('click', event => {
-      if (event.target.closest('[data-share-trigger]')) return;
-      window.location.href = `collection/index.html?id=${blade.id}`;
-    });
-    card.addEventListener('keydown', event => {
-      if (event.target.closest('[data-share-trigger]')) return;
-      if (event.key !== 'Enter' && event.key !== ' ') return;
-      event.preventDefault();
-      window.location.href = `collection/index.html?id=${blade.id}`;
-    });
+      </div></a>
+      <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
+      </button>`;
     grid.appendChild(card);
   });
 }
@@ -1597,6 +1594,20 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && mobileMenu.classList.contains('open')) {
       setMobileMenu(false, true);
+      return;
+    }
+    if (event.key === 'Tab' && mobileMenu.classList.contains('open')) {
+      const focusableItems = Array.from(mobileMenu.querySelectorAll('a[href], button:not([disabled])'));
+      if (!focusableItems.length) return;
+      const first = focusableItems[0];
+      const last = focusableItems[focusableItems.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   });
 
@@ -1645,7 +1656,16 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /* --- FAQ ACCORDION --- */
-  document.querySelectorAll('.faq-question').forEach(btn => {
+  document.querySelectorAll('.faq-question').forEach((btn, index) => {
+    const answer = btn.closest('.faq-item')?.querySelector('.faq-answer');
+    if (answer) {
+      const questionId = btn.id || `faq-question-${index + 1}`;
+      const answerId = answer.id || `faq-answer-${index + 1}`;
+      btn.id = questionId;
+      btn.setAttribute('aria-controls', answerId);
+      answer.id = answerId;
+      answer.setAttribute('aria-labelledby', questionId);
+    }
     btn.addEventListener('click', function() {
       const item = this.closest('.faq-item');
       const isOpen = item.classList.contains('open');

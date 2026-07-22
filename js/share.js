@@ -169,7 +169,12 @@
       }
     } catch (error) {
       if (error?.name === 'AbortError') return;
-      setStatus('Unable to copy the share information. Please try again.', true);
+      setStatus(
+        action === 'qr'
+          ? 'Unable to generate the QR code. Please try again.'
+          : 'Unable to complete this sharing action. Please try again.',
+        true
+      );
     }
   }
 

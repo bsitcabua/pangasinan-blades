@@ -68,7 +68,12 @@
     const productImage = document.querySelector('[data-product-image]');
     productImage.src = image;
     productImage.alt = product.name;
-    const availability = product.status === 'ready-stock' ? 'Ready Stock' : 'Made to Order';
+    productImage.addEventListener('error', () => {
+      productImage.hidden = true;
+      productImage.parentElement?.classList.add('product-image-unavailable');
+      productImage.parentElement?.setAttribute('data-image-label', `${product.name} image unavailable`);
+    }, { once: true });
+    const availability = product.status === 'ready-stock' ? 'Ready Stock - Confirm Availability' : 'Made to Order';
     const statusClass = product.status === 'ready-stock' ? 'is-ready' : 'is-made';
     document.querySelector('[data-product-statuses]').innerHTML = `<span class="product-status ${statusClass}"><i aria-hidden="true"></i>${availability}</span><span class="product-status is-custom"><i aria-hidden="true"></i>Customizable</span>`;
     ['steel', 'bladeLength', 'handle', 'sheath'].forEach(name => {
@@ -77,8 +82,8 @@
     });
     document.querySelector('[data-product-field="hardness"]').textContent = details.hardness || hardnessBySteel[details.steel] || 'Confirm with maker';
 
-    const canonical = `https://pangasinanblades.com/collection/index.html?id=${product.id}`;
-    const absoluteImage = `https://pangasinanblades.com/${product.image.replace(/^\//, '')}`;
+    const canonical = `https://www.pangasinanblades.com/collection/?id=${product.id}`;
+    const absoluteImage = `https://www.pangasinanblades.com/${product.image.replace(/^\//, '')}`;
     setMeta('link[rel="canonical"]', 'href', canonical);
     setMeta('meta[property="og:title"]', 'content', `${product.name} | Pangasinan Blades`);
     setMeta('meta[property="og:description"]', 'content', description);
@@ -105,6 +110,8 @@
       ['Hardness', selection.hardness],
       ['Handle', selection.handle],
       ['Scabbard', selection.sheath],
+      ['Finish', selection.finish],
+      ['Intended Use', selection.intendedUse],
       ['Engraving', selection.engraving],
       ['Customization', selection.customization],
     ].filter(([, value]) => String(value || '').trim());
@@ -199,8 +206,10 @@
       hardness: field('hardness'),
       handle: field('handle'),
       sheath: field('sheath'),
-      engraving: '',
-      customization: '',
+      finish: field('finish'),
+      intendedUse: field('intendedUse'),
+      engraving: field('engraving'),
+      customization: field('customization'),
     };
   }
 

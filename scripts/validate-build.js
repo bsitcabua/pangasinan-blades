@@ -5,7 +5,9 @@ const http = require('http');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const SITE_URL = 'https://pangasinanblades.com';
+const SITE_URL = 'https://www.pangasinanblades.com';
+const PRODUCT_STATUSES = new Set(['made-to-order', 'ready-stock']);
+const PRODUCT_CATEGORIES = new Set(['itak', 'bolo', 'moro', 'combat', 'outdoor', 'international', 'kitchen']);
 const products = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'products.json'), 'utf8'));
 const failures = [];
 
@@ -81,7 +83,26 @@ async function validateHttp() {
 }
 
 async function validate() {
-  if (products.length !== 37) fail(`Expected 37 products, found ${products.length}`);
+  if (!Array.isArray(products) || products.length === 0) fail('Product collection must be a non-empty array');
+  const requiredDetails = ['bladeLength', 'steel', 'handle', 'sheath', 'hardness'];
+  const ids = new Set();
+  for (const [index, product] of products.entries()) {
+    const label = `Product ${index + 1}`;
+    if (!Number.isInteger(product.id) || product.id < 1) fail(`${label}: id must be a positive integer`);
+    if (ids.has(product.id)) fail(`${label}: duplicate product ID ${product.id}`);
+    ids.add(product.id);
+    for (const key of ['slug', 'image', 'name', 'category', 'series', 'status']) {
+      if (typeof product[key] !== 'string' || !product[key].trim()) fail(`${label}: ${key} is required`);
+    }
+    if (typeof product.featured !== 'boolean') fail(`${label}: featured must be boolean`);
+    if (!PRODUCT_STATUSES.has(product.status)) fail(`${label}: unsupported status ${product.status}`);
+    if (!PRODUCT_CATEGORIES.has(product.category)) fail(`${label}: unsupported category ${product.category}`);
+    if (!product.details || typeof product.details !== 'object') fail(`${label}: details object is required`);
+    else requiredDetails.forEach(key => {
+      if (typeof product.details[key] !== 'string' || !product.details[key].trim()) fail(`${label}: details.${key} is required`);
+    });
+    if (product.image && !rootAssetExists(product.image)) fail(`${label}: missing product image ${product.image}`);
+  }
   const slugs = products.map(product => product.slug);
   if (new Set(slugs).size !== slugs.length) fail('Duplicate product slugs found');
   validateProduct(products[0]);
@@ -91,11 +112,11 @@ async function validate() {
   validateJsonLd(homepage, 'homepage');
   validateLinks(homepage, 'homepage');
   if ((activeHtml(homepage).match(/<h1\b/g) || []).length !== 1) fail('Homepage must contain exactly one H1');
-  if (!homepage.includes('https://pangasinanblades.com/assets/favicon_io/android-chrome-512x512.png')) fail('Organization logo URL remains incorrect');
+  if (!homepage.includes(`${SITE_URL}/assets/favicon_io/android-chrome-512x512.png`)) fail('Organization logo URL remains incorrect');
 
   const sitemap = read('sitemap.xml');
   const locations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
-  const expected = [`${SITE_URL}/`, ...products.map(product => `${SITE_URL}/collection/index.html?id=${product.id}`)];
+  const expected = [`${SITE_URL}/`, ...products.map(product => `${SITE_URL}/collection/?id=${product.id}`)];
   if (locations.length !== expected.length || expected.some(url => !locations.includes(url))) fail('Sitemap URL set is incomplete');
   if (locations.some(url => /#/.test(url))) fail('Sitemap contains hash URLs');
 
@@ -103,6 +124,15 @@ async function validate() {
   if (!sharedInquiry.includes("pangasinanBladesInquiryList")) fail('Shared inquiry storage key changed');
   const homepageScript = read('script.js');
   if (!homepageScript.includes('window.PANGASINAN_PRODUCTS')) fail('Homepage does not consume generated browser products');
+  if (!homepageScript.includes("window.location.protocol === 'file:'") || !homepageScript.includes('collection/index.html${query}')) fail('Product links do not preserve local file navigation');
+  if (/role=["']link["']/.test(activeHtml(homepage))) fail('Homepage still contains generic role="link" product navigation');
+  if (homepage.includes('Price: Low to High') || homepage.includes('Price: High to Low')) fail('Unavailable price sorting is still displayed');
+  if (!homepage.includes('id="main-content"') || !homepage.includes('class="skip-link"')) fail('Homepage is missing its main landmark or skip link');
+
+  const vercel = JSON.parse(read('vercel.json'));
+  const rewrites = vercel.rewrites || [];
+  if (!rewrites.some(rule => rule.source === '/collection/' && rule.destination === '/api/product')) fail('Server-rendered product rewrite is missing');
+  if (!Array.isArray(vercel.headers) || !vercel.headers.length) fail('Vercel security headers are missing');
 
   await validateHttp();
   if (failures.length) {

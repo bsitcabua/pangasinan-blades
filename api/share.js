@@ -16,7 +16,7 @@ function escapeHtml(value = '') {
 
 function descriptionFor(product) {
   return product.description
-    || `${product.name} from the ${product.series}, handcrafted by Pangasinan Blades and configurable to your preferred specifications.`;
+    || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
 }
 
 module.exports = function shareProduct(request, response) {
@@ -55,10 +55,10 @@ module.exports = function shareProduct(request, response) {
   <meta property="og:url" content="${escapeHtml(shareUrl)}">
   <meta property="og:image" content="${escapeHtml(image)}">
   <meta property="og:image:secure_url" content="${escapeHtml(image)}">
-  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:type" content="image/webp">
   <meta property="og:image:width" content="3664">
   <meta property="og:image:height" content="2691">
-  <meta property="og:image:alt" content="${escapeHtml(product.name)} handcrafted blade">
+  <meta property="og:image:alt" content="${escapeHtml(product.name)} crafted blade">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(description)}">

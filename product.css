@@ -9,6 +9,7 @@
 .product-breadcrumb a:hover { color: var(--gold); }
 .product-detail { max-width: 1300px; margin: 0 auto; padding: 44px 60px 110px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(420px, .85fr); gap: clamp(52px, 7vw, 100px); align-items: start; }
 .product-media { position: sticky; top: 112px; min-height: 560px; background: var(--charcoal); border: 1px solid var(--ash); display: flex; align-items: center; justify-content: center; overflow: hidden; cursor: crosshair; }
+.product-image-unavailable::after { content: attr(data-image-label); position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; color: var(--silver); font-size: 11px; letter-spacing: .12em; text-align: center; text-transform: uppercase; }
 .product-media img { width: 100%; height: auto; max-height: 720px; object-fit: contain; }
 .product-zoom-lens { position: absolute; z-index: 2; display: none; border: 1px solid rgba(224,176,96,.9); background: rgba(200,150,60,.2); box-shadow: 0 0 0 1px rgba(8,8,8,.35), inset 0 0 22px rgba(240,235,224,.08); pointer-events: none; }
 .product-media.is-zooming .product-zoom-lens { display: block; }
@@ -27,8 +28,10 @@
 .product-config-grid { padding: 20px 22px 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .product-config-grid label { display: grid; gap: 7px; }
 .product-config-grid label > span:first-child { color: var(--gold); font-size: 10px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
-.product-config-grid select, .product-config-grid input, .product-config-grid output { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--ash); border-radius: 0; background: rgba(8,8,8,.65); color: var(--bone); font: 13px/1.4 var(--font-body); outline: none; }
-.product-config-grid select:focus, .product-config-grid input:focus { border-color: var(--gold); }
+.product-config-grid select, .product-config-grid input, .product-config-grid textarea, .product-config-grid output { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--ash); border-radius: 0; background: rgba(8,8,8,.65); color: var(--bone); font: 13px/1.4 var(--font-body); outline: none; }
+.product-config-grid textarea { resize: vertical; }
+.product-config-grid select:focus, .product-config-grid input:focus, .product-config-grid textarea:focus { border-color: var(--gold); }
+.product-config-wide { grid-column: 1 / -1; }
 .product-config-grid output { display: flex; align-items: center; color: var(--gold-light); }
 .product-quantity { display: grid !important; grid-template-columns: 42px minmax(0, 1fr) 42px; }
 .product-quantity button { border: 1px solid var(--ash); color: var(--gold); font-size: 18px; transition: background .2s ease, color .2s ease; }
