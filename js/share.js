@@ -146,7 +146,7 @@
         });
         qrLabel.textContent = activeShare.heading === 'The Complete Collection' ? 'Scan to open the collection' : `Scan to open ${activeShare.heading}`;
         qrPanel.hidden = false;
-        qrPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        panel.scrollTo({ top: Math.max(0, qrPanel.offsetTop - 72), behavior: 'smooth' });
         setStatus('QR code ready to scan.');
       } else if (action === 'copy') {
         await copyText(url);

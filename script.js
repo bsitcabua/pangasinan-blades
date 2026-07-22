@@ -242,6 +242,8 @@ const BUILD_OPTIONS = {
   steel: ['5160 Carbon Steel', '304 Stainless Steel'],
   handle: ['Kamagong', 'Mahogany', 'Chico Wood', 'Carabao Horn', 'Buffalo Horn'],
   sheath: ['Mahogany', 'Chico Wood', 'Kamagong (With additional cost)', 'Kydex (With additional cost)'],
+  finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
+  intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
 };
 
 const STEEL_HARDNESS = {
@@ -419,24 +421,45 @@ function formatBuildDetails(selection, quantity) {
     `Hardness: ${selection.hardness}`,
     `Handle: ${selection.handle}`,
     `Scabbard: ${selection.sheath}`,
+    selection.finish ? `Finish: ${selection.finish}` : '',
+    selection.intendedUse ? `Intended Use: ${selection.intendedUse}` : '',
     selection.engraving ? `Engraving: ${selection.engraving}` : '',
-    selection.customization ? `Customization: ${selection.customization}` : '',
+    selection.customization ? `Additional Notes: ${selection.customization}` : '',
     quantity ? `Quantity: ${quantity}` : '',
   ].filter(Boolean).join('\n');
 }
 
-function inquirySpecsMarkup(selection = {}) {
+function inquirySpecsMarkup(selection = {}, quantity) {
   const specs = [
     ['Blade Length', selection.bladeLength],
     ['Blade Material', selection.steel],
     ['Hardness', selection.hardness],
     ['Handle', selection.handle],
     ['Scabbard', selection.sheath],
-    ['Engraving', selection.engraving],
-    ['Customization', selection.customization],
+    ['Finish', selection.finish],
+    ['Intended Use', selection.intendedUse],
+    ['Additional Notes', selection.customization],
+    ['Quantity', quantity],
   ].filter(([, value]) => String(value || '').trim());
 
   return `<dl class="inquiry-specs">${specs.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+}
+
+function inquiryEditorMarkup(item, index) {
+  const selection = item.selection || {};
+  const hardness = STEEL_HARDNESS[selection.steel] || selection.hardness || 'Confirm with maker';
+  return `
+    <div class="inquiry-item-editor" data-inquiry-editor="${index}">
+      <label><span>Blade Length</span><input data-inquiry-field="bladeLength" type="text" value="${escapeHtml(selection.bladeLength)}"></label>
+      <label><span>Blade Material</span><select data-inquiry-field="steel" onchange="updateInquiryEditorHardness(this)">${buildOptionsMarkup(BUILD_OPTIONS.steel, selection.steel || BUILD_OPTIONS.steel[0])}</select></label>
+      <label><span>Hardness</span><output data-inquiry-field="hardness">${escapeHtml(hardness)}</output></label>
+      <label><span>Handle</span><select data-inquiry-field="handle">${buildOptionsMarkup(BUILD_OPTIONS.handle, selection.handle || BUILD_OPTIONS.handle[0])}</select></label>
+      <label><span>Scabbard</span><select data-inquiry-field="sheath">${buildOptionsMarkup(BUILD_OPTIONS.sheath, selection.sheath || BUILD_OPTIONS.sheath[0])}</select></label>
+      <label><span>Finish</span><select data-inquiry-field="finish">${buildOptionsMarkup(BUILD_OPTIONS.finish, selection.finish || BUILD_OPTIONS.finish[0])}</select></label>
+      <label><span>Intended Use</span><select data-inquiry-field="intendedUse">${buildOptionsMarkup(BUILD_OPTIONS.intendedUse, selection.intendedUse || BUILD_OPTIONS.intendedUse[0])}</select></label>
+      <label><span>Quantity</span><input data-inquiry-field="quantity" type="number" min="1" value="${Math.max(1, Number(item.quantity) || 1)}"></label>
+      <label class="inquiry-editor-wide"><span>Additional Notes</span><textarea data-inquiry-field="customization" maxlength="500" rows="3" placeholder="Add other preferences, questions, or information for the workshop">${escapeHtml(selection.customization)}</textarea></label>
+    </div>`;
 }
 
 function getInquiryListCount() {
@@ -457,6 +480,8 @@ function createInquiryItemKey(item) {
     hardness: selection.hardness,
     handle: selection.handle,
     sheath: selection.sheath,
+    finish: selection.finish,
+    intendedUse: selection.intendedUse,
     engraving: selection.engraving,
     customization: selection.customization,
     status: item.status,
@@ -675,6 +700,115 @@ function setInquiryItemQuantity(itemKey, quantity) {
   saveInquiryList();
   updateInquiryBadge();
   renderInquiryListModal();
+}
+
+function updateInquiryActionAvailability() {
+  const editing = Boolean(document.querySelector('.inquiry-item-editor:not([hidden])'));
+  const message = editing ? 'Save your item changes before copying or sending the inquiry.' : '';
+  ['copyInquiryListBtn', 'sendInquiryListBtn'].forEach(id => {
+    const button = document.getElementById(id);
+    if (!button) return;
+    button.disabled = !inquiryList.length || editing;
+    button.toggleAttribute('data-tooltip-active', editing);
+    if (editing) {
+      button.dataset.tooltip = message;
+      button.title = message;
+      button.setAttribute('aria-label', `${button.textContent.trim()}. ${message}`);
+    } else {
+      delete button.dataset.tooltip;
+      button.removeAttribute('title');
+      button.removeAttribute('aria-label');
+    }
+  });
+}
+
+function updateInquiryItem(index, changedControl) {
+  const item = inquiryList[index];
+  const editor = changedControl?.closest('[data-inquiry-editor]');
+  if (!item || !editor) return;
+
+  const value = field => {
+    const control = editor.querySelector(`[data-inquiry-field="${field}"]`);
+    return control ? String(control.value || control.textContent || '').trim() : '';
+  };
+  const steel = value('steel');
+  const hardness = STEEL_HARDNESS[steel] || value('hardness') || 'Confirm with maker';
+  const hardnessOutput = editor.querySelector('[data-inquiry-field="hardness"]');
+  if (hardnessOutput) hardnessOutput.textContent = hardness;
+
+  const updatedItem = {
+    ...item,
+    selection: {
+      ...item.selection,
+      steel,
+      hardness,
+      bladeLength: value('bladeLength'),
+      handle: value('handle'),
+      sheath: value('sheath'),
+      finish: value('finish'),
+      intendedUse: value('intendedUse'),
+      customization: value('customization'),
+    },
+    quantity: Math.max(1, Number(value('quantity')) || 1),
+  };
+  updatedItem.key = createInquiryItemKey(updatedItem);
+
+  const duplicateIndex = inquiryList.findIndex((entry, entryIndex) => entryIndex !== index && createInquiryItemKey(entry) === updatedItem.key);
+  if (duplicateIndex >= 0) {
+    const shouldMerge = window.confirm('An item with the same specifications is already in your Inquiry List. Merge this item into the existing entry?');
+    if (!shouldMerge) {
+      renderInquiryListModal();
+      return;
+    }
+    inquiryList[duplicateIndex].quantity = (Number(inquiryList[duplicateIndex].quantity) || 1) + updatedItem.quantity;
+    inquiryList.splice(index, 1);
+    saveInquiryList();
+    updateInquiryBadge();
+    renderInquiryListModal();
+    return;
+  }
+
+  inquiryList[index] = updatedItem;
+  saveInquiryList();
+  updateInquiryBadge();
+  const quantityControl = editor.querySelector('[data-inquiry-field="quantity"]');
+  if (quantityControl) quantityControl.value = updatedItem.quantity;
+  const count = document.getElementById('inquiryListModalCount');
+  const total = getInquiryListCount();
+  if (count) count.textContent = `${total} blade${total === 1 ? '' : 's'}`;
+}
+
+function removeInquiryItemByIndex(index) {
+  const item = inquiryList[index];
+  if (item) removeInquiryItem(encodeURIComponent(item.key || createInquiryItemKey(item)));
+}
+
+function toggleInquiryItemEditor(index, button) {
+  const editor = document.querySelector(`[data-inquiry-editor="${index}"]`);
+  if (!editor) return;
+  const willOpen = editor.hidden;
+  if (!willOpen) {
+    updateInquiryItem(index, editor.querySelector('select, input, textarea'));
+    renderInquiryListModal();
+    return;
+  }
+  const display = document.querySelector(`[data-inquiry-display="${index}"]`);
+  if (display) display.hidden = true;
+  editor.hidden = !willOpen;
+  button?.setAttribute('aria-expanded', String(willOpen));
+  button?.setAttribute('aria-label', `${willOpen ? 'Save' : 'Edit'} specifications for ${inquiryList[index]?.name || 'this blade'}`);
+  if (button) button.title = willOpen ? 'Save changes' : 'Edit specifications';
+  button?.classList.toggle('is-active', willOpen);
+  const icon = button?.querySelector('[data-edit-icon]');
+  if (icon) icon.innerHTML = '&#10003;';
+  if (willOpen) editor.querySelector('select, input, textarea')?.focus();
+  updateInquiryActionAvailability();
+}
+
+function updateInquiryEditorHardness(steelControl) {
+  const editor = steelControl?.closest('[data-inquiry-editor]');
+  const output = editor?.querySelector('[data-inquiry-field="hardness"]');
+  if (output) output.textContent = STEEL_HARDNESS[steelControl.value] || 'Confirm with maker';
 }
 
 function clearInquiryList() {
@@ -905,20 +1039,20 @@ function renderInquiryListModal() {
     <div class="inquiry-list-info">
       <div class="inquiry-list-item-head">
         <span class="inquiry-list-series">${escapeHtml(item.series)}</span>
-        <button type="button" class="inquiry-list-remove" onclick="removeInquiryItem('${encodeURIComponent(item.key)}')">Remove</button>
+        <div class="inquiry-item-actions">
+          <button type="button" class="inquiry-edit-toggle" onclick="toggleInquiryItemEditor(${index}, this)" aria-expanded="false" aria-label="Edit specifications for ${escapeHtml(item.name)}" title="Edit specifications"><span data-edit-icon aria-hidden="true">&#9998;</span></button>
+          <button type="button" class="inquiry-list-remove" onclick="removeInquiryItemByIndex(${index})" aria-label="Remove ${escapeHtml(item.name)} from inquiry list" title="Remove item"><span aria-hidden="true">&times;</span></button>
+        </div>
       </div>
 
       <h3>${escapeHtml(item.name)}</h3>
-
-      ${inquirySpecsMarkup(item.selection)}
-      <label class="inquiry-list-qty">
-        <span>Quantity</span>
-        <input type="number" min="1" value="${item.quantity || 1}" onchange="setInquiryItemQuantity('${encodeURIComponent(item.key)}', this.value)">
-      </label>
+      <div data-inquiry-display="${index}">${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div>
+      ${inquiryEditorMarkup(item, index).replace('data-inquiry-editor=', 'hidden data-inquiry-editor=')}
     </div>
 
   </article>
 `).join('');
+  updateInquiryActionAvailability();
 }
 
 function openInquiryListModal() {
