@@ -295,6 +295,7 @@
 
   function renderInquiryList() {
     items = store.load();
+    if (!items.length) editingInquiryKey = null;
     updateBadges();
     const body = document.querySelector('[data-inquiry-body]');
     const controls = document.querySelectorAll('[data-copy-inquiry], [data-clear-inquiry], [data-send-inquiry]');
@@ -559,6 +560,7 @@
   }));
   document.querySelector('[data-confirm-remove]')?.addEventListener('click', () => {
     if (!pendingRemoveKey) return;
+    if (editingInquiryKey === pendingRemoveKey) editingInquiryKey = null;
     items = store.remove(items, pendingRemoveKey);
     pendingRemoveKey = null;
     closeDialog(removeModal);
@@ -567,6 +569,8 @@
   document.querySelectorAll('[data-cancel-clear]').forEach(button => button.addEventListener('click', () => closeDialog(clearModal)));
   document.querySelector('[data-confirm-clear]')?.addEventListener('click', () => {
     items = store.save([]);
+    editingInquiryKey = null;
+    pendingDuplicate = null;
     pendingRemoveKey = null;
     closeDialog(clearModal);
     renderInquiryList();

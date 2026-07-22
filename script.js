@@ -998,6 +998,7 @@ function renderInquiryListModal() {
         <strong>No blades added yet.</strong>
         <span>Open a Quick View and add blades to build one inquiry list.</span>
       </div>`;
+    updateInquiryActionAvailability();
     return;
   }
 

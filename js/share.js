@@ -75,6 +75,7 @@
     const nativeButton = panel.querySelector('[data-share-action="native"]');
     if (nativeButton) nativeButton.hidden = typeof navigator.share !== 'function';
     if (qrPanel) qrPanel.hidden = true;
+    panel.scrollTop = 0;
     setStatus('');
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
@@ -87,6 +88,8 @@
     modal.classList.remove('open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('share-dialog-open');
+    panel.scrollTop = 0;
+    if (qrPanel) qrPanel.hidden = true;
     activeShare = null;
     const focusTarget = returnFocus;
     returnFocus = null;
