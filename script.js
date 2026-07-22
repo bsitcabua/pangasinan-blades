@@ -205,8 +205,8 @@ function makeCollectionBlade(product) {
     price: 0,
     status,
     customizable: true,
-    leadTime: status === 'ready-stock' ? 'Ships after availability is confirmed' : 'Lead time confirmed with your quote',
-    badge: status === 'ready-stock' ? 'Ready Stock - Confirm Availability' : 'Made to Order',
+    leadTime: status === 'ready-stock' ? 'Current stock and delivery timing confirmed with your quotation' : 'Lead time confirmed with your quotation',
+    badge: status === 'ready-stock' ? 'Check Availability' : 'Made to Order',
     desc: `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
     bg: '#111111',
     gradColor: '#222222',
@@ -235,7 +235,7 @@ function formatBladePrice(blade) {
 
 function productStatusMarkup(blade, className = 'product-status') {
   const ready = blade.status === 'ready-stock';
-  return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Ready Stock - Confirm Availability' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Customizable</span>` : ''}`;
+  return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Check Availability' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Custom Orders Welcome</span>` : ''}`;
 }
 
 const BUILD_OPTIONS = {
@@ -382,6 +382,30 @@ let pendingDuplicateItem = null;
 let pendingDuplicateIndex = -1;
 let pendingRemoveInquiryKey = null;
 const dialogFocusStack = [];
+
+function getInquiryCustomer() {
+  return INQUIRY_STORE?.loadCustomer?.() || {};
+}
+
+function populateInquiryCustomerControls(customer = getInquiryCustomer()) {
+  document.querySelectorAll('[data-inquiry-customer-field]').forEach(control => {
+    const value = customer[control.dataset.inquiryCustomerField] || '';
+    if (control.value !== value) control.value = value;
+  });
+}
+
+function saveInquiryCustomerFromControls() {
+  if (!INQUIRY_STORE?.saveCustomer) return {};
+  const customer = getInquiryCustomer();
+  document.querySelectorAll('[data-inquiry-customer-field]').forEach(control => {
+    customer[control.dataset.inquiryCustomerField] = control.value;
+  });
+  return INQUIRY_STORE.saveCustomer(customer);
+}
+
+document.addEventListener('input', event => {
+  if (event.target.matches('[data-inquiry-customer-field]')) saveInquiryCustomerFromControls();
+});
 
 function getDialogControls(dialog) {
   return Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'));
@@ -841,7 +865,9 @@ ${formatBuildDetails(item.selection, item.quantity)}`).join('\n\n')}`;
 }
 
 function quotationMessage(options = {}) {
-  if (INQUIRY_STORE?.quotation) return INQUIRY_STORE.quotation(inquiryList, options);
+  if (INQUIRY_STORE?.quotation) {
+    return INQUIRY_STORE.quotation(inquiryList, { customer: getInquiryCustomer(), ...options });
+  }
   return inquiryListMessage();
 }
 
@@ -864,6 +890,7 @@ function sendInquiryList() {
     }
   }
   document.body.style.overflow = '';
+  populateContactCustomer(getInquiryCustomer(), true);
   scrollToContact(label, quotationMessage({ includeCustomer: false, includeGreeting: false, includeClosing: false }));
 }
 
@@ -1336,7 +1363,7 @@ function openDrawer(id) {
     <h2 class="qd-title" id="qdTitle">${blade.name}</h2>
     <p class="qd-meta">${blade.category.charAt(0).toUpperCase()+blade.category.slice(1)} · ${blade.material} · ${blade.length}</p>
     <p class="qd-desc">${blade.desc}</p>
-    <p class="qd-order-note">${blade.status === 'ready-stock' ? 'Ready stock is limited. Please confirm availability before purchase.' : 'Made after your order is confirmed.'} ${blade.customizable ? 'Custom length, steel, handle, scabbard, finish, and engraving are available on request.' : ''}</p>
+    <p class="qd-order-note">${blade.status === 'ready-stock' ? 'A finished piece may be available. Request a quotation so we can confirm current stock.' : 'Made after your specifications and quotation are confirmed.'} ${blade.customizable ? 'Custom length, steel, handle, scabbard, and finish are available on request.' : ''}</p>
     <details class="qd-spec-details" open>
       <summary>Custom build details</summary>
       ${quickBuildConfiguratorMarkup(blade)}
@@ -1628,6 +1655,7 @@ window.addEventListener('resize', resetQuickViewZoom);
 
 document.addEventListener('DOMContentLoaded', function() {
   loadInquiryList();
+  populateInquiryCustomerControls();
   openFullCatalogFromHash();
 
   const contactPrefill = sessionStorage.getItem('pangasinanBladesContactPrefill');
@@ -2043,6 +2071,22 @@ function scrollToContact(bladeName, buildDetails = '') {
   }
 }
 
+function populateContactCustomer(customer = getInquiryCustomer(), overwrite = false) {
+  const fields = {
+    firstName: customer.firstName,
+    lastName: customer.lastName,
+    email: customer.email,
+    phone: customer.phone,
+    address: customer.address,
+  };
+  Object.entries(fields).forEach(([id, value]) => {
+    const control = document.getElementById(id);
+    if (!control) return;
+    if (overwrite) control.value = value || '';
+    else if (value && !control.value) control.value = value;
+  });
+}
+
 function openQuickView(bladeName) {
   const blade = COMPLETE_COLLECTION.find(b => b.name === bladeName);
   if (!blade) return;
@@ -2101,6 +2145,8 @@ async function handleFormSubmit(event) {
     if (!response.ok || result.success !== true) throw new Error(result.message || 'Submission failed');
 
     form.reset();
+    INQUIRY_STORE?.clearCustomer?.();
+    populateInquiryCustomerControls({});
     document.getElementById('messageCounter').textContent = '0 / 2000';
     setContactFormStatus('success', 'Thank you! Your inquiry has been sent successfully. We will get back to you as soon as possible.');
     console.log('Inquiry submitted successfully.');
@@ -2119,10 +2165,22 @@ function initializeContactForm() {
   if (!form || form.dataset.initialized === 'true') return;
 
   form.dataset.initialized = 'true';
+  populateContactCustomer();
   form.addEventListener('submit', handleFormSubmit);
   form.addEventListener('input', () => {
     const status = document.getElementById('formStatus');
     if (status?.classList.contains('is-error')) setContactFormStatus();
+
+    if (INQUIRY_STORE?.saveCustomer) {
+      const customer = getInquiryCustomer();
+      customer.firstName = form.elements.first_name?.value || '';
+      customer.lastName = form.elements.last_name?.value || '';
+      customer.email = form.elements.email?.value || '';
+      customer.phone = form.elements.phone?.value || '';
+      customer.address = form.elements.complete_address?.value || '';
+      INQUIRY_STORE.saveCustomer(customer);
+      populateInquiryCustomerControls(customer);
+    }
   });
 
   if (message) {

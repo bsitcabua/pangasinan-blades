@@ -96,7 +96,21 @@
     <div class="inquiry-list-backdrop" data-close-inquiry aria-hidden="true"></div>
     <section class="inquiry-list-panel">
       <div class="inquiry-list-head"><div><span class="inquiry-list-kicker">Quote Builder</span><h2 id="productInquiryTitle">Inquiry List</h2></div><button class="inquiry-list-close" type="button" data-close-inquiry aria-label="Close inquiry list">&times;</button></div>
-      <div class="inquiry-list-body" data-inquiry-body></div>
+      <div class="inquiry-list-content">
+        <div class="inquiry-list-body" data-inquiry-body></div>
+        <fieldset class="inquiry-customer-fields">
+          <legend>Customer Information</legend>
+          <p>Used only for this browser session and included in your quotation message.</p>
+          <div class="inquiry-customer-grid">
+            <label><span>First Name</span><input type="text" data-inquiry-customer-field="firstName" autocomplete="given-name" placeholder="Juan"></label>
+            <label><span>Last Name</span><input type="text" data-inquiry-customer-field="lastName" autocomplete="family-name" placeholder="Dela Cruz"></label>
+            <label><span>Email</span><input type="email" data-inquiry-customer-field="email" autocomplete="email" placeholder="juan@email.com"></label>
+            <label><span>Phone Number</span><input type="tel" data-inquiry-customer-field="phone" autocomplete="tel" placeholder="+63 912 345 6789"></label>
+            <label class="inquiry-customer-wide"><span>Complete Address</span><input type="text" data-inquiry-customer-field="address" autocomplete="street-address" placeholder="Street, Barangay, City or Municipality, Province, Postal Code"></label>
+            <label class="inquiry-customer-wide"><span>Additional Notes</span><textarea data-inquiry-customer-field="notes" maxlength="500" rows="3" placeholder="Add delivery details, questions, or other information for the quotation"></textarea></label>
+          </div>
+        </fieldset>
+      </div>
       <div class="inquiry-list-actions"><button class="btn-ghost" type="button" data-copy-inquiry>Copy Inquiry List</button><button class="btn-ghost" type="button" data-clear-inquiry>Clear List</button><button class="btn-primary" type="button" data-send-inquiry>Send Inquiry</button></div><p class="copy-inquiry-error" data-copy-error role="alert" hidden>Unable to copy the inquiry list. Please try again or copy it manually.</p>
     </section>
   </div>

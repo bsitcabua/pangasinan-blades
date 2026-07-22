@@ -2,6 +2,7 @@
   'use strict';
 
   const STORAGE_KEY = 'pangasinanBladesInquiryList';
+  const CUSTOMER_STORAGE_KEY = 'pangasinanBladesInquiryCustomer';
 
   function normalize(value) {
     return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -56,6 +57,46 @@
 
   function count(items) {
     return items.reduce((total, item) => total + (Number(item.quantity) || 1), 0);
+  }
+
+  function prepareCustomer(customer = {}) {
+    return {
+      firstName: String(customer.firstName || '').trim(),
+      lastName: String(customer.lastName || '').trim(),
+      email: String(customer.email || '').trim(),
+      phone: String(customer.phone || '').trim(),
+      address: String(customer.address || '').trim(),
+      notes: String(customer.notes || '').trim(),
+    };
+  }
+
+  function loadCustomer() {
+    try {
+      const parsed = JSON.parse(sessionStorage.getItem(CUSTOMER_STORAGE_KEY) || '{}');
+      return prepareCustomer(parsed && typeof parsed === 'object' ? parsed : {});
+    } catch (error) {
+      sessionStorage.removeItem(CUSTOMER_STORAGE_KEY);
+      return prepareCustomer();
+    }
+  }
+
+  function saveCustomer(customer) {
+    const prepared = prepareCustomer(customer);
+    try {
+      sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(prepared));
+    } catch (error) {
+      // The quotation still works when private browsing blocks session storage.
+    }
+    return prepared;
+  }
+
+  function clearCustomer() {
+    try {
+      sessionStorage.removeItem(CUSTOMER_STORAGE_KEY);
+    } catch (error) {
+      // Nothing else is required when session storage is unavailable.
+    }
+    return prepareCustomer();
   }
 
   function findDuplicateIndex(items, item) {
@@ -116,6 +157,8 @@
 
   function quotation(items, options = {}) {
     const preparedItems = Array.isArray(items) ? items.map(prepare) : [];
+    const customer = prepareCustomer(options.customer || {});
+    const customerName = [customer.firstName, customer.lastName].filter(Boolean).join(' ');
     const includeCustomer = options.includeCustomer !== false;
     const includeGreeting = options.includeGreeting !== false;
     const includeClosing = options.includeClosing !== false;
@@ -129,10 +172,10 @@
       sections.push([
         'Customer Information',
         '',
-        'Name:',
-        'Email:',
-        'Phone Number:',
-        'Complete Address:',
+        `Name: ${customerName}`,
+        `Email: ${customer.email}`,
+        `Phone Number: ${customer.phone}`,
+        `Complete Address: ${customer.address}`,
       ].join('\n'));
     }
 
@@ -146,7 +189,7 @@
       '- Estimated production time',
       '- Estimated delivery time',
     ].join('\n'));
-    sections.push('Additional Customer Notes:\n');
+    sections.push(`Additional Customer Notes:\n${customer.notes}`);
 
     if (includeClosing) sections.push('Thank you!\n\nBest regards,');
 
@@ -155,11 +198,16 @@
 
   global.PangasinanInquiry = {
     STORAGE_KEY,
+    CUSTOMER_STORAGE_KEY,
     createKey,
     prepare,
     load,
     save,
     count,
+    prepareCustomer,
+    loadCustomer,
+    saveCustomer,
+    clearCustomer,
     findDuplicateIndex,
     add,
     merge,
