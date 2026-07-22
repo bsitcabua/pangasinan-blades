@@ -100,7 +100,7 @@
       selection.finish ? `Finish: ${selection.finish}` : '',
       selection.intendedUse ? `Intended Use: ${selection.intendedUse}` : '',
       selection.engraving ? `Engraving: ${selection.engraving}` : '',
-      selection.customization ? `Customization: ${selection.customization}` : '',
+      selection.customization ? `Additional Notes: ${selection.customization}` : '',
       quantity ? `Quantity: ${quantity}` : '',
     ].filter(Boolean).join('\n');
   }

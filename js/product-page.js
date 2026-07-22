@@ -16,9 +16,17 @@
     '5160 Carbon Steel': '57-60 HRC',
     '304 Stainless Steel': '15-20 HRC (approximately 70-90 HRB)',
   };
+  const inquiryOptions = {
+    steel: ['5160 Carbon Steel', '304 Stainless Steel'],
+    handle: ['Kamagong', 'Mahogany', 'Chico Wood', 'Carabao Horn', 'Buffalo Horn'],
+    sheath: ['Mahogany', 'Chico Wood', 'Kamagong (With additional cost)', 'Kydex (With additional cost)'],
+    finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
+    intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
+  };
   let items = store.load();
   let pendingDuplicate = null;
   let pendingRemoveKey = null;
+  let editingInquiryKey = null;
   let activeDialog = null;
   let returnFocus = null;
 
@@ -103,7 +111,7 @@
     return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
   }
 
-  function inquirySpecsMarkup(selection = {}) {
+  function inquirySpecsMarkup(selection = {}, quantity) {
     const specs = [
       ['Blade Length', selection.bladeLength],
       ['Blade Material', selection.steel],
@@ -112,10 +120,31 @@
       ['Scabbard', selection.sheath],
       ['Finish', selection.finish],
       ['Intended Use', selection.intendedUse],
-      ['Engraving', selection.engraving],
-      ['Customization', selection.customization],
+      ['Additional Notes', selection.customization],
+      ['Quantity', quantity],
     ].filter(([, value]) => String(value || '').trim());
     return `<dl class="inquiry-specs">${specs.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+  }
+
+  function optionsMarkup(options, selectedValue) {
+    const values = options.includes(selectedValue) ? options : [selectedValue, ...options].filter(Boolean);
+    return values.map(value => `<option value="${escapeHtml(value)}"${value === selectedValue ? ' selected' : ''}>${escapeHtml(value)}</option>`).join('');
+  }
+
+  function inquiryEditorMarkup(item) {
+    const selection = item.selection || {};
+    const hardness = hardnessBySteel[selection.steel] || selection.hardness || 'Confirm with maker';
+    return `<div class="inquiry-item-editor" data-edit-item="${encodeURIComponent(item.key)}">
+      <label><span>Blade Length</span><input data-edit-field="bladeLength" type="text" value="${escapeHtml(selection.bladeLength)}"></label>
+      <label><span>Blade Material</span><select data-edit-field="steel">${optionsMarkup(inquiryOptions.steel, selection.steel || inquiryOptions.steel[0])}</select></label>
+      <label><span>Hardness</span><output data-edit-field="hardness">${escapeHtml(hardness)}</output></label>
+      <label><span>Handle</span><select data-edit-field="handle">${optionsMarkup(inquiryOptions.handle, selection.handle || inquiryOptions.handle[0])}</select></label>
+      <label><span>Scabbard</span><select data-edit-field="sheath">${optionsMarkup(inquiryOptions.sheath, selection.sheath || inquiryOptions.sheath[0])}</select></label>
+      <label><span>Finish</span><select data-edit-field="finish">${optionsMarkup(inquiryOptions.finish, selection.finish || inquiryOptions.finish[0])}</select></label>
+      <label><span>Intended Use</span><select data-edit-field="intendedUse">${optionsMarkup(inquiryOptions.intendedUse, selection.intendedUse || inquiryOptions.intendedUse[0])}</select></label>
+      <label><span>Quantity</span><input data-edit-field="quantity" type="number" min="1" value="${Math.max(1, Number(item.quantity) || 1)}"></label>
+      <label class="inquiry-editor-wide"><span>Additional Notes</span><textarea data-edit-field="customization" maxlength="500" rows="3" placeholder="Add other preferences, questions, or information for the workshop">${escapeHtml(selection.customization)}</textarea></label>
+    </div>`;
   }
 
   renderProduct();
@@ -208,7 +237,6 @@
       sheath: field('sheath'),
       finish: field('finish'),
       intendedUse: field('intendedUse'),
-      engraving: field('engraving'),
       customization: field('customization'),
     };
   }
@@ -270,13 +298,28 @@
     updateBadges();
     const body = document.querySelector('[data-inquiry-body]');
     const controls = document.querySelectorAll('[data-copy-inquiry], [data-clear-inquiry], [data-send-inquiry]');
-    controls.forEach(control => { control.disabled = items.length === 0; });
+    controls.forEach(control => {
+      const requiresSavedEdit = control.matches('[data-copy-inquiry], [data-send-inquiry]');
+      const blockedByEdit = requiresSavedEdit && Boolean(editingInquiryKey);
+      control.disabled = items.length === 0 || blockedByEdit;
+      control.toggleAttribute('data-tooltip-active', blockedByEdit);
+      if (blockedByEdit) {
+        const message = 'Save your item changes before copying or sending the inquiry.';
+        control.dataset.tooltip = message;
+        control.title = message;
+        control.setAttribute('aria-label', `${control.textContent.trim()}. ${message}`);
+      } else {
+        delete control.dataset.tooltip;
+        control.removeAttribute('title');
+        control.removeAttribute('aria-label');
+      }
+    });
     if (!body) return;
     if (!items.length) {
       body.innerHTML = '<div class="inquiry-list-empty"><strong>No blades added yet.</strong><span>Configure a blade and add it to begin your inquiry.</span></div>';
       return;
     }
-    body.innerHTML = items.map(item => `<article class="inquiry-list-item"><div class="inquiry-list-thumb">${item.image ? `<img class="product-inquiry-image" src="${escapeHtml(imagePath(item.image))}" alt="${escapeHtml(item.name)}">` : ''}</div><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}">Remove</button></div><h3>${escapeHtml(item.name)}</h3>${inquirySpecsMarkup(item.selection)}<label class="inquiry-list-qty"><span>Quantity</span><input type="number" min="1" value="${item.quantity}" data-item-quantity="${encodeURIComponent(item.key)}"></label></div></article>`).join('');
+    body.innerHTML = items.map(item => `<article class="inquiry-list-item"><div class="inquiry-list-thumb">${item.image ? `<img class="product-inquiry-image" src="${escapeHtml(imagePath(item.image))}" alt="${escapeHtml(item.name)}">` : ''}</div><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><div class="inquiry-item-actions"><button type="button" class="inquiry-edit-toggle${editingInquiryKey === item.key ? ' is-active' : ''}" data-edit-toggle="${encodeURIComponent(item.key)}" aria-expanded="${editingInquiryKey === item.key}" aria-label="${editingInquiryKey === item.key ? 'Save' : 'Edit'} specifications for ${escapeHtml(item.name)}" title="${editingInquiryKey === item.key ? 'Save changes' : 'Edit specifications'}"><span aria-hidden="true">${editingInquiryKey === item.key ? '&#10003;' : '&#9998;'}</span></button><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}" aria-label="Remove ${escapeHtml(item.name)} from inquiry list" title="Remove item"><span aria-hidden="true">&times;</span></button></div></div><h3>${escapeHtml(item.name)}</h3><div ${editingInquiryKey === item.key ? 'hidden' : ''}>${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div><div ${editingInquiryKey === item.key ? '' : 'hidden'}>${inquiryEditorMarkup(item)}</div></div></article>`).join('');
   }
 
   function addCurrent(mode) {
@@ -433,13 +476,73 @@
     if (items.length) openDialog(clearModal);
   });
   document.querySelector('[data-send-inquiry]')?.addEventListener('click', goToContact);
+  function saveInquiryEditor(editor) {
+    if (!editor) return false;
+    const originalKey = decodeURIComponent(editor.dataset.editItem);
+    const itemIndex = items.findIndex(item => item.key === originalKey);
+    if (itemIndex < 0) return false;
+    const read = name => {
+      const control = editor.querySelector(`[data-edit-field="${name}"]`);
+      return control ? String(control.value || control.textContent || '').trim() : '';
+    };
+    const steel = read('steel');
+    const hardness = hardnessBySteel[steel] || read('hardness') || 'Confirm with maker';
+    const candidate = store.prepare({
+      ...items[itemIndex],
+      key: '',
+      selection: {
+        ...items[itemIndex].selection,
+        steel,
+        hardness,
+        bladeLength: read('bladeLength'),
+        handle: read('handle'),
+        sheath: read('sheath'),
+        finish: read('finish'),
+        intendedUse: read('intendedUse'),
+        customization: read('customization'),
+      },
+      quantity: Math.max(1, Number(read('quantity')) || 1),
+    });
+    const duplicateIndex = items.findIndex((item, index) => index !== itemIndex && store.createKey(item) === candidate.key);
+    if (duplicateIndex >= 0) {
+      if (!window.confirm('An item with the same specifications is already in your Inquiry List. Merge this item into the existing entry?')) {
+        renderInquiryList();
+        return false;
+      }
+      items[duplicateIndex].quantity = (Number(items[duplicateIndex].quantity) || 1) + candidate.quantity;
+      items.splice(itemIndex, 1);
+      editingInquiryKey = null;
+    } else {
+      items[itemIndex] = candidate;
+      editingInquiryKey = candidate.key;
+    }
+    items = store.save(items);
+    return true;
+  }
+
   document.querySelector('[data-inquiry-body]')?.addEventListener('change', event => {
-    const encoded = event.target.dataset.itemQuantity;
-    if (!encoded) return;
-    items = store.setQuantity(items, decodeURIComponent(encoded), event.target.value);
-    renderInquiryList();
+    if (event.target.dataset.editField !== 'steel') return;
+    const editor = event.target.closest('[data-edit-item]');
+    const output = editor?.querySelector('[data-edit-field="hardness"]');
+    if (output) output.textContent = hardnessBySteel[event.target.value] || 'Confirm with maker';
   });
   document.querySelector('[data-inquiry-body]')?.addEventListener('click', event => {
+    const editButton = event.target.closest('[data-edit-toggle]');
+    if (editButton) {
+      const key = decodeURIComponent(editButton.dataset.editToggle);
+      if (editingInquiryKey === key) {
+        const editor = Array.from(document.querySelectorAll('[data-edit-item]')).find(element => decodeURIComponent(element.dataset.editItem) === key);
+        if (saveInquiryEditor(editor)) editingInquiryKey = null;
+      } else {
+        editingInquiryKey = key;
+      }
+      renderInquiryList();
+      if (editingInquiryKey) {
+        const editor = Array.from(document.querySelectorAll('[data-edit-item]')).find(element => decodeURIComponent(element.dataset.editItem) === editingInquiryKey);
+        editor?.querySelector('select, input, textarea')?.focus();
+      }
+      return;
+    }
     const button = event.target.closest('[data-remove-item]');
     if (!button) return;
     const key = decodeURIComponent(button.dataset.removeItem);

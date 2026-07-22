@@ -122,10 +122,14 @@ async function validate() {
 
   const sharedInquiry = read(path.join('js', 'inquiry-list.js'));
   if (!sharedInquiry.includes("pangasinanBladesInquiryList")) fail('Shared inquiry storage key changed');
+  const productPageScript = read(path.join('js', 'product-page.js'));
+  if (!productPageScript.includes('function inquiryEditorMarkup(') || !productPageScript.includes('store.prepare({')) fail('Product-page Inquiry List editor is missing');
   const homepageScript = read('script.js');
   if (!homepageScript.includes('window.PANGASINAN_PRODUCTS')) fail('Homepage does not consume generated browser products');
   if (!homepageScript.includes("window.location.protocol === 'file:'") || !homepageScript.includes('collection/index.html${query}')) fail('Product links do not preserve local file navigation');
   if (!homepageScript.includes('function showFullCatalog()') || !homepageScript.includes('fullCatalogPushed: false')) fail('Full Catalog URL restoration logic is missing');
+  if (!homepageScript.includes('function updateInquiryItem(') || !homepageScript.includes('inquiryEditorMarkup(item, index)')) fail('Homepage Inquiry List editor is missing');
+  if (!homepageScript.includes('function updateInquiryActionAvailability()') || !homepageScript.includes('Save your item changes before copying or sending the inquiry.')) fail('Homepage inquiry actions are not guarded during editing');
   if (homepageScript.includes("history.pushState({ modal: 'fullCatalog' }, '', '#full-collection')")) fail('Full Catalog still creates duplicate hash history entries');
   if (/role=["']link["']/.test(activeHtml(homepage))) fail('Homepage still contains generic role="link" product navigation');
   if (homepage.includes('Price: Low to High') || homepage.includes('Price: High to Low')) fail('Unavailable price sorting is still displayed');

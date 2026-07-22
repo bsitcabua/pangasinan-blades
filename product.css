@@ -17,7 +17,7 @@
 .product-zoom-preview.is-visible { display: block; }
 .product-zoom-preview img { position: absolute; display: block; max-width: none; max-height: none; transform-origin: top left; pointer-events: none; }
 .product-summary { padding-top: 18px; }
-.product-summary h1 { color: var(--white); font-family: var(--font-display); font-size: clamp(44px, 5vw, 70px); font-weight: 600; line-height: 1.05; letter-spacing: 0; margin: 14px 0 22px; overflow-wrap: anywhere; }
+.product-summary h1 { color: var(--white); font-family: var(--font-display); font-size: clamp(30px, 5vw, 40px); font-weight: 600; line-height: 1.05; letter-spacing: 0; margin: 14px 0 22px; overflow-wrap: anywhere; }
 .product-page-statuses { display: flex; flex-wrap: wrap; gap: 12px; padding: 15px 0; border-top: 1px solid var(--ash); border-bottom: 1px solid var(--ash); }
 .product-page-description { margin-top: 26px; color: var(--bone); font-family: var(--font-accent); font-size: 20px; line-height: 1.65; }
 .product-ordering-note { margin: 20px 0 30px; padding-left: 15px; border-left: 2px solid var(--gold-dim); color: var(--silver); font-size: 13px; line-height: 1.7; }
