@@ -135,6 +135,9 @@ async function validate() {
   const rewrites = vercel.rewrites || [];
   if (!rewrites.some(rule => rule.source === '/collection/' && rule.destination === '/api/product')) fail('Server-rendered product rewrite is missing');
   if (!Array.isArray(vercel.headers) || !vercel.headers.length) fail('Vercel security headers are missing');
+  const csp = vercel.headers.flatMap(rule => rule.headers || []).find(header => header.key === 'Content-Security-Policy')?.value || '';
+  const hasInlineHandlers = /\son(?:click|input|change|mouseover|mouseout)=/.test(activeHtml(homepage)) || /\son(?:click|input|change)=/.test(homepageScript);
+  if (hasInlineHandlers && !/script-src[^;]*'unsafe-inline'/.test(csp)) fail('CSP blocks inline handlers still used by the current UI');
 
   await validateHttp();
   if (failures.length) {
