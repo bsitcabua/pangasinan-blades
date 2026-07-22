@@ -2575,12 +2575,17 @@ summary:focus-visible {
   position: relative;
   z-index: 1;
   width: min(100%, 610px);
+  max-height: calc(100svh - 48px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scroll-padding-top: 72px;
   padding: 38px;
   border: 1px solid var(--gold-dim);
   background: var(--charcoal);
   box-shadow: 0 24px 80px rgba(0,0,0,.65);
 }
-.share-close { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border: 1px solid var(--ash); color: var(--bone); font-size: 25px; transition: color .2s ease, border-color .2s ease; }
+.share-close { position: sticky; top: 0; z-index: 10; float: right; margin: -22px -22px 0 14px; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid var(--ash); color: var(--bone); background: rgba(17,17,17,.96); font-size: 25px; transition: color .2s ease, border-color .2s ease, background .2s ease; }
 .share-close:hover { color: var(--gold); border-color: var(--gold); }
 .share-kicker { display: block; margin-bottom: 12px; color: var(--gold); font-size: 9px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
 .share-panel h2 { max-width: calc(100% - 44px); color: var(--white); font: 600 clamp(28px, 4vw, 40px)/1.15 var(--font-display); }
@@ -2639,7 +2644,8 @@ summary:focus-visible {
   .share-header-button { padding: 0 10px; }
   .share-header-button span { display: none; }
   .share-modal { align-items: flex-end; padding: 0; }
-  .share-panel { max-height: 88svh; overflow-y: auto; padding: 30px 20px max(24px, env(safe-area-inset-bottom)); border-width: 1px 0 0; }
+  .share-panel { max-height: 92svh; padding: 30px 20px max(24px, env(safe-area-inset-bottom)); border-width: 1px 0 0; scroll-padding-top: 64px; }
+  .share-close { top: 8px; margin: -14px -4px 0 10px; }
   .share-actions { gap: 8px; }
   .share-actions button { min-height: 46px; padding: 8px 10px; font-size: 10px; }
   .share-qr { padding: 16px 12px; }
