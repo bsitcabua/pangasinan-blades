@@ -2449,6 +2449,25 @@ summary:focus-visible {
 }
 @media(max-width:480px){ #fcGrid{grid-template-columns:1fr!important} }
 
+.fc-toolbar-controls { flex-wrap: wrap; justify-content: flex-end; }
+.fc-search, .fc-sort { display: flex; align-items: center; gap: 10px; color: var(--silver); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.fc-search-field, .fc-sort-field { position: relative; display: block; width: min(260px, 42vw); }
+.fc-search-field svg { position: absolute; top: 50%; left: 11px; width: 16px; height: 16px; fill: none; stroke: var(--gold); stroke-width: 1.7; transform: translateY(-50%); pointer-events: none; }
+.fc-search-field input { width: 100%; min-height: 38px; padding: 8px 34px 8px 36px; border: 1px solid var(--ash); border-radius: 0; background: var(--steel); color: var(--bone); font: 12px/1.4 var(--font-body); letter-spacing: 0; outline: none; appearance: none; }
+.fc-search-field input::placeholder { color: var(--silver); }
+.fc-search-field input:focus { border-color: var(--gold); }
+.fc-search-field input::-webkit-search-cancel-button { cursor: pointer; filter: invert(75%); }
+.fc-sort-field select { width: 100%; min-height: 38px; padding: 8px 36px 8px 12px !important; border: 1px solid var(--ash) !important; border-radius: 0; background: var(--steel) !important; color: var(--bone); font: 12px/1.4 var(--font-body) !important; letter-spacing: 0; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none; }
+.fc-sort-field select:focus { border-color: var(--gold) !important; }
+.fc-sort-field svg { position: absolute; top: 50%; right: 11px; width: 16px; height: 16px; fill: none; stroke: var(--gold); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transform: translateY(-50%); pointer-events: none; }
+
+@media (max-width: 768px) {
+  .fc-toolbar { align-items: flex-start !important; }
+  .fc-toolbar-controls { width: 100%; justify-content: flex-start; }
+  .fc-search, .fc-sort { width: 100%; align-items: flex-start; flex-direction: column; gap: 6px; }
+  .fc-search-field, .fc-sort-field { width: 100%; }
+}
+
 /* ============================================================
    PRODUCT + COLLECTION SHARING
    ============================================================ */

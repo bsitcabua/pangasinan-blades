@@ -478,10 +478,19 @@
     <div id="fcFilters" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div>
 
     <!-- Sort + Count Row -->
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid var(--ash);flex-wrap:wrap;gap:12px;">
+    <div class="fc-toolbar" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;padding-bottom:20px;border-bottom:1px solid var(--ash);flex-wrap:wrap;gap:12px;">
       <span id="fcCount" style="font-size:12px;color:var(--silver);letter-spacing:.1em;" aria-live="polite"></span>
-      <div style="display:flex;align-items:center;gap:10px;">
-        <label for="fcSort" style="font-size:11px;color:var(--silver);letter-spacing:.1em;text-transform:uppercase;">Sort:</label>
+      <div class="fc-toolbar-controls" style="display:flex;align-items:center;gap:10px;">
+        <label class="fc-search" for="fcSearch">
+          <span>Search:</span>
+          <span class="fc-search-field">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+            <input id="fcSearch" type="search" placeholder="Search blades" autocomplete="off" oninput="applyFCSearch(this.value)" aria-describedby="fcCount">
+          </span>
+        </label>
+        <label class="fc-sort" for="fcSort">
+          <span>Sort:</span>
+          <span class="fc-sort-field">
         <select id="fcSort" onchange="applyFCSort()" style="
           background:var(--steel);border:1px solid var(--ash);
           color:var(--bone);padding:8px 28px 8px 12px;
@@ -494,6 +503,9 @@
           <option value="price-desc">Price: High to Low</option>
           <option value="name">Name A–Z</option>
         </select>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg>
+          </span>
+        </label>
       </div>
     </div>
 
@@ -507,8 +519,8 @@
     <!-- Load State -->
     <div id="fcEmpty" style="display:none;text-align:center;padding:80px 20px;">
       <div style="font-size:36px;color:var(--gold-dim);margin-bottom:20px;">✦</div>
-      <p style="font-family:var(--font-display);font-size:22px;color:var(--silver);">No blades match this filter.</p>
-      <p style="font-size:14px;color:var(--ash);margin-top:10px;">Try selecting a different category.</p>
+      <p style="font-family:var(--font-display);font-size:22px;color:var(--silver);">No blades found.</p>
+      <p style="font-size:14px;color:var(--ash);margin-top:10px;">Try another search or select a different series.</p>
     </div>
 
   </div>

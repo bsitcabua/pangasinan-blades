@@ -935,6 +935,8 @@ function closeInquiryListModal() {
    ============================================================ */
 let fcActiveFilter = 'all';
 let fcActiveSort   = 'default';
+let fcSearchQuery  = '';
+let fcSeriesData   = [...COMPLETE_COLLECTION];
 let fcVisibleData  = [...COMPLETE_COLLECTION];
 
 const FC_CATEGORIES = [
@@ -962,9 +964,23 @@ function buildFCFilters() {
 
 function applyFCFilter() {
   buildFCFilters();
-  fcVisibleData = fcActiveFilter === 'all'
+  fcSeriesData = fcActiveFilter === 'all'
     ? [...COMPLETE_COLLECTION]
     : COMPLETE_COLLECTION.filter(b => b.category === fcActiveFilter);
+  applyFCSearch(document.getElementById('fcSearch')?.value || '');
+}
+
+function applyFCSearch(value = '') {
+  fcSearchQuery = String(value).trim().toLocaleLowerCase();
+  fcVisibleData = !fcSearchQuery
+    ? [...fcSeriesData]
+    : fcSeriesData.filter(blade => [
+        blade.name,
+        blade.series,
+        blade.material,
+        blade.length,
+        blade.status,
+      ].some(field => String(field || '').toLocaleLowerCase().includes(fcSearchQuery)));
   applyFCSort(true);
 }
 
@@ -992,7 +1008,10 @@ function renderFCGrid(blades) {
     return;
   }
   empty.style.display = 'none';
-  count.textContent   = `Showing ${blades.length} of ${COMPLETE_COLLECTION.length} blades`;
+  const seriesTotal = fcSeriesData.length;
+  count.textContent = fcSearchQuery
+    ? `Showing ${blades.length} of ${seriesTotal} blades in this series`
+    : `Showing ${blades.length} of ${seriesTotal} blades`;
   label.textContent   = `${blades.length} blade${blades.length!==1?'s':''}`;
 
   blades.forEach((blade, idx) => {
@@ -1059,10 +1078,14 @@ function openFullCatalog() {
   document.body.style.overflow = 'hidden';
   fcActiveFilter = 'all';
   fcActiveSort   = 'default';
+  fcSearchQuery  = '';
+  fcSeriesData   = [...COMPLETE_COLLECTION];
+  fcVisibleData  = [...COMPLETE_COLLECTION];
   buildFCFilters();
   renderFCGrid(COMPLETE_COLLECTION);
   modal.scrollTop = 0;
   document.getElementById('fcSort').value = 'default';
+  document.getElementById('fcSearch').value = '';
   const title = document.getElementById('fcTitle');
   title.setAttribute('tabindex','-1');
   activateDialogFocus(modal, title);
