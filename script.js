@@ -423,7 +423,6 @@ function formatBuildDetails(selection, quantity) {
     `Scabbard: ${selection.sheath}`,
     selection.finish ? `Finish: ${selection.finish}` : '',
     selection.intendedUse ? `Intended Use: ${selection.intendedUse}` : '',
-    selection.engraving ? `Engraving: ${selection.engraving}` : '',
     selection.customization ? `Additional Notes: ${selection.customization}` : '',
     quantity ? `Quantity: ${quantity}` : '',
   ].filter(Boolean).join('\n');
@@ -482,7 +481,6 @@ function createInquiryItemKey(item) {
     sheath: selection.sheath,
     finish: selection.finish,
     intendedUse: selection.intendedUse,
-    engraving: selection.engraving,
     customization: selection.customization,
     status: item.status,
   };
@@ -842,6 +840,11 @@ function inquiryListMessage() {
 ${formatBuildDetails(item.selection, item.quantity)}`).join('\n\n')}`;
 }
 
+function quotationMessage(options = {}) {
+  if (INQUIRY_STORE?.quotation) return INQUIRY_STORE.quotation(inquiryList, options);
+  return inquiryListMessage();
+}
+
 function sendInquiryList() {
   if (!inquiryList.length) return;
 
@@ -861,7 +864,7 @@ function sendInquiryList() {
     }
   }
   document.body.style.overflow = '';
-  scrollToContact(label, inquiryListMessage());
+  scrollToContact(label, quotationMessage({ includeCustomer: false, includeGreeting: false, includeClosing: false }));
 }
 
 function fallbackCopyText(text) {
@@ -893,16 +896,13 @@ function sendCopiedInquiryViaEmail() {
     return;
   }
   if (emailError) emailError.hidden = true;
-  const inquiryText = inquiryListMessage();
   const subject = 'Pangasinan Blades Product Inquiry';
-  const separator = '--------------------------------------------------';
-  const body = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${inquiryText}\n${separator}\n\nCustomer Information\n\nName:\nComplete Address:\nPhone Number:\n\nAdditional Notes:\n(Optional)\n\n${separator}\n\nPlease let me know:\n\n• Product availability\n• Total cost\n• Shipping fee\n• Estimated production time\n• Estimated delivery time\n\nThank you!\n\nBest regards,`;
+  const body = quotationMessage();
   window.location.href = `mailto:inquire@pangasinanblades.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function buildMessengerInquiryMessage() {
-  const separator = '--------------------------------------------------';
-  return `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${inquiryListMessage()}\n${separator}\n\nFill fill up this form\nComplete name:\nAddress:\nPhone:\nEmail:\n\nPlease let me know the availability, total cost, shipping fee, and estimated production time.\n\nThank you!`;
+  return quotationMessage();
 }
 
 async function sendCopiedInquiryViaMessenger(button) {
@@ -956,7 +956,7 @@ function closeCopySuccessModal() {
 async function copyInquiryList() {
   if (!inquiryList.length) return;
 
-  const text = inquiryListMessage();
+  const text = quotationMessage();
   const button = document.getElementById('copyInquiryListBtn');
   const errorMessage = document.getElementById('copyInquiryError');
   if (errorMessage) errorMessage.hidden = true;
@@ -1632,10 +1632,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const contactPrefill = sessionStorage.getItem('pangasinanBladesContactPrefill');
   if (contactPrefill) {
-    const subject = document.getElementById('subject');
+    const subject = document.getElementById('inquiryType');
     const message = document.getElementById('message');
-    if (subject) subject.value = 'Existing Blade';
-    if (message) message.value = contactPrefill;
+    if (subject) subject.value = 'Price Quotation';
+    if (message) {
+      message.value = contactPrefill;
+      message.dispatchEvent(new Event('input', { bubbles: true }));
+    }
     sessionStorage.removeItem('pangasinanBladesContactPrefill');
   }
 
@@ -2028,10 +2031,10 @@ function scrollToContact(bladeName, buildDetails = '') {
     setTimeout(() => {
       const subjectEl = document.getElementById('inquiryType');
       if (subjectEl) {
-        subjectEl.value = 'Product Availability';
+        subjectEl.value = buildDetails ? 'Price Quotation' : 'Product Availability';
         const msgEl = document.getElementById('message');
         if (msgEl) {
-          msgEl.value = `I'm interested in the ${bladeName}. ${buildDetails ? `\n\n${buildDetails}` : ''}`;
+          msgEl.value = buildDetails || `I'm interested in the ${bladeName}.`;
           msgEl.dispatchEvent(new Event('input', { bubbles: true }));
           msgEl.focus();
         }

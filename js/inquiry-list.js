@@ -18,7 +18,6 @@
       sheath: selection.sheath,
       finish: selection.finish,
       intendedUse: selection.intendedUse,
-      engraving: selection.engraving,
       customization: selection.customization,
       status: item.status,
     };
@@ -99,7 +98,6 @@
       `Scabbard: ${selection.sheath || ''}`,
       selection.finish ? `Finish: ${selection.finish}` : '',
       selection.intendedUse ? `Intended Use: ${selection.intendedUse}` : '',
-      selection.engraving ? `Engraving: ${selection.engraving}` : '',
       selection.customization ? `Additional Notes: ${selection.customization}` : '',
       quantity ? `Quantity: ${quantity}` : '',
     ].filter(Boolean).join('\n');
@@ -107,6 +105,52 @@
 
   function message(items) {
     return `Inquiry List\n\n${items.map(item => `${item.name}\n${formatDetails(item.selection || {}, item.quantity)}`).join('\n\n')}`;
+  }
+
+  function formatRequestedBlades(items) {
+    return items.map((item, index) => [
+      `${index + 1}. ${item.name}`,
+      formatDetails(item.selection || {}, item.quantity),
+    ].filter(Boolean).join('\n')).join('\n\n');
+  }
+
+  function quotation(items, options = {}) {
+    const preparedItems = Array.isArray(items) ? items.map(prepare) : [];
+    const includeCustomer = options.includeCustomer !== false;
+    const includeGreeting = options.includeGreeting !== false;
+    const includeClosing = options.includeClosing !== false;
+    const sections = [];
+
+    if (includeGreeting) {
+      sections.push('Hello Pangasinan Blades,\n\nI would like to request a quotation for the following item(s):');
+    }
+
+    if (includeCustomer) {
+      sections.push([
+        'Customer Information',
+        '',
+        'Name:',
+        'Email:',
+        'Phone Number:',
+        'Complete Address:',
+      ].join('\n'));
+    }
+
+    sections.push(`Requested Blades\n\n${formatRequestedBlades(preparedItems)}`);
+    sections.push([
+      'Quotation Requested For',
+      '',
+      '- Product availability',
+      '- Total cost',
+      '- Shipping fee',
+      '- Estimated production time',
+      '- Estimated delivery time',
+    ].join('\n'));
+    sections.push('Additional Customer Notes:\n');
+
+    if (includeClosing) sections.push('Thank you!\n\nBest regards,');
+
+    return sections.join('\n\n--------------------------------------------------\n\n');
   }
 
   global.PangasinanInquiry = {
@@ -122,6 +166,8 @@
     remove,
     setQuantity,
     formatDetails,
+    formatRequestedBlades,
     message,
+    quotation,
   };
 })(window);

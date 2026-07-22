@@ -340,7 +340,10 @@
   }
 
   function goToContact() {
-    sessionStorage.setItem('pangasinanBladesContactPrefill', store.message(items));
+    const message = store.quotation
+      ? store.quotation(items, { includeCustomer: false, includeGreeting: false, includeClosing: false })
+      : store.message(items);
+    sessionStorage.setItem('pangasinanBladesContactPrefill', message);
     window.location.href = window.location.protocol === 'file:' ? '../index.html#contact' : '/#contact';
   }
 
@@ -348,7 +351,7 @@
     if (!items.length) return;
     const button = document.querySelector('[data-copy-inquiry]');
     const errorMessage = document.querySelector('[data-copy-error]');
-    const inquiryText = store.message(items);
+    const inquiryText = store.quotation ? store.quotation(items) : store.message(items);
     if (errorMessage) errorMessage.hidden = true;
     try {
       if (navigator.clipboard && window.isSecureContext) {
@@ -416,10 +419,8 @@
       return;
     }
     if (emailError) emailError.hidden = true;
-    const inquiryText = store.message(items);
     const subject = 'Pangasinan Blades Product Inquiry';
-    const separator = '--------------------------------------------------';
-    const body = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${inquiryText}\n${separator}\n\nCustomer Information\n\nName:\nComplete Address:\nPhone Number:\n\nAdditional Notes:\n(Optional)\n\n${separator}\n\nPlease let me know:\n\n• Product availability\n• Total cost\n• Shipping fee\n• Estimated production time\n• Estimated delivery time\n\nThank you!\n\nBest regards,`;
+    const body = store.quotation ? store.quotation(items) : store.message(items);
     window.location.href = `mailto:inquire@pangasinanblades.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
   document.querySelector('[data-send-copy-messenger]')?.addEventListener('click', async event => {
@@ -448,8 +449,7 @@
     }
     messengerWindow.opener = null;
     try {
-      const separator = '--------------------------------------------------';
-      const message = `Hello Pangasinan Blades,\n\nI would like to inquire about the following item(s):\n\n${separator}\n${store.message(items)}\n${separator}\n\nFill fill up this form\nComplete name:\nAddress:\nPhone:\nEmail:\n\nPlease let me know the availability, total cost, shipping fee, and estimated production time.\n\nThank you!`;
+      const message = store.quotation ? store.quotation(items) : store.message(items);
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(message);
       } else {
