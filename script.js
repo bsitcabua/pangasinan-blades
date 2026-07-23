@@ -229,10 +229,6 @@ function blankBladePlaceholder(name, series) {
     <text x="150" y="154" text-anchor="middle" font-family="Inter, Arial" font-size="8" fill="#C8963C" opacity="0.72" letter-spacing="2">${series.toUpperCase()}</text>`;
 }
 
-function formatBladePrice(blade) {
-  return blade.price >= 1000 ? `₱${blade.price.toLocaleString()}` : 'Available Soon';
-}
-
 function productStatusMarkup(blade, className = 'product-status') {
   const ready = blade.status === 'ready-stock';
   return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Check Availability' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Custom Orders Welcome</span>` : ''}`;
@@ -260,119 +256,9 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#39;');
 }
 
-function getBladeDetails(blade) {
-  return blade.details || {
-    steel: blade.material,
-    bladeLength: blade.length,
-    hardness: blade.hrc,
-    handle: blade.handle,
-    sheath: blade.sheath,
-  };
-}
-
 function buildOptionsMarkup(options, selectedValue) {
   const values = options.includes(selectedValue) ? options : [selectedValue, ...options];
   return values.map(value => `<option value="${escapeHtml(value)}"${value === selectedValue ? ' selected' : ''}>${escapeHtml(value)}</option>`).join('');
-}
-
-function quickBuildConfiguratorMarkup(blade) {
-  const details = getBladeDetails(blade);
-  const hardness = STEEL_HARDNESS[details.steel] || details.hardness;
-
-  return `
-    <div class="qd-configurator" data-blade-id="${blade.id}">
-      <label class="qd-config-field">
-        <span>Steel</span>
-        <select class="qd-config-control" data-config-field="steel" onchange="updateQuickBuildHardness(${blade.id})">
-          ${buildOptionsMarkup(BUILD_OPTIONS.steel, details.steel)}
-        </select>
-      </label>
-      <label class="qd-config-field">
-        <span>Blade Length</span>
-        <input class="qd-config-control" data-config-field="bladeLength" type="text" value="${escapeHtml(details.bladeLength)}" placeholder="Example: 16 in">
-      </label>
-      <label class="qd-config-field">
-        <span>Hardness</span>
-        <output class="qd-config-control qd-config-output" data-config-field="hardness">${escapeHtml(hardness)}</output>
-      </label>
-      <label class="qd-config-field">
-        <span>Handle</span>
-        <select class="qd-config-control" data-config-field="handle">
-          ${buildOptionsMarkup(BUILD_OPTIONS.handle, details.handle)}
-        </select>
-      </label>
-      <label class="qd-config-field">
-        <span>Sheath / Scabbard</span>
-        <select class="qd-config-control" data-config-field="sheath">
-          ${buildOptionsMarkup(BUILD_OPTIONS.sheath, details.sheath)}
-        </select>
-      </label>
-      <div class="qd-quantity-field">
-        <span>Quantity</span>
-        <div class="qd-quantity-stepper">
-          <button type="button" onclick="changeQuickBuildQuantity(${blade.id}, -1)" aria-label="Decrease quantity">-</button>
-          <input class="qd-config-control" data-config-field="quantity" type="number" min="1" value="1" inputmode="numeric" onchange="setQuickBuildQuantity(${blade.id}, this.value)">
-          <button type="button" onclick="changeQuickBuildQuantity(${blade.id}, 1)" aria-label="Increase quantity">+</button>
-        </div>
-      </div>
-      <p class="qd-config-note">Defaults are loaded from this blade. Change any field to request a custom build.</p>
-    </div>`;
-}
-
-function setQuickBuildQuantity(bladeId, value) {
-  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
-  const quantityInput = wrapper?.querySelector('[data-config-field="quantity"]');
-  if (!quantityInput) return;
-  quantityInput.value = Math.max(1, Number(value) || 1);
-}
-
-function changeQuickBuildQuantity(bladeId, step) {
-  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
-  const quantityInput = wrapper?.querySelector('[data-config-field="quantity"]');
-  if (!quantityInput) return;
-  setQuickBuildQuantity(bladeId, (Number(quantityInput.value) || 1) + step);
-}
-
-function updateQuickBuildHardness(bladeId) {
-  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
-  if (!wrapper) return;
-
-  const steel = wrapper.querySelector('[data-config-field="steel"]')?.value;
-  const hardness = wrapper.querySelector('[data-config-field="hardness"]');
-  if (hardness) hardness.textContent = STEEL_HARDNESS[steel] || 'Confirm with maker';
-}
-
-function getQuickBuildSelection(bladeId) {
-  const wrapper = document.querySelector(`.qd-configurator[data-blade-id="${bladeId}"]`);
-  if (!wrapper) return null;
-
-  const readField = field => {
-    const control = wrapper.querySelector(`[data-config-field="${field}"]`);
-    return control ? control.value || control.textContent.trim() : '';
-  };
-
-  return {
-    steel: readField('steel'),
-    bladeLength: readField('bladeLength'),
-    hardness: readField('hardness'),
-    handle: readField('handle'),
-    sheath: readField('sheath'),
-    engraving: readField('engraving'),
-    customization: readField('customization'),
-    quantity: Math.max(1, Number(readField('quantity')) || 1),
-  };
-}
-
-function inquireQuickBuild(bladeId) {
-  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId));
-  const selection = getQuickBuildSelection(bladeId);
-  const buildText = selection
-    ? `Custom build request:\n${formatBuildDetails(selection, selection.quantity)}`
-    : '';
-
-  closeDrawer();
-  closeFullCatalog();
-  scrollToContact(blade?.name || '', buildText);
 }
 
 const INQUIRY_STORE = window.PangasinanInquiry;
@@ -581,25 +467,6 @@ function updateInquiryBadge() {
 
 }
 
-function addCurrentBuildToInquiryList(bladeId) {
-  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(bladeId));
-  const selection = getQuickBuildSelection(bladeId);
-  if (!blade || !selection) return;
-
-  const quantity = Math.max(1, Number(selection.quantity) || 1);
-  delete selection.quantity;
-  const item = {
-    id: blade.id,
-    name: blade.name,
-    image: blade.image,
-    series: blade.series || blade.category,
-    status: blade.status,
-    selection,
-    quantity,
-  };
-  addInquiryItem(item);
-}
-
 function addInquiryItem(item) {
   const keyedItem = {
     ...item,
@@ -616,7 +483,6 @@ function addInquiryItem(item) {
   inquiryList.push(keyedItem);
   saveInquiryList();
   updateInquiryBadge();
-  closeDrawer();
   openInquiryListModal();
 }
 
@@ -670,7 +536,6 @@ function confirmDuplicateInquiryItem() {
   saveInquiryList();
   updateInquiryBadge();
   renderInquiryListModal();
-  closeDrawer();
   openInquiryListModal();
 }
 
@@ -905,9 +770,6 @@ function sendInquiryList() {
   const label = total === 1 ? inquiryList[0].name : `${total} selected blades`;
   closeInquiryListModal();
 
-  const drawer = document.getElementById('quickDrawer');
-  if (drawer) closeDrawer();
-
   const fullCatalog = document.getElementById('fullCatalogModal');
   if (fullCatalog && isFullCatalogOpen()) {
     fullCatalog.style.display = 'none';
@@ -1137,7 +999,7 @@ function closeInquiryListModal() {
   if (!modal) return;
   modal.classList.remove('open');
   deactivateDialogFocus(modal);
-  if (!isFullCatalogOpen() && document.getElementById('quickDrawer')?.style.transform !== 'translateX(0%)') {
+  if (!isFullCatalogOpen()) {
     document.body.style.overflow = '';
   }
 }
@@ -1357,209 +1219,11 @@ document.addEventListener('keydown', e => {
       cancelDuplicateInquiryItem();
     } else if (document.getElementById('inquiryListModal')?.classList.contains('open')) {
       closeInquiryListModal();
-    } else if (document.getElementById('quickDrawer')?.style.transform === 'translateX(0px)'
-        || document.getElementById('quickDrawer')?.style.transform === 'translateX(0%)') {
-      closeDrawer();
     } else if (isFullCatalogOpen()) {
       closeFullCatalog();
     }
   }
 });
-
-/* ============================================================
-   QUICK VIEW DRAWER
-   ============================================================ */
-function openDrawer(id) {
-  const blade = COMPLETE_COLLECTION.find(b => String(b.id) === String(id));
-  if (!blade) return;
-  const details = getBladeDetails(blade);
-
-  document.getElementById('qdBody').innerHTML = `
-    <div class="qd-blade-img" data-zoom-source>
-      ${
-        blade.image
-          ? `<img src="${blade.image}" width="3664" height="2691" decoding="async" alt="${blade.name}" class="qd-blade-image">`
-          : `
-            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;">
-              <rect width="400" height="300" fill="${blade.bg}"/>
-              <defs>
-                <radialGradient id="qdg${blade.id}" cx="50%" cy="50%" r="52%">
-                  <stop offset="0%" stop-color="${blade.gradColor}" stop-opacity=".8"/>
-                  <stop offset="100%" stop-color="${blade.bg}"/>
-                </radialGradient>
-              </defs>
-              <rect width="400" height="300" fill="url(#qdg${blade.id})"/>
-              <g transform="scale(1.35) translate(10,25)">
-                ${blade.svgPath}
-              </g>
-            </svg>
-          `
-      }
-      <span class="qd-zoom-lens" aria-hidden="true"></span>
-    </div>
-    <span style="display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">
-      ✦ ${blade.badge}
-    </span>
-    <h2 class="qd-title" id="qdTitle">${blade.name}</h2>
-    <p class="qd-meta">${blade.category.charAt(0).toUpperCase()+blade.category.slice(1)} · ${blade.material} · ${blade.length}</p>
-    <p class="qd-desc">${blade.desc}</p>
-    <p class="qd-order-note">${blade.status === 'ready-stock' ? 'A finished piece may be available. Request a quotation so we can confirm current stock.' : 'Made after your specifications and quotation are confirmed.'} ${blade.customizable ? 'Custom length, steel, handle, scabbard, and finish are available on request.' : ''}</p>
-    <details class="qd-spec-details" open>
-      <summary>Custom build details</summary>
-      ${quickBuildConfiguratorMarkup(blade)}
-      <table class="qd-specs qd-specs-compact">
-        <tr><td>Default Edge Grind</td><td>${details.edge || blade.edge}</td></tr>
-      </table>
-    </details>
-    <p class="qd-lead-time"><strong>Ordering:</strong> ${blade.leadTime}</p>
-    <div class="qd-price">${formatBladePrice(blade)}</div>
-    <div class="qd-ctas">
-      <button class="btn-primary" onclick="addCurrentBuildToInquiryList(${blade.id})">
-        Add to Inquiry List
-      </button>
-      <button class="btn-ghost" onclick="inquireQuickBuild(${blade.id})">Request a Quote</button>
-      <a class="btn-ghost" href="collection/index.html?id=${blade.id}">View Full Details</a>
-      <button class="btn-ghost" onclick="closeDrawer()">Continue Browsing</button>
-    </div>`;
-
-  const drawer   = document.getElementById('quickDrawer');
-  const backdrop = document.getElementById('drawerBackdrop');
-  drawer.scrollTop = 0;
-  document.body.style.overflow = 'hidden';
-  backdrop.style.display = 'block';
-  // Force reflow then animate
-  requestAnimationFrame(() => {
-    drawer.scrollTop = 0;
-    drawer.style.transform  = 'translateX(0%)';
-  });
-
-  initQuickViewZoom();
-  activateDialogFocus(drawer);
-}
-
-function closeDrawer() {
-  const drawer = document.getElementById('quickDrawer');
-  const backdrop = document.getElementById('drawerBackdrop');
-  if (!drawer) return;
-
-  resetQuickViewZoom();
-  drawer.style.transform = 'translateX(100%)';
-  if (backdrop) backdrop.style.display = 'none';
-  deactivateDialogFocus(drawer);
-
-  const inquiryListOpen = document.getElementById('inquiryListModal')?.classList.contains('open');
-  if (!isFullCatalogOpen() && !inquiryListOpen) {
-    document.body.style.overflow = '';
-  }
-}
-
-const QUICK_VIEW_ZOOM_SCALE = 3.5;
-const QUICK_VIEW_ZOOM_GAP = 16;
-const QUICK_VIEW_ZOOM_MIN_SIZE = 280;
-const QUICK_VIEW_ZOOM_MAX_SIZE = 600;
-
-function resetQuickViewZoom() {
-  const source = document.querySelector('[data-zoom-source]');
-  const preview = document.getElementById('qdZoomPreview');
-  const previewContent = document.getElementById('qdZoomPreviewContent');
-
-  source?.classList.remove('is-zooming');
-  preview?.classList.remove('is-visible');
-  if (previewContent) previewContent.replaceChildren();
-}
-
-function getQuickViewZoomPlacement() {
-  const drawer = document.getElementById('quickDrawer');
-  if (!drawer) return null;
-
-  const drawerRect = drawer.getBoundingClientRect();
-  const viewportGap = 12;
-  const leftSpace = drawerRect.left - QUICK_VIEW_ZOOM_GAP - viewportGap;
-  const rightSpace = window.innerWidth - drawerRect.right - QUICK_VIEW_ZOOM_GAP - viewportGap;
-  const useLeft = leftSpace >= QUICK_VIEW_ZOOM_MIN_SIZE;
-  const available = useLeft ? leftSpace : rightSpace;
-
-  if (available < QUICK_VIEW_ZOOM_MIN_SIZE) return null;
-
-  const size = Math.min(QUICK_VIEW_ZOOM_MAX_SIZE, available, window.innerHeight - viewportGap * 2);
-  if (size < QUICK_VIEW_ZOOM_MIN_SIZE) return null;
-
-  return {
-    size,
-    left: useLeft
-      ? drawerRect.left - QUICK_VIEW_ZOOM_GAP - size
-      : drawerRect.right + QUICK_VIEW_ZOOM_GAP
-  };
-}
-
-function initQuickViewZoom() {
-  resetQuickViewZoom();
-
-  const source = document.querySelector('[data-zoom-source]');
-  const visual = source?.querySelector('img, svg');
-  const lens = source?.querySelector('.qd-zoom-lens');
-  const preview = document.getElementById('qdZoomPreview');
-  const previewContent = document.getElementById('qdZoomPreviewContent');
-
-  if (!source || !visual || !lens || !preview || !previewContent) return;
-
-  let zoomedVisual = null;
-  let placement = null;
-
-  const hideZoom = () => resetQuickViewZoom();
-
-  source.addEventListener('pointerenter', event => {
-    if (event.pointerType === 'touch') return;
-
-    placement = getQuickViewZoomPlacement();
-    if (!placement) return;
-
-    const sourceRect = source.getBoundingClientRect();
-    zoomedVisual = visual.cloneNode(true);
-    zoomedVisual.removeAttribute('id');
-    zoomedVisual.style.width = `${sourceRect.width}px`;
-    zoomedVisual.style.height = `${sourceRect.height}px`;
-
-    previewContent.replaceChildren(zoomedVisual);
-    preview.style.width = `${placement.size}px`;
-    preview.style.height = `${placement.size}px`;
-    preview.style.left = `${placement.left}px`;
-    preview.style.top = `${Math.min(
-      Math.max(12, sourceRect.top),
-      window.innerHeight - placement.size - 12
-    )}px`;
-
-    source.classList.add('is-zooming');
-    preview.classList.add('is-visible');
-  });
-
-  source.addEventListener('pointermove', event => {
-    if (!placement || !zoomedVisual || !preview.classList.contains('is-visible')) return;
-
-    const sourceRect = source.getBoundingClientRect();
-    const x = Math.min(sourceRect.width, Math.max(0, event.clientX - sourceRect.left));
-    const y = Math.min(sourceRect.height, Math.max(0, event.clientY - sourceRect.top));
-    const lensWidth = Math.min(sourceRect.width, placement.size / QUICK_VIEW_ZOOM_SCALE);
-    const lensHeight = Math.min(sourceRect.height, placement.size / QUICK_VIEW_ZOOM_SCALE);
-    const lensLeft = Math.min(sourceRect.width - lensWidth, Math.max(0, x - lensWidth / 2));
-    const lensTop = Math.min(sourceRect.height - lensHeight, Math.max(0, y - lensHeight / 2));
-
-    lens.style.width = `${lensWidth}px`;
-    lens.style.height = `${lensHeight}px`;
-    lens.style.left = `${lensLeft}px`;
-    lens.style.top = `${lensTop}px`;
-
-    zoomedVisual.style.transformOrigin = 'top left';
-    zoomedVisual.style.transform = `translate(${placement.size / 2 - x * QUICK_VIEW_ZOOM_SCALE}px, ${
-      placement.size / 2 - y * QUICK_VIEW_ZOOM_SCALE
-    }px) scale(${QUICK_VIEW_ZOOM_SCALE})`;
-  });
-
-  source.addEventListener('pointerleave', hideZoom);
-  source.addEventListener('pointercancel', hideZoom);
-}
-
-window.addEventListener('resize', resetQuickViewZoom);
 
 (function() {
   const canvas = document.getElementById('heroCanvas');
@@ -1848,23 +1512,7 @@ document.addEventListener('DOMContentLoaded', function() {
   /* --- FILTER PILLS (CATALOG) --- */
   renderCatalogPreview();
   const filterPills = document.querySelectorAll('.filter-bar .filter-pill');
-  const bladeCards = document.querySelectorAll('.blade-card');
   const filterCount = document.getElementById('filterCount');
-
-  bladeCards.forEach(card => {
-    const image = card.querySelector('.blade-card-img');
-    const arrow = card.querySelector('.blade-arrow');
-    const bladeName = card.querySelector('.blade-name')?.textContent.trim();
-    if (!bladeName) return;
-
-    const openCardQuickView = e => {
-      if (e.target.closest('button, a')) return;
-      openQuickView(bladeName);
-    };
-
-    image?.addEventListener('click', openCardQuickView);
-    arrow?.addEventListener('click', openCardQuickView);
-  });
 
   filterPills.forEach(pill => {
     pill.addEventListener('click', function() {
@@ -2129,12 +1777,6 @@ function populateContactCustomer(customer = getInquiryCustomer(), overwrite = fa
     if (overwrite) control.value = value || '';
     else if (value && !control.value) control.value = value;
   });
-}
-
-function openQuickView(bladeName) {
-  const blade = COMPLETE_COLLECTION.find(b => b.name === bladeName);
-  if (!blade) return;
-  openDrawer(blade.id);
 }
 
 let contactFormSubmitting = false;

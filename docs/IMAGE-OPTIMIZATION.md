@@ -19,4 +19,4 @@ No image files were converted or removed during the static product-page implemen
 6. Preload only the first hero image; lazy-load or defer later slideshow images.
 7. Measure LCP and total transfer size before and after conversion.
 
-Do not delete the source assets until the optimized files have been visually compared against the originals on dark backgrounds and in the Quick View zoom.
+Do not delete the source assets until the optimized files have been visually compared against the originals on dark backgrounds and with the product-page image zoom.
