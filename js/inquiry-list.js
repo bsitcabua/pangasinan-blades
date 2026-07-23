@@ -105,6 +105,16 @@
     return prepareCustomer();
   }
 
+  function messengerUrl() {
+    const userAgent = navigator.userAgent || '';
+    const mobile = navigator.userAgentData?.mobile === true
+      || /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent)
+      || (/Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1);
+    return mobile
+      ? 'https://m.me/emcpangasinanblades'
+      : 'https://www.facebook.com/messages/t/emcpangasinanblades';
+  }
+
   function findDuplicateIndex(items, item) {
     const key = item.key || createKey(item);
     return items.findIndex(entry => (entry.key || createKey(entry)) === key);
@@ -215,6 +225,7 @@
     loadCustomer,
     saveCustomer,
     clearCustomer,
+    messengerUrl,
     findDuplicateIndex,
     add,
     merge,

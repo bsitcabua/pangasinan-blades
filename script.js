@@ -964,7 +964,8 @@ async function sendCopiedInquiryViaMessenger(button) {
   const originalLabel = button?.querySelector('span:last-child')?.textContent || 'Send via Messenger';
   const label = button?.querySelector('span:last-child');
   if (label) label.textContent = 'Opening Messenger...';
-  const messengerWindow = window.open('https://www.facebook.com/messages/t/emcpangasinanblades', '_blank');
+  const messengerUrl = INQUIRY_STORE?.messengerUrl?.() || 'https://www.facebook.com/messages/t/emcpangasinanblades';
+  const messengerWindow = window.open(messengerUrl, '_blank');
   if (!messengerWindow) {
     setQuoteChannelStatus('messengerQuoteStatus', messages.messengerBlocked || 'Unable to open Messenger. Please allow pop-ups and try again.');
     if (label) label.textContent = originalLabel;
@@ -1671,6 +1672,9 @@ window.addEventListener('resize', resetQuickViewZoom);
 document.addEventListener('DOMContentLoaded', function() {
   loadInquiryList();
   populateInquiryCustomerControls();
+  document.querySelectorAll('[data-messenger-link]').forEach(link => {
+    link.href = INQUIRY_STORE?.messengerUrl?.() || link.href;
+  });
   openFullCatalogFromHash();
 
   const contactPrefill = sessionStorage.getItem('pangasinanBladesContactPrefill');

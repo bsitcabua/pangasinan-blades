@@ -18,6 +18,17 @@ global.sessionStorage = memoryStorage();
 require('../js/inquiry-list.js');
 
 const store = global.PangasinanInquiry;
+Object.defineProperty(global, 'navigator', {
+  value: { userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)', maxTouchPoints: 5 },
+  configurable: true,
+});
+assert.equal(store.messengerUrl(), 'https://m.me/emcpangasinanblades', 'Mobile devices should use the Messenger deep link.');
+Object.defineProperty(global, 'navigator', {
+  value: { userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)', maxTouchPoints: 0 },
+  configurable: true,
+});
+assert.equal(store.messengerUrl(), 'https://www.facebook.com/messages/t/emcpangasinanblades', 'Desktop browsers should use Facebook Messages.');
+
 const build = {
   id: 1,
   name: 'Kampilan',
