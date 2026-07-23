@@ -62,6 +62,13 @@
       : store.message(items);
   }
 
+  function setChannelStatus(selector, message = '') {
+    const status = document.querySelector(selector);
+    if (!status) return;
+    status.textContent = message;
+    status.hidden = !message;
+  }
+
   function assetPath(value = '') {
     if (!value || /^(?:https?:|data:|\/|\.\.\/|\.\/)/.test(value)) return value;
     return `../${value}`;
@@ -331,7 +338,7 @@
       control.disabled = items.length === 0 || blockedByEdit;
       control.toggleAttribute('data-tooltip-active', blockedByEdit);
       if (blockedByEdit) {
-        const message = 'Save your item changes before copying or sending the inquiry.';
+        const message = 'Save your item changes before copying or requesting a quote.';
         control.dataset.tooltip = message;
         control.title = message;
         control.setAttribute('aria-label', `${control.textContent.trim()}. ${message}`);
@@ -352,7 +359,7 @@
   function addCurrent(mode) {
     const result = store.add(items, currentItem());
     if (result.duplicateIndex >= 0) {
-      pendingDuplicate = { item: result.item, index: result.duplicateIndex, mode };
+      pendingDuplicate = { type: 'add', item: result.item, index: result.duplicateIndex, mode };
       const existing = items[result.duplicateIndex];
       document.querySelector('[data-duplicate-body]').innerHTML = `<strong>${escapeHtml(result.item.name)}</strong><span>Existing quantity: ${existing.quantity}</span><span>Selected quantity: ${result.item.quantity}</span><span>Continue to combine these matching specifications.</span>`;
       openDialog(duplicateModal);
@@ -393,8 +400,8 @@
         if (!copied) throw new Error('Fallback copy command failed');
       }
       if (button) button.textContent = 'Copied!';
-      const emailError = document.querySelector('[data-copy-email-error]');
-      if (emailError) emailError.hidden = true;
+      setChannelStatus('[data-messenger-status]');
+      setChannelStatus('[data-email-status]');
       openDialog(copySuccessModal);
     } catch (error) {
       if (button) button.textContent = 'Copy Failed';
@@ -402,7 +409,7 @@
     }
     window.clearTimeout(copyList.timer);
     copyList.timer = window.setTimeout(() => {
-      if (button) button.textContent = 'Copy Inquiry List';
+      if (button) button.textContent = 'Copy Quote Request';
     }, 2500);
   }
 
@@ -423,6 +430,20 @@
   document.querySelectorAll('[data-cancel-duplicate]').forEach(button => button.addEventListener('click', () => { pendingDuplicate = null; closeDialog(duplicateModal); }));
   document.querySelector('[data-confirm-duplicate]')?.addEventListener('click', () => {
     if (!pendingDuplicate) return;
+    if (pendingDuplicate.type === 'edit') {
+      const sourceIndex = items.findIndex(item => item.key === pendingDuplicate.sourceKey);
+      const targetIndex = items.findIndex(item => item.key === pendingDuplicate.targetKey);
+      if (sourceIndex >= 0 && targetIndex >= 0) {
+        items[targetIndex].quantity = (Number(items[targetIndex].quantity) || 1) + pendingDuplicate.item.quantity;
+        items.splice(sourceIndex, 1);
+        items = store.save(items);
+      }
+      editingInquiryKey = null;
+      pendingDuplicate = null;
+      closeDialog(duplicateModal);
+      renderInquiryList();
+      return;
+    }
     const mode = pendingDuplicate.mode;
     items = store.merge(items, pendingDuplicate.index, pendingDuplicate.item.quantity);
     pendingDuplicate = null;
@@ -433,41 +454,37 @@
   document.querySelector('[data-copy-inquiry]')?.addEventListener('click', copyList);
   document.querySelectorAll('[data-close-copy-success]').forEach(control => control.addEventListener('click', () => {
     closeDialog(copySuccessModal);
+    setChannelStatus('[data-messenger-status]');
+    setChannelStatus('[data-email-status]');
     window.setTimeout(() => document.querySelector('[data-copy-inquiry]')?.focus(), 0);
   }));
   document.querySelector('[data-send-copy-email]')?.addEventListener('click', () => {
     items = store.load();
-    const emailError = document.querySelector('[data-copy-email-error]');
+    const messages = store.STATUS_MESSAGES || {};
     if (!items.length) {
-      if (emailError) emailError.hidden = false;
+      setChannelStatus('[data-email-status]', messages.empty || 'Your Inquiry List is empty. Add at least one blade before continuing.');
       return;
     }
-    if (emailError) emailError.hidden = true;
+    setChannelStatus('[data-email-status]');
     const subject = 'Pangasinan Blades Product Inquiry';
     const body = quotationText();
     window.location.href = `mailto:inquire@pangasinanblades.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
   document.querySelector('[data-send-copy-messenger]')?.addEventListener('click', async event => {
     items = store.load();
-    const errorMessage = document.querySelector('[data-copy-email-error]');
+    const messages = store.STATUS_MESSAGES || {};
     if (!items.length) {
-      if (errorMessage) {
-        errorMessage.textContent = 'Your inquiry list is empty. Please add at least one item before continuing.';
-        errorMessage.hidden = false;
-      }
+      setChannelStatus('[data-messenger-status]', messages.empty || 'Your Inquiry List is empty. Add at least one blade before continuing.');
       return;
     }
-    if (errorMessage) errorMessage.hidden = true;
+    setChannelStatus('[data-messenger-status]');
     const button = event.currentTarget;
     const label = button.querySelector('span:last-child');
     const originalLabel = label?.textContent || 'Send via Messenger';
     if (label) label.textContent = 'Opening Messenger...';
     const messengerWindow = window.open('https://m.me/emcpangasinanblades', '_blank');
     if (!messengerWindow) {
-      if (errorMessage) {
-        errorMessage.textContent = 'Unable to open Messenger. Please allow pop-ups and try again.';
-        errorMessage.hidden = false;
-      }
+      setChannelStatus('[data-messenger-status]', messages.messengerBlocked || 'Unable to open Messenger. Please allow pop-ups and try again.');
       if (label) label.textContent = originalLabel;
       return;
     }
@@ -489,10 +506,7 @@
         if (!copied) throw new Error('Fallback copy command failed');
       }
     } catch (error) {
-      if (errorMessage) {
-        errorMessage.textContent = 'Unable to copy the inquiry message. Please try again or copy it manually.';
-        errorMessage.hidden = false;
-      }
+      setChannelStatus('[data-messenger-status]', messages.messengerCopyFailed || 'Messenger opened, but the quote request could not be copied. Please copy it manually.');
     } finally {
       if (label) label.textContent = originalLabel;
     }
@@ -530,17 +544,21 @@
     });
     const duplicateIndex = items.findIndex((item, index) => index !== itemIndex && store.createKey(item) === candidate.key);
     if (duplicateIndex >= 0) {
-      if (!window.confirm('An item with the same specifications is already in your Inquiry List. Merge this item into the existing entry?')) {
-        renderInquiryList();
-        return false;
-      }
-      items[duplicateIndex].quantity = (Number(items[duplicateIndex].quantity) || 1) + candidate.quantity;
-      items.splice(itemIndex, 1);
-      editingInquiryKey = null;
-    } else {
-      items[itemIndex] = candidate;
-      editingInquiryKey = candidate.key;
+      const existing = items[duplicateIndex];
+      pendingDuplicate = {
+        type: 'edit',
+        item: candidate,
+        sourceKey: originalKey,
+        targetKey: existing.key,
+      };
+      const duplicateBody = document.querySelector('[data-duplicate-body]');
+      if (!duplicateBody) return false;
+      duplicateBody.innerHTML = `<strong>${escapeHtml(candidate.name)}</strong><span>Matching specifications already exist.</span><span>Existing quantity: ${Number(existing.quantity) || 1}</span><span>Edited quantity: ${candidate.quantity}</span><span>Continue to merge both entries.</span>`;
+      openDialog(duplicateModal);
+      return false;
     }
+    items[itemIndex] = candidate;
+    editingInquiryKey = candidate.key;
     items = store.save(items);
     return true;
   }

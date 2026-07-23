@@ -380,6 +380,7 @@ const INQUIRY_LIST_STORAGE_KEY = INQUIRY_STORE?.STORAGE_KEY || 'pangasinanBlades
 let inquiryList = [];
 let pendingDuplicateItem = null;
 let pendingDuplicateIndex = -1;
+let pendingDuplicateEdit = null;
 let pendingRemoveInquiryKey = null;
 const dialogFocusStack = [];
 
@@ -630,6 +631,21 @@ function addCustomOrderToInquiryList(customOrder) {
 }
 
 function confirmDuplicateInquiryItem() {
+  if (pendingDuplicateEdit) {
+    const { sourceKey, targetKey, item } = pendingDuplicateEdit;
+    const target = inquiryList.find(entry => (entry.key || createInquiryItemKey(entry)) === targetKey);
+    if (target) {
+      target.quantity = (Number(target.quantity) || 1) + (Number(item.quantity) || 1);
+      inquiryList = inquiryList.filter(entry => (entry.key || createInquiryItemKey(entry)) !== sourceKey);
+      saveInquiryList();
+      updateInquiryBadge();
+    }
+    pendingDuplicateEdit = null;
+    closeDuplicateInquiryModal();
+    renderInquiryListModal();
+    return;
+  }
+
   if (!pendingDuplicateItem || pendingDuplicateIndex < 0) return;
 
   inquiryList[pendingDuplicateIndex] = {
@@ -649,6 +665,7 @@ function confirmDuplicateInquiryItem() {
 function cancelDuplicateInquiryItem() {
   pendingDuplicateItem = null;
   pendingDuplicateIndex = -1;
+  pendingDuplicateEdit = null;
   closeDuplicateInquiryModal();
 }
 
@@ -659,12 +676,7 @@ function showDuplicateInquiryConfirmation(item, existingIndex) {
   const modal = document.getElementById('duplicateInquiryModal');
   const body = document.getElementById('duplicateInquiryBody');
 
-  if (!modal || !body) {
-    if (confirm('An item with the same specifications is already in your Inquiry List. Would you like to add the selected quantity to the existing item?')) {
-      confirmDuplicateInquiryItem();
-    }
-    return;
-  }
+  if (!modal || !body) return;
 
   body.innerHTML = `
     <strong>${escapeHtml(item.name)}</strong>
@@ -726,7 +738,7 @@ function setInquiryItemQuantity(itemKey, quantity) {
 
 function updateInquiryActionAvailability() {
   const editing = Boolean(document.querySelector('.inquiry-item-editor:not([hidden])'));
-  const message = editing ? 'Save your item changes before copying or sending the inquiry.' : '';
+  const message = editing ? 'Save your item changes before copying or requesting a quote.' : '';
   ['copyInquiryListBtn', 'sendInquiryListBtn'].forEach(id => {
     const button = document.getElementById(id);
     if (!button) return;
@@ -777,17 +789,19 @@ function updateInquiryItem(index, changedControl) {
 
   const duplicateIndex = inquiryList.findIndex((entry, entryIndex) => entryIndex !== index && createInquiryItemKey(entry) === updatedItem.key);
   if (duplicateIndex >= 0) {
-    const shouldMerge = window.confirm('An item with the same specifications is already in your Inquiry List. Merge this item into the existing entry?');
-    if (!shouldMerge) {
-      renderInquiryListModal();
-      return;
-    }
-    inquiryList[duplicateIndex].quantity = (Number(inquiryList[duplicateIndex].quantity) || 1) + updatedItem.quantity;
-    inquiryList.splice(index, 1);
-    saveInquiryList();
-    updateInquiryBadge();
-    renderInquiryListModal();
-    return;
+    const modal = document.getElementById('duplicateInquiryModal');
+    const body = document.getElementById('duplicateInquiryBody');
+    if (!modal || !body) return false;
+    const existing = inquiryList[duplicateIndex];
+    pendingDuplicateEdit = {
+      sourceKey: item.key || createInquiryItemKey(item),
+      targetKey: existing.key || createInquiryItemKey(existing),
+      item: updatedItem,
+    };
+    body.innerHTML = `<strong>${escapeHtml(updatedItem.name)}</strong><span>Matching specifications already exist.</span><span>Existing quantity: ${Number(existing.quantity) || 1}</span><span>Edited quantity: ${updatedItem.quantity}</span><span>Continue to merge both entries.</span>`;
+    modal.classList.add('open');
+    activateDialogFocus(modal);
+    return false;
   }
 
   inquiryList[index] = updatedItem;
@@ -798,6 +812,7 @@ function updateInquiryItem(index, changedControl) {
   const count = document.getElementById('inquiryListModalCount');
   const total = getInquiryListCount();
   if (count) count.textContent = `${total} blade${total === 1 ? '' : 's'}`;
+  return true;
 }
 
 function removeInquiryItemByIndex(index) {
@@ -810,8 +825,7 @@ function toggleInquiryItemEditor(index, button) {
   if (!editor) return;
   const willOpen = editor.hidden;
   if (!willOpen) {
-    updateInquiryItem(index, editor.querySelector('select, input, textarea'));
-    renderInquiryListModal();
+    if (updateInquiryItem(index, editor.querySelector('select, input, textarea')) !== false) renderInquiryListModal();
     return;
   }
   const display = document.querySelector(`[data-inquiry-display="${index}"]`);
@@ -851,6 +865,7 @@ function confirmClearInquiryList() {
   inquiryList = [];
   pendingDuplicateItem = null;
   pendingDuplicateIndex = -1;
+  pendingDuplicateEdit = null;
   pendingRemoveInquiryKey = null;
   saveInquiryList();
   updateInquiryBadge();
@@ -910,19 +925,26 @@ function fallbackCopyText(text) {
 function openCopySuccessModal() {
   const modal = document.getElementById('copySuccessModal');
   if (!modal || modal.classList.contains('open')) return;
-  const emailError = document.getElementById('copyEmailError');
-  if (emailError) emailError.hidden = true;
+  setQuoteChannelStatus('messengerQuoteStatus');
+  setQuoteChannelStatus('emailQuoteStatus');
   modal.classList.add('open');
   activateDialogFocus(modal);
 }
 
+function setQuoteChannelStatus(id, message = '') {
+  const status = document.getElementById(id);
+  if (!status) return;
+  status.textContent = message;
+  status.hidden = !message;
+}
+
 function sendCopiedInquiryViaEmail() {
-  const emailError = document.getElementById('copyEmailError');
+  const messages = INQUIRY_STORE?.STATUS_MESSAGES || {};
   if (!inquiryList.length) {
-    if (emailError) emailError.hidden = false;
+    setQuoteChannelStatus('emailQuoteStatus', messages.empty || 'Your Inquiry List is empty. Add at least one blade before continuing.');
     return;
   }
-  if (emailError) emailError.hidden = true;
+  setQuoteChannelStatus('emailQuoteStatus');
   const subject = 'Pangasinan Blades Product Inquiry';
   const body = quotationMessage();
   window.location.href = `mailto:inquire@pangasinanblades.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -933,24 +955,18 @@ function buildMessengerInquiryMessage() {
 }
 
 async function sendCopiedInquiryViaMessenger(button) {
-  const errorMessage = document.getElementById('copyEmailError');
+  const messages = INQUIRY_STORE?.STATUS_MESSAGES || {};
   if (!inquiryList.length) {
-    if (errorMessage) {
-      errorMessage.textContent = 'Your inquiry list is empty. Please add at least one item before continuing.';
-      errorMessage.hidden = false;
-    }
+    setQuoteChannelStatus('messengerQuoteStatus', messages.empty || 'Your Inquiry List is empty. Add at least one blade before continuing.');
     return;
   }
-  if (errorMessage) errorMessage.hidden = true;
+  setQuoteChannelStatus('messengerQuoteStatus');
   const originalLabel = button?.querySelector('span:last-child')?.textContent || 'Send via Messenger';
   const label = button?.querySelector('span:last-child');
   if (label) label.textContent = 'Opening Messenger...';
   const messengerWindow = window.open('https://m.me/emcpangasinanblades', '_blank');
   if (!messengerWindow) {
-    if (errorMessage) {
-      errorMessage.textContent = 'Unable to open Messenger. Please allow pop-ups and try again.';
-      errorMessage.hidden = false;
-    }
+    setQuoteChannelStatus('messengerQuoteStatus', messages.messengerBlocked || 'Unable to open Messenger. Please allow pop-ups and try again.');
     if (label) label.textContent = originalLabel;
     return;
   }
@@ -963,10 +979,7 @@ async function sendCopiedInquiryViaMessenger(button) {
       throw new Error('Fallback copy command failed');
     }
   } catch (error) {
-    if (errorMessage) {
-      errorMessage.textContent = 'Unable to copy the inquiry message. Please try again or copy it manually.';
-      errorMessage.hidden = false;
-    }
+    setQuoteChannelStatus('messengerQuoteStatus', messages.messengerCopyFailed || 'Messenger opened, but the quote request could not be copied. Please copy it manually.');
   } finally {
     if (label) label.textContent = originalLabel;
   }
@@ -976,6 +989,8 @@ function closeCopySuccessModal() {
   const modal = document.getElementById('copySuccessModal');
   if (!modal?.classList.contains('open')) return;
   modal.classList.remove('open');
+  setQuoteChannelStatus('messengerQuoteStatus');
+  setQuoteChannelStatus('emailQuoteStatus');
   deactivateDialogFocus(modal);
   window.setTimeout(() => document.getElementById('copyInquiryListBtn')?.focus(), 0);
 }
@@ -1001,7 +1016,7 @@ async function copyInquiryList() {
   }
   window.clearTimeout(copyInquiryList.timer);
   copyInquiryList.timer = window.setTimeout(() => {
-    if (button) button.textContent = 'Copy Inquiry List';
+    if (button) button.textContent = 'Copy Quote Request';
   }, 2500);
 }
 
@@ -1023,7 +1038,7 @@ function renderInquiryListModal() {
     body.innerHTML = `
       <div class="inquiry-list-empty">
         <strong>No blades added yet.</strong>
-        <span>Open a Quick View and add blades to build one inquiry list.</span>
+        <span>Choose a blade and add it to begin your quote request.</span>
       </div>`;
     updateInquiryActionAvailability();
     return;
@@ -1377,7 +1392,7 @@ function openDrawer(id) {
       <button class="btn-primary" onclick="addCurrentBuildToInquiryList(${blade.id})">
         Add to Inquiry List
       </button>
-      <button class="btn-ghost" onclick="inquireQuickBuild(${blade.id})">Send Inquiry Now</button>
+      <button class="btn-ghost" onclick="inquireQuickBuild(${blade.id})">Request a Quote</button>
       <a class="btn-ghost" href="collection/index.html?id=${blade.id}">View Full Details</a>
       <button class="btn-ghost" onclick="closeDrawer()">Continue Browsing</button>
     </div>`;
@@ -2109,7 +2124,7 @@ function setContactSubmitState(isLoading) {
   button.disabled = isLoading;
   button.classList.toggle('is-loading', isLoading);
   button.setAttribute('aria-busy', String(isLoading));
-  if (label) label.textContent = isLoading ? 'Sending...' : 'Send Your Inquiry';
+  if (label) label.textContent = isLoading ? 'Sending Quote Request...' : 'Submit Quote Request';
 }
 
 async function handleFormSubmit(event) {
@@ -2148,10 +2163,10 @@ async function handleFormSubmit(event) {
     INQUIRY_STORE?.clearCustomer?.();
     populateInquiryCustomerControls({});
     document.getElementById('messageCounter').textContent = '0 / 2000';
-    setContactFormStatus('success', 'Thank you! Your inquiry has been sent successfully. We will get back to you as soon as possible.');
+    setContactFormStatus('success', 'Thank you! Your quote request has been sent successfully. We will get back to you as soon as possible.');
     console.log('Inquiry submitted successfully.');
   } catch (error) {
-    setContactFormStatus('error', "We couldn't send your inquiry right now. Please try again later or contact us through Facebook Messenger.");
+    setContactFormStatus('error', "We couldn't send your quote request right now. Please try again later or contact us through Facebook Messenger.");
     console.error('Submission failed.', error);
   } finally {
     contactFormSubmitting = false;

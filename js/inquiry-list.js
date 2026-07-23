@@ -3,6 +3,12 @@
 
   const STORAGE_KEY = 'pangasinanBladesInquiryList';
   const CUSTOMER_STORAGE_KEY = 'pangasinanBladesInquiryCustomer';
+  const STATUS_MESSAGES = Object.freeze({
+    empty: 'Your Inquiry List is empty. Add at least one blade before continuing.',
+    copyFailed: 'Unable to copy the quote request. Please try again or copy it manually.',
+    messengerBlocked: 'Unable to open Messenger. Please allow pop-ups and try again.',
+    messengerCopyFailed: 'Messenger opened, but the quote request could not be copied. Please use Copy Quote Request and paste it manually.',
+  });
 
   function normalize(value) {
     return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
@@ -199,6 +205,7 @@
   global.PangasinanInquiry = {
     STORAGE_KEY,
     CUSTOMER_STORAGE_KEY,
+    STATUS_MESSAGES,
     createKey,
     prepare,
     load,

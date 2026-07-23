@@ -591,12 +591,12 @@
     </div>
 
     <div class="inquiry-list-actions">
-      <button type="button" class="btn-ghost" id="copyInquiryListBtn" onclick="copyInquiryList()">Copy Inquiry List</button>
+      <button type="button" class="btn-ghost" id="copyInquiryListBtn" onclick="copyInquiryList()">Copy Quote Request</button>
       <button type="button" class="btn-ghost" id="clearInquiryListBtn" onclick="clearInquiryList()">Clear List</button>
       <!-- <button type="button" class="btn-ghost" onclick="closeInquiryListModal()">Close Modal</button> -->
-      <button type="button" class="btn-primary" id="sendInquiryListBtn" onclick="sendInquiryList()">Send Inquiry</button>
+      <button type="button" class="btn-primary" id="sendInquiryListBtn" onclick="sendInquiryList()">Request a Quote</button>
     </div>
-    <p class="copy-inquiry-error" id="copyInquiryError" role="alert" hidden>Unable to copy the inquiry list. Please try again or copy it manually.</p>
+    <p class="copy-inquiry-error" id="copyInquiryError" role="alert" hidden>Unable to copy the quote request. Please try again or copy it manually.</p>
   </section>
 </div>
 
@@ -645,15 +645,16 @@
   <section class="duplicate-inquiry-panel copy-success-panel">
     <button type="button" class="inquiry-list-close copy-success-close" onclick="closeCopySuccessModal()" aria-label="Close copied inquiry dialog">&times;</button>
     <span class="copy-success-check" aria-hidden="true">&#10003;</span>
-    <h2 id="copySuccessTitle">Inquiry List Copied</h2>
-    <p id="copySuccessDescription">Your inquiry list has been copied to your clipboard and is ready to send. Choose Messenger to open our conversation, or Email to create a new inquiry message.</p>
-    <p class="copy-success-hint">When you choose Messenger, a complete inquiry message and customer-information form will be copied. Paste it into the Pangasinan Blades conversation, fill in your details, then send it.</p>
+    <h2 id="copySuccessTitle">Quote Request Copied</h2>
+    <p id="copySuccessDescription">Your quote request has been copied to your clipboard and is ready to send. Choose Messenger to open our conversation, or Email to create a new message.</p>
+    <p class="copy-success-hint">When you choose Messenger, the complete quote request will be copied. Paste it into the Pangasinan Blades conversation, review your details, then send it.</p>
     <div class="copy-success-actions">
       <button class="btn-primary messenger-action" type="button" onclick="sendCopiedInquiryViaMessenger(this)"><svg class="copy-action-svg messenger-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#007FFF" d="M24 0C10.745 0 0 9.949 0 22.222c0 6.993 3.49 13.231 8.944 17.305V48l8.172-4.485A25.63 25.63 0 0 0 24 44.444c13.255 0 24-9.949 24-22.222C48 9.949 37.255 0 24 0Zm2.385 29.926-6.112-6.519-11.925 6.519L21.466 16l6.261 6.519L39.503 16 26.385 29.926Z"/></svg><span>Send via Messenger</span></button>
       <button class="btn-ghost" type="button" onclick="sendCopiedInquiryViaEmail()"><svg class="copy-action-svg email-icon" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 1694.235h1920V226H0v1468.235ZM112.941 376.664V338.94H1807.06v37.723L960 1111.233l-847.059-734.57ZM1807.06 526.198v950.513l-351.134-438.89-88.32 70.475 378.353 472.998H174.042l378.353-472.998-88.32-70.475-351.134 438.89V526.198L960 1260.768l847.059-734.57Z" fill-rule="evenodd"/></svg>Send via Email</button>
       <button type="button" class="btn-ghost" onclick="closeCopySuccessModal()">Close</button>
     </div>
-    <p class="copy-email-error" id="copyEmailError" role="alert" hidden>Your inquiry list is empty. Please add at least one item before continuing.</p>
+    <p class="copy-email-error" id="messengerQuoteStatus" role="alert" hidden></p>
+    <p class="copy-email-error" id="emailQuoteStatus" role="alert" hidden></p>
   </section>
 </div>
 
@@ -1421,7 +1422,7 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
       <div class="form-submit">
         <button type="submit" class="btn-primary contact-submit" id="contactSubmit">
           <span class="contact-submit-spinner" aria-hidden="true"></span>
-          <span class="contact-submit-label">Send Your Inquiry</span>
+          <span class="contact-submit-label">Submit Quote Request</span>
           <span aria-hidden="true">→</span>
         </button>
       </div>
