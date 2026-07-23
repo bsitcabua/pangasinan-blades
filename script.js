@@ -399,7 +399,7 @@ function updateCustomerDisclosure(customer = getInquiryCustomer(), setDefault = 
   const complete = INQUIRY_STORE?.isCustomerComplete?.(customer) || false;
   document.querySelectorAll('[data-customer-disclosure]').forEach(disclosure => {
     disclosure.classList.toggle('is-complete', complete);
-    if (setDefault) disclosure.open = !complete;
+    if (setDefault) disclosure.toggleAttribute('open', !complete);
     const status = disclosure.querySelector('[data-customer-summary-status]');
     if (status) status.textContent = complete ? 'Complete' : 'Needs information';
   });
@@ -1127,6 +1127,7 @@ function openInquiryListModal() {
   const modal = document.getElementById('inquiryListModal');
   if (!modal) return;
   modal.classList.add('open');
+  window.requestAnimationFrame(() => updateCustomerDisclosure(getInquiryCustomer(), true));
   document.body.style.overflow = 'hidden';
   activateDialogFocus(modal);
 }

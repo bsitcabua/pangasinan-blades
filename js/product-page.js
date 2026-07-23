@@ -51,7 +51,7 @@
     const complete = store.isCustomerComplete?.(getCustomer()) || false;
     document.querySelectorAll('[data-customer-disclosure]').forEach(disclosure => {
       disclosure.classList.toggle('is-complete', complete);
-      if (setDefault) disclosure.open = !complete;
+      if (setDefault) disclosure.toggleAttribute('open', !complete);
       const status = disclosure.querySelector('[data-customer-summary-status]');
       if (status) status.textContent = complete ? 'Complete' : 'Needs information';
     });
@@ -383,6 +383,7 @@
     renderInquiryList();
     updateCustomerDisclosure(true);
     openDialog(inquiryModal);
+    window.requestAnimationFrame(() => updateCustomerDisclosure(true));
   }
 
   function goToContact() {
@@ -448,7 +449,12 @@
   document.querySelector('[data-product-field="quantity"]')?.addEventListener('change', event => { event.target.value = Math.max(1, Number(event.target.value) || 1); });
   document.querySelector('[data-add-inquiry]')?.addEventListener('click', () => addCurrent('list'));
   document.querySelector('[data-inquire-now]')?.addEventListener('click', () => addCurrent('inquire'));
-  document.querySelectorAll('[data-open-inquiry]').forEach(button => button.addEventListener('click', () => { renderInquiryList(); updateCustomerDisclosure(true); openDialog(inquiryModal); }));
+  document.querySelectorAll('[data-open-inquiry]').forEach(button => button.addEventListener('click', () => {
+    renderInquiryList();
+    updateCustomerDisclosure(true);
+    openDialog(inquiryModal);
+    window.requestAnimationFrame(() => updateCustomerDisclosure(true));
+  }));
   document.querySelectorAll('[data-close-inquiry]').forEach(button => button.addEventListener('click', () => closeDialog(inquiryModal)));
   document.querySelectorAll('[data-cancel-duplicate]').forEach(button => button.addEventListener('click', () => { pendingDuplicate = null; closeDialog(duplicateModal); }));
   document.querySelector('[data-confirm-duplicate]')?.addEventListener('click', () => {
@@ -472,7 +478,13 @@
     pendingDuplicate = null;
     closeDialog(duplicateModal);
     updateBadges();
-    if (mode === 'inquire') goToContact(); else { renderInquiryList(); updateCustomerDisclosure(true); openDialog(inquiryModal); }
+    if (mode === 'inquire') goToContact();
+    else {
+      renderInquiryList();
+      updateCustomerDisclosure(true);
+      openDialog(inquiryModal);
+      window.requestAnimationFrame(() => updateCustomerDisclosure(true));
+    }
   });
   document.querySelector('[data-copy-inquiry]')?.addEventListener('click', copyList);
   document.querySelectorAll('[data-close-copy-success]').forEach(control => control.addEventListener('click', () => {
