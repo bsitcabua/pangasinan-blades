@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-products.js",
-    "validate": "node scripts/validate-build.js"
+    "validate": "node scripts/validate-build.js",
+    "validate:inquiry": "node scripts/validate-inquiry-workflow.js"
   },
   "engines": {
     "node": ">=18"
