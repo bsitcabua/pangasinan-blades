@@ -482,7 +482,7 @@
     const label = button.querySelector('span:last-child');
     const originalLabel = label?.textContent || 'Send via Messenger';
     if (label) label.textContent = 'Opening Messenger...';
-    const messengerWindow = window.open('https://m.me/emcpangasinanblades', '_blank');
+    const messengerWindow = window.open('https://www.facebook.com/messages/t/emcpangasinanblades', '_blank');
     if (!messengerWindow) {
       setChannelStatus('[data-messenger-status]', messages.messengerBlocked || 'Unable to open Messenger. Please allow pop-ups and try again.');
       if (label) label.textContent = originalLabel;

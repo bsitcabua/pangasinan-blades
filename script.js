@@ -964,7 +964,7 @@ async function sendCopiedInquiryViaMessenger(button) {
   const originalLabel = button?.querySelector('span:last-child')?.textContent || 'Send via Messenger';
   const label = button?.querySelector('span:last-child');
   if (label) label.textContent = 'Opening Messenger...';
-  const messengerWindow = window.open('https://m.me/emcpangasinanblades', '_blank');
+  const messengerWindow = window.open('https://www.facebook.com/messages/t/emcpangasinanblades', '_blank');
   if (!messengerWindow) {
     setQuoteChannelStatus('messengerQuoteStatus', messages.messengerBlocked || 'Unable to open Messenger. Please allow pop-ups and try again.');
     if (label) label.textContent = originalLabel;
