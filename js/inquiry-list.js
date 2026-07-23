@@ -105,6 +105,16 @@
     return prepareCustomer();
   }
 
+  function isCustomerComplete(customer = {}) {
+    const prepared = prepareCustomer(customer);
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(prepared.email);
+    return Boolean(prepared.firstName
+      && prepared.lastName
+      && emailValid
+      && prepared.phone
+      && prepared.address);
+  }
+
   function messengerUrl() {
     const userAgent = navigator.userAgent || '';
     const mobile = navigator.userAgentData?.mobile === true
@@ -225,6 +235,7 @@
     loadCustomer,
     saveCustomer,
     clearCustomer,
+    isCustomerComplete,
     messengerUrl,
     findDuplicateIndex,
     add,

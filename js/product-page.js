@@ -47,13 +47,25 @@
     });
   }
 
+  function updateCustomerDisclosure(setDefault = false) {
+    const complete = store.isCustomerComplete?.(getCustomer()) || false;
+    document.querySelectorAll('[data-customer-disclosure]').forEach(disclosure => {
+      disclosure.classList.toggle('is-complete', complete);
+      if (setDefault) disclosure.open = !complete;
+      const status = disclosure.querySelector('[data-customer-summary-status]');
+      if (status) status.textContent = complete ? 'Complete' : 'Needs information';
+    });
+  }
+
   function saveCustomerControls() {
     if (!store.saveCustomer) return {};
     const customer = getCustomer();
     document.querySelectorAll('[data-inquiry-customer-field]').forEach(control => {
       customer[control.dataset.inquiryCustomerField] = control.value;
     });
-    return store.saveCustomer(customer);
+    const saved = store.saveCustomer(customer);
+    updateCustomerDisclosure();
+    return saved;
   }
 
   function quotationText(options = {}) {
@@ -299,7 +311,7 @@
   }
 
   function focusable(dialog) {
-    return Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+    return Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])'));
   }
 
   function openDialog(dialog) {
@@ -369,6 +381,7 @@
     updateBadges();
     if (mode === 'inquire') return goToContact();
     renderInquiryList();
+    updateCustomerDisclosure(true);
     openDialog(inquiryModal);
   }
 
@@ -384,6 +397,11 @@
     const errorMessage = document.querySelector('[data-copy-error]');
     const inquiryText = quotationText();
     if (errorMessage) errorMessage.hidden = true;
+    if (button) {
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+      button.textContent = 'Copying...';
+    }
     try {
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(inquiryText);
@@ -406,6 +424,11 @@
     } catch (error) {
       if (button) button.textContent = 'Copy Failed';
       if (errorMessage) errorMessage.hidden = false;
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.removeAttribute('aria-busy');
+      }
     }
     window.clearTimeout(copyList.timer);
     copyList.timer = window.setTimeout(() => {
@@ -425,7 +448,7 @@
   document.querySelector('[data-product-field="quantity"]')?.addEventListener('change', event => { event.target.value = Math.max(1, Number(event.target.value) || 1); });
   document.querySelector('[data-add-inquiry]')?.addEventListener('click', () => addCurrent('list'));
   document.querySelector('[data-inquire-now]')?.addEventListener('click', () => addCurrent('inquire'));
-  document.querySelectorAll('[data-open-inquiry]').forEach(button => button.addEventListener('click', () => { renderInquiryList(); openDialog(inquiryModal); }));
+  document.querySelectorAll('[data-open-inquiry]').forEach(button => button.addEventListener('click', () => { renderInquiryList(); updateCustomerDisclosure(true); openDialog(inquiryModal); }));
   document.querySelectorAll('[data-close-inquiry]').forEach(button => button.addEventListener('click', () => closeDialog(inquiryModal)));
   document.querySelectorAll('[data-cancel-duplicate]').forEach(button => button.addEventListener('click', () => { pendingDuplicate = null; closeDialog(duplicateModal); }));
   document.querySelector('[data-confirm-duplicate]')?.addEventListener('click', () => {
@@ -449,7 +472,7 @@
     pendingDuplicate = null;
     closeDialog(duplicateModal);
     updateBadges();
-    if (mode === 'inquire') goToContact(); else { renderInquiryList(); openDialog(inquiryModal); }
+    if (mode === 'inquire') goToContact(); else { renderInquiryList(); updateCustomerDisclosure(true); openDialog(inquiryModal); }
   });
   document.querySelector('[data-copy-inquiry]')?.addEventListener('click', copyList);
   document.querySelectorAll('[data-close-copy-success]').forEach(control => control.addEventListener('click', () => {
@@ -633,5 +656,6 @@
   });
 
   populateCustomerControls();
+  updateCustomerDisclosure(true);
   updateBadges();
 })();

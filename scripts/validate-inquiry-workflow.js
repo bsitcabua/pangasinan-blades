@@ -70,6 +70,9 @@ const customer = store.saveCustomer({
   notes: 'Please include shipping in the quotation.',
 });
 assert.deepEqual(store.loadCustomer(), customer, 'Customer details should persist for the current session.');
+assert.equal(store.isCustomerComplete(customer), true, 'Complete customer details should collapse by default.');
+assert.equal(store.isCustomerComplete({ ...customer, phone: '' }), false, 'Missing required customer details should open by default.');
+assert.equal(store.isCustomerComplete({ ...customer, email: 'invalid' }), false, 'An invalid email should keep customer details open.');
 
 const quotation = store.quotation(items, { customer });
 assert.match(quotation, /Name: Juan Dela Cruz/);
