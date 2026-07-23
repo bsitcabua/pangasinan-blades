@@ -98,7 +98,7 @@ This sequence prioritizes business risk and broken or misleading behavior before
 3. Consolidate homepage and product-page dialog/inquiry behavior around shared utilities.
 4. Split CSS into tokens/base, layout, components, sections, dialogs, utilities, and responsive files.
 5. Remove inline styles and inline event handlers.
-6. Remove disabled Quick View and hidden Masterpieces code, or document and restore them intentionally.
+6. **Completed July 23, 2026:** Removed the disabled Quick View drawer and hidden Featured Masterpieces section, including their dedicated HTML, JavaScript, CSS, responsive overrides, and obsolete references.
 7. Document the QRCode.js version, source, license, and update procedure.
 8. Correct README and audit documentation that no longer matches deployment behavior.
 9. Replace generated sitemap dates with accurate modification dates or omit them.
@@ -138,4 +138,3 @@ This sequence prioritizes business risk and broken or misleading behavior before
 - Provider dashboard access is required for Web3Forms restrictions and Brevo monitoring.
 - A future dynamic runtime is required for true server-rendered product metadata and administrative stock management.
 - Regression tests should be established before the large JavaScript and CSS modularization work.
-

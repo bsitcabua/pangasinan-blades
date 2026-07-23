@@ -115,10 +115,14 @@
     href="assets/favicon_io/favicon.ico"
   >
 
-  <link
-    rel="manifest"
-    href="assets/favicon_io/site.webmanifest"
-  >
+  <script>
+    if (window.location.protocol !== 'file:') {
+      const manifest = document.createElement('link');
+      manifest.rel = 'manifest';
+      manifest.href = 'assets/favicon_io/site.webmanifest';
+      document.head.appendChild(manifest);
+    }
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -525,41 +529,6 @@
   </div>
 </div>
 
-<!-- Quick View Drawer temporarily disabled
-<div id="quickDrawer" role="dialog" aria-modal="true" aria-labelledby="qdTitle" style="
-  position:fixed;top:0;right:0;bottom:0;
-  width:min(520px,100vw);
-  background:var(--charcoal);
-  z-index:3000;
-  transform:translateX(100%);
-  transition:transform .5s cubic-bezier(.16,1,.3,1);
-  overflow-y:auto;
-  border-left:1px solid var(--ash);
-  display:flex;flex-direction:column;
-">
-  <div style="padding:32px 36px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-    <span style="font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);">Quick View</span>
-    <button onclick="closeDrawer()" aria-label="Close quick view" style="
-      width:36px;height:36px;border:1px solid var(--ash);
-      background:transparent;color:var(--silver);font-size:18px;
-      display:flex;align-items:center;justify-content:center;cursor:pointer;
-    " onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'"
-       onmouseout="this.style.borderColor='var(--ash)';this.style.color='var(--silver)'">✕</button>
-  </div>
-  <div id="qdBody" style="padding:28px 36px 48px;flex:1;"></div>
-</div>
-
-<div class="qd-zoom-preview" id="qdZoomPreview" aria-hidden="true">
-  <div class="qd-zoom-preview-content" id="qdZoomPreviewContent"></div>
-</div>
-
-<div id="drawerBackdrop" onclick="closeDrawer()" style="
-  display:none;position:fixed;inset:0;z-index:2999;
-  background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
-"></div>
-
--->
-
 <div class="inquiry-list-modal" id="inquiryListModal" role="dialog" aria-modal="true" aria-labelledby="inquiryListTitle">
   <div class="inquiry-list-backdrop" onclick="closeInquiryListModal()" aria-hidden="true"></div>
   <section class="inquiry-list-panel">
@@ -659,145 +628,6 @@
 </div>
 
 
-
-<!-- ============================================================
-     SECTION 04 — FEATURED MASTERPIECES
-     ============================================================ -->
-<section class="featured" id="masterpieces" aria-labelledby="featuredTitle" hidden>
-
-  <!-- Featured 01 -->
-  <div class="featured-piece">
-    <div class="featured-img" aria-hidden="true">
-      <div class="featured-img-bg">
-        <svg viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#0d0d0d;">
-          <defs>
-            <radialGradient id="f1glow" cx="50%" cy="50%" r="60%">
-              <stop offset="0%" stop-color="#C8963C" stop-opacity="0.15"/>
-              <stop offset="100%" stop-color="#0d0d0d" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <rect width="600" height="700" fill="#0a0a0a"/>
-          <rect width="600" height="700" fill="url(#f1glow)"/>
-          <!-- Dramatic Kampilan floating on dark -->
-          <g transform="translate(120, 80) rotate(15)">
-            <!-- Blade body -->
-            <path d="M0 500 L0 480 L340 180 Q380 150 390 130 Q370 110 350 125 L20 460 L0 440 L-10 470 Z" fill="#777" stroke="#AAA" stroke-width="1"/>
-            <!-- Fuller groove -->
-            <path d="M10 465 L350 168" stroke="#555" stroke-width="3" opacity="0.6"/>
-            <!-- Edge gleam -->
-            <path d="M8 462 L348 162" stroke="#E0D8C8" stroke-width="0.8" opacity="0.5"/>
-            <!-- Damascus pattern -->
-            <path d="M20 455 Q80 430 140 410 Q200 390 260 360 Q320 330 350 315" stroke="#999" stroke-width="1.5" fill="none" opacity="0.3"/>
-            <path d="M15 470 Q75 445 135 425 Q195 405 255 375 Q315 345 345 330" stroke="#777" stroke-width="1" fill="none" opacity="0.2"/>
-            <!-- Handle -->
-            <rect x="-18" y="478" width="26" height="80" rx="4" fill="#1a0a04" stroke="#3a2010" stroke-width="1.5"/>
-            <!-- Gold fittings -->
-            <rect x="-20" y="473" width="30" height="10" rx="2" fill="#C8963C" stroke="#E8A840" stroke-width="0.5"/>
-            <rect x="-20" y="548" width="30" height="10" rx="2" fill="#C8963C" stroke="#E8A840" stroke-width="0.5"/>
-            <!-- Handle wrap -->
-            <line x1="-18" y1="490" x2="8" y2="490" stroke="#8a5020" stroke-width="2" opacity="0.5"/>
-            <line x1="-18" y1="503" x2="8" y2="503" stroke="#8a5020" stroke-width="2" opacity="0.5"/>
-            <line x1="-18" y1="516" x2="8" y2="516" stroke="#8a5020" stroke-width="2" opacity="0.5"/>
-            <line x1="-18" y1="529" x2="8" y2="529" stroke="#8a5020" stroke-width="2" opacity="0.5"/>
-            <line x1="-18" y1="542" x2="8" y2="542" stroke="#8a5020" stroke-width="2" opacity="0.5"/>
-          </g>
-        </svg>
-      </div>
-      <div class="featured-img-number" aria-hidden="true">01</div>
-    </div>
-    <div class="featured-text">
-      <p class="featured-piece-num reveal">Featured Masterpiece · No. 01</p>
-      <h2 class="featured-title reveal reveal-delay-1" id="featuredTitle">Kampilan<br>ng Bayani</h2>
-      <p class="featured-desc reveal reveal-delay-2">"The sword of the hero" — forged in the tradition of Pangasinan's pre-colonial warriors, with a Damascus pattern that took 240 folds to achieve.</p>
-      <table class="spec-table reveal reveal-delay-2" aria-label="Blade specifications">
-        <tbody>
-          <tr><td>Blade Length</td><td>28 inches</td></tr>
-          <tr><td>Overall</td><td>36 inches</td></tr>
-          <tr><td>Steel</td><td>High-Carbon Damascus 1075/15N20</td></tr>
-          <tr><td>HRC Hardness</td><td>58–61</td></tr>
-          <tr><td>Handle</td><td>Carabao Horn with Brass Pins</td></tr>
-          <tr><td>Weight</td><td>680g</td></tr>
-          <tr><td>Edge</td><td>Single-bevel, convex grind</td></tr>
-          <tr><td>Sheath</td><td>Hand-stitched water buffalo leather</td></tr>
-          <tr><td>Edition</td><td>1 of 3 — 1 remaining</td></tr>
-        </tbody>
-      </table>
-      <div class="featured-price-row reveal reveal-delay-3">
-        <span class="featured-price">₱28,500</span>
-        <div class="featured-ctas">
-          <a href="#contact" class="btn-primary" onclick="scrollToContact('Kampilan ng Bayani')">Inquire About This Piece</a>
-          <button class="btn-text">Full Details <span class="arrow">→</span></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="featured-divider" aria-hidden="true"></div>
-
-  <!-- Featured 02 -->
-  <div class="featured-piece">
-    <div class="featured-text">
-      <p class="featured-piece-num reveal">Featured Masterpiece · No. 02</p>
-      <h2 class="featured-title reveal reveal-delay-1">Kalis ng<br>Datu Puti</h2>
-      <p class="featured-desc reveal reveal-delay-2">Named for the legendary Datu who led the first Filipino settlers to Panay — the wavy double-edged blade is both a weapon and a work of cultural art.</p>
-      <table class="spec-table reveal reveal-delay-2" aria-label="Blade specifications">
-        <tbody>
-          <tr><td>Blade Length</td><td>24 inches</td></tr>
-          <tr><td>Overall</td><td>32 inches</td></tr>
-          <tr><td>Steel</td><td>Laminated San Mai — W2 core</td></tr>
-          <tr><td>HRC Hardness</td><td>60–63 core / 52 cladding</td></tr>
-          <tr><td>Handle</td><td>Narra Hardwood with Brass Fittings</td></tr>
-          <tr><td>Weight</td><td>580g</td></tr>
-          <tr><td>Edge</td><td>Double-bevel, hollow grind</td></tr>
-          <tr><td>Sheath</td><td>Hand-carved narra wood kaluban</td></tr>
-          <tr><td>Edition</td><td>Made to Order — 8–10 weeks</td></tr>
-        </tbody>
-      </table>
-      <div class="featured-price-row reveal reveal-delay-3">
-        <span class="featured-price">₱42,000</span>
-        <div class="featured-ctas">
-          <a href="#contact" class="btn-primary" onclick="scrollToContact('Kalis ng Datu Puti')">Commission This Piece</a>
-          <button class="btn-text">Full Details <span class="arrow">→</span></button>
-        </div>
-      </div>
-    </div>
-    <div class="featured-img" aria-hidden="true">
-      <div class="featured-img-bg">
-        <svg viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;background:#0d0d0d;">
-          <defs>
-            <radialGradient id="f2glow" cx="50%" cy="50%" r="60%">
-              <stop offset="0%" stop-color="#C8963C" stop-opacity="0.1"/>
-              <stop offset="100%" stop-color="#0d0d0d" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <rect width="600" height="700" fill="#080810"/>
-          <rect width="600" height="700" fill="url(#f2glow)"/>
-          <!-- Kalis wavy blade - vertical display -->
-          <g transform="translate(280, 80)">
-            <!-- Wavy blade -->
-            <path d="M0 520 L0 505 Q15 495 15 480 Q15 465 0 455 Q-15 445 -15 430 Q-15 415 0 405 Q15 395 15 380 Q15 365 0 355 Q-15 345 -15 330 Q-15 315 0 305 Q15 295 15 280 Q15 265 5 250 L5 230 Q5 220 0 210 L10 200 Q8 190 0 185 L5 170 Q0 155 -5 140 L5 120 Q5 100 0 80 L0 510 Z" fill="#888" stroke="#AAA" stroke-width="1"/>
-            <!-- Wavy highlights -->
-            <path d="M0 80 Q15 95 0 110 Q-15 125 0 140 Q15 155 0 170 Q-15 185 0 200 Q15 215 0 230 Q-15 245 0 260 Q15 275 0 290 Q-15 305 0 320 Q15 335 0 350 Q-15 365 0 380 Q15 395 0 410 Q-15 425 0 440 Q15 455 0 470 Q-15 485 0 500" stroke="#C8963C" stroke-width="1" fill="none" opacity="0.5"/>
-            <!-- Handle -->
-            <rect x="-14" y="505" width="28" height="90" rx="4" fill="#2a1a08" stroke="#4a3015" stroke-width="1.5"/>
-            <!-- Gold cross guard -->
-            <rect x="-28" y="500" width="56" height="10" rx="3" fill="#C8963C" stroke="#E8A840" stroke-width="0.5"/>
-            <!-- Handle details -->
-            <rect x="-14" y="515" width="28" height="3" rx="1" fill="#C8963C" opacity="0.4"/>
-            <rect x="-14" y="528" width="28" height="3" rx="1" fill="#C8963C" opacity="0.4"/>
-            <rect x="-14" y="541" width="28" height="3" rx="1" fill="#C8963C" opacity="0.4"/>
-            <rect x="-14" y="554" width="28" height="3" rx="1" fill="#C8963C" opacity="0.4"/>
-            <rect x="-14" y="567" width="28" height="3" rx="1" fill="#C8963C" opacity="0.4"/>
-            <!-- Pommel -->
-            <ellipse cx="0" cy="595" rx="18" ry="8" fill="#888" stroke="#AAA" stroke-width="1"/>
-          </g>
-        </svg>
-      </div>
-      <div class="featured-img-number" aria-hidden="true">02</div>
-    </div>
-  </div>
-
-</section>
 
 <!-- ============================================================
      SECTION 05 — THE ART OF FORGING
