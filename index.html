@@ -575,8 +575,8 @@
     </div>
 
     <div class="inquiry-list-content">
-      <fieldset class="inquiry-customer-fields">
-        <legend>Customer Information</legend>
+      <details class="inquiry-customer-fields" data-customer-disclosure>
+        <summary><span>Customer Information</span><small data-customer-summary-status>Needs information</small></summary>
         <p>Used only for this browser session and included in your quotation message.</p>
         <div class="inquiry-customer-grid">
           <label><span>First Name</span><input type="text" data-inquiry-customer-field="firstName" autocomplete="given-name" placeholder="Juan"></label>
@@ -586,7 +586,7 @@
           <label class="inquiry-customer-wide"><span>Complete Address</span><input type="text" data-inquiry-customer-field="address" autocomplete="street-address" placeholder="Street, Barangay, City or Municipality, Province, Postal Code"></label>
           <label class="inquiry-customer-wide"><span>Additional Notes</span><textarea data-inquiry-customer-field="notes" maxlength="500" rows="3" placeholder="Add delivery details, questions, or other information for the quotation"></textarea></label>
         </div>
-      </fieldset>
+      </details>
       <div class="inquiry-list-body" id="inquiryListBody"></div>
     </div>
 

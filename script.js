@@ -395,6 +395,16 @@ function populateInquiryCustomerControls(customer = getInquiryCustomer()) {
   });
 }
 
+function updateCustomerDisclosure(customer = getInquiryCustomer(), setDefault = false) {
+  const complete = INQUIRY_STORE?.isCustomerComplete?.(customer) || false;
+  document.querySelectorAll('[data-customer-disclosure]').forEach(disclosure => {
+    disclosure.classList.toggle('is-complete', complete);
+    if (setDefault) disclosure.open = !complete;
+    const status = disclosure.querySelector('[data-customer-summary-status]');
+    if (status) status.textContent = complete ? 'Complete' : 'Needs information';
+  });
+}
+
 function saveInquiryCustomerFromControls() {
   if (!INQUIRY_STORE?.saveCustomer) return {};
   const customer = getInquiryCustomer();
@@ -405,11 +415,13 @@ function saveInquiryCustomerFromControls() {
 }
 
 document.addEventListener('input', event => {
-  if (event.target.matches('[data-inquiry-customer-field]')) saveInquiryCustomerFromControls();
+  if (!event.target.matches('[data-inquiry-customer-field]')) return;
+  const customer = saveInquiryCustomerFromControls();
+  updateCustomerDisclosure(customer);
 });
 
 function getDialogControls(dialog) {
-  return Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+  return Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"])'));
 }
 
 function activateDialogFocus(dialog, initialFocus) {
@@ -1003,6 +1015,11 @@ async function copyInquiryList() {
   const button = document.getElementById('copyInquiryListBtn');
   const errorMessage = document.getElementById('copyInquiryError');
   if (errorMessage) errorMessage.hidden = true;
+  if (button) {
+    button.disabled = true;
+    button.setAttribute('aria-busy', 'true');
+    button.textContent = 'Copying...';
+  }
   try {
     if (navigator.clipboard && window.isSecureContext) {
       await navigator.clipboard.writeText(text);
@@ -1014,6 +1031,11 @@ async function copyInquiryList() {
   } catch (error) {
     if (button) button.textContent = 'Copy Failed';
     if (errorMessage) errorMessage.hidden = false;
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.removeAttribute('aria-busy');
+    }
   }
   window.clearTimeout(copyInquiryList.timer);
   copyInquiryList.timer = window.setTimeout(() => {
@@ -1101,6 +1123,7 @@ function renderInquiryListModal() {
 
 function openInquiryListModal() {
   renderInquiryListModal();
+  updateCustomerDisclosure(getInquiryCustomer(), true);
   const modal = document.getElementById('inquiryListModal');
   if (!modal) return;
   modal.classList.add('open');
@@ -1672,6 +1695,7 @@ window.addEventListener('resize', resetQuickViewZoom);
 document.addEventListener('DOMContentLoaded', function() {
   loadInquiryList();
   populateInquiryCustomerControls();
+  updateCustomerDisclosure(getInquiryCustomer(), true);
   document.querySelectorAll('[data-messenger-link]').forEach(link => {
     link.href = INQUIRY_STORE?.messengerUrl?.() || link.href;
   });
