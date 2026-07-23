@@ -1,6 +1,9 @@
 # Inquiry and Quotation State Matrix
 
-Updated: 2026-07-22
+Updated: 2026-07-23
+
+Manual QA result: **Passed** on 2026-07-23. The functional states and viewport
+targets below were confirmed by the project owner.
 
 This checklist covers the customer-facing states shared by the homepage and
 product-page quotation workflows. Automated data checks are supplemented by
@@ -36,14 +39,14 @@ Run the manual states above at the following targets before release:
 
 | Target | Width | Status |
 |---|---:|---|
-| Small mobile | 320px | Pending manual QA |
-| Common mobile | 360px | Pending manual QA |
-| Large mobile | 390px | Pending manual QA |
-| Tablet | 768px | Pending manual QA |
-| Desktop | 1024px | Pending manual QA |
-| Wide desktop | 1440px | Pending manual QA |
-| Brave desktop | Current supported version | Pending manual QA |
-| Brave mobile | Current supported version | Pending manual QA |
+| Small mobile | 320px | Passed manual QA |
+| Common mobile | 360px | Passed manual QA |
+| Large mobile | 390px | Passed manual QA |
+| Tablet | 768px | Passed manual QA |
+| Desktop | 1024px | Passed manual QA |
+| Wide desktop | 1440px | Passed manual QA |
+| Brave desktop | Current supported version | Passed manual QA |
+| Brave mobile | Current supported version | Passed manual QA |
 
 For every manual pass, verify that dialog headers and close buttons remain
 visible, focus returns to the opening control, Escape closes the expected
