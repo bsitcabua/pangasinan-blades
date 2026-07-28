@@ -40,13 +40,11 @@ Confirm the evidence and intended distinction between Filipino blade tradition a
 
 ## Testimonials And Institutional Attribution
 
-Confirm written customer permission and authenticity for all five testimonials at `index.html:1160-1224`, including:
+**Source confirmed by the business owner:** The five published testimonials in the **What Our Collectors Say** section are sourced from the business's public Facebook Reviews page:
 
-- Named customers, locations, and occupations.
-- Five-star ratings.
-- Arnis Grandmaster attribution.
-- Ayala Museum and curator attribution.
-- Claims about products not present in the current catalog.
+`https://www.facebook.com/emcpangasinanblades/reviews/?id=100067955465269&sk=reviews`
+
+The website links directly to this source. Testimonial authenticity and source attribution are therefore confirmed. Retain screenshots or another internal record showing that each quotation matches its public review, and confirm permission where required for reuse of customers' names, locations, or occupations.
 
 These testimonials are intentionally not included in product structured data.
 

@@ -1562,25 +1562,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* --- TESTIMONIALS CAROUSEL --- */
   const track = document.getElementById('testiTrack');
-  const dots = document.querySelectorAll('.testi-dot');
-  const cards = document.querySelectorAll('.testi-card');
+  const dotsContainer = document.getElementById('testiDots');
+  const cards = track ? [...track.querySelectorAll('.testi-card')] : [];
   let currentSlide = 0;
-  const totalSlides = 3;
+  let totalSlides = 1;
+
+  function renderTestimonialDots() {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = Array.from({ length: totalSlides }, (_, index) => `
+      <button class="testi-dot${index === currentSlide ? ' active' : ''}" data-index="${index}" role="tab" aria-label="Testimonial group ${index + 1}" aria-selected="${index === currentSlide}"></button>
+    `).join('');
+    dotsContainer.querySelectorAll('.testi-dot').forEach(dot => {
+      dot.addEventListener('click', () => goToSlide(Number(dot.dataset.index)));
+    });
+  }
+
+  function updateTestimonialLayout() {
+    if (!track || !cards.length) return;
+    const wrapWidth = track.parentElement?.clientWidth || cards[0].offsetWidth;
+    const cardWidth = cards[0].offsetWidth;
+    const visibleCards = Math.max(1, Math.floor((wrapWidth + 24) / (cardWidth + 24)));
+    totalSlides = Math.max(1, cards.length - visibleCards + 1);
+    currentSlide = Math.min(currentSlide, totalSlides - 1);
+    renderTestimonialDots();
+    goToSlide(currentSlide);
+  }
 
   function goToSlide(n) {
+    if (!track || !cards.length) return;
     currentSlide = ((n % totalSlides) + totalSlides) % totalSlides;
     const cardW = cards[0].offsetWidth + 24;
     track.style.transform = `translateX(-${currentSlide * cardW}px)`;
-    dots.forEach((d, i) => {
+    dotsContainer?.querySelectorAll('.testi-dot').forEach((d, i) => {
       d.classList.toggle('active', i === currentSlide);
       d.setAttribute('aria-selected', i === currentSlide ? 'true' : 'false');
     });
     cards.forEach((c, i) => c.classList.toggle('active', i === currentSlide));
   }
 
-  document.getElementById('testiPrev').addEventListener('click', () => goToSlide(currentSlide - 1));
-  document.getElementById('testiNext').addEventListener('click', () => goToSlide(currentSlide + 1));
-  dots.forEach(d => d.addEventListener('click', () => goToSlide(+d.getAttribute('data-index'))));
+  document.getElementById('testiPrev')?.addEventListener('click', () => goToSlide(currentSlide - 1));
+  document.getElementById('testiNext')?.addEventListener('click', () => goToSlide(currentSlide + 1));
+  updateTestimonialLayout();
+  window.addEventListener('resize', updateTestimonialLayout);
 
   // Auto-advance
   let autoPlay = setInterval(() => goToSlide(currentSlide + 1), 6000);
