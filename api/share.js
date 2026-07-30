@@ -3,7 +3,7 @@
 const products = require('../data/products.json');
 
 const SITE_URL = 'https://www.pangasinanblades.com';
-const SHARE_PREVIEW_VERSION = '4';
+const SHARE_PREVIEW_VERSION = '5';
 
 function escapeHtml(value = '') {
   return String(value)
