@@ -3,7 +3,7 @@
 const products = require('../data/products.json');
 
 const SITE_URL = 'https://www.pangasinanblades.com';
-const SHARE_PREVIEW_VERSION = '3';
+const SHARE_PREVIEW_VERSION = '4';
 
 function escapeHtml(value = '') {
   return String(value)
@@ -16,6 +16,7 @@ function escapeHtml(value = '') {
 
 function descriptionFor(product) {
   return product.description
+    || product.desc
     || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
 }
 

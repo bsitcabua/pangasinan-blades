@@ -2,7 +2,7 @@
   'use strict';
 
   const SITE_URL = 'https://www.pangasinanblades.com';
-  const SHARE_PREVIEW_VERSION = '3';
+  const SHARE_PREVIEW_VERSION = '4';
   const modal = document.querySelector('[data-share-modal]');
   if (!modal) return;
 
@@ -18,6 +18,7 @@
 
   function productDescription(product) {
     if (product.description) return product.description;
+    if (product.desc) return product.desc;
     return `${product.name} from the ${product.series}, handcrafted by Pangasinan Blades and configurable to your preferred specifications.`;
   }
 

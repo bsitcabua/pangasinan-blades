@@ -185,7 +185,7 @@ function renderCatalogPreview() {
 }
 
 function makeCollectionBlade(product) {
-  const { id, slug, image, name, desc, category, series, featured, status, details } = product;
+  const { id, slug, image, name, description, category, series, featured, status, details } = product;
   return {
     id,
     slug,
@@ -206,7 +206,7 @@ function makeCollectionBlade(product) {
     customizable: true,
     leadTime: status === 'ready-stock' ? 'Current stock and delivery timing confirmed with your quotation' : 'Lead time confirmed with your quotation',
     badge: status === 'ready-stock' ? 'Check Availability' : 'Made to Order',
-    desc: desc || `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
+    description: description || product.desc || `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
     bg: '#111111',
     gradColor: '#222222',
     svgPath: blankBladePlaceholder(name, series),
@@ -924,7 +924,8 @@ function renderInquiryListModal() {
   }
 
   body.innerHTML = inquiryList.map((item, index) => {
-    const description = item.desc || COMPLETE_COLLECTION.find(blade => String(blade.id) === String(item.id))?.desc || '';
+    const sourceProduct = COMPLETE_COLLECTION.find(blade => String(blade.id) === String(item.id));
+    const description = item.description || item.desc || sourceProduct?.description || '';
     return `
   <article class="inquiry-list-item">
 

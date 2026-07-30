@@ -93,7 +93,7 @@
   }
 
   function productDescription(item) {
-    return item.desc || `${item.name} from the ${item.series}. Configure blade length, steel, handle, and scabbard materials for a made-to-order inquiry.`;
+    return item.description || item.desc || `${item.name} from the ${item.series}. Configure blade length, steel, handle, and scabbard materials for a made-to-order inquiry.`;
   }
 
   function orderingNote(item) {
@@ -123,7 +123,7 @@
     document.querySelectorAll('[data-product-name]').forEach(element => { element.textContent = product.name; });
     document.querySelector('[data-product-series]').textContent = product.series;
     document.querySelector('[data-product-description]').textContent = description;
-    document.querySelector('[data-spec-description]').textContent = product.desc || '';
+    document.querySelector('[data-spec-description]').textContent = product.description || product.desc || '';
     document.querySelector('[data-product-ordering-note]').textContent = orderingNote(product);
     const productImage = document.querySelector('[data-product-image]');
     productImage.src = image;
@@ -313,7 +313,7 @@
     return {
       id: product.id,
       name: product.name,
-      desc: product.desc || '',
+      description: product.description || product.desc || '',
       image: product.image,
       series: product.series,
       status: product.status,
@@ -386,7 +386,8 @@
       return;
     }
     body.innerHTML = items.map(item => {
-      const description = item.desc || products.find(candidate => Number(candidate.id) === Number(item.id))?.desc || '';
+      const sourceProduct = products.find(candidate => Number(candidate.id) === Number(item.id));
+      const description = item.description || item.desc || sourceProduct?.description || sourceProduct?.desc || '';
       return `<article class="inquiry-list-item"><div class="inquiry-list-thumb">${item.image ? `<img class="product-inquiry-image" src="${escapeHtml(imagePath(item.image))}" alt="${escapeHtml(item.name)}">` : ''}</div><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><div class="inquiry-item-actions"><button type="button" class="inquiry-edit-toggle${editingInquiryKey === item.key ? ' is-active' : ''}" data-edit-toggle="${encodeURIComponent(item.key)}" aria-expanded="${editingInquiryKey === item.key}" aria-label="${editingInquiryKey === item.key ? 'Save' : 'Edit'} specifications for ${escapeHtml(item.name)}" title="${editingInquiryKey === item.key ? 'Save changes' : 'Edit specifications'}"><span aria-hidden="true">${editingInquiryKey === item.key ? '&#10003;' : '&#9998;'}</span></button><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}" aria-label="Remove ${escapeHtml(item.name)} from inquiry list" title="Remove item"><span aria-hidden="true">&times;</span></button></div></div><h3>${escapeHtml(item.name)}</h3>${description ? `<p class="inquiry-item-description">${escapeHtml(description)}</p>` : ''}<div ${editingInquiryKey === item.key ? 'hidden' : ''}>${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div><div ${editingInquiryKey === item.key ? '' : 'hidden'}>${inquiryEditorMarkup(item)}</div></div></article>`;
     }).join('');
   }
