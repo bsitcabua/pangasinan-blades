@@ -17,6 +17,7 @@ function escapeHtml(value = '') {
 
 function descriptionFor(product) {
   return product.description
+    || product.desc
     || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
 }
 

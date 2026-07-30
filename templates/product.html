@@ -49,21 +49,32 @@
       <div class="product-summary">
         <span class="eyebrow" data-product-series></span>
         <h1 data-product-name>Blade Details</h1>
-        <div class="product-page-statuses" data-product-statuses></div>
-        <p class="product-page-description" data-product-description></p>
+        <div class="product-page-statuses" data-product-statuses hidden></div>
+        <p class="product-page-description" data-product-description hidden></p>
         <p class="product-ordering-note" data-product-ordering-note></p>
 
         <section class="product-configurator" aria-labelledby="buildTitle">
           <div class="product-configurator-heading">
-            <h2 id="buildTitle">Build Specifications</h2>
-            <span>Defaults shown</span>
+            <h2 id="buildTitle">Specifications</h2>
+            <button class="product-customize-toggle" type="button" data-customize-toggle aria-expanded="false" aria-controls="productBuildFields">Customize</button>
           </div>
-          <div class="product-config-grid">
+          <p class="product-spec-description" data-spec-description></p>
+          <dl class="product-spec-summary" data-spec-summary>
+            <div><dt>Blade Length</dt><dd data-spec-value="bladeLength"></dd></div>
+            <div><dt>Blade Material</dt><dd data-spec-value="steel"></dd></div>
+            <div><dt>Hardness</dt><dd data-spec-value="hardness"></dd></div>
+            <div><dt>Handle</dt><dd data-spec-value="handle"></dd></div>
+            <div><dt>Scabbard</dt><dd data-spec-value="sheath"></dd></div>
+            <div><dt>Finish</dt><dd data-spec-value="finish"></dd></div>
+            <div><dt>Intended Use</dt><dd data-spec-value="intendedUse"></dd></div>
+            <div data-spec-quantity-row hidden><dt>Quantity</dt><dd data-spec-quantity></dd></div>
+          </dl>
+          <div class="product-config-grid" id="productBuildFields" data-build-fields hidden>
             <label><span>Steel</span><select data-product-field="steel"><option>5160 Carbon Steel</option><option>304 Stainless Steel</option></select></label>
-            <label><span>Hardness</span><output data-product-field="hardness"></output></label>
+            <label><span>Hardness</span><input data-product-field="hardness" type="text" readonly aria-readonly="true"></label>
             <label><span>Blade Length</span><input data-product-field="bladeLength" type="text"></label>
-            <label><span>Handle</span><select data-product-field="handle"><option>Kamagong</option><option>Mahogany</option><option>Chico Wood</option><option>Carabao Horn</option><option>Buffalo Horn</option></select></label>
-            <label><span>Sheath / Scabbard</span><select data-product-field="sheath"><option>Mahogany</option><option>Chico Wood</option><option>Kamagong (With additional cost)</option><option>Kydex (With additional cost)</option></select></label>
+            <label><span>Handle</span><select data-product-field="handle"><option>Kamagong</option><option>Mahogany</option><option>Chico Wood</option></select></label>
+            <label><span>Sheath / Scabbard</span><select data-product-field="sheath"><option>Mahogany</option><option>Chico Wood</option><option>Kamagong</option><option>Kydex</option></select></label>
             <label><span>Finish</span><select data-product-field="finish"><option>Standard Satin</option><option>Mirror Polish</option><option>Blackened Finish</option><option>Discuss With Bladesmith</option></select></label>
             <label><span>Intended Use</span><select data-product-field="intendedUse"><option>Collection / Display</option><option>Outdoor / Utility</option><option>Martial Arts Practice</option><option>Culinary Use</option><option>Other</option></select></label>
             <label><span>Quantity</span><span class="product-quantity"><button type="button" data-quantity-step="-1" aria-label="Decrease quantity">&minus;</button><input data-product-field="quantity" type="number" min="1" value="1" inputmode="numeric"><button type="button" data-quantity-step="1" aria-label="Increase quantity">+</button></span></label>
@@ -103,8 +114,22 @@
     <div class="inquiry-list-backdrop" data-close-inquiry aria-hidden="true"></div>
     <section class="inquiry-list-panel">
       <div class="inquiry-list-head"><div><span class="inquiry-list-kicker">Quote Builder</span><h2 id="productInquiryTitle">Inquiry List</h2></div><button class="inquiry-list-close" type="button" data-close-inquiry aria-label="Close inquiry list">&times;</button></div>
-      <div class="inquiry-list-body" data-inquiry-body></div>
-      <div class="inquiry-list-actions"><button class="btn-ghost" type="button" data-copy-inquiry>Copy Inquiry List</button><button class="btn-ghost" type="button" data-clear-inquiry>Clear List</button><button class="btn-primary" type="button" data-send-inquiry>Send Inquiry</button></div><p class="copy-inquiry-error" data-copy-error role="alert" hidden>Unable to copy the inquiry list. Please try again or copy it manually.</p>
+      <div class="inquiry-list-content">
+        <details class="inquiry-customer-fields" data-customer-disclosure open>
+          <summary><span>Customer Information</span><small data-customer-summary-status>Needs information</small></summary>
+          <p>Used only for this browser session and included in your quotation message.</p>
+          <div class="inquiry-customer-grid">
+            <label><span>First Name</span><input type="text" data-inquiry-customer-field="firstName" autocomplete="given-name" placeholder="Juan"></label>
+            <label><span>Last Name</span><input type="text" data-inquiry-customer-field="lastName" autocomplete="family-name" placeholder="Dela Cruz"></label>
+            <label><span>Email</span><input type="email" data-inquiry-customer-field="email" autocomplete="email" placeholder="juan@email.com"></label>
+            <label><span>Phone Number</span><input type="tel" data-inquiry-customer-field="phone" autocomplete="tel" placeholder="+63 912 345 6789"></label>
+            <label class="inquiry-customer-wide"><span>Complete Address</span><input type="text" data-inquiry-customer-field="address" autocomplete="street-address" placeholder="Street, Barangay, City or Municipality, Province, Postal Code"></label>
+            <label class="inquiry-customer-wide"><span>Additional Notes</span><textarea data-inquiry-customer-field="notes" maxlength="500" rows="3" placeholder="Add delivery details, questions, or other information for the quotation"></textarea></label>
+          </div>
+        </details>
+        <div class="inquiry-list-body" data-inquiry-body></div>
+      </div>
+      <div class="inquiry-list-actions"><button class="btn-ghost" type="button" data-copy-inquiry>Copy Quote Request</button><button class="btn-ghost" type="button" data-clear-inquiry>Clear List</button><button class="btn-primary" type="button" data-send-inquiry>Request a Quote</button></div><p class="copy-inquiry-error" data-copy-error role="alert" hidden>Unable to copy the quote request. Please try again or copy it manually.</p>
     </section>
   </div>
 

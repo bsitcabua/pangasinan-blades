@@ -170,7 +170,6 @@ function renderCatalogPreview() {
       </div>
       <div class="blade-card-body">
         <span class="blade-badge">${blade.series}</span>
-        <div class="product-status-row">${productStatusMarkup(blade)}</div>
         <h3 class="blade-name">${blade.name}</h3>
         <p class="blade-meta">${blade.length} · ${blade.material}</p>
       </div></a>
@@ -186,7 +185,7 @@ function renderCatalogPreview() {
 }
 
 function makeCollectionBlade(product) {
-  const { id, slug, image, name, category, series, featured, status, details } = product;
+  const { id, slug, image, name, description, category, series, featured, status, details } = product;
   return {
     id,
     slug,
@@ -207,7 +206,7 @@ function makeCollectionBlade(product) {
     customizable: true,
     leadTime: status === 'ready-stock' ? 'Current stock and delivery timing confirmed with your quotation' : 'Lead time confirmed with your quotation',
     badge: status === 'ready-stock' ? 'Check Availability' : 'Made to Order',
-    desc: `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
+    description: description || product.desc || `${name} is available as a made-to-order commission. Choose the materials, dimensions, and finishing details that best suit your intended use.`,
     bg: '#111111',
     gradColor: '#222222',
     svgPath: blankBladePlaceholder(name, series),
@@ -229,15 +228,10 @@ function blankBladePlaceholder(name, series) {
     <text x="150" y="154" text-anchor="middle" font-family="Inter, Arial" font-size="8" fill="#C8963C" opacity="0.72" letter-spacing="2">${series.toUpperCase()}</text>`;
 }
 
-function productStatusMarkup(blade, className = 'product-status') {
-  const ready = blade.status === 'ready-stock';
-  return `<span class="${className} ${ready ? 'is-ready' : 'is-made'}"><i aria-hidden="true"></i>${ready ? 'Check Availability' : 'Made to Order'}</span>${blade.customizable ? `<span class="${className} is-custom"><i aria-hidden="true"></i>Custom Orders Welcome</span>` : ''}`;
-}
-
 const BUILD_OPTIONS = {
   steel: ['5160 Carbon Steel', '304 Stainless Steel'],
-  handle: ['Kamagong', 'Mahogany', 'Chico Wood', 'Carabao Horn', 'Buffalo Horn'],
-  sheath: ['Mahogany', 'Chico Wood', 'Kamagong (With additional cost)', 'Kydex (With additional cost)'],
+  handle: ['Kamagong', 'Mahogany', 'Chico Wood'],
+  sheath: ['Mahogany', 'Chico Wood', 'Kamagong', 'Kydex'],
   finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
   intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
 };
@@ -929,7 +923,10 @@ function renderInquiryListModal() {
     return;
   }
 
-  body.innerHTML = inquiryList.map((item, index) => `
+  body.innerHTML = inquiryList.map((item, index) => {
+    const sourceProduct = COMPLETE_COLLECTION.find(blade => String(blade.id) === String(item.id));
+    const description = item.description || item.desc || sourceProduct?.description || '';
+    return `
   <article class="inquiry-list-item">
 
     <div class="inquiry-list-thumb">
@@ -974,12 +971,14 @@ function renderInquiryListModal() {
       </div>
 
       <h3>${escapeHtml(item.name)}</h3>
+      ${description ? `<p class="inquiry-item-description">${escapeHtml(description)}</p>` : ''}
       <div data-inquiry-display="${index}">${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div>
       ${inquiryEditorMarkup(item, index).replace('data-inquiry-editor=', 'hidden data-inquiry-editor=')}
     </div>
 
   </article>
-`).join('');
+`;
+  }).join('');
   updateInquiryActionAvailability();
 }
 
@@ -1113,7 +1112,6 @@ function renderFCGrid(blades) {
         }
       </div>
       <div class="fc-card-body">
-        <div class="product-status-row">${productStatusMarkup(blade, 'fc-status')}</div>
         <span class="fc-badge">${blade.series}</span>
         <h3 class="fc-name">${blade.name}</h3>
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
@@ -1511,13 +1509,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* --- FILTER PILLS (CATALOG) --- */
   renderCatalogPreview();
-  const filterPills = document.querySelectorAll('.filter-bar .filter-pill');
+  const filterPills = document.querySelectorAll('.filter-bar .filter-pill[data-filter]');
+  const bladeCards = document.querySelectorAll('#catalogGrid .blade-card');
   const filterCount = document.getElementById('filterCount');
 
   filterPills.forEach(pill => {
     pill.addEventListener('click', function() {
-      filterPills.forEach(p => p.classList.remove('active'));
+      filterPills.forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('aria-pressed', 'false');
+      });
       this.classList.add('active');
+      this.setAttribute('aria-pressed', 'true');
       const filter = this.getAttribute('data-filter');
       if (!filter) return;
       let visible = 0;

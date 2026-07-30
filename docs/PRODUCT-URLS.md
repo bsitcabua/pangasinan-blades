@@ -4,7 +4,7 @@
 - https://www.pangasinanblades.com/collection/?id=2 - Pinuti
 - https://www.pangasinanblades.com/collection/?id=3 - Itak Tinegre
 - https://www.pangasinanblades.com/collection/?id=4 - Talunasan
-- https://www.pangasinanblades.com/collection/?id=5 - Military Bolo
+- https://www.pangasinanblades.com/collection/?id=5 - Military Bolo HD
 - https://www.pangasinanblades.com/collection/?id=6 - Modern Andres Bolo
 - https://www.pangasinanblades.com/collection/?id=7 - Ilocano Bolo
 - https://www.pangasinanblades.com/collection/?id=8 - Dahon Palay

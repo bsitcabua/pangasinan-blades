@@ -94,7 +94,7 @@ For every new product, collect and add:
 - Product name, category, and series
 - Featured status and explicit featured rank when applicable
 - Made-to-order or ready-stock status
-- Optimized product image and meaningful alt text
+- Optimized `.webp` product image and meaningful alt text
 - Product-specific short and full descriptions
 - Default blade length and overall length when available
 - Default steel and expected hardness range
