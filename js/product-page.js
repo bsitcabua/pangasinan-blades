@@ -16,10 +16,16 @@
     '5160 Carbon Steel': '57-60 HRC',
     '304 Stainless Steel': '15-20 HRC (approximately 70-90 HRB)',
   };
+
+  function setProductHardness(value) {
+    const control = document.querySelector('[data-product-field="hardness"]');
+    if (!control) return;
+    control.value = value;
+  }
   const inquiryOptions = {
     steel: ['5160 Carbon Steel', '304 Stainless Steel'],
-    handle: ['Kamagong', 'Mahogany', 'Chico Wood', 'Carabao Horn', 'Buffalo Horn'],
-    sheath: ['Mahogany', 'Chico Wood', 'Kamagong (With additional cost)', 'Kydex (With additional cost)'],
+    handle: ['Kamagong', 'Mahogany', 'Chico Wood'],
+    sheath: ['Mahogany', 'Chico Wood', 'Kamagong', 'Kydex'],
     finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
     intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
   };
@@ -87,7 +93,7 @@
   }
 
   function productDescription(item) {
-    return `${item.name} from the ${item.series}. Configure blade length, steel, handle, and scabbard materials for a made-to-order inquiry.`;
+    return item.desc || `${item.name} from the ${item.series}. Configure blade length, steel, handle, and scabbard materials for a made-to-order inquiry.`;
   }
 
   function orderingNote(item) {
@@ -117,6 +123,7 @@
     document.querySelectorAll('[data-product-name]').forEach(element => { element.textContent = product.name; });
     document.querySelector('[data-product-series]').textContent = product.series;
     document.querySelector('[data-product-description]').textContent = description;
+    document.querySelector('[data-spec-description]').textContent = product.desc || '';
     document.querySelector('[data-product-ordering-note]').textContent = orderingNote(product);
     const productImage = document.querySelector('[data-product-image]');
     productImage.src = image;
@@ -133,7 +140,7 @@
       const control = document.querySelector(`[data-product-field="${name}"]`);
       if (control && details[name]) control.value = details[name];
     });
-    document.querySelector('[data-product-field="hardness"]').textContent = details.hardness || hardnessBySteel[details.steel] || 'Confirm with maker';
+    setProductHardness(details.hardness || hardnessBySteel[details.steel] || 'Confirm with maker');
 
     const canonical = `https://www.pangasinanblades.com/collection/?id=${product.id}`;
     const absoluteImage = `https://www.pangasinanblades.com/${product.image.replace(/^\//, '')}`;
@@ -286,6 +293,18 @@
     };
   }
 
+  function updateSpecificationSummary() {
+    const selection = selectedBuild();
+    document.querySelectorAll('[data-spec-value]').forEach(element => {
+      element.textContent = selection[element.dataset.specValue] || 'Confirm with maker';
+    });
+    const quantity = selectedQuantity();
+    const quantityRow = document.querySelector('[data-spec-quantity-row]');
+    const quantityValue = document.querySelector('[data-spec-quantity]');
+    if (quantityRow) quantityRow.hidden = quantity <= 1;
+    if (quantityValue) quantityValue.textContent = String(quantity);
+  }
+
   function selectedQuantity() {
     return Math.max(1, Number(field('quantity')) || 1);
   }
@@ -294,6 +313,7 @@
     return {
       id: product.id,
       name: product.name,
+      desc: product.desc || '',
       image: product.image,
       series: product.series,
       status: product.status,
@@ -365,7 +385,10 @@
       body.innerHTML = '<div class="inquiry-list-empty"><strong>No blades added yet.</strong><span>Configure a blade and add it to begin your inquiry.</span></div>';
       return;
     }
-    body.innerHTML = items.map(item => `<article class="inquiry-list-item"><div class="inquiry-list-thumb">${item.image ? `<img class="product-inquiry-image" src="${escapeHtml(imagePath(item.image))}" alt="${escapeHtml(item.name)}">` : ''}</div><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><div class="inquiry-item-actions"><button type="button" class="inquiry-edit-toggle${editingInquiryKey === item.key ? ' is-active' : ''}" data-edit-toggle="${encodeURIComponent(item.key)}" aria-expanded="${editingInquiryKey === item.key}" aria-label="${editingInquiryKey === item.key ? 'Save' : 'Edit'} specifications for ${escapeHtml(item.name)}" title="${editingInquiryKey === item.key ? 'Save changes' : 'Edit specifications'}"><span aria-hidden="true">${editingInquiryKey === item.key ? '&#10003;' : '&#9998;'}</span></button><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}" aria-label="Remove ${escapeHtml(item.name)} from inquiry list" title="Remove item"><span aria-hidden="true">&times;</span></button></div></div><h3>${escapeHtml(item.name)}</h3><div ${editingInquiryKey === item.key ? 'hidden' : ''}>${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div><div ${editingInquiryKey === item.key ? '' : 'hidden'}>${inquiryEditorMarkup(item)}</div></div></article>`).join('');
+    body.innerHTML = items.map(item => {
+      const description = item.desc || products.find(candidate => Number(candidate.id) === Number(item.id))?.desc || '';
+      return `<article class="inquiry-list-item"><div class="inquiry-list-thumb">${item.image ? `<img class="product-inquiry-image" src="${escapeHtml(imagePath(item.image))}" alt="${escapeHtml(item.name)}">` : ''}</div><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><div class="inquiry-item-actions"><button type="button" class="inquiry-edit-toggle${editingInquiryKey === item.key ? ' is-active' : ''}" data-edit-toggle="${encodeURIComponent(item.key)}" aria-expanded="${editingInquiryKey === item.key}" aria-label="${editingInquiryKey === item.key ? 'Save' : 'Edit'} specifications for ${escapeHtml(item.name)}" title="${editingInquiryKey === item.key ? 'Save changes' : 'Edit specifications'}"><span aria-hidden="true">${editingInquiryKey === item.key ? '&#10003;' : '&#9998;'}</span></button><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}" aria-label="Remove ${escapeHtml(item.name)} from inquiry list" title="Remove item"><span aria-hidden="true">&times;</span></button></div></div><h3>${escapeHtml(item.name)}</h3>${description ? `<p class="inquiry-item-description">${escapeHtml(description)}</p>` : ''}<div ${editingInquiryKey === item.key ? 'hidden' : ''}>${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div><div ${editingInquiryKey === item.key ? '' : 'hidden'}>${inquiryEditorMarkup(item)}</div></div></article>`;
+    }).join('');
   }
 
   function addCurrent(mode) {
@@ -438,15 +461,35 @@
   }
 
   document.querySelector('[data-product-field="steel"]')?.addEventListener('change', event => {
-    const hardness = document.querySelector('[data-product-field="hardness"]');
-    if (hardness) hardness.textContent = hardnessBySteel[event.target.value] || 'Confirm with maker';
+    setProductHardness(hardnessBySteel[event.target.value] || 'Confirm with maker');
+  });
+
+  document.querySelector('[data-customize-toggle]')?.addEventListener('click', event => {
+    const fields = document.querySelector('[data-build-fields]');
+    const summary = document.querySelector('[data-spec-summary]');
+    const title = document.getElementById('buildTitle');
+    if (!fields || !summary || !title) return;
+
+    const opening = fields.hidden;
+    fields.hidden = !opening;
+    summary.hidden = opening;
+    title.textContent = opening ? 'Build Specifications' : 'Specifications';
+    event.currentTarget.textContent = opening ? 'View Specifications' : 'Customize';
+    event.currentTarget.setAttribute('aria-expanded', String(opening));
+    if (!opening) updateSpecificationSummary();
   });
 
   document.querySelectorAll('[data-quantity-step]').forEach(button => button.addEventListener('click', () => {
     const input = document.querySelector('[data-product-field="quantity"]');
     input.value = Math.max(1, (Number(input.value) || 1) + Number(button.dataset.quantityStep));
+    updateSpecificationSummary();
   }));
-  document.querySelector('[data-product-field="quantity"]')?.addEventListener('change', event => { event.target.value = Math.max(1, Number(event.target.value) || 1); });
+  const productQuantityInput = document.querySelector('[data-product-field="quantity"]');
+  productQuantityInput?.addEventListener('input', updateSpecificationSummary);
+  productQuantityInput?.addEventListener('change', event => {
+    event.target.value = Math.max(1, Number(event.target.value) || 1);
+    updateSpecificationSummary();
+  });
   document.querySelector('[data-add-inquiry]')?.addEventListener('click', () => addCurrent('list'));
   document.querySelector('[data-inquire-now]')?.addEventListener('click', () => addCurrent('inquire'));
   document.querySelectorAll('[data-open-inquiry]').forEach(button => button.addEventListener('click', () => {
@@ -668,6 +711,7 @@
   });
 
   populateCustomerControls();
+  updateSpecificationSummary();
   updateCustomerDisclosure(true);
   updateBadges();
 })();

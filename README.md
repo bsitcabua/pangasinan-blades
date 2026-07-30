@@ -20,11 +20,15 @@ npm run validate
 
 ## Add A Product
 
-1. Add the product image under `assets/images/collection/`.
+1. Add an optimized `.webp` product image under `assets/images/collection/`. PNG and JPG collection images are retained only as source assets and must not be referenced by product data.
 2. Add one object to `data/products.json` with a unique numeric `id` and unique `slug`.
 3. Include `name`, `image`, `category`, `series`, `featured`, `status`, and all `details` fields.
 4. Run `npm run build` and `npm run validate`.
 5. Review the generated page and sitemap entry before deployment.
+
+Build validation rejects catalog products whose `image` value does not end in
+`.webp`, ensuring the featured catalog, Full Collection, product pages, related
+products, and Inquiry List all use the optimized format.
 
 Supported `status` values currently used by the site are `made-to-order` and `ready-stock`.
 

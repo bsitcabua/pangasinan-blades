@@ -101,6 +101,7 @@ async function validate() {
     else requiredDetails.forEach(key => {
       if (typeof product.details[key] !== 'string' || !product.details[key].trim()) fail(`${label}: details.${key} is required`);
     });
+    if (product.image && !/\.webp$/i.test(product.image)) fail(`${label}: collection image must use WebP (${product.image})`);
     if (product.image && !rootAssetExists(product.image)) fail(`${label}: missing product image ${product.image}`);
   }
   const slugs = products.map(product => product.slug);
