@@ -42,6 +42,8 @@ function rootAssetExists(url, baseDirectory = '') {
 
 function validateLinks(html, label, baseDirectory = '') {
   for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
+    // Skip Vercel Analytics paths - these are provided by Vercel at runtime
+    if (match[1].startsWith('/_vercel/')) continue;
     if (!rootAssetExists(match[1], baseDirectory)) fail(`${label}: missing internal target ${match[1]}`);
   }
 }
