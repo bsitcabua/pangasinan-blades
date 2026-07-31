@@ -230,8 +230,8 @@ function blankBladePlaceholder(name, series) {
 
 const BUILD_OPTIONS = {
   steel: ['5160 Carbon Steel', '304 Stainless Steel'],
-  handle: ['Kamagong', 'Mahogany', 'Chico Wood'],
-  sheath: ['Mahogany', 'Chico Wood', 'Kamagong', 'Kydex'],
+  handle: ['Kamagong', 'Mahogany', 'Chico'],
+  sheath: ['Mahogany', 'Chico', 'Kamagong', 'Kydex'],
   finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
   intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
 };

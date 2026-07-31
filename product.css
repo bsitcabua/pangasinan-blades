@@ -22,7 +22,7 @@
 .product-page-statuses[hidden] { display: none !important; }
 .product-page-description { margin-top: 26px; color: var(--bone); font-family: var(--font-accent); font-size: 20px; line-height: 1.65; }
 .product-ordering-note {
-  margin: 22px 0 32px;
+  margin: 22px 0 0;
   padding: 15px 17px;
   border: 1px solid rgba(200,150,60,.24);
   border-left: 3px solid var(--gold);
