@@ -3,7 +3,7 @@
 const products = require('../data/products.json');
 
 const SITE_URL = 'https://www.pangasinanblades.com';
-const SHARE_PREVIEW_VERSION = '5';
+const SHARE_PREVIEW_VERSION = '6';
 
 function escapeHtml(value = '') {
   return String(value)
@@ -20,6 +20,11 @@ function descriptionFor(product) {
     || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
 }
 
+function facebookTitleFor(product, description) {
+  const title = `${product.name} — ${description}`;
+  return title.length > 110 ? `${title.slice(0, 107).trimEnd()}...` : title;
+}
+
 module.exports = function shareProduct(request, response) {
   const productId = Number(request.query.id);
   const product = products.find(item => Number(item.id) === productId);
@@ -32,6 +37,7 @@ module.exports = function shareProduct(request, response) {
 
   const title = `${product.name} | Pangasinan Blades`;
   const description = descriptionFor(product);
+  const facebookTitle = facebookTitleFor(product, description);
   const destination = `${SITE_URL}/collection/?id=${product.id}`;
   const version = String(request.query.v || SHARE_PREVIEW_VERSION).replace(/[^a-zA-Z0-9._-]/g, '');
   const shareUrl = `${SITE_URL}/share/?id=${product.id}&v=${encodeURIComponent(version)}`;
@@ -51,7 +57,7 @@ module.exports = function shareProduct(request, response) {
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_PH">
   <meta property="og:site_name" content="Pangasinan Blades">
-  <meta property="og:title" content="${escapeHtml(title)}">
+  <meta property="og:title" content="${escapeHtml(facebookTitle)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:url" content="${escapeHtml(shareUrl)}">
   <meta property="og:image" content="${escapeHtml(image)}">
