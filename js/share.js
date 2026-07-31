@@ -2,7 +2,7 @@
   'use strict';
 
   const SITE_URL = 'https://www.pangasinanblades.com';
-  const SHARE_PREVIEW_VERSION = '6';
+  const SHARE_PREVIEW_VERSION = '5';
   const modal = document.querySelector('[data-share-modal]');
   if (!modal) return;
 
