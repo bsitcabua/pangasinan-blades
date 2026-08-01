@@ -43,6 +43,26 @@ Supported `status` values currently used by the site are `made-to-order` and `re
 
 `vercel.json` rewrites `/share/` to the dynamic social-preview endpoint and applies browser security headers. Product links use `/collection/?id={id}` on deployed hosting; the generated `collection/index.html?id={id}` path remains available for local `file:///` testing.
 
+## Global Site Status
+
+Edit `config/site-status.js` to control the whole public site:
+
+```js
+comingSoon: false,
+maintenance: false,
+productionOnly: true,
+```
+
+Routing priority is centralized in `js/site-status-guard.js`:
+
+1. `maintenance: true` opens `maintenance.html`, regardless of `comingSoon`.
+2. Otherwise, `comingSoon: true` opens `coming-soon.html`.
+3. When both flags are `false`, the website loads normally.
+
+With `productionOnly: true`, automatic routing runs only for the hostnames listed in `productionHosts`. Localhost and `file:///` development continue to load the normal website even when a status flag is enabled. When no production status is active, direct visits to the status pages return to the homepage. Preview either design locally with `/coming-soon.html?preview=1` or `/maintenance.html?preview=1`.
+
+The same config file contains the editable brand name, tagline, logo, contact email, social links, titles, descriptions, background colors, and background images for both pages. The homepage and generated product page load the guard synchronously from their document heads.
+
 ## Public Form Integrations
 
 The contact form submits to Web3Forms and the newsletter submits to Brevo. Their browser-facing keys and endpoints are necessarily public. Restrict Web3Forms submissions to the production domain in the provider dashboard and monitor both providers for abuse.
