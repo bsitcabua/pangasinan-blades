@@ -8,7 +8,7 @@
   'use strict';
 
   return Object.freeze({
-    comingSoon: true,
+    comingSoon: false,
     maintenance: false,
     productionOnly: true,
     productionHosts: ['pangasinanblades.com', 'www.pangasinanblades.com'],

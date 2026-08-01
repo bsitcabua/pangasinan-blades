@@ -148,6 +148,7 @@ function renderCatalogPreview() {
 
   grid.innerHTML = '';
   CATALOG_PREVIEW.forEach((blade, index) => {
+    const description = String(blade.description || '').trim();
     const card = document.createElement('article');
     card.className = 'blade-card';
     card.setAttribute('data-category', blade.category);
@@ -171,6 +172,7 @@ function renderCatalogPreview() {
       <div class="blade-card-body">
         <span class="blade-badge">${blade.series}</span>
         <h3 class="blade-name">${blade.name}</h3>
+        ${description ? `<p class="blade-description" title="${escapeHtml(description)}">${escapeHtml(truncateText(description, 50))}</p>` : ''}
         <p class="blade-meta">${blade.length} · ${blade.material}</p>
       </div></a>
       <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
@@ -248,6 +250,12 @@ function escapeHtml(value = '') {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function truncateText(value = '', maxLength = 30) {
+  const text = String(value).trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, Math.max(0, maxLength - 3)).trimEnd()}...`;
 }
 
 function buildOptionsMarkup(options, selectedValue) {
@@ -746,8 +754,11 @@ function confirmClearInquiryList() {
 
 function inquiryListMessage() {
   if (INQUIRY_STORE) return INQUIRY_STORE.message(inquiryList);
-  return `Inquiry List\n\n${inquiryList.map(item => `${item.name}
-${formatBuildDetails(item.selection, item.quantity)}`).join('\n\n')}`;
+  return `Inquiry List\n\n${inquiryList.map(item => [
+    item.name,
+    item.id ? `Product Link: https://www.pangasinanblades.com/collection/?id=${encodeURIComponent(item.id)}` : '',
+    formatBuildDetails(item.selection, item.quantity),
+  ].filter(Boolean).join('\n')).join('\n\n')}`;
 }
 
 function quotationMessage(options = {}) {
@@ -929,7 +940,7 @@ function renderInquiryListModal() {
     return `
   <article class="inquiry-list-item">
 
-    <div class="inquiry-list-thumb">
+    <a class="inquiry-list-thumb inquiry-list-thumb-link" href="${productDetailsUrl(item.id)}" aria-label="View details for ${escapeHtml(item.name)}">
       ${
         item.image
           ? `
@@ -958,7 +969,7 @@ function renderInquiryListModal() {
             </svg>
           `
       }
-    </div>
+    </a>
 
 
     <div class="inquiry-list-info">
@@ -1087,6 +1098,7 @@ function renderFCGrid(blades) {
   label.textContent   = `${blades.length} blade${blades.length!==1?'s':''}`;
 
   blades.forEach((blade, idx) => {
+    const description = String(blade.description || '').trim();
     const card = document.createElement('article');
     card.className = 'fc-card';
     card.style.animationDelay = `${idx * 30}ms`;
@@ -1114,6 +1126,7 @@ function renderFCGrid(blades) {
       <div class="fc-card-body">
         <span class="fc-badge">${blade.series}</span>
         <h3 class="fc-name">${blade.name}</h3>
+        ${description ? `<p class="fc-description" title="${escapeHtml(description)}">${escapeHtml(truncateText(description, 50))}</p>` : ''}
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
       </div></a>
       <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
