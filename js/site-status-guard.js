@@ -19,19 +19,27 @@
     return '';
   }
 
+  function normalizePath(pathname = '/') {
+    const normalized = String(pathname)
+      .replace(/\/index(?:\.html)?$/i, '')
+      .replace(/\.html$/i, '')
+      .replace(/\/+$/, '');
+    return normalized || '/';
+  }
+
   function apply(global) {
     const activePage = resolve(global.PANGASINAN_SITE_STATUS || {}, global.location.hostname);
     if (!activePage) return;
 
-    const scriptUrl = document.currentScript && document.currentScript.src;
+    const scriptUrl = global.document?.currentScript?.src;
     const siteRoot = scriptUrl ? new URL('../', scriptUrl) : new URL('./', global.location.href);
     const destination = new URL(activePage, siteRoot);
-    const currentPath = global.location.pathname.replace(/\/+$/, '');
-    const destinationPath = destination.pathname.replace(/\/+$/, '');
+    const currentPath = normalizePath(global.location.pathname);
+    const destinationPath = normalizePath(destination.pathname);
     if (currentPath === destinationPath) return;
 
     global.location.replace(destination.href);
   }
 
-  return { resolve, apply };
+  return { resolve, normalizePath, apply };
 });

@@ -128,6 +128,8 @@ async function validate() {
   if (siteStatusGuard.resolve({ ...productionConfig, maintenance: false }, 'pangasinanblades.com') !== 'coming-soon.html') fail('Coming Soon routing is incorrect');
   if (siteStatusGuard.resolve({ ...productionConfig, maintenance: false, comingSoon: false }, 'pangasinanblades.com') !== '') fail('Normal application routing is incorrect');
   if (siteStatusGuard.resolve(productionConfig, 'localhost') !== '') fail('Production-only status routing must not affect localhost');
+  if (siteStatusGuard.normalizePath('/coming-soon.html') !== siteStatusGuard.normalizePath('/coming-soon/')) fail('Coming Soon clean URL normalization is incorrect');
+  if (siteStatusGuard.normalizePath('/maintenance.html') !== siteStatusGuard.normalizePath('/maintenance/')) fail('Maintenance clean URL normalization is incorrect');
   for (const statusPage of ['coming-soon.html', 'maintenance.html']) {
     const statusHtml = read(statusPage);
     validateIds(statusHtml, statusPage);
