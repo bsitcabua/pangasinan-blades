@@ -134,6 +134,7 @@ async function validate() {
     validateLinks(statusHtml, statusPage);
     if ((activeHtml(statusHtml).match(/<h1\b/g) || []).length !== 1) fail(`${statusPage}: expected exactly one H1`);
     if (!statusHtml.includes('site-status.css') || !statusHtml.includes('js/site-status-guard.js') || !statusHtml.includes('js/site-status-page.js')) fail(`${statusPage}: shared status assets are missing`);
+    if (!statusHtml.includes("base.href = '/';")) fail(`${statusPage}: production asset base is missing`);
   }
 
   const sitemap = read('sitemap.xml');
