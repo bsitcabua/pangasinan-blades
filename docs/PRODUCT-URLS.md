@@ -5,12 +5,13 @@
 - https://www.pangasinanblades.com/collection/?id=3 - Itak Tinegre
 - https://www.pangasinanblades.com/collection/?id=4 - Talunasan
 - https://www.pangasinanblades.com/collection/?id=5 - Military Bolo HD
+- https://www.pangasinanblades.com/collection/?id=38 - Military Bolo
 - https://www.pangasinanblades.com/collection/?id=6 - Modern Andres Bolo
 - https://www.pangasinanblades.com/collection/?id=7 - Ilocano Bolo
 - https://www.pangasinanblades.com/collection/?id=8 - Dahon Palay
 - https://www.pangasinanblades.com/collection/?id=9 - Jungle Cleaver Bolo
 - https://www.pangasinanblades.com/collection/?id=10 - Cleaver Bolo
-- https://www.pangasinanblades.com/collection/?id=11 - Garab
+- https://www.pangasinanblades.com/collection/?id=11 - Garab HD
 - https://www.pangasinanblades.com/collection/?id=12 - Barung
 - https://www.pangasinanblades.com/collection/?id=13 - Kris
 - https://www.pangasinanblades.com/collection/?id=14 - Kampilan
@@ -21,7 +22,7 @@
 - https://www.pangasinanblades.com/collection/?id=19 - Modern Talibong
 - https://www.pangasinanblades.com/collection/?id=20 - All Purpose Tactical Ginunting
 - https://www.pangasinanblades.com/collection/?id=21 - Tactical Ginunting
-- https://www.pangasinanblades.com/collection/?id=22 - Talibong
+- https://www.pangasinanblades.com/collection/?id=22 - Garab
 - https://www.pangasinanblades.com/collection/?id=23 - Bushcraft
 - https://www.pangasinanblades.com/collection/?id=24 - Hunting
 - https://www.pangasinanblades.com/collection/?id=25 - Karanto
