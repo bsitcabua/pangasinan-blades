@@ -9,6 +9,8 @@ const SITE_URL = 'https://www.pangasinanblades.com';
 const PRODUCT_STATUSES = new Set(['made-to-order', 'ready-stock']);
 const PRODUCT_CATEGORIES = new Set(['itak', 'bolo', 'moro', 'combat', 'outdoor', 'international', 'kitchen']);
 const products = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'products.json'), 'utf8'));
+const siteStatus = require(path.join(ROOT, 'config', 'site-status.js'));
+const siteStatusGuard = require(path.join(ROOT, 'js', 'site-status-guard.js'));
 const failures = [];
 
 function fail(message) { failures.push(message); }
@@ -73,7 +75,7 @@ async function validateHttp() {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const port = server.address().port;
   try {
-    for (const pathname of ['/', '/collection/index.html?id=1']) {
+    for (const pathname of ['/', '/collection/index.html?id=1', '/coming-soon.html', '/maintenance.html']) {
       const response = await fetch(`http://127.0.0.1:${port}${pathname}`);
       if (!response.ok) fail(`${pathname}: HTTP ${response.status}`);
       const html = await response.text();
@@ -116,6 +118,23 @@ async function validate() {
   validateLinks(homepage, 'homepage');
   if ((activeHtml(homepage).match(/<h1\b/g) || []).length !== 1) fail('Homepage must contain exactly one H1');
   if (!homepage.includes(`${SITE_URL}/assets/favicon_io/android-chrome-512x512.png`)) fail('Organization logo URL remains incorrect');
+
+  const productTemplate = read(path.join('templates', 'product.html'));
+  if (typeof siteStatus.comingSoon !== 'boolean' || typeof siteStatus.maintenance !== 'boolean') fail('Site status flags must be boolean values');
+  if (!homepage.includes('config/site-status.js') || !homepage.includes('js/site-status-guard.js')) fail('Homepage site status guard is missing');
+  if (!productTemplate.includes('../config/site-status.js') || !productTemplate.includes('../js/site-status-guard.js')) fail('Product template site status guard is missing');
+  const productionConfig = { productionOnly: true, productionHosts: ['pangasinanblades.com'], maintenance: true, comingSoon: true };
+  if (siteStatusGuard.resolve(productionConfig, 'pangasinanblades.com') !== 'maintenance.html') fail('Maintenance mode must take priority over Coming Soon');
+  if (siteStatusGuard.resolve({ ...productionConfig, maintenance: false }, 'pangasinanblades.com') !== 'coming-soon.html') fail('Coming Soon routing is incorrect');
+  if (siteStatusGuard.resolve({ ...productionConfig, maintenance: false, comingSoon: false }, 'pangasinanblades.com') !== '') fail('Normal application routing is incorrect');
+  if (siteStatusGuard.resolve(productionConfig, 'localhost') !== '') fail('Production-only status routing must not affect localhost');
+  for (const statusPage of ['coming-soon.html', 'maintenance.html']) {
+    const statusHtml = read(statusPage);
+    validateIds(statusHtml, statusPage);
+    validateLinks(statusHtml, statusPage);
+    if ((activeHtml(statusHtml).match(/<h1\b/g) || []).length !== 1) fail(`${statusPage}: expected exactly one H1`);
+    if (!statusHtml.includes('site-status.css') || !statusHtml.includes('js/site-status-guard.js') || !statusHtml.includes('js/site-status-page.js')) fail(`${statusPage}: shared status assets are missing`);
+  }
 
   const sitemap = read('sitemap.xml');
   const locations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
