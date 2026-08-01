@@ -757,6 +757,35 @@ summary:focus-visible {
   border-color: var(--gold);
   color: #080808;
 }
+.filter-full-catalog {
+  margin-left: auto;
+  padding: 11px 24px;
+  border-color: var(--gold);
+  background: var(--gold);
+  color: #080808;
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(200,150,60,0.18), 0 8px 24px rgba(0,0,0,0.24);
+}
+.filter-full-catalog::after {
+  content: '\2192';
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 15px;
+  line-height: 0;
+  transition: transform 0.25s ease;
+}
+.filter-full-catalog:hover {
+  border-color: var(--gold-light);
+  background: var(--gold-light);
+  color: #080808;
+  box-shadow: 0 0 0 3px rgba(200,150,60,0.14), 0 10px 28px rgba(0,0,0,0.28);
+  transform: translateY(-1px);
+}
+.filter-full-catalog:hover::after { transform: translateX(4px); }
+.filter-full-catalog:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
 .filter-count {
   font-size: 11px;
   color: var(--silver);
@@ -870,6 +899,12 @@ summary:focus-visible {
   font-weight: 500;
   color: var(--white);
   line-height: 1.2;
+}
+.blade-description {
+  min-height: 18px;
+  color: var(--bone);
+  font-size: 11px;
+  line-height: 1.5;
 }
 .blade-meta {
   font-size: 12px;
@@ -2198,6 +2233,13 @@ summary:focus-visible {
   .catalog { padding: var(--section-pad) 24px; }
   .catalog-header { flex-direction: column; align-items: flex-start; }
   .catalog-grid { grid-template-columns: 1fr; }
+  .filter-full-catalog {
+    flex: 1 0 100%;
+    justify-content: center;
+    min-height: 44px;
+    margin-left: 0;
+    text-align: center;
+  }
 
   .forging { padding: var(--section-pad) 24px; }
   .forging-steps { grid-template-columns: 1fr; }
@@ -2315,6 +2357,7 @@ summary:focus-visible {
 .fc-badge.sold { color:var(--silver); }
 .fc-badge.sold::before{content:'○';font-size:8px}
 .fc-name{font-family:var(--font-display);font-size:16px;font-weight:500;color:var(--white);line-height:1.2;}
+.fc-description{min-height:18px;color:var(--bone);font-size:11px;line-height:1.55;}
 .fc-meta{font-size:11px;color:var(--silver);letter-spacing:.04em;}
 .fc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px;}
 .fc-price{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--gold);}
@@ -2769,6 +2812,27 @@ summary:focus-visible {
   color: var(--silver);
   font-size: 12px;
   line-height: 1.75;
+}
+
+.inquiry-list-thumb-link {
+  display: block;
+  cursor: pointer;
+  outline: 1px solid transparent;
+  outline-offset: 3px;
+  transition: outline-color 0.25s ease;
+}
+
+.inquiry-list-thumb-link img {
+  transition: transform 0.45s var(--ease-out), opacity 0.25s ease;
+}
+
+.inquiry-list-thumb-link:hover img {
+  transform: scale(1.04);
+  opacity: 0.92;
+}
+
+.inquiry-list-thumb-link:focus-visible {
+  outline-color: var(--gold);
 }
 .inquiry-list-item .inquiry-item-description { margin: 0 0 14px; color: var(--bone); font-family: var(--font-body); font-size: 14px; font-weight: 300; line-height: 1.6; }
 .inquiry-list-qty {

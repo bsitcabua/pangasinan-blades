@@ -3,6 +3,7 @@
 
   const STORAGE_KEY = 'pangasinanBladesInquiryList';
   const CUSTOMER_STORAGE_KEY = 'pangasinanBladesInquiryCustomer';
+  const PRODUCT_URL_BASE = 'https://www.pangasinanblades.com/collection/?id=';
   const STATUS_MESSAGES = Object.freeze({
     empty: 'Your Inquiry List is empty. Add at least one blade before continuing.',
     copyFailed: 'Unable to copy the quote request. Please try again or copy it manually.',
@@ -170,13 +171,23 @@
     ].filter(Boolean).join('\n');
   }
 
+  function productUrl(item) {
+    const id = Number(item?.id);
+    return Number.isInteger(id) && id > 0 ? `${PRODUCT_URL_BASE}${encodeURIComponent(id)}` : '';
+  }
+
   function message(items) {
-    return `Inquiry List\n\n${items.map(item => `${item.name}\n${formatDetails(item.selection || {}, item.quantity)}`).join('\n\n')}`;
+    return `Inquiry List\n\n${items.map(item => [
+      item.name,
+      productUrl(item) ? `Product Link: ${productUrl(item)}` : '',
+      formatDetails(item.selection || {}, item.quantity),
+    ].filter(Boolean).join('\n')).join('\n\n')}`;
   }
 
   function formatRequestedBlades(items) {
     return items.map((item, index) => [
       `${index + 1}. ${item.name}`,
+      productUrl(item) ? `Product Link: ${productUrl(item)}` : '',
       formatDetails(item.selection || {}, item.quantity),
     ].filter(Boolean).join('\n')).join('\n\n');
   }
@@ -243,6 +254,7 @@
     remove,
     setQuantity,
     formatDetails,
+    productUrl,
     formatRequestedBlades,
     message,
     quotation,

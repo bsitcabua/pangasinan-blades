@@ -78,8 +78,17 @@ const quotation = store.quotation(items, { customer });
 assert.match(quotation, /Name: Juan Dela Cruz/);
 assert.match(quotation, /Email: juan@example\.com/);
 assert.match(quotation, /1\. Kampilan/);
+assert.match(quotation, /Product Link: https:\/\/www\.pangasinanblades\.com\/collection\/\?id=1/);
 assert.match(quotation, /Quantity: 1/);
 assert.match(quotation, /Please include shipping in the quotation\./);
+
+const contactPrefill = store.quotation(items, {
+  customer,
+  includeCustomer: false,
+  includeGreeting: false,
+  includeClosing: false,
+});
+assert.match(contactPrefill, /Product Link: https:\/\/www\.pangasinanblades\.com\/collection\/\?id=1/);
 
 items = store.remove(items, items[0].key);
 assert.equal(items.length, 0, 'Removing the build should leave an empty list.');

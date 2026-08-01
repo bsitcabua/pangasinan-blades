@@ -89,8 +89,8 @@
       "hardness": "57-60 HRC"
     }
   },
-    {
-    "id": 38,
+  {
+    "id": 6,
     "slug": "military-bolo",
     "image": "assets/images/collection/bolo_series/military_bolo_with_brass.webp",
     "name": "Military Bolo",
@@ -108,7 +108,7 @@
     }
   },
   {
-    "id": 6,
+    "id": 7,
     "slug": "modern-ab-bolo",
     "image": "assets/images/collection/bolo_series/modern_andres_bolo.webp",
     "name": "Modern Andres Bolo",
@@ -126,11 +126,29 @@
     }
   },
   {
-    "id": 7,
-    "slug": "ilocano-bolo",
-    "image": "assets/images/collection/bolo_series/ilocano_bolo.webp",
-    "name": "Ilocano Bolo",
-    "description": "Ilocano Bolo blade profile, full tang construction, three stainless steel pins, two-tone blade finish.",
+    "id": 8,
+    "slug": "ilocano-bol-i",
+    "image": "assets/images/collection/bolo_series/ilocano_bolo_i.webp",
+    "name": "Ilocano Bolo I",
+    "description": "Traditional Ilocano bolo blade profile, full tang construction, ergonomic handle with 3 stainless steel pins, and integrated glass breaker.",
+    "category": "bolo",
+    "series": "Bolo Series",
+    "featured": true,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "12 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 9,
+    "slug": "ilocano-bol-ii",
+    "image": "assets/images/collection/bolo_series/ilocano_bolo_ii.webp",
+    "name": "Ilocano Bolo II",
+    "description": "Ilocano Bolo blade profile, full tang construction, three stainless steel pins, two-tone blade finish, and integrated glass breaker.",
     "category": "bolo",
     "series": "Bolo Series",
     "featured": true,
@@ -144,7 +162,7 @@
     }
   },
   {
-    "id": 8,
+    "id": 10,
     "slug": "dahon-palay",
     "image": "assets/images/collection/bolo_series/dahon_palay.webp",
     "name": "Dahon Palay",
@@ -162,7 +180,7 @@
     }
   },
   {
-    "id": 9,
+    "id": 11,
     "slug": "jungle-cleaver-bolo",
     "image": "assets/images/collection/bolo_series/jungle_cleaver_bolo.webp",
     "name": "Jungle Cleaver Bolo",
@@ -180,7 +198,7 @@
     }
   },
   {
-    "id": 10,
+    "id": 12,
     "slug": "cleaver-bolo",
     "image": "assets/images/collection/bolo_series/cleaver_bolo.webp",
     "name": "Cleaver Bolo",
@@ -198,7 +216,7 @@
     }
   },
   {
-    "id": 11,
+    "id": 13,
     "slug": "garab-hd",
     "image": "assets/images/collection/bolo_series/garab_with_wrapped_handle.webp",
     "name": "Garab HD",
@@ -216,7 +234,7 @@
     }
   },
   {
-    "id": 12,
+    "id": 14,
     "slug": "barung",
     "image": "assets/images/collection/moro_series/barung.webp",
     "name": "Barung",
@@ -234,7 +252,7 @@
     }
   },
   {
-    "id": 13,
+    "id": 15,
     "slug": "kris",
     "image": "assets/images/collection/moro_series/kris.webp",
     "name": "Kris",
@@ -252,7 +270,7 @@
     }
   },
   {
-    "id": 14,
+    "id": 16,
     "slug": "kampilan",
     "image": "assets/images/collection/moro_series/kampilan.webp",
     "name": "Kampilan",
@@ -270,7 +288,7 @@
     }
   },
   {
-    "id": 15,
+    "id": 17,
     "slug": "panabas",
     "image": "assets/images/collection/moro_series/panabas.webp",
     "name": "Panabas",
@@ -288,7 +306,7 @@
     }
   },
   {
-    "id": 16,
+    "id": 18,
     "slug": "traditional-panabas",
     "image": "assets/images/collection/moro_series/traditional_panabas.webp",
     "name": "Traditional Panabas",
@@ -306,7 +324,7 @@
     }
   },
   {
-    "id": 17,
+    "id": 19,
     "slug": "gayang",
     "image": "assets/images/collection/moro_series/gayang.webp",
     "name": "Gayang",
@@ -324,7 +342,7 @@
     }
   },
   {
-    "id": 18,
+    "id": 20,
     "slug": "regular-ginunting",
     "image": "assets/images/collection/combat_series/regular_ginunting.webp",
     "name": "Regular Ginunting",
@@ -342,7 +360,7 @@
     }
   },
   {
-    "id": 19,
+    "id": 21,
     "slug": "modern-talibong",
     "image": "assets/images/collection/combat_series/modern_talibong.webp",
     "name": "Modern Talibong",
@@ -360,7 +378,7 @@
     }
   },
   {
-    "id": 20,
+    "id": 22,
     "slug": "all-purpose-tactical-ginunting",
     "image": "assets/images/collection/combat_series/all_purpose_tactical_ginunting_blade_profile.webp",
     "name": "All Purpose Tactical Ginunting",
@@ -378,7 +396,7 @@
     }
   },
   {
-    "id": 21,
+    "id": 23,
     "slug": "tactical-ginunting",
     "image": "assets/images/collection/combat_series/tactical_ginunting.webp",
     "name": "Tactical Ginunting",
@@ -396,7 +414,7 @@
     }
   },
   {
-    "id": 22,
+    "id": 24,
     "slug": "garab",
     "image": "assets/images/collection/bolo_series/garab.webp",
     "name": "Garab",
@@ -414,71 +432,35 @@
     }
   },
   {
-    "id": 23,
-    "slug": "bushcraft",
-    "image": "assets/images/collection/outdoor_series/bushcraft.webp",
-    "name": "Bushcraft",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "category": "outdoor",
-    "series": "Outdoor Series",
-    "featured": false,
-    "status": "made-to-order",
-    "details": {
-      "bladeLength": "10 in",
-      "steel": "5160 Carbon Steel",
-      "handle": "Kamagong",
-      "sheath": "Mahogany",
-      "hardness": "57-60 HRC"
-    }
-  },
-  {
-    "id": 24,
-    "slug": "hunting",
-    "image": "assets/images/collection/outdoor_series/hunting_knife.webp",
-    "name": "Hunting",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "category": "outdoor",
-    "series": "Outdoor Series",
-    "featured": false,
-    "status": "made-to-order",
-    "details": {
-      "bladeLength": "12 in",
-      "steel": "5160 Carbon Steel",
-      "handle": "Kamagong",
-      "sheath": "Mahogany",
-      "hardness": "57-60 HRC"
-    }
-  },
-  {
     "id": 25,
-    "slug": "karanto",
-    "image": "assets/images/collection/outdoor_series/karanto.webp",
-    "name": "Karanto",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "slug": "bushcraft-knife",
+    "image": "assets/images/collection/outdoor_series/bushcraft.webp",
+    "name": "Bushcraft Knife",
+    "description": "Bushcraft knife blade profile, full tang construction, three stainless steel pins, integrated glass breaker, lanyard hole, and ergonomic handle.",
     "category": "outdoor",
     "series": "Outdoor Series",
     "featured": false,
     "status": "made-to-order",
     "details": {
-      "bladeLength": "12 in",
+      "bladeLength": "5 in",
       "steel": "5160 Carbon Steel",
-      "handle": "Mahogany",
+      "handle": "Kamagong",
       "sheath": "Mahogany",
       "hardness": "57-60 HRC"
     }
   },
   {
     "id": 26,
-    "slug": "karambit-big",
-    "image": "assets/images/collection/outdoor_series/karambit_big.webp",
-    "name": "Karambit Big",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "slug": "hunting-knife-i",
+    "image": "assets/images/collection/outdoor_series/hunting_knife.webp",
+    "name": "Hunting Knife I",
+    "description": "Hunting knife blade profile, full tang construction, three stainless steel pins, integrated glass breaker, lanyard hole, ergonomic handle.",
     "category": "outdoor",
     "series": "Outdoor Series",
     "featured": false,
     "status": "made-to-order",
     "details": {
-      "bladeLength": "8 in",
+      "bladeLength": "7 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
@@ -487,10 +469,82 @@
   },
   {
     "id": 27,
-    "slug": "karambit-small",
-    "image": "assets/images/collection/outdoor_series/karambit_small.webp",
-    "name": "Karambit Small",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "slug": "hunting-knife-ii",
+    "image": "assets/images/collection/outdoor_series/hunting_knife_ii.webp",
+    "name": "Hunting Knife II",
+    "description": "Hunting knife blade profile, rat tail tang, brass ferrule, brass handguard, and ergonomic handle.",
+    "category": "outdoor",
+    "series": "Outdoor Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "8.5 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 28,
+    "slug": "hunting-knife-iii-bowie-inspired",
+    "image": "assets/images/collection/outdoor_series/hunting_knife_bowie_inspired.webp",
+    "name": "Hunting Knife III Bowie Inspired",
+    "description": "Bowie-inspired hunting knife blade profile, full tang construction, three stainless steel pins, integrated brass glass breaker, lanyard hole, ergonomic handle, and jimping.",
+    "category": "outdoor",
+    "series": "Outdoor Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "8.5 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 29,
+    "slug": "karanto",
+    "image": "assets/images/collection/outdoor_series/karanto.webp",
+    "name": "Karanto",
+    "description": "Karanto Tanto Karambit blade profile, full tang construction, stainless steel pin, finger ring, and ergonomic handle.",
+    "category": "outdoor",
+    "series": "Outdoor Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "4.5 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Mahogany",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 30,
+    "slug": "karambit I",
+    "image": "assets/images/collection/outdoor_series/karambit.webp",
+    "name": "Karambit I",
+    "description": "Curved Karambit blade profile, full tang construction, ergonomic handle with 2 stainless steel pins, and finger ring.",
+    "category": "outdoor",
+    "series": "Outdoor Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "3 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 31,
+    "slug": "karambit-ii",
+    "image": "assets/images/collection/outdoor_series/karambit_ii.webp",
+    "name": "Karambit II",
+    "description": "Curved Karambit blade profile, full tang construction, ergonomic handle with 3 stainless steel pins, finger ring, integrated glass breaker, and finger groove grip.",
     "category": "outdoor",
     "series": "Outdoor Series",
     "featured": false,
@@ -504,17 +558,17 @@
     }
   },
   {
-    "id": 28,
-    "slug": "katana",
-    "image": "assets/images/collection/international_series/katana.webp",
-    "name": "Katana",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "category": "international",
-    "series": "International Series",
+    "id": 32,
+    "slug": "eagles-karambit",
+    "image": "assets/images/collection/outdoor_series/eagles_karambit.webp",
+    "name": "Eagle's Karambit",
+    "description": "Hawkbill Karambit blade profile, full tang construction, ergonomic handle with 2 stainless steel pins, and finger ring.",
+    "category": "outdoor",
+    "series": "Outdoor Series",
     "featured": false,
     "status": "made-to-order",
     "details": {
-      "bladeLength": "28 in",
+      "bladeLength": "4.5 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
@@ -522,11 +576,29 @@
     }
   },
   {
-    "id": 29,
+    "id": 33,
+    "slug": "katana",
+    "image": "assets/images/collection/international_series/katana.webp",
+    "name": "Katana",
+    "description": "Katana blade profile, hidden tang construction, genuine ray skin handle with braided leather wrap, brass habaki, and round tsuba guard.",
+    "category": "international",
+    "series": "International Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "28 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Mahogany",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 34,
     "slug": "shirasaya",
     "image": "assets/images/collection/international_series/shirasaya_katana.webp",
     "name": "Shirasaya",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "description": "Shirasaya Katana blade profile, hidden tang construction, minimalist wooden tsuka and saya, and brass habaki.",
     "category": "international",
     "series": "International Series",
     "featured": false,
@@ -540,11 +612,29 @@
     }
   },
   {
-    "id": 30,
-    "slug": "khukri",
-    "image": "assets/images/collection/international_series/khukri.webp",
-    "name": "Khukri",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "id": 35,
+    "slug": "khukri-i",
+    "image": "assets/images/collection/international_series/khukri_i.webp",
+    "name": "Khukri I",
+    "description": "Khukri blade profile, full tang construction, ergonomic handle with 4 stainless steel pins, brass bolster, and forward-weighted blade for powerful chopping.",
+    "category": "international",
+    "series": "International Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "10 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 36,
+    "slug": "khukri-ii",
+    "image": "assets/images/collection/international_series/khukri_ii.webp",
+    "name": "Khukri II",
+    "description": "Khukri blade profile, plain blade finish, hidden tang construction, brass bolster, and forward-weighted blade for powerful chopping.",
     "category": "international",
     "series": "International Series",
     "featured": false,
@@ -558,35 +648,17 @@
     }
   },
   {
-    "id": 31,
-    "slug": "gladius",
-    "image": "assets/images/collection/international_series/gladius.webp",
-    "name": "Gladius",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "id": 37,
+    "slug": "khukri-set",
+    "image": "assets/images/collection/international_series/khukri_set.webp",
+    "name": "Khukri Set",
+    "description": "Khukri set featuring a full-size Khukri with a companion utility knife, plain blade finish, hidden tang construction, brass bolster, and ergonomic hardwood handles.",
     "category": "international",
     "series": "International Series",
     "featured": false,
     "status": "made-to-order",
     "details": {
-      "bladeLength": "20 in",
-      "steel": "5160 Carbon Steel",
-      "handle": "Mahogany",
-      "sheath": "Mahogany",
-      "hardness": "57-60 HRC"
-    }
-  },
-  {
-    "id": 32,
-    "slug": "jambiya",
-    "image": "assets/images/collection/international_series/jambiya.webp",
-    "name": "Jambiya",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "category": "international",
-    "series": "International Series",
-    "featured": false,
-    "status": "made-to-order",
-    "details": {
-      "bladeLength": "10 in",
+      "bladeLength": "12 & 5 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
@@ -594,17 +666,17 @@
     }
   },
   {
-    "id": 33,
-    "slug": "serbian-chefs-knife",
-    "image": "assets/images/collection/kitchen_series/almazan.webp",
-    "name": "Serbian Chef Knife / Almazan",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "category": "kitchen",
-    "series": "Kitchen Series",
-    "featured": true,
+    "id": 38,
+    "slug": "gladius",
+    "image": "assets/images/collection/international_series/gladius.webp",
+    "name": "Gladius",
+    "description": "Gladius-inspired dagger featuring a plain double-edged spear-point blade, hidden tang construction, hardwood handle with finger grooves, stainless steel guard, and stainless steel pommel.",
+    "category": "international",
+    "series": "International Series",
+    "featured": false,
     "status": "made-to-order",
     "details": {
-      "bladeLength": "8 in",
+      "bladeLength": "11 in",
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
@@ -612,73 +684,109 @@
     }
   },
   {
-    "id": 34,
-    "slug": "standard-chefs-knife",
-    "image": "assets/images/collection/kitchen_series/gyuto.webp",
-    "name": "Standard Chef Knife / Gyuto",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "id": 39,
+    "slug": "jambiya",
+    "image": "assets/images/collection/international_series/jambiya.webp",
+    "name": "Jambiya",
+    "description": "Jambiya-inspired knife featuring a plain curved blade, full tang construction, hardwood handle scales, integrated finger ring, and ergonomic grip.",
+    "category": "international",
+    "series": "International Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "6 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 40,
+    "slug": "serbian-chefs-knife",
+    "image": "assets/images/collection/kitchen_series/almazan.webp",
+    "name": "Serbian Chef Knife / Almazan",
+    "description": "Serbian chef knife inspired by the Almazan style, featuring a two-tone cleaver-style blade, full tang construction, hardwood handle scales, and an ergonomic grip.",
     "category": "kitchen",
     "series": "Kitchen Series",
     "featured": true,
     "status": "made-to-order",
     "details": {
-      "bladeLength": "8 in",
-      "steel": "304 Stainless Steel",
-      "handle": "Mahogany",
+      "bladeLength": "5 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 41,
+    "slug": "gyuto-chef-knife",
+    "image": "assets/images/collection/kitchen_series/gyuto.webp",
+    "name": "Gyuto Chef Knife",
+    "description": "Japanese-inspired Gyuto chef knife featuring a plain blade, full tang construction, hardwood handle scales, and an ergonomic grip.",
+    "category": "kitchen",
+    "series": "Kitchen Series",
+    "featured": true,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "5 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
       "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
   },
   {
-    "id": 35,
+    "id": 42,
     "slug": "santoku",
     "image": "assets/images/collection/kitchen_series/santoku.webp",
     "name": "Santoku / Bunka Hybrid",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "description": "Japanese-inspired Santoku knife featuring a plain blade, hidden tang construction, octagonal hardwood handle, and a lightweight, well-balanced design.",
     "category": "kitchen",
     "series": "Kitchen Series",
     "featured": false,
     "status": "made-to-order",
     "details": {
       "bladeLength": "7 in",
-      "steel": "304 Stainless Steel",
-      "handle": "Mahogany",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
       "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
   },
   {
-    "id": 36,
+    "id": 43,
     "slug": "sujihiki",
     "image": "assets/images/collection/kitchen_series/sujihiki.webp",
     "name": "Sujihiki / Carving Knife",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "description": "Japanese-inspired Sujihiki knife featuring a plain blade, full tang construction, hardwood handle with stainless steel pins, and a slim profile designed for clean.",
     "category": "kitchen",
     "series": "Kitchen Series",
     "featured": false,
     "status": "made-to-order",
     "details": {
       "bladeLength": "10 in",
-      "steel": "304 Stainless Steel",
-      "handle": "Mahogany",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
       "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
   },
   {
-    "id": 37,
+    "id": 44,
     "slug": "yanagiba",
     "image": "assets/images/collection/kitchen_series/yanagiba.webp",
     "name": "Yanagiba / Sashimi Knife",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "description": "Yanagiba knife featuring a plain long slicing blade, hidden tang construction, octagonal hardwood handle, and a lightweight, balanced design.",
     "category": "kitchen",
     "series": "Kitchen Series",
     "featured": true,
     "status": "made-to-order",
     "details": {
       "bladeLength": "10 in",
-      "steel": "304 Stainless Steel",
-      "handle": "Mahogany",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
       "sheath": "Mahogany",
       "hardness": "15-20 HRC (approximately 70-90 HRB)"
     }
