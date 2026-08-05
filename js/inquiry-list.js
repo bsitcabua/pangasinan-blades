@@ -221,8 +221,9 @@
       'Quotation Requested For',
       '',
       '- Product availability',
-      '- Total cost',
-      '- Shipping fee',
+      '- Item cost',
+      '- Shipping cost',
+      '- Estimated total cost',
       '- Estimated production time',
       '- Estimated delivery time',
     ].join('\n'));
