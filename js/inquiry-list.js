@@ -222,7 +222,7 @@
       '',
       '- Product availability',
       '- Item cost',
-      '- Shipping cost',
+      '- Estimated Shipping cost',
       '- Estimated total cost',
       '- Estimated production time',
       '- Estimated delivery time',
