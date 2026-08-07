@@ -43,7 +43,8 @@
 - https://www.pangasinanblades.com/collection/?id=37 - Khukri Set
 - https://www.pangasinanblades.com/collection/?id=46 - Khukrambit
 - https://www.pangasinanblades.com/collection/?id=38 - Gladius
-- https://www.pangasinanblades.com/collection/?id=39 - Jambiya
+- https://www.pangasinanblades.com/collection/?id=39 - Jambiya Inspired
+- https://www.pangasinanblades.com/collection/?id=51 - Jambiya Dagger
 - https://www.pangasinanblades.com/collection/?id=40 - Serbian Chef Knife / Almazan
 - https://www.pangasinanblades.com/collection/?id=41 - Gyuto Chef Knife
 - https://www.pangasinanblades.com/collection/?id=42 - Santoku / Bunka Hybrid

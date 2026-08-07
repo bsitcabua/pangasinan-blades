@@ -775,10 +775,28 @@ window.PANGASINAN_PRODUCTS = [
   },
   {
     "id": 39,
-    "slug": "jambiya",
-    "image": "assets/images/collection/international_series/jambiya.webp",
-    "name": "Jambiya",
+    "slug": "jambiya-inspired",
+    "image": "assets/images/collection/international_series/jambiya_inspired.webp",
+    "name": "Jambiya Inspired",
     "description": "Jambiya-inspired knife featuring a plain curved blade, full tang construction, hardwood handle scales, integrated finger ring, and ergonomic grip.",
+    "category": "international",
+    "series": "International Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "6 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 51,
+    "slug": "jambiya-dagger",
+    "image": "assets/images/collection/international_series/jambiya_dagger.webp",
+    "name": "Jambiya Dagger",
+    "description": "Jambiya dagger featuring a distinctive curved blade profile, rat tail tang construction, hardwood handle with stainless steel pin, metal ferrule, and a carved wooden scabbard.",
     "category": "international",
     "series": "International Series",
     "featured": false,
