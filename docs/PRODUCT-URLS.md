@@ -1,6 +1,7 @@
 # Generated Product URLs
 
 - https://www.pangasinanblades.com/collection/?id=1 - Itak Tagalog
+- https://www.pangasinanblades.com/collection/?id=47 - Itaktical
 - https://www.pangasinanblades.com/collection/?id=2 - Pinuti
 - https://www.pangasinanblades.com/collection/?id=3 - Itak Tinegre
 - https://www.pangasinanblades.com/collection/?id=4 - Talunasan
@@ -13,6 +14,7 @@
 - https://www.pangasinanblades.com/collection/?id=11 - Jungle Cleaver Bolo
 - https://www.pangasinanblades.com/collection/?id=12 - Cleaver Bolo
 - https://www.pangasinanblades.com/collection/?id=13 - Garab HD
+- https://www.pangasinanblades.com/collection/?id=45 - Garab BG
 - https://www.pangasinanblades.com/collection/?id=14 - Barung
 - https://www.pangasinanblades.com/collection/?id=15 - Kris
 - https://www.pangasinanblades.com/collection/?id=16 - Kampilan
@@ -28,15 +30,18 @@
 - https://www.pangasinanblades.com/collection/?id=26 - Hunting Knife I
 - https://www.pangasinanblades.com/collection/?id=27 - Hunting Knife II
 - https://www.pangasinanblades.com/collection/?id=28 - Hunting Knife III Bowie Inspired
+- https://www.pangasinanblades.com/collection/?id=49 - Rambowie
+- https://www.pangasinanblades.com/collection/?id=50 - Ka-Bar Inspired
 - https://www.pangasinanblades.com/collection/?id=29 - Karanto
 - https://www.pangasinanblades.com/collection/?id=30 - Karambit I
 - https://www.pangasinanblades.com/collection/?id=31 - Karambit II
 - https://www.pangasinanblades.com/collection/?id=32 - Eagle's Karambit
 - https://www.pangasinanblades.com/collection/?id=33 - Katana
-- https://www.pangasinanblades.com/collection/?id=34 - Shirasaya
+- https://www.pangasinanblades.com/collection/?id=34 - Shirasaya Katana
 - https://www.pangasinanblades.com/collection/?id=35 - Khukri I
 - https://www.pangasinanblades.com/collection/?id=36 - Khukri II
 - https://www.pangasinanblades.com/collection/?id=37 - Khukri Set
+- https://www.pangasinanblades.com/collection/?id=46 - Khukrambit
 - https://www.pangasinanblades.com/collection/?id=38 - Gladius
 - https://www.pangasinanblades.com/collection/?id=39 - Jambiya
 - https://www.pangasinanblades.com/collection/?id=40 - Serbian Chef Knife / Almazan

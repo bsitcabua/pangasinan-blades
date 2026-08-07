@@ -17,6 +17,24 @@
       "hardness": "57-60 HRC"
     }
   },
+    {
+    "id": 47,
+    "slug": "itaktical",
+    "image": "assets/images/collection/itak_series/itaktical.webp",
+    "name": "Itaktical",
+    "description": "Tactical-inspired Itak Tagalog blade profile featuring rat tail tang construction, a stainless steel pin, ferrule, extended tactical guard, and hardwood handle.",
+    "category": "itak",
+    "series": "Itak Series",
+    "featured": false,
+    "status": "ready-stock",
+    "details": {
+      "bladeLength": "19 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
   {
     "id": 2,
     "slug": "pinuti",
@@ -221,6 +239,24 @@
     "image": "assets/images/collection/bolo_series/garab_with_wrapped_handle.webp",
     "name": "Garab HD",
     "description": "Garab blade profile, full tang, stainless steel pin, ergonomic wrapped handle, leather lanyard strap. ",
+    "category": "bolo",
+    "series": "Bolo Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "19 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 45,
+    "slug": "garab-bg",
+    "image": "assets/images/collection/bolo_series/garab_with_brass.webp",
+    "name": "Garab BG",
+    "description": "Garab featuring a long curved blade, rat-tail tang construction, brass guard, hardwood handle, and a carved wooden scabbard that highlights its classic Filipino blade design. ",
     "category": "bolo",
     "series": "Bolo Series",
     "featured": false,
@@ -504,6 +540,42 @@
     }
   },
   {
+    "id": 49,
+    "slug": "rambowie",
+    "image": "assets/images/collection/outdoor_series/rambowie.webp",
+    "name": "Rambowie",
+    "description": "Rambowie knife featuring a Rambo-inspired design with a broad Bowie-style blade profile, rat tail tang construction, hardwood handle, stainless steel guard and pommel.",
+    "category": "outdoor",
+    "series": "Outdoor Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "10 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+    {
+    "id": 50,
+    "slug": "ka-bar-inspired",
+    "image": "assets/images/collection/outdoor_series/ka_bar_inspired.webp",
+    "name": "Ka-Bar Inspired",
+    "description": "Ka-Bar-inspired outdoor knife featuring a clip-point blade with fuller, rat tail tang construction, grooved hardwood handle, stainless steel guard.",
+    "category": "outdoor",
+    "series": "Outdoor Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "7 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
     "id": 29,
     "slug": "karanto",
     "image": "assets/images/collection/outdoor_series/karanto.webp",
@@ -595,9 +667,9 @@
   },
   {
     "id": 34,
-    "slug": "shirasaya",
+    "slug": "shirasaya-katana",
     "image": "assets/images/collection/international_series/shirasaya_katana.webp",
-    "name": "Shirasaya",
+    "name": "Shirasaya Katana",
     "description": "Shirasaya Katana blade profile, hidden tang construction, minimalist wooden tsuka and saya, and brass habaki.",
     "category": "international",
     "series": "International Series",
@@ -659,6 +731,24 @@
     "status": "made-to-order",
     "details": {
       "bladeLength": "12 & 5 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+    {
+    "id": 46,
+    "slug": "khukrambit",
+    "image": "assets/images/collection/international_series/khukrambit.webp",
+    "name": "Khukrambit",
+    "description": "Khukri–Karambit hybrid featuring a forward-curved blade, full tang construction, contoured hardwood handle with stainless steel pins, and an integrated finger ring for a distinctive and secure design.",
+    "category": "international",
+    "series": "International Series",
+    "featured": false,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "5 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
