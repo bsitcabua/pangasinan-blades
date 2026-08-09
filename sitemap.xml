@@ -91,6 +91,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.pangasinanblades.com/collection/?id=52</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.pangasinanblades.com/collection/?id=16</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -227,6 +232,11 @@
   </url>
   <url>
     <loc>https://www.pangasinanblades.com/collection/?id=51</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.pangasinanblades.com/collection/?id=53</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

@@ -17,6 +17,7 @@
 - https://www.pangasinanblades.com/collection/?id=45 - Garab BG
 - https://www.pangasinanblades.com/collection/?id=14 - Barung
 - https://www.pangasinanblades.com/collection/?id=15 - Kris
+- https://www.pangasinanblades.com/collection/?id=52 - Moon Kris
 - https://www.pangasinanblades.com/collection/?id=16 - Kampilan
 - https://www.pangasinanblades.com/collection/?id=17 - Panabas
 - https://www.pangasinanblades.com/collection/?id=18 - Traditional Panabas
@@ -45,6 +46,7 @@
 - https://www.pangasinanblades.com/collection/?id=38 - Gladius
 - https://www.pangasinanblades.com/collection/?id=39 - Jambiya Inspired
 - https://www.pangasinanblades.com/collection/?id=51 - Jambiya Dagger
+- https://www.pangasinanblades.com/collection/?id=53 - Kris Dagger / Sinag Inspired
 - https://www.pangasinanblades.com/collection/?id=40 - Serbian Chef Knife / Almazan
 - https://www.pangasinanblades.com/collection/?id=41 - Gyuto Chef Knife
 - https://www.pangasinanblades.com/collection/?id=42 - Santoku / Bunka Hybrid

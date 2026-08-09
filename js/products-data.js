@@ -306,6 +306,24 @@ window.PANGASINAN_PRODUCTS = [
     }
   },
   {
+    "id": 52,
+    "slug": "moon-kris",
+    "image": "assets/images/collection/moro_series/moon_kris.webp",
+    "name": "Moon Kris",
+    "description": "Moon Kris featuring a distinctive wavy Kris-style blade profile, rat tail tang construction, carved hardwood handle, guard, decorative fittings, and a fitted wooden scabbard.",
+    "category": "moro",
+    "series": "Moro Series",
+    "featured": true,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "22 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
     "id": 16,
     "slug": "kampilan",
     "image": "assets/images/collection/moro_series/kampilan.webp",
@@ -803,6 +821,24 @@ window.PANGASINAN_PRODUCTS = [
     "status": "made-to-order",
     "details": {
       "bladeLength": "6 in",
+      "steel": "5160 Carbon Steel",
+      "handle": "Kamagong",
+      "sheath": "Mahogany",
+      "hardness": "57-60 HRC"
+    }
+  },
+  {
+    "id": 53,
+    "slug": "kris-dagger-sinag-inspired",
+    "image": "assets/images/collection/international_series/kris_dagger_sinag_inspired.webp",
+    "name": "Kris Dagger / Sinag Inspired",
+    "description": "A compact kris-style dagger inspired by the distinctive wavy blade design associated with Sinag. It features a flowing serpentine blade profile, a traditional-inspired handle, protective guard, and a matching fitted scabbard.",
+    "category": "international",
+    "series": "International Series",
+    "featured": true,
+    "status": "made-to-order",
+    "details": {
+      "bladeLength": "10 in",
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
