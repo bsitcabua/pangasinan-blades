@@ -13,16 +13,66 @@ const productUrlsPath = path.join(ROOT, 'docs', 'PRODUCT-URLS.md');
 
 const products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
 
+// Loca storage
+// function validateProducts() {
+//   const ids = new Set();
+//   const slugs = new Set();
+//   for (const product of products) {
+//     if (!product.id || !product.slug || !product.name || !product.image || !product.details) throw new Error(`Incomplete product data: ${product.slug || product.name || 'unknown'}`);
+//     if (ids.has(product.id)) throw new Error(`Duplicate product ID: ${product.id}`);
+//     if (slugs.has(product.slug)) throw new Error(`Duplicate product slug: ${product.slug}`);
+//     ids.add(product.id);
+//     slugs.add(product.slug);
+//     if (!fs.existsSync(path.join(ROOT, product.image.replace(/^\//, '')))) throw new Error(`Missing product image: ${product.image}`);
+//   }
+// }
+
+// Remote image support
+// https://dash.cloudflare.com/2175b2a5c4bcdf8113d68a5acc6be053/r2/default/buckets/pangasinan-blades-catalog
 function validateProducts() {
   const ids = new Set();
   const slugs = new Set();
+
   for (const product of products) {
-    if (!product.id || !product.slug || !product.name || !product.image || !product.details) throw new Error(`Incomplete product data: ${product.slug || product.name || 'unknown'}`);
-    if (ids.has(product.id)) throw new Error(`Duplicate product ID: ${product.id}`);
-    if (slugs.has(product.slug)) throw new Error(`Duplicate product slug: ${product.slug}`);
+    if (
+      !product.id ||
+      !product.slug ||
+      !product.name ||
+      !product.image ||
+      !product.details
+    ) {
+      throw new Error(
+        `Incomplete product data: ${
+          product.slug || product.name || 'unknown'
+        }`
+      );
+    }
+
+    if (ids.has(product.id)) {
+      throw new Error(`Duplicate product ID: ${product.id}`);
+    }
+
+    if (slugs.has(product.slug)) {
+      throw new Error(`Duplicate product slug: ${product.slug}`);
+    }
+
     ids.add(product.id);
     slugs.add(product.slug);
-    if (!fs.existsSync(path.join(ROOT, product.image.replace(/^\//, '')))) throw new Error(`Missing product image: ${product.image}`);
+
+    const isRemoteImage = /^https?:\/\//i.test(product.image);
+
+    if (!isRemoteImage) {
+      const localImagePath = path.join(
+        ROOT,
+        product.image.replace(/^\//, '')
+      );
+
+      if (!fs.existsSync(localImagePath)) {
+        throw new Error(
+          `Missing product image: ${product.image}`
+        );
+      }
+    }
   }
 }
 

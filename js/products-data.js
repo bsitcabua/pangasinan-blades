@@ -2,7 +2,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 1,
     "slug": "itak-tagalog",
-    "image": "assets/images/collection/itak_series/itak_tagalog.webp",
+    "image": "https://images.pangasinanblades.com/collection/itak_series/itak_tagalog.webp",
     "name": "Itak Tagalog",
     "description": "Traditional Itak Tagalog blade profile, rat tail tang with a stainless steel pin, ferrule, guard, lanyard hole.",
     "category": "itak",
@@ -20,7 +20,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 47,
     "slug": "itaktical",
-    "image": "assets/images/collection/itak_series/itaktical.webp",
+    "image": "https://images.pangasinanblades.com/collection/itak_series/itaktical.webp",
     "name": "Itaktical",
     "description": "Tactical-inspired Itak Tagalog blade profile featuring rat tail tang construction, a stainless steel pin, ferrule, extended tactical guard, and hardwood handle.",
     "category": "itak",
@@ -38,7 +38,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 2,
     "slug": "pinuti",
-    "image": "assets/images/collection/itak_series/pinuti.webp",
+    "image": "https://images.pangasinanblades.com/collection/itak_series/pinuti.webp",
     "name": "Pinuti",
     "description": "Traditional Pinuti blade profile, rat tail tang, stainless steel pin, ferrule, guard.",
     "category": "itak",
@@ -56,7 +56,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 3,
     "slug": "itak-tinegre",
-    "image": "assets/images/collection/itak_series/itak_tinegre.webp",
+    "image": "https://images.pangasinanblades.com/collection/itak_series/itak_tinegre.webp",
     "name": "Itak Tinegre",
     "description": "Itak Tinegre blade profile, rat tail tang, stainless steel pin, ferrule, guard.",
     "category": "itak",
@@ -74,7 +74,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 4,
     "slug": "talunasan",
-    "image": "assets/images/collection/itak_series/talunasan.webp",
+    "image": "https://images.pangasinanblades.com/collection/itak_series/talunasan.webp",
     "name": "Talunasan",
     "description": "Filipino Talunasan featuring a long, slightly curved blade profile, rat tail tang construction, carved hardwood handle, and a carved wooden scabbard.",
     "category": "itak",
@@ -92,7 +92,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 5,
     "slug": "military-bolo-hd",
-    "image": "assets/images/collection/bolo_series/fulltang_military_bolo.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/fulltang_military_bolo.webp",
     "name": "Military Bolo HD",
     "description": "Military Bolo blade profile, full tang construction for heavy-duty use, three stainless steel pins, ergonomic grooved handle.",
     "category": "bolo",
@@ -110,7 +110,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 6,
     "slug": "military-bolo",
-    "image": "assets/images/collection/bolo_series/military_bolo_with_brass.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/military_bolo_with_brass.webp",
     "name": "Military Bolo",
     "description": "Military Bolo blade profile, rat tail tang, stainless steel pin, brass ferrule, brass handguard.",
     "category": "bolo",
@@ -128,7 +128,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 7,
     "slug": "modern-ab-bolo",
-    "image": "assets/images/collection/bolo_series/modern_andres_bolo.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/modern_andres_bolo.webp",
     "name": "Modern Andres Bolo",
     "description": "Modern Andres Bolo blade profile, grooved wooden handle, rat tail tang, brass ferrule, brass handguard, brass pommel.",
     "category": "bolo",
@@ -146,7 +146,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 8,
     "slug": "ilocano-bol-i",
-    "image": "assets/images/collection/bolo_series/ilocano_bolo_i.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/ilocano_bolo_i.webp",
     "name": "Ilocano Bolo I",
     "description": "Traditional Ilocano bolo blade profile, full tang construction, ergonomic handle with 3 stainless steel pins, and integrated glass breaker.",
     "category": "bolo",
@@ -164,7 +164,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 9,
     "slug": "ilocano-bol-ii",
-    "image": "assets/images/collection/bolo_series/ilocano_bolo_ii.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/ilocano_bolo_ii.webp",
     "name": "Ilocano Bolo II",
     "description": "Ilocano Bolo blade profile, full tang construction, three stainless steel pins, two-tone blade finish, and integrated glass breaker.",
     "category": "bolo",
@@ -182,7 +182,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 10,
     "slug": "dahon-palay",
-    "image": "assets/images/collection/bolo_series/dahon_palay.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/dahon_palay.webp",
     "name": "Dahon Palay",
     "description": "Dahon Palay blade profile, rat tail tang, stainless steel pin, ferrule, guard.",
     "category": "bolo",
@@ -200,7 +200,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 11,
     "slug": "jungle-cleaver-bolo",
-    "image": "assets/images/collection/bolo_series/jungle_cleaver_bolo.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/jungle_cleaver_bolo.webp",
     "name": "Jungle Cleaver Bolo",
     "description": "Jungle Cleaver blade profile, full tang construction, three stainless steel pins, stainless steel guard, stainless steel pommel.",
     "category": "bolo",
@@ -218,7 +218,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 12,
     "slug": "cleaver-bolo",
-    "image": "assets/images/collection/bolo_series/cleaver_bolo.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/cleaver_bolo.webp",
     "name": "Cleaver Bolo",
     "description": "Cleaver Bolo blade profile, full tang construction, three stainless steel pins, ergonomic wooden handle.",
     "category": "bolo",
@@ -236,7 +236,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 13,
     "slug": "garab-hd",
-    "image": "assets/images/collection/bolo_series/garab_with_wrapped_handle.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/garab_with_wrapped_handle.webp",
     "name": "Garab HD",
     "description": "Garab blade profile, full tang, stainless steel pin, ergonomic wrapped handle, leather lanyard strap. ",
     "category": "bolo",
@@ -254,7 +254,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 45,
     "slug": "garab-bg",
-    "image": "assets/images/collection/bolo_series/garab_with_brass.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/garab_with_brass.webp",
     "name": "Garab BG",
     "description": "Garab featuring a long curved blade, rat-tail tang construction, brass guard, hardwood handle, and a carved wooden scabbard that highlights its classic Filipino blade design. ",
     "category": "bolo",
@@ -272,7 +272,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 14,
     "slug": "barung",
-    "image": "assets/images/collection/moro_series/barung.webp",
+    "image": "https://images.pangasinanblades.com/collection/moro_series/barung.webp",
     "name": "Barung",
     "description": "Barung blade profile, rat tail tang, stainless ferrule, brass collar.",
     "category": "moro",
@@ -290,7 +290,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 15,
     "slug": "kris",
-    "image": "assets/images/collection/moro_series/kris.webp",
+    "image": "https://images.pangasinanblades.com/collection/moro_series/kris.webp",
     "name": "Kris",
     "description": "Kris blade profile, rat tail tang, stainless steel ferrule, brass-accented handguard, brass collar.",
     "category": "moro",
@@ -308,7 +308,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 52,
     "slug": "moon-kris",
-    "image": "assets/images/collection/moro_series/moon_kris.webp",
+    "image": "https://images.pangasinanblades.com/collection/moro_series/moon_kris.webp",
     "name": "Moon Kris",
     "description": "Moon Kris featuring a distinctive wavy Kris-style blade profile, rat tail tang construction, carved hardwood handle, guard, decorative fittings, and a fitted wooden scabbard.",
     "category": "moro",
@@ -326,7 +326,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 16,
     "slug": "kampilan",
-    "image": "assets/images/collection/moro_series/kampilan.webp",
+    "image": "https://images.pangasinanblades.com/collection/moro_series/kampilan.webp",
     "name": "Kampilan",
     "description": "Kampilan sword profile, rat tail tang, wooden handguard, leather handle strap.",
     "category": "moro",
@@ -344,7 +344,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 17,
     "slug": "panabas",
-    "image": "assets/images/collection/moro_series/panabas.webp",
+    "image": "https://images.pangasinanblades.com/collection/moro_series/panabas.webp",
     "name": "Panabas",
     "description": "Panabas blade profile, rat tail tang, stainless steel pin, stainless steel ferrule.",
     "category": "moro",
@@ -362,7 +362,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 18,
     "slug": "traditional-panabas",
-    "image": "assets/images/collection/moro_series/traditional_panabas.webp",
+    "image": "https://images.pangasinanblades.com/collection/moro_series/traditional_panabas.webp",
     "name": "Traditional Panabas",
     "description": "Traditional Panabas blade profile, rat tail tang, stainless steel pin, stainless steel ferrule.",
     "category": "moro",
@@ -380,7 +380,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 19,
     "slug": "gayang",
-    "image": "assets/images/collection/moro_series/gayang.webp",
+    "image": "https://images.pangasinanblades.com/collection/moro_series/gayang.webp",
     "name": "Gayang",
     "description": "Gayang blade profile, rat tail tang, stainless steel ferrule, stainless steel handguard, lanyard hole.",
     "category": "moro",
@@ -398,7 +398,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 20,
     "slug": "regular-ginunting",
-    "image": "assets/images/collection/combat_series/regular_ginunting.webp",
+    "image": "https://images.pangasinanblades.com/collection/combat_series/regular_ginunting.webp",
     "name": "Regular Ginunting",
     "description": "Regular Ginunting blade profile, rat tail tang, stainless steel pin, stainless steel ferrule, stainless steel handguard.",
     "category": "combat",
@@ -416,7 +416,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 21,
     "slug": "modern-talibong",
-    "image": "assets/images/collection/combat_series/modern_talibong.webp",
+    "image": "https://images.pangasinanblades.com/collection/combat_series/modern_talibong.webp",
     "name": "Modern Talibong",
     "description": "Modern Talibong blade profile, rat tail tang, stainless steel pin, stainless steel ferrule, stainless steel handguard.",
     "category": "combat",
@@ -434,7 +434,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 22,
     "slug": "all-purpose-tactical-ginunting",
-    "image": "assets/images/collection/combat_series/all_purpose_tactical_ginunting_blade_profile.webp",
+    "image": "https://images.pangasinanblades.com/collection/combat_series/all_purpose_tactical_ginunting_blade_profile.webp",
     "name": "All Purpose Tactical Ginunting",
     "description": "All Purpose Tactical Ginunting blade profile, rat tail tang, stainless steel pin, stainless steel ferrule, and extended stainless steel handguard.",
     "category": "combat",
@@ -452,7 +452,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 23,
     "slug": "tactical-ginunting",
-    "image": "assets/images/collection/combat_series/tactical_ginunting.webp",
+    "image": "https://images.pangasinanblades.com/collection/combat_series/tactical_ginunting.webp",
     "name": "Tactical Ginunting",
     "description": "Tactical Ginunting blade profile, rat tail tang, stainless steel pin, stainless steel ferrule, stainless steel handguard.",
     "category": "combat",
@@ -470,7 +470,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 24,
     "slug": "garab",
-    "image": "assets/images/collection/bolo_series/garab.webp",
+    "image": "https://images.pangasinanblades.com/collection/bolo_series/garab.webp",
     "name": "Garab",
     "description": "Garab blade profile, rat tail tang, stainless steel ferrule, stainless steel handguard.",
     "category": "bolo",
@@ -488,7 +488,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 25,
     "slug": "bushcraft-knife",
-    "image": "assets/images/collection/outdoor_series/bushcraft.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/bushcraft.webp",
     "name": "Bushcraft Knife",
     "description": "Bushcraft knife blade profile, full tang construction, three stainless steel pins, integrated glass breaker, lanyard hole, and ergonomic handle.",
     "category": "outdoor",
@@ -506,7 +506,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 26,
     "slug": "hunting-knife-i",
-    "image": "assets/images/collection/outdoor_series/hunting_knife.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/hunting_knife.webp",
     "name": "Hunting Knife I",
     "description": "Hunting knife blade profile, full tang construction, three stainless steel pins, integrated glass breaker, lanyard hole, ergonomic handle.",
     "category": "outdoor",
@@ -524,7 +524,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 27,
     "slug": "hunting-knife-ii",
-    "image": "assets/images/collection/outdoor_series/hunting_knife_ii.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/hunting_knife_ii.webp",
     "name": "Hunting Knife II",
     "description": "Hunting knife blade profile, rat tail tang, brass ferrule, brass handguard, and ergonomic handle.",
     "category": "outdoor",
@@ -542,7 +542,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 28,
     "slug": "hunting-knife-iii-bowie-inspired",
-    "image": "assets/images/collection/outdoor_series/hunting_knife_bowie_inspired.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/hunting_knife_bowie_inspired.webp",
     "name": "Hunting Knife III Bowie Inspired",
     "description": "Bowie-inspired hunting knife blade profile, full tang construction, three stainless steel pins, integrated brass glass breaker, lanyard hole, ergonomic handle, and jimping.",
     "category": "outdoor",
@@ -560,7 +560,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 49,
     "slug": "rambowie",
-    "image": "assets/images/collection/outdoor_series/rambowie.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/rambowie.webp",
     "name": "Rambowie",
     "description": "Rambowie knife featuring a Rambo-inspired design with a broad Bowie-style blade profile, rat tail tang construction, hardwood handle, stainless steel guard and pommel.",
     "category": "outdoor",
@@ -578,7 +578,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 50,
     "slug": "ka-bar-inspired",
-    "image": "assets/images/collection/outdoor_series/ka_bar_inspired.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/ka_bar_inspired.webp",
     "name": "Ka-Bar Inspired",
     "description": "Ka-Bar-inspired outdoor knife featuring a clip-point blade with fuller, rat tail tang construction, grooved hardwood handle, stainless steel guard.",
     "category": "outdoor",
@@ -596,7 +596,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 29,
     "slug": "karanto",
-    "image": "assets/images/collection/outdoor_series/karanto.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/karanto.webp",
     "name": "Karanto",
     "description": "Karanto Tanto Karambit blade profile, full tang construction, stainless steel pin, finger ring, and ergonomic handle.",
     "category": "outdoor",
@@ -614,7 +614,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 30,
     "slug": "karambit I",
-    "image": "assets/images/collection/outdoor_series/karambit.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/karambit.webp",
     "name": "Karambit I",
     "description": "Curved Karambit blade profile, full tang construction, ergonomic handle with 2 stainless steel pins, and finger ring.",
     "category": "outdoor",
@@ -632,7 +632,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 31,
     "slug": "karambit-ii",
-    "image": "assets/images/collection/outdoor_series/karambit_ii.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/karambit_ii.webp",
     "name": "Karambit II",
     "description": "Curved Karambit blade profile, full tang construction, ergonomic handle with 3 stainless steel pins, finger ring, integrated glass breaker, and finger groove grip.",
     "category": "outdoor",
@@ -650,7 +650,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 32,
     "slug": "eagles-karambit",
-    "image": "assets/images/collection/outdoor_series/eagles_karambit.webp",
+    "image": "https://images.pangasinanblades.com/collection/outdoor_series/eagles_karambit.webp",
     "name": "Eagle's Karambit",
     "description": "Hawkbill Karambit blade profile, full tang construction, ergonomic handle with 2 stainless steel pins, and finger ring.",
     "category": "outdoor",
@@ -668,7 +668,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 33,
     "slug": "katana",
-    "image": "assets/images/collection/international_series/katana.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/katana.webp",
     "name": "Katana",
     "description": "Katana blade profile, hidden tang construction, genuine ray skin handle with braided leather wrap, brass habaki, and round tsuba guard.",
     "category": "international",
@@ -686,7 +686,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 34,
     "slug": "shirasaya-katana",
-    "image": "assets/images/collection/international_series/shirasaya_katana.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/shirasaya_katana.webp",
     "name": "Shirasaya Katana",
     "description": "Shirasaya Katana blade profile, hidden tang construction, minimalist wooden tsuka and saya, and brass habaki.",
     "category": "international",
@@ -704,7 +704,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 35,
     "slug": "khukri-i",
-    "image": "assets/images/collection/international_series/khukri_i.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/khukri_i.webp",
     "name": "Khukri I",
     "description": "Khukri blade profile, full tang construction, ergonomic handle with 4 stainless steel pins, brass bolster, and forward-weighted blade for powerful chopping.",
     "category": "international",
@@ -722,7 +722,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 36,
     "slug": "khukri-ii",
-    "image": "assets/images/collection/international_series/khukri_ii.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/khukri_ii.webp",
     "name": "Khukri II",
     "description": "Khukri blade profile, plain blade finish, hidden tang construction, brass bolster, and forward-weighted blade for powerful chopping.",
     "category": "international",
@@ -740,7 +740,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 37,
     "slug": "khukri-set",
-    "image": "assets/images/collection/international_series/khukri_set.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/khukri_set.webp",
     "name": "Khukri Set",
     "description": "Khukri set featuring a full-size Khukri with a companion utility knife, plain blade finish, hidden tang construction, brass bolster, and ergonomic hardwood handles.",
     "category": "international",
@@ -758,7 +758,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 46,
     "slug": "khukrambit",
-    "image": "assets/images/collection/international_series/khukrambit.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/khukrambit.webp",
     "name": "Khukrambit",
     "description": "Khukri–Karambit hybrid featuring a forward-curved blade, full tang construction, contoured hardwood handle with stainless steel pins, and an integrated finger ring for a distinctive and secure design.",
     "category": "international",
@@ -776,7 +776,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 38,
     "slug": "gladius",
-    "image": "assets/images/collection/international_series/gladius.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/gladius.webp",
     "name": "Gladius",
     "description": "Gladius-inspired dagger featuring a plain double-edged spear-point blade, hidden tang construction, hardwood handle with finger grooves, stainless steel guard, and stainless steel pommel.",
     "category": "international",
@@ -794,7 +794,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 39,
     "slug": "jambiya-inspired",
-    "image": "assets/images/collection/international_series/jambiya_inspired.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/jambiya_inspired.webp",
     "name": "Jambiya Inspired",
     "description": "Jambiya-inspired knife featuring a plain curved blade, full tang construction, hardwood handle scales, integrated finger ring, and ergonomic grip.",
     "category": "international",
@@ -812,7 +812,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 51,
     "slug": "jambiya-dagger",
-    "image": "assets/images/collection/international_series/jambiya_dagger.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/jambiya_dagger.webp",
     "name": "Jambiya Dagger",
     "description": "Jambiya dagger featuring a distinctive curved blade profile, rat tail tang construction, hardwood handle with stainless steel pin, metal ferrule, and a carved wooden scabbard.",
     "category": "international",
@@ -830,7 +830,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 53,
     "slug": "kris-dagger-sinag-inspired",
-    "image": "assets/images/collection/international_series/kris_dagger_sinag_inspired.webp",
+    "image": "https://images.pangasinanblades.com/collection/international_series/kris_dagger_sinag_inspired.webp",
     "name": "Kris Dagger / Sinag Inspired",
     "description": "A compact kris-style dagger inspired by the distinctive wavy blade design associated with Sinag. It features a flowing serpentine blade profile, a traditional-inspired handle, protective guard, and a matching fitted scabbard.",
     "category": "international",
@@ -848,7 +848,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 40,
     "slug": "serbian-chefs-knife",
-    "image": "assets/images/collection/kitchen_series/almazan.webp",
+    "image": "https://images.pangasinanblades.com/collection/kitchen_series/almazan.webp",
     "name": "Serbian Chef Knife / Almazan",
     "description": "Serbian chef knife inspired by the Almazan style, featuring a two-tone cleaver-style blade, full tang construction, hardwood handle scales, and an ergonomic grip.",
     "category": "kitchen",
@@ -866,7 +866,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 41,
     "slug": "gyuto-chef-knife",
-    "image": "assets/images/collection/kitchen_series/gyuto.webp",
+    "image": "https://images.pangasinanblades.com/collection/kitchen_series/gyuto.webp",
     "name": "Gyuto Chef Knife",
     "description": "Japanese-inspired Gyuto chef knife featuring a plain blade, full tang construction, hardwood handle scales, and an ergonomic grip.",
     "category": "kitchen",
@@ -884,7 +884,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 42,
     "slug": "santoku",
-    "image": "assets/images/collection/kitchen_series/santoku.webp",
+    "image": "https://images.pangasinanblades.com/collection/kitchen_series/santoku.webp",
     "name": "Santoku / Bunka Hybrid",
     "description": "Japanese-inspired Santoku knife featuring a plain blade, hidden tang construction, octagonal hardwood handle, and a lightweight, well-balanced design.",
     "category": "kitchen",
@@ -902,7 +902,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 43,
     "slug": "sujihiki",
-    "image": "assets/images/collection/kitchen_series/sujihiki.webp",
+    "image": "https://images.pangasinanblades.com/collection/kitchen_series/sujihiki.webp",
     "name": "Sujihiki / Carving Knife",
     "description": "Japanese-inspired Sujihiki knife featuring a plain blade, full tang construction, hardwood handle with stainless steel pins, and a slim profile designed for clean.",
     "category": "kitchen",
@@ -920,7 +920,7 @@ window.PANGASINAN_PRODUCTS = [
   {
     "id": 44,
     "slug": "yanagiba",
-    "image": "assets/images/collection/kitchen_series/yanagiba.webp",
+    "image": "https://images.pangasinanblades.com/collection/kitchen_series/yanagiba.webp",
     "name": "Yanagiba / Sashimi Knife",
     "description": "Yanagiba knife featuring a plain long slicing blade, hidden tang construction, octagonal hardwood handle, and a lightweight, balanced design.",
     "category": "kitchen",
