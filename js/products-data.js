@@ -878,7 +878,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
-      "hardness": "15-20 HRC (approximately 70-90 HRB)"
+      "hardness": "57-60 HRC"
     }
   },
   {
@@ -896,7 +896,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
-      "hardness": "15-20 HRC (approximately 70-90 HRB)"
+      "hardness": "57-60 HRC"
     }
   },
   {
@@ -914,7 +914,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
-      "hardness": "15-20 HRC (approximately 70-90 HRB)"
+      "hardness": "57-60 HRC"
     }
   },
   {
@@ -932,7 +932,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
-      "hardness": "15-20 HRC (approximately 70-90 HRB)"
+      "hardness": "57-60 HRC"
     }
   }
 ];
