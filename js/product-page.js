@@ -26,9 +26,41 @@
     steel: ['5160 Carbon Steel', '304 Stainless Steel'],
     handle: ['Kamagong', 'Mahogany', 'Chico'],
     sheath: ['Mahogany', 'Chico', 'Kamagong', 'Kydex'],
+    beltLoopOption: ['None', 'Stainless Steel Belt Loop', 'Kydex Belt Loop'],
     finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
     intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
   };
+
+  const productBeltLoopDefault = inquiryOptions.beltLoopOption.includes(product.details?.beltLoopDefault)
+    ? product.details.beltLoopDefault
+    : 'None';
+
+  function beltLoopOptionsForSheath() {
+    return inquiryOptions.beltLoopOption;
+  }
+
+  function normalizeBeltLoopOption(sheath, currentValue = '', fallbackValue = productBeltLoopDefault) {
+    const options = beltLoopOptionsForSheath(sheath);
+    const current = String(currentValue || '').trim();
+    const fallback = String(fallbackValue || '').trim();
+
+    if (options.includes(current)) return current;
+    if (options.includes(fallback)) return fallback;
+    return 'None';
+  }
+
+  function beltLoopDefaultForItem(item) {
+    const savedDefault = String(item?.beltLoopDefault || '').trim();
+    if (inquiryOptions.beltLoopOption.includes(savedDefault)) return savedDefault;
+
+    const sourceProduct = products.find(candidate => Number(candidate.id) === Number(item?.id));
+    const catalogDefault = String(sourceProduct?.details?.beltLoopDefault || '').trim();
+
+    return inquiryOptions.beltLoopOption.includes(catalogDefault)
+      ? catalogDefault
+      : 'None';
+  }
+
   let items = store.load();
   let pendingDuplicate = null;
   let pendingRemoveKey = null;
@@ -170,6 +202,7 @@
       ['Hardness', selection.hardness],
       ['Handle', selection.handle],
       ['Scabbard', selection.sheath],
+      ['Belt Loop Option', selection.beltLoopOption],
       ['Finish', selection.finish],
       ['Intended Use', selection.intendedUse],
       ['Additional Notes', selection.customization],
@@ -186,12 +219,21 @@
   function inquiryEditorMarkup(item) {
     const selection = item.selection || {};
     const hardness = hardnessBySteel[selection.steel] || selection.hardness || 'Confirm with maker';
+    const beltLoopDefault = beltLoopDefaultForItem(item);
+    const beltLoopOptions = beltLoopOptionsForSheath(selection.sheath);
+    const beltLoopOption = normalizeBeltLoopOption(
+      selection.sheath,
+      selection.beltLoopOption,
+      beltLoopDefault
+    );
+
     return `<div class="inquiry-item-editor" data-edit-item="${encodeURIComponent(item.key)}">
       <label><span>Blade Length</span><input data-edit-field="bladeLength" type="text" value="${escapeHtml(selection.bladeLength)}"></label>
       <label><span>Blade Material</span><select data-edit-field="steel">${optionsMarkup(inquiryOptions.steel, selection.steel || inquiryOptions.steel[0])}</select></label>
       <label><span>Hardness</span><output data-edit-field="hardness">${escapeHtml(hardness)}</output></label>
       <label><span>Handle</span><select data-edit-field="handle">${optionsMarkup(inquiryOptions.handle, selection.handle || inquiryOptions.handle[0])}</select></label>
       <label><span>Scabbard</span><select data-edit-field="sheath">${optionsMarkup(inquiryOptions.sheath, selection.sheath || inquiryOptions.sheath[0])}</select></label>
+      <label data-edit-belt-loop-field><span>Belt Loop Option</span><select data-edit-field="beltLoopOption">${optionsMarkup(beltLoopOptions, beltLoopOption)}</select></label>
       <label><span>Finish</span><select data-edit-field="finish">${optionsMarkup(inquiryOptions.finish, selection.finish || inquiryOptions.finish[0])}</select></label>
       <label><span>Intended Use</span><select data-edit-field="intendedUse">${optionsMarkup(inquiryOptions.intendedUse, selection.intendedUse || inquiryOptions.intendedUse[0])}</select></label>
       <label><span>Quantity</span><input data-edit-field="quantity" type="number" min="1" value="${Math.max(1, Number(item.quantity) || 1)}"></label>
@@ -287,10 +329,35 @@
       hardness: field('hardness'),
       handle: field('handle'),
       sheath: field('sheath'),
+      beltLoopOption: normalizeBeltLoopOption(
+        field('sheath'),
+        field('beltLoopOption'),
+        productBeltLoopDefault
+      ),
       finish: field('finish'),
       intendedUse: field('intendedUse'),
       customization: field('customization'),
     };
+  }
+
+  function syncProductBeltLoopField(useProductDefault = false) {
+    const sheathControl = document.querySelector('[data-product-field="sheath"]');
+    const beltLoopControl = document.querySelector('[data-product-field="beltLoopOption"]');
+    const beltLoopField = document.querySelector('[data-belt-loop-field]');
+    if (!sheathControl || !beltLoopControl || !beltLoopField) return;
+
+    const sheath = sheathControl.value;
+    const options = beltLoopOptionsForSheath(sheath);
+    const currentValue = useProductDefault ? '' : beltLoopControl.value;
+    const selectedValue = normalizeBeltLoopOption(
+      sheath,
+      currentValue,
+      productBeltLoopDefault
+    );
+
+    beltLoopControl.innerHTML = optionsMarkup(options, selectedValue);
+    beltLoopControl.value = selectedValue;
+    beltLoopField.hidden = false;
   }
 
   function updateSpecificationSummary() {
@@ -317,6 +384,7 @@
       image: product.image,
       series: product.series,
       status: product.status,
+      beltLoopDefault: productBeltLoopDefault,
       selection: selectedBuild(),
       quantity: selectedQuantity(),
     };
@@ -465,6 +533,13 @@
     setProductHardness(hardnessBySteel[event.target.value] || 'Confirm with maker');
   });
 
+  document.querySelector('[data-product-field="sheath"]')?.addEventListener('change', () => {
+    syncProductBeltLoopField();
+    updateSpecificationSummary();
+  });
+
+  document.querySelector('[data-product-field="beltLoopOption"]')?.addEventListener('change', updateSpecificationSummary);
+
   document.querySelector('[data-customize-toggle]')?.addEventListener('click', event => {
     const fields = document.querySelector('[data-build-fields]');
     const summary = document.querySelector('[data-spec-summary]');
@@ -606,6 +681,12 @@
     };
     const steel = read('steel');
     const hardness = hardnessBySteel[steel] || read('hardness') || 'Confirm with maker';
+    const sheath = read('sheath');
+    const beltLoopOption = normalizeBeltLoopOption(
+      sheath,
+      read('beltLoopOption'),
+      beltLoopDefaultForItem(items[itemIndex])
+    );
     const candidate = store.prepare({
       ...items[itemIndex],
       key: '',
@@ -615,7 +696,8 @@
         hardness,
         bladeLength: read('bladeLength'),
         handle: read('handle'),
-        sheath: read('sheath'),
+        sheath,
+        beltLoopOption,
         finish: read('finish'),
         intendedUse: read('intendedUse'),
         customization: read('customization'),
@@ -644,10 +726,34 @@
   }
 
   document.querySelector('[data-inquiry-body]')?.addEventListener('change', event => {
-    if (event.target.dataset.editField !== 'steel') return;
+    const fieldName = event.target.dataset.editField;
     const editor = event.target.closest('[data-edit-item]');
-    const output = editor?.querySelector('[data-edit-field="hardness"]');
-    if (output) output.textContent = hardnessBySteel[event.target.value] || 'Confirm with maker';
+    if (!editor) return;
+
+    if (fieldName === 'steel') {
+      const output = editor.querySelector('[data-edit-field="hardness"]');
+      if (output) output.textContent = hardnessBySteel[event.target.value] || 'Confirm with maker';
+      return;
+    }
+
+    if (fieldName === 'sheath') {
+      const beltLoopControl = editor.querySelector('[data-edit-field="beltLoopOption"]');
+      if (!beltLoopControl) return;
+
+      const itemKey = decodeURIComponent(editor.dataset.editItem);
+      const item = items.find(entry => entry.key === itemKey);
+      const sheath = event.target.value;
+      const options = beltLoopOptionsForSheath(sheath);
+
+      const selectedValue = normalizeBeltLoopOption(
+        sheath,
+        beltLoopControl.value,
+        beltLoopDefaultForItem(item)
+      );
+
+      beltLoopControl.innerHTML = optionsMarkup(options, selectedValue);
+      beltLoopControl.value = selectedValue;
+    }
   });
   document.querySelectorAll('[data-inquiry-customer-field]').forEach(control => {
     control.addEventListener('input', saveCustomerControls);
@@ -712,6 +818,7 @@
   });
 
   populateCustomerControls();
+  syncProductBeltLoopField(true);
   updateSpecificationSummary();
   updateCustomerDisclosure(true);
   updateBadges();

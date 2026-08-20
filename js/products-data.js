@@ -14,6 +14,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -32,6 +33,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -50,6 +52,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -68,6 +71,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -86,6 +90,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -104,6 +109,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -122,6 +128,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -140,6 +147,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -158,6 +166,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -176,6 +185,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -194,6 +204,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -212,6 +223,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -230,6 +242,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -248,6 +261,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -266,6 +280,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -284,6 +299,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -302,6 +318,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -320,6 +337,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -338,6 +356,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -356,6 +375,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -374,6 +394,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -392,6 +413,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -410,6 +432,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -428,6 +451,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Chico",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -446,6 +470,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Chico",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -464,6 +489,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -482,6 +508,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -500,6 +527,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -518,6 +546,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -536,6 +565,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -554,6 +584,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -572,6 +603,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -590,6 +622,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -608,6 +641,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -626,6 +660,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -644,6 +679,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -662,6 +698,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -680,6 +717,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -698,6 +736,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -716,6 +755,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -734,6 +774,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -752,6 +793,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -770,6 +812,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -788,6 +831,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Mahogany",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -806,6 +850,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -824,6 +869,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -842,6 +888,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "Stainless Steel Belt Loop",
       "hardness": "57-60 HRC"
     }
   },
@@ -860,6 +907,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -878,6 +926,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -896,6 +945,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -914,6 +964,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   },
@@ -932,6 +983,7 @@ window.PANGASINAN_PRODUCTS = [
       "steel": "5160 Carbon Steel",
       "handle": "Kamagong",
       "sheath": "Mahogany",
+      "beltLoopDefault": "None",
       "hardness": "57-60 HRC"
     }
   }

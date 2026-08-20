@@ -4,6 +4,7 @@
   const STORAGE_KEY = 'pangasinanBladesInquiryList';
   const CUSTOMER_STORAGE_KEY = 'pangasinanBladesInquiryCustomer';
   const PRODUCT_URL_BASE = 'https://www.pangasinanblades.com/collection/?id=';
+  const BELT_LOOP_OPTIONS = ['None', 'Stainless Steel Belt Loop', 'Kydex Belt Loop'];
   const STATUS_MESSAGES = Object.freeze({
     empty: 'Your Inquiry List is empty. Add at least one blade before continuing.',
     copyFailed: 'Unable to copy the quote request. Please try again or copy it manually.',
@@ -15,6 +16,42 @@
     return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase();
   }
 
+  function beltLoopOptionsForSheath() {
+    return BELT_LOOP_OPTIONS;
+  }
+
+  function beltLoopDefaultForItem(item) {
+    const savedDefault = String(item?.beltLoopDefault || '').trim();
+    if (BELT_LOOP_OPTIONS.includes(savedDefault)) return savedDefault;
+
+    const products = Array.isArray(global.PANGASINAN_PRODUCTS)
+      ? global.PANGASINAN_PRODUCTS
+      : [];
+    const sourceProduct = products.find(candidate => Number(candidate.id) === Number(item?.id));
+    const catalogDefault = String(sourceProduct?.details?.beltLoopDefault || '').trim();
+
+    return BELT_LOOP_OPTIONS.includes(catalogDefault)
+      ? catalogDefault
+      : 'None';
+  }
+
+  function prepareSelection(selection = {}, beltLoopDefault = 'None') {
+    const prepared = { ...selection };
+    const sheath = String(prepared.sheath || '').trim();
+    const options = beltLoopOptionsForSheath(sheath);
+    const requestedValue = String(prepared.beltLoopOption || '').trim();
+
+    if (options.includes(requestedValue)) {
+      prepared.beltLoopOption = requestedValue;
+    } else if (options.includes(beltLoopDefault)) {
+      prepared.beltLoopOption = beltLoopDefault;
+    } else {
+      prepared.beltLoopOption = 'None';
+    }
+
+    return prepared;
+  }
+
   function createKey(item) {
     const selection = item.selection || {};
     const fields = {
@@ -24,6 +61,7 @@
       hardness: selection.hardness,
       handle: selection.handle,
       sheath: selection.sheath,
+      beltLoopOption: selection.beltLoopOption,
       finish: selection.finish,
       intendedUse: selection.intendedUse,
       customization: selection.customization,
@@ -36,10 +74,18 @@
   }
 
   function prepare(item) {
-    return {
+    const beltLoopDefault = beltLoopDefaultForItem(item);
+    const selection = prepareSelection(item.selection || {}, beltLoopDefault);
+    const prepared = {
       ...item,
+      beltLoopDefault,
+      selection,
       quantity: Math.max(1, Number(item.quantity) || 1),
-      key: item.key || createKey(item),
+    };
+
+    return {
+      ...prepared,
+      key: createKey(prepared),
     };
   }
 
@@ -164,6 +210,7 @@
       `Hardness: ${selection.hardness || ''}`,
       `Handle: ${selection.handle || ''}`,
       `Scabbard: ${selection.sheath || ''}`,
+      selection.beltLoopOption ? `Belt Loop Option: ${selection.beltLoopOption}` : '',
       selection.finish ? `Finish: ${selection.finish}` : '',
       selection.intendedUse ? `Intended Use: ${selection.intendedUse}` : '',
       selection.customization ? `Additional Notes: ${selection.customization}` : '',
