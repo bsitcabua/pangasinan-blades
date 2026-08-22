@@ -30,8 +30,9 @@
       details.handle && `Handle: ${details.handle}`,
       details.sheath && `Scabbard: ${details.sheath}`,
     ].filter(Boolean).join('\n');
-    const destinationUrl = `${SITE_URL}/collection/?id=${encodeURIComponent(product.id)}`;
-    const url = `${SITE_URL}/share/?id=${encodeURIComponent(product.id)}&v=${SHARE_PREVIEW_VERSION}`;
+    const imageLocation = 'https://images.pangasinanblades.com';
+    const destinationUrl = `${imageLocation}/collection/?id=${encodeURIComponent(product.id)}`;
+    const url = `${imageLocation}/share/?id=${encodeURIComponent(product.id)}&v=${SHARE_PREVIEW_VERSION}`;
     return {
       title: `${product.name} | Pangasinan Blades`,
       heading: product.name,
