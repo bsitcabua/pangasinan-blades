@@ -1,15 +1,41 @@
-(function initializeProductPage() {
+(async function initializeProductPage() {
   'use strict';
 
   const store = window.PangasinanInquiry;
-  const products = Array.isArray(window.PANGASINAN_PRODUCTS) ? window.PANGASINAN_PRODUCTS : [];
   const productId = Number(new URLSearchParams(window.location.search).get('id'));
-  const product = products.find(candidate => Number(candidate.id) === productId);
-  if (!store || !product) {
+  const catalogUrl = window.location.protocol === 'file:'
+    ? 'https://www.pangasinanblades.com/api/catalog'
+    : '/api/catalog';
+
+  function showLoadError(message) {
     document.querySelector('main')?.replaceChildren(Object.assign(document.createElement('p'), {
       className: 'product-load-error',
-      textContent: 'This blade could not be found. Return to the collection to choose another product.',
+      textContent: message,
     }));
+  }
+
+  if (!store || !Number.isInteger(productId) || productId < 1) {
+    showLoadError('This blade could not be found. Return to the collection to choose another product.');
+    return;
+  }
+
+  let products;
+  try {
+    const response = await fetch(catalogUrl, { headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error(`Catalog request failed with HTTP ${response.status}`);
+    const payload = await response.json();
+    if (!payload || payload.success !== true || !Array.isArray(payload.data)) throw new Error('Invalid catalog response');
+    products = payload.data;
+    window.PANGASINAN_PRODUCTS = products;
+  } catch (error) {
+    console.error('Unable to load product information:', error);
+    showLoadError('Product information is temporarily unavailable. Please try again shortly.');
+    return;
+  }
+
+  const product = products.find(candidate => Number(candidate.id) === productId);
+  if (!product) {
+    showLoadError('This blade could not be found. Return to the collection to choose another product.');
     return;
   }
   const hardnessBySteel = {
@@ -175,7 +201,9 @@
     setProductHardness(details.hardness || hardnessBySteel[details.steel] || 'Confirm with maker');
 
     const canonical = `https://www.pangasinanblades.com/collection/?id=${product.id}`;
-    const absoluteImage = `https://www.pangasinanblades.com/${product.image.replace(/^\//, '')}`;
+    const absoluteImage = /^https?:\/\//i.test(product.image)
+      ? product.image
+      : `https://www.pangasinanblades.com/${product.image.replace(/^\//, '')}`;
     setMeta('link[rel="canonical"]', 'href', canonical);
     setMeta('meta[property="og:title"]', 'content', `${product.name} | Pangasinan Blades`);
     setMeta('meta[property="og:description"]', 'content', description);

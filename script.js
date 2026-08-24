@@ -130,9 +130,65 @@ document.addEventListener('error', event => {
 })();
 
 
-const COMPLETE_COLLECTION = (window.PANGASINAN_PRODUCTS || []).map(makeCollectionBlade);
+const CATALOG_API_URL = window.location.protocol === 'file:'
+  ? 'https://www.pangasinanblades.com/api/catalog'
+  : '/api/catalog';
 
-const CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
+let COMPLETE_COLLECTION = [];
+let CATALOG_PREVIEW = [];
+
+function setCatalogProducts(products) {
+  const validProducts = Array.isArray(products)
+    ? products.filter(product => product && product.id && product.name && product.details)
+    : [];
+
+  if (!validProducts.length) throw new Error('The catalog API returned no usable products.');
+
+  window.PANGASINAN_PRODUCTS = validProducts;
+  COMPLETE_COLLECTION = validProducts.map(makeCollectionBlade);
+  CATALOG_PREVIEW = COMPLETE_COLLECTION.filter(blade => blade.featured);
+  fcSeriesData = [...COMPLETE_COLLECTION];
+  fcVisibleData = [...COMPLETE_COLLECTION];
+}
+
+function setCatalogBusy(isBusy) {
+  document.getElementById('catalogGrid')?.setAttribute('aria-busy', String(isBusy));
+  document.getElementById('fcGrid')?.setAttribute('aria-busy', String(isBusy));
+}
+
+async function refreshCatalogFromApi() {
+  setCatalogBusy(true);
+  try {
+    const response = await fetch(CATALOG_API_URL, {
+      headers: { Accept: 'application/json' },
+    });
+    if (!response.ok) throw new Error(`Catalog request failed with HTTP ${response.status}`);
+
+    const payload = await response.json();
+    if (!payload || payload.success !== true) {
+      throw new Error(payload?.message || 'The catalog API returned an invalid response.');
+    }
+
+    setCatalogProducts(payload.data);
+    renderCatalogPreview();
+    const activePreviewFilter = document.querySelector('.filter-bar .filter-pill[data-filter].active')?.dataset.filter || 'all';
+    applyCatalogPreviewFilter(activePreviewFilter);
+    if (isFullCatalogOpen()) applyFCFilter();
+  } catch (error) {
+    console.error('Unable to refresh the live catalog:', error);
+    if (!COMPLETE_COLLECTION.length) {
+      const count = document.getElementById('filterCount');
+      const empty = document.getElementById('fcEmpty');
+      if (count) count.textContent = 'Catalog temporarily unavailable';
+      if (empty) {
+        empty.style.display = 'block';
+        empty.querySelector('p')?.replaceChildren('Catalog temporarily unavailable.');
+      }
+    }
+  } finally {
+    setCatalogBusy(false);
+  }
+}
 
 function productDetailsUrl(productId) {
   const query = `?id=${encodeURIComponent(productId)}`;
@@ -174,6 +230,7 @@ function renderCatalogPreview() {
         <h3 class="blade-name">${blade.name}</h3>
         ${description ? `<p class="blade-description" title="${escapeHtml(description)}">${escapeHtml(truncateText(description, 50))}</p>` : ''}
         <p class="blade-meta">${blade.length} · ${blade.material}</p>
+        ${formatCatalogPrice(blade) ? `<p class="blade-price">${escapeHtml(formatCatalogPrice(blade))}</p>` : ''}
       </div></a>
       <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
@@ -186,8 +243,19 @@ function renderCatalogPreview() {
   }
 }
 
+function applyCatalogPreviewFilter(filter = 'all') {
+  let visible = 0;
+  document.querySelectorAll('#catalogGrid .blade-card').forEach(card => {
+    const show = filter === 'all' || card.dataset.category === filter;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  const count = document.getElementById('filterCount');
+  if (count) count.textContent = `${visible} blade${visible !== 1 ? 's' : ''}`;
+}
 function makeCollectionBlade(product) {
-  const { id, slug, image, name, description, category, series, featured, status, details } = product;
+  const { id, slug, image, name, description, category, series, featured, status, details, pricing, productUrl } = product;
   return {
     id,
     slug,
@@ -203,7 +271,11 @@ function makeCollectionBlade(product) {
     edge: 'Profile matched to intended use',
     hrc: details.hardness,
     sheath: details.sheath,
-    price: 0,
+    price: Number(pricing?.startingPricePhp || 0),
+    endingPrice: Number(pricing?.endingPricePhp || pricing?.startingPricePhp || 0),
+    currency: pricing?.currency || 'PHP',
+    variants: Array.isArray(pricing?.variants) ? pricing.variants : [],
+    productUrl: productUrl || productDetailsUrl(id),
     status,
     customizable: true,
     leadTime: status === 'ready-stock' ? 'Current stock and delivery timing confirmed with your quotation' : 'Lead time confirmed with your quotation',
@@ -216,6 +288,21 @@ function makeCollectionBlade(product) {
   };
 }
 
+function formatCatalogPrice(blade) {
+  if (!Number.isFinite(blade.price) || blade.price <= 0) return '';
+
+  const formatter = new Intl.NumberFormat('en-PH', {
+    style: 'currency',
+    currency: blade.currency || 'PHP',
+    maximumFractionDigits: 0,
+  });
+  const starting = formatter.format(blade.price);
+  const ending = Number(blade.endingPrice || blade.price);
+
+  return ending > blade.price
+    ? `${starting} - ${formatter.format(ending)}`
+    : starting;
+}
 function blankBladePlaceholder(name, series) {
   return `
     <rect width="300" height="200" fill="#111111"/>
@@ -1128,6 +1215,7 @@ function renderFCGrid(blades) {
         <h3 class="fc-name">${blade.name}</h3>
         ${description ? `<p class="fc-description" title="${escapeHtml(description)}">${escapeHtml(truncateText(description, 50))}</p>` : ''}
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
+        ${formatCatalogPrice(blade) ? `<p class="fc-price">${escapeHtml(formatCatalogPrice(blade))}</p>` : ''}
       </div></a>
       <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
@@ -1522,10 +1610,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* --- FILTER PILLS (CATALOG) --- */
   renderCatalogPreview();
+  refreshCatalogFromApi();
   const filterPills = document.querySelectorAll('.filter-bar .filter-pill[data-filter]');
-  const bladeCards = document.querySelectorAll('#catalogGrid .blade-card');
-  const filterCount = document.getElementById('filterCount');
-
   filterPills.forEach(pill => {
     pill.addEventListener('click', function() {
       filterPills.forEach(p => {
@@ -1536,14 +1622,7 @@ document.addEventListener('DOMContentLoaded', function() {
       this.setAttribute('aria-pressed', 'true');
       const filter = this.getAttribute('data-filter');
       if (!filter) return;
-      let visible = 0;
-      bladeCards.forEach(card => {
-        const cat = card.getAttribute('data-category');
-        const show = filter === 'all' || cat === filter;
-        card.style.display = show ? '' : 'none';
-        if (show) visible++;
-      });
-      filterCount.textContent = `${visible} blade${visible !== 1 ? 's' : ''}`;
+      applyCatalogPreviewFilter(filter);
     });
   });
 

@@ -24,15 +24,7 @@
     const savedDefault = String(item?.beltLoopDefault || '').trim();
     if (BELT_LOOP_OPTIONS.includes(savedDefault)) return savedDefault;
 
-    const products = Array.isArray(global.PANGASINAN_PRODUCTS)
-      ? global.PANGASINAN_PRODUCTS
-      : [];
-    const sourceProduct = products.find(candidate => Number(candidate.id) === Number(item?.id));
-    const catalogDefault = String(sourceProduct?.details?.beltLoopDefault || '').trim();
-
-    return BELT_LOOP_OPTIONS.includes(catalogDefault)
-      ? catalogDefault
-      : 'None';
+    return 'None';
   }
 
   function prepareSelection(selection = {}, beltLoopDefault = 'None') {

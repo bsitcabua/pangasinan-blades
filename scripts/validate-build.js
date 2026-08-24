@@ -8,7 +8,8 @@ const ROOT = path.resolve(__dirname, '..');
 const SITE_URL = 'https://www.pangasinanblades.com';
 const PRODUCT_STATUSES = new Set(['made-to-order', 'ready-stock']);
 const PRODUCT_CATEGORIES = new Set(['itak', 'bolo', 'moro', 'combat', 'outdoor', 'international', 'kitchen']);
-const products = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'products.json'), 'utf8'));
+const { fetchProducts } = require(path.join(ROOT, 'lib', 'product-service.js'));
+let products = [];
 const siteStatus = require(path.join(ROOT, 'config', 'site-status.js'));
 const siteStatusGuard = require(path.join(ROOT, 'js', 'site-status-guard.js'));
 const failures = [];
@@ -50,12 +51,12 @@ function validateLinks(html, label, baseDirectory = '') {
   }
 }
 
-function validateProduct(product) {
+function validateProductPage() {
   const relative = path.join('collection', 'index.html');
   if (!fs.existsSync(path.join(ROOT, relative))) return fail('Shared product page not generated');
   const html = read(relative);
   if ((activeHtml(html).match(/<h1\b/g) || []).length !== 1) fail('Shared product page: expected exactly one H1');
-  if (!html.includes('../js/products-data.js')) fail('Shared product data is not loaded');
+  if (html.includes('../js/products-data.js')) fail('Shared product page still loads bundled product data');
   if (html.includes('id="productData"')) fail('Static embedded product data remains');
   validateIds(html, 'shared product page');
   validateLinks(html, 'shared product page', path.dirname(relative));
@@ -93,6 +94,7 @@ async function validateHttp() {
 }
 
 async function validate() {
+  products = await fetchProducts({ fresh: true });
   if (!Array.isArray(products) || products.length === 0) fail('Product collection must be a non-empty array');
   const requiredDetails = ['bladeLength', 'steel', 'handle', 'sheath', 'hardness'];
   const ids = new Set();
@@ -116,7 +118,7 @@ async function validate() {
   }
   const slugs = products.map(product => product.slug);
   if (new Set(slugs).size !== slugs.length) fail('Duplicate product slugs found');
-  validateProduct(products[0]);
+  validateProductPage();
   validatePreviewRenderer(path.join('api', 'product.js'), 'Product metadata renderer');
   validatePreviewRenderer(path.join('api', 'share.js'), 'Share preview renderer');
 
@@ -158,7 +160,14 @@ async function validate() {
   const productPageScript = read(path.join('js', 'product-page.js'));
   if (!productPageScript.includes('function inquiryEditorMarkup(') || !productPageScript.includes('store.prepare({')) fail('Product-page Inquiry List editor is missing');
   const homepageScript = read('script.js');
-  if (!homepageScript.includes('window.PANGASINAN_PRODUCTS')) fail('Homepage does not consume generated browser products');
+  if (!homepageScript.includes("? 'https://www.pangasinanblades.com/api/catalog'")) fail('Homepage does not use the database catalog endpoint');
+  if (!fs.existsSync(path.join(ROOT, 'api', 'catalog.js'))) fail('Same-origin catalog proxy is missing');
+  if (!productPageScript.includes("? 'https://www.pangasinanblades.com/api/catalog'")) fail('Product page does not load database products');
+  const productDataDependents = ['index.html', 'templates/product.html', 'collection/index.html', 'script.js', 'js/product-page.js', 'api/product.js', 'api/share.js', 'scripts/build-products.js'];
+  productDataDependents.forEach(relativePath => {
+    const source = read(relativePath);
+    if (/products-data\.js|data[\\/]products\.json/.test(source)) fail(`${relativePath}: obsolete bundled product dependency remains`);
+  });
   if (!homepageScript.includes("window.location.protocol === 'file:'") || !homepageScript.includes('collection/index.html${query}')) fail('Product links do not preserve local file navigation');
   if (!homepageScript.includes('function showFullCatalog()') || !homepageScript.includes('fullCatalogPushed: false')) fail('Full Catalog URL restoration logic is missing');
   if (!homepageScript.includes('function updateInquiryItem(') || !homepageScript.includes('inquiryEditorMarkup(item, index)')) fail('Homepage Inquiry List editor is missing');

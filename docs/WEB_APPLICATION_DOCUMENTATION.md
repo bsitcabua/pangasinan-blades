@@ -51,7 +51,7 @@ The application is functional and deployable as a Vercel-hosted static site with
 | Languages | HTML5, CSS3, JavaScript (CommonJS in build/API scripts and browser JavaScript in the UI), JSON, Markdown |
 | UI library | None |
 | Fonts | Google Fonts: Playfair Display, Cormorant Garamond, Inter |
-| Data store | `data/products.json` plus browser `localStorage` and `sessionStorage` |
+| Data store | Remote product database/API plus browser `localStorage` and `sessionStorage` |
 | Image delivery | Cloudflare R2/custom image host at `images.pangasinanblades.com` for product and workshop images |
 | Database / ORM | None |
 | Authentication | None |
@@ -79,18 +79,17 @@ No React, Angular, Vue, Tailwind CSS, PHP, SQL database, Firebase, or applicatio
 |   `-- index.html              # Generated shared product page
 |-- config/
 |   `-- site-status.js          # Coming Soon/Maintenance flags and page content
-|-- data/
-|   `-- products.json           # Canonical product source
 |-- docs/                       # Audits, claims review, QA matrix, generated URLs
 |-- js/
 |   |-- inquiry-list.js         # Shared inquiry storage and quote formatting
 |   |-- chatbase.js             # Deferred Chatbase widget bootstrap
 |   |-- product-page.js         # Product-page rendering and interactions
-|   |-- products-data.js        # Generated browser product array
 |   |-- share.js                # Share modal and channel actions
 |   |-- site-status-guard.js    # Global status routing decision
 |   |-- site-status-page.js     # Status page renderer
 |   `-- vendor/qrcode.min.js    # QRCode.js 1.0.0
+|-- lib/
+|   `-- product-service.js     # Database API access, validation, and caching
 |-- scripts/
 |   |-- build-products.js       # Generates product artifacts
 |   |-- validate-build.js       # Structural, asset, route, SEO, and config checks
@@ -116,24 +115,25 @@ There are no application components, controllers, models, guards, or middleware 
 
 The repository uses a static-first, data-driven architecture:
 
-1. Developers maintain product records in `data/products.json`; every current product image is an absolute CDN URL.
-2. `scripts/build-products.js` validates basic product integrity and generates browser data, the shared product page, sitemap entries, and URL documentation.
-3. The homepage renders product cards from `window.PANGASINAN_PRODUCTS`.
-4. The product page reads `?id=`, finds the matching product, and renders content client-side.
-5. On Vercel, `/collection/?id=` is rewritten to `api/product.js`, which injects product-specific metadata before returning the shared product HTML. Browser JavaScript then renders the visible page.
+1. Product records and pricing variants are maintained in the Pangasinan Blades application database.
+2. `lib/product-service.js` fetches, validates, and briefly caches the public price-list response for serverless handlers and build scripts.
+3. The homepage and product page load products through the same-origin `/api/catalog` proxy; local `file:///` pages use the deployed proxy URL.
+4. The product page reads `?id=`, finds the matching API product, and renders content client-side.
+5. On Vercel, `/collection/?id=` is rewritten to `api/product.js`, which fetches database data and injects product-specific metadata before returning the shared product HTML.
 6. Inquiry items are persisted in `localStorage`; customer contact details are persisted only in `sessionStorage`.
 7. Contact and newsletter submissions go directly from the browser to third-party services.
 8. Chatbase is injected after page load and communicates with Chatbase-hosted scripts, frames, and APIs.
 
 ```mermaid
 flowchart TD
-    JSON["data/products.json"] --> BUILD["scripts/build-products.js"]
-    BUILD --> DATA["js/products-data.js"]
+    DB["Pangasinan Blades product database"] --> REMOTE["Public price-list API"]
+    REMOTE --> SERVICE["lib/product-service.js"]
+    SERVICE --> BUILD["scripts/build-products.js"]
     BUILD --> PAGE["collection/index.html"]
     BUILD --> MAP["sitemap.xml and docs/PRODUCT-URLS.md"]
-    DATA --> HOME["Homepage catalog"]
-    DATA --> PRODUCT["Product page renderer"]
-    JSON --> API["Vercel api/product.js and api/share.js"]
+    SERVICE --> APIS["api/catalog.js, api/product.js, api/share.js"]
+    APIS --> HOME["Homepage catalog"]
+    APIS --> PRODUCT["Product page renderer"]
     HOME --> STORE["Shared Inquiry List"]
     PRODUCT --> STORE
     STORE --> LOCAL["localStorage: blade builds"]
@@ -145,7 +145,7 @@ flowchart TD
 
 ### State management
 
-- `window.PANGASINAN_PRODUCTS`: generated, read-only browser catalog data.
+- `window.PANGASINAN_PRODUCTS`: runtime-only API catalog cache used by sharing and inquiry helpers.
 - `pangasinanBladesInquiryList`: `localStorage` key used for inquiry items.
 - `pangasinanBladesInquiryCustomer`: `sessionStorage` key used for name, email, phone, address, and notes.
 - `pangasinanBladesContactPrefill`: temporary `sessionStorage` message used when moving from a product page to the homepage contact form.
@@ -153,8 +153,8 @@ flowchart TD
 
 ### Dependency relationships
 
-- `script.js` and `js/product-page.js` depend on `js/products-data.js` and `js/inquiry-list.js` being loaded first.
-- `js/share.js` depends on product data and optionally `QRCode` from `js/vendor/qrcode.min.js`.
+- `script.js` and `js/product-page.js` load product records from `/api/catalog`; product-page inquiry behavior depends on `js/inquiry-list.js` being loaded first.
+- `js/share.js` uses the runtime API product cache and optionally `QRCode` from `js/vendor/qrcode.min.js`.
 - `js/chatbase.js` creates a queueing proxy and injects Chatbase's remote embed script after page load.
 - Status pages depend on `config/site-status.js`, `js/site-status-guard.js`, and `js/site-status-page.js`.
 - `api/product.js` reads generated `collection/index.html`; a production deployment must run the build first.
@@ -165,8 +165,7 @@ flowchart TD
 
 - Node.js 18 or newer
 - npm
-- A browser
-- Vercel only when testing production rewrites/serverless functions
+- Network access to the public Pangasinan Blades price-list API during build and validation
 
 ### Install
 
@@ -203,9 +202,9 @@ Public form configuration is currently hardcoded in `index.html`. Actual values 
 
 ## 7. Database Documentation
 
-There is no database, schema, SQL file, migration, ORM, table, foreign key, index, or cascade rule.
+The website repository contains no database schema, SQL migration, or ORM. Product records are owned by the external Pangasinan Blades application database.
 
-Product data is a JSON array in `data/products.json`. Browser inquiry state is client-owned storage and is not synchronized to a server.
+Product data is read through the public price-list API. Browser inquiry state remains client-owned storage and is not synchronized to a server.
 
 ```mermaid
 erDiagram
@@ -319,7 +318,7 @@ No lazy-loaded modules or authenticated routes exist.
 
 ## 11. Product Data Structure
 
-`data/products.json` is the only manually maintained product source. It currently contains 52 records across Itak, Bolo, Moro, Combat, Outdoor, International, and Kitchen series. All 52 current image values are absolute WebP URLs on `images.pangasinanblades.com`.
+The Pangasinan Blades application database is the canonical product source. The public price-list endpoint currently returns 52 records across Itak, Bolo, Moro, Combat, Outdoor, International, and Kitchen series, including product details, image URLs, status, and pricing variants.
 
 ```json
 {
@@ -498,9 +497,8 @@ Highest-priority missing automated coverage:
 
 ## 17. Build and Deployment
 
-`npm run build` performs deterministic generation from `data/products.json` and `templates/product.html`:
+`npm run build` fetches the current database catalog through `lib/product-service.js` and generates from `templates/product.html`:
 
-- `js/products-data.js`
 - `collection/index.html`
 - `sitemap.xml`
 - `docs/PRODUCT-URLS.md`
@@ -521,7 +519,7 @@ No Dockerfile, CI/CD workflow, GitHub Actions workflow, staging configuration, o
 
 | Severity | File/area | Issue | Recommended fix |
 |---|---|---|---|
-| High | `data/products.json`, `docs/CONTENT-CLAIMS-REVIEW.md` | Technical specs, hardness values, policies, and manufacturing/history claims still require owner verification | Complete business and technical approval before treating claims as guaranteed |
+| High | Product database, `docs/CONTENT-CLAIMS-REVIEW.md` | Technical specs, hardness values, policies, and manufacturing/history claims still require owner verification | Complete business and technical approval before treating claims as guaranteed |
 | High | `index.html`, `script.js` | "Start a Custom Order" only opens the generic contact path; no structured custom-build form uses `addCustomOrderToInquiryList()` | Build a real custom-order configurator that creates a normal quote-list item |
 | High | `script.js`, `js/inquiry-list.js` | The unused custom-order adapter captures engraving, but duplicate keys and quotation formatting omit it | Include engraving in display, editing, duplicate matching, and every quotation channel before enabling the builder |
 | High | Ready-stock records | No quantity, last-confirmed timestamp, expiry rule, or stock owner exists | Add an operational stock-verification process and data fields |
@@ -579,14 +577,14 @@ No Dockerfile, CI/CD workflow, GitHub Actions workflow, staging configuration, o
 7. Run `npm run build`.
 8. Run `npm run validate` and `npm run validate:inquiry`.
 9. Open the static homepage for local UI work; use Vercel when testing serverless rewrites and crawler metadata.
-10. Never edit generated `js/products-data.js`, `collection/index.html`, `sitemap.xml`, or `docs/PRODUCT-URLS.md` as the primary source.
+10. Never edit generated `collection/index.html`, `sitemap.xml`, or `docs/PRODUCT-URLS.md` as the primary source.
 
 ## 21. Maintenance Guide
 
 ### Add or update a product
 
 1. Upload an optimized WebP to the matching collection path on `images.pangasinanblades.com` and confirm its public URL.
-2. Add or edit the record in `data/products.json`.
+2. Add or edit the record and pricing variants in the Pangasinan Blades application database.
 3. Use a unique, stable positive `id` and unique `slug`.
 4. Supply all required top-level and `details` fields.
 5. Run all build and validation commands.
@@ -618,7 +616,7 @@ Keep catalog references on WebP files hosted at `images.pangasinanblades.com`. C
 
 ### Change availability
 
-Set `status` to `made-to-order` or `ready-stock` in `data/products.json`, rebuild, and verify the wording. Do not mark ready stock without manual confirmation under the current business process.
+Set `status` to `made-to-order` or `ready-stock` in the product database, rebuild, and verify the wording. Do not mark ready stock without manual confirmation under the current business process.
 
 ### Mark a product as featured
 

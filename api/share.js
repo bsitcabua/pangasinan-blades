@@ -1,23 +1,16 @@
 'use strict';
 
-const products = require('../data/products.json');
+const { fetchProductById } = require('../lib/product-service');
 
 const SITE_URL = 'https://www.pangasinanblades.com';
-const SHARE_PREVIEW_VERSION = '6';
+const SHARE_PREVIEW_VERSION = '7';
 
 function escapeHtml(value = '') {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 function descriptionFor(product) {
-  return product.description
-    || product.desc
-    || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
+  return product.description || product.desc || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
 }
 
 function absoluteAssetUrl(value) {
@@ -26,9 +19,15 @@ function absoluteAssetUrl(value) {
   return `${SITE_URL}/${asset.replace(/^\//, '')}`;
 }
 
-module.exports = function shareProduct(request, response) {
-  const productId = Number(request.query.id);
-  const product = products.find(item => Number(item.id) === productId);
+module.exports = async function shareProduct(request, response) {
+  let product;
+  try {
+    product = await fetchProductById(request.query.id);
+  } catch (error) {
+    console.error('Unable to load share preview data:', error);
+    response.status(503).send('Share preview is temporarily unavailable.');
+    return;
+  }
 
   if (!product) {
     response.writeHead(302, { Location: `${SITE_URL}/#full-collection` });
@@ -45,7 +44,7 @@ module.exports = function shareProduct(request, response) {
   const safeDestination = JSON.stringify(destination).replace(/</g, '\\u003c');
 
   response.setHeader('Content-Type', 'text/html; charset=utf-8');
-  response.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=604800');
+  response.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
   response.status(200).send(`<!doctype html>
 <html lang="en">
 <head>
@@ -63,8 +62,6 @@ module.exports = function shareProduct(request, response) {
   <meta property="og:image" content="${escapeHtml(image)}">
   <meta property="og:image:secure_url" content="${escapeHtml(image)}">
   <meta property="og:image:type" content="image/webp">
-  <meta property="og:image:width" content="3664">
-  <meta property="og:image:height" content="2691">
   <meta property="og:image:alt" content="${escapeHtml(product.name)} crafted blade">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${escapeHtml(title)}">

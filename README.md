@@ -5,26 +5,29 @@ Static Pangasinan Blades website with data-driven product pages.
 ## Build
 
 ```bash
+npm run dev
 npm run build
 npm run validate
 ```
 
-`npm run build` reads `data/products.json`, then generates:
+Use `npm run dev` for local testing because a basic static server cannot execute `/api/catalog`, `/collection`, or `/share`. The development server starts at `http://localhost:8000` and automatically tries the next available port when that port is occupied.
 
-- `js/products-data.js` for the homepage catalog
+`npm run build` reads the live product database through `lib/product-service.js`, then generates:
+
 - one shared `collection/index.html` product page
 - `sitemap.xml`
 - `docs/PRODUCT-URLS.md`
 
-`js/product-page.js` reads the numeric ID from `/collection/?id={id}` and loads the matching record from `js/products-data.js`; `data/products.json` remains the only manually maintained product source.
+The homepage, product pages, server-rendered product metadata, social previews, sitemap, and URL documentation all use `https://app.pangasinanblades.com/api/products/price-list`. Browser requests use the same-origin `/api/catalog` proxy so they are not blocked by cross-origin restrictions.
 
 ## Add A Product
 
-1. Add an optimized `.webp` product image under `assets/images/collection/`. PNG and JPG collection images are retained only as source assets and must not be referenced by product data.
-2. Add one object to `data/products.json` with a unique numeric `id` and unique `slug`.
-3. Include `name`, `image`, `category`, `series`, `featured`, `status`, and all `details` fields.
-4. Run `npm run build` and `npm run validate`.
-5. Review the generated page and sitemap entry before deployment.
+1. Upload an optimized `.webp` image to the product image host.
+2. Add the product and its pricing variants in the Pangasinan Blades database with a unique numeric `id` and unique `slug`.
+3. Include `name`, `image`, `description`, `category`, `series`, `featured`, `status`, required `details`, and `pricing` fields.
+4. Confirm the product appears in the price-list API.
+5. Run `npm run build` and `npm run validate`.
+6. Review the catalog card, product page, share preview, and generated sitemap entry before deployment.
 
 Build validation rejects catalog products whose `image` value does not end in
 `.webp`, ensuring the featured catalog, Full Collection, product pages, related

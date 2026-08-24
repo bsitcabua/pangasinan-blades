@@ -2,23 +2,16 @@
 
 const fs = require('fs');
 const path = require('path');
-const products = require('../data/products.json');
+const { fetchProductById } = require('../lib/product-service');
 
 const SITE_URL = 'https://www.pangasinanblades.com';
 
 function escapeHtml(value = '') {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 function descriptionFor(product) {
-  return product.description
-    || product.desc
-    || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
+  return product.description || product.desc || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
 }
 
 function absoluteAssetUrl(value) {
@@ -27,9 +20,15 @@ function absoluteAssetUrl(value) {
   return `${SITE_URL}/${asset.replace(/^\//, '')}`;
 }
 
-module.exports = function renderProduct(request, response) {
-  const productId = Number(request.query.id);
-  const product = products.find(item => Number(item.id) === productId);
+module.exports = async function renderProduct(request, response) {
+  let product;
+  try {
+    product = await fetchProductById(request.query.id);
+  } catch (error) {
+    console.error('Unable to load product page data:', error);
+    response.status(503).send('Product information is temporarily unavailable. Please try again shortly.');
+    return;
+  }
 
   if (!product) {
     response.status(404).send('Product not found.');
@@ -76,6 +75,6 @@ module.exports = function renderProduct(request, response) {
     .replace('</head>', `${metadata}\n</head>`);
 
   response.setHeader('Content-Type', 'text/html; charset=utf-8');
-  response.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+  response.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
   response.status(200).send(html);
 };
