@@ -61,6 +61,12 @@ function validateProduct(product) {
   validateLinks(html, 'shared product page', path.dirname(relative));
 }
 
+function validatePreviewRenderer(relativePath, label) {
+  const source = read(relativePath);
+  if (!source.includes('function absoluteAssetUrl(')) fail(`${label}: absolute image URL normalization is missing`);
+  if (/`\$\{SITE_URL\}\/\$\{product\.image\.replace/.test(source)) fail(`${label}: absolute CDN images are still prefixed with the site URL`);
+}
+
 async function validateHttp() {
   const server = http.createServer((request, response) => {
     const pathname = decodeURIComponent(new URL(request.url, 'http://127.0.0.1').pathname);
@@ -111,6 +117,8 @@ async function validate() {
   const slugs = products.map(product => product.slug);
   if (new Set(slugs).size !== slugs.length) fail('Duplicate product slugs found');
   validateProduct(products[0]);
+  validatePreviewRenderer(path.join('api', 'product.js'), 'Product metadata renderer');
+  validatePreviewRenderer(path.join('api', 'share.js'), 'Share preview renderer');
 
   const homepage = read('index.html');
   validateIds(homepage, 'homepage');

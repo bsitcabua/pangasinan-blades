@@ -1,6 +1,6 @@
 # Pangasinan Blades Web Application Documentation
 
-Last reviewed: 2026-08-01
+Last reviewed: 2026-08-24
 
 This document describes the implementation currently present in this repository. It does not describe an aspirational framework, database, admin panel, or order-processing backend.
 
@@ -34,12 +34,13 @@ The application is a public catalog and quotation-request website for Pangasinan
 - Product and collection sharing, QR codes, Open Graph previews, and social actions
 - Workshop gallery/lightbox and testimonial carousel
 - Brevo newsletter subscription
+- Chatbase customer-assistance widget loaded after the window `load` event
 - Coming Soon and Maintenance modes
 - Generated sitemap, product browser data, and product URL documentation
 
 ### Current development status
 
-The application is functional and deployable as a Vercel-hosted static site with two Vercel serverless rendering endpoints. Automated build, asset, route, and inquiry-state validations exist and currently pass. The repository remains under active catalog and UX development. Product content verification, responsive image delivery, JavaScript modularization, and CSP cleanup remain open work.
+The application is functional and deployable as a Vercel-hosted static site with two Vercel serverless rendering endpoints. The catalog currently contains 52 products. Automated build, route, structure, and inquiry-state validations exist. The repository remains under active catalog and UX development. Product content verification, remote-image validation, a real custom-order builder, JavaScript modularization, and CSP cleanup remain open work.
 
 ## 2. Technology Stack
 
@@ -51,9 +52,11 @@ The application is functional and deployable as a Vercel-hosted static site with
 | UI library | None |
 | Fonts | Google Fonts: Playfair Display, Cormorant Garamond, Inter |
 | Data store | `data/products.json` plus browser `localStorage` and `sessionStorage` |
+| Image delivery | Cloudflare R2/custom image host at `images.pangasinanblades.com` for product and workshop images |
 | Database / ORM | None |
 | Authentication | None |
 | Forms | Web3Forms contact submission; Brevo newsletter subscription |
+| Customer assistance | Chatbase embedded widget loaded by `js/chatbase.js` |
 | Sharing | Web Share API, Clipboard API, mailto links, social share URLs, vendored QRCode.js 1.0.0 |
 | Analytics | Vercel Analytics browser script; package lock contains `@vercel/analytics` 2.0.1 |
 | Hosting | Vercel, configured by `vercel.json` |
@@ -71,7 +74,7 @@ No React, Angular, Vue, Tailwind CSS, PHP, SQL database, Firebase, or applicatio
 |   `-- share.js                # Social crawler preview and redirect page
 |-- assets/
 |   |-- favicon_io/             # Favicons and web app manifest
-|   `-- images/                 # Collection, hero, heritage, workshop, and OG media
+|   `-- images/                 # Local Open Graph media; catalog/workshop media is remote
 |-- collection/
 |   `-- index.html              # Generated shared product page
 |-- config/
@@ -81,6 +84,7 @@ No React, Angular, Vue, Tailwind CSS, PHP, SQL database, Firebase, or applicatio
 |-- docs/                       # Audits, claims review, QA matrix, generated URLs
 |-- js/
 |   |-- inquiry-list.js         # Shared inquiry storage and quote formatting
+|   |-- chatbase.js             # Deferred Chatbase widget bootstrap
 |   |-- product-page.js         # Product-page rendering and interactions
 |   |-- products-data.js        # Generated browser product array
 |   |-- share.js                # Share modal and channel actions
@@ -112,13 +116,14 @@ There are no application components, controllers, models, guards, or middleware 
 
 The repository uses a static-first, data-driven architecture:
 
-1. Developers maintain product records in `data/products.json`.
+1. Developers maintain product records in `data/products.json`; every current product image is an absolute CDN URL.
 2. `scripts/build-products.js` validates basic product integrity and generates browser data, the shared product page, sitemap entries, and URL documentation.
 3. The homepage renders product cards from `window.PANGASINAN_PRODUCTS`.
 4. The product page reads `?id=`, finds the matching product, and renders content client-side.
 5. On Vercel, `/collection/?id=` is rewritten to `api/product.js`, which injects product-specific metadata before returning the shared product HTML. Browser JavaScript then renders the visible page.
 6. Inquiry items are persisted in `localStorage`; customer contact details are persisted only in `sessionStorage`.
 7. Contact and newsletter submissions go directly from the browser to third-party services.
+8. Chatbase is injected after page load and communicates with Chatbase-hosted scripts, frames, and APIs.
 
 ```mermaid
 flowchart TD
@@ -150,6 +155,7 @@ flowchart TD
 
 - `script.js` and `js/product-page.js` depend on `js/products-data.js` and `js/inquiry-list.js` being loaded first.
 - `js/share.js` depends on product data and optionally `QRCode` from `js/vendor/qrcode.min.js`.
+- `js/chatbase.js` creates a queueing proxy and injects Chatbase's remote embed script after page load.
 - Status pages depend on `config/site-status.js`, `js/site-status-guard.js`, and `js/site-status-page.js`.
 - `api/product.js` reads generated `collection/index.html`; a production deployment must run the build first.
 
@@ -187,7 +193,7 @@ There is no database setup, migration, or seed command.
 
 ## 6. Environment Variables
 
-The repository defines and reads **no environment variables**.
+The repository defines and reads **no environment variables**. The Chatbase widget ID, public form identifiers, service URLs, production origin, and image host are hardcoded in browser or serverless source.
 
 | Variable | Required | Purpose | Example | Used by |
 |---|---|---|---|---|
@@ -305,19 +311,21 @@ No lazy-loaded modules or authenticated routes exist.
 | Gallery/lightbox | Implemented | Workshop images, filters, keyboard activation, previous/next navigation |
 | Testimonials | Implemented | Carousel and linked Facebook Reviews source |
 | Newsletter | Implemented | Brevo AJAX submission and email validation |
+| Chat assistant | Implemented | Chatbase widget is loaded on homepage and product pages after window load |
+| Fully custom blade builder | Partially implemented | Marketing section and an unused adapter exist, but no visible structured custom-order form calls it |
 | Site status modes | Implemented | Centralized flags with maintenance precedence and production-only option |
 | Payments/order checkout | Not implemented | Website requests quotations; it does not process purchases or payments |
 | Accounts/admin/order tracking | Not implemented | No authentication or server-side data storage |
 
 ## 11. Product Data Structure
 
-`data/products.json` is the only manually maintained product source. It currently contains 44 records across Itak, Bolo, Moro, Combat, Outdoor, International, and Kitchen series.
+`data/products.json` is the only manually maintained product source. It currently contains 52 records across Itak, Bolo, Moro, Combat, Outdoor, International, and Kitchen series. All 52 current image values are absolute WebP URLs on `images.pangasinanblades.com`.
 
 ```json
 {
   "id": 1,
   "slug": "itak-tagalog",
-  "image": "assets/images/collection/itak_series/itak_tagalog.webp",
+  "image": "https://images.pangasinanblades.com/collection/itak_series/itak_tagalog.webp",
   "name": "Itak Tagalog",
   "description": "Product-specific summary",
   "category": "itak",
@@ -338,7 +346,7 @@ No lazy-loaded modules or authenticated routes exist.
 |---|---|---|
 | `id` | Integer | Positive and unique; public query-string identifier |
 | `slug` | String | Required and unique; currently descriptive but not used as the route key |
-| `image` | String | Required existing `.webp` path |
+| `image` | String | Required `.webp` URL or local path; all current records use the remote image host |
 | `name` | String | Product display name |
 | `description` | String | Card, product page, sharing, metadata, and structured-data description |
 | `category` | String | `itak`, `bolo`, `moro`, `combat`, `outdoor`, `international`, or `kitchen` |
@@ -362,6 +370,7 @@ The UI also adds configurable `finish`, `intendedUse`, `customization`, and `qua
 | `js/inquiry-list.js` | Shared inquiry service | Loads/saves storage, creates duplicate keys, formats quotes and product URLs |
 | `js/product-page.js` | Product page controller | Reads query ID, renders product/meta/specs/related items, controls zoom and product inquiry dialogs |
 | `js/share.js` | Share service/UI | Builds product/collection share data, controls modal/focus, clipboard, QR, and channel URLs |
+| `js/chatbase.js` | Chatbase loader | Queues API calls and injects the hosted Chatbase widget after page load |
 | `config/site-status.js` | Status configuration | Flags, production hosts, branding, messages, images, contact/social links |
 | `js/site-status-guard.js` | Global route guard | Resolves maintenance/coming-soon priority and redirects |
 | `js/site-status-page.js` | Status page view renderer | Applies config to shared status markup |
@@ -432,7 +441,7 @@ There is no external component library or CSS preprocessor.
 
 ### Build/API errors
 
-- Build fails on incomplete data, duplicate IDs/slugs, or missing images
+- Build fails on incomplete data, duplicate IDs/slugs, or missing local images; remote-image existence is not checked
 - Extended validation checks categories, statuses, WebP use, internal assets, IDs, JSON-LD, sitemap, status routing, and direct static responses
 - Unknown product API IDs return 404; unknown share IDs redirect to the collection
 
@@ -456,6 +465,8 @@ There is no global server exception middleware or remote error-monitoring servic
 | High | `index.html` | Web3Forms identifier and Brevo hosted endpoint are browser-visible and can be abused if provider restrictions are weak | Restrict allowed domains, enable provider spam/rate controls, rotate identifiers if abused, and monitor usage |
 | Medium | `vercel.json`, `index.html`, `script.js` | CSP permits `'unsafe-inline'`; homepage has 24 inline handlers and 23 inline style attributes | Move handlers/styles to modules and classes, then remove `'unsafe-inline'` |
 | Medium | Third-party forms | Submission rate limiting is delegated entirely to Web3Forms/Brevo | Configure limits and spam protection in both dashboards |
+| Medium | `js/chatbase.js` and `vercel.json` | The chatbot depends on remote executable code and broad Chatbase/Cloudflare/Vercel CSP allowances | Review Chatbase privacy/data retention and narrow CSP hosts where practical |
+| Medium | Build validators | Remote product image URLs pass without an availability or content-type check | Add an optional deployment-time remote asset validator with timeouts |
 | Medium | Dependencies | No automated dependency audit command or CI exists | Run `npm audit` during releases and add dependency update monitoring |
 | Low | Client storage | Inquiry content remains on the device until cleared | Keep personal details session-only and document the persistence behavior |
 
@@ -511,6 +522,8 @@ No Dockerfile, CI/CD workflow, GitHub Actions workflow, staging configuration, o
 | Severity | File/area | Issue | Recommended fix |
 |---|---|---|---|
 | High | `data/products.json`, `docs/CONTENT-CLAIMS-REVIEW.md` | Technical specs, hardness values, policies, and manufacturing/history claims still require owner verification | Complete business and technical approval before treating claims as guaranteed |
+| High | `index.html`, `script.js` | "Start a Custom Order" only opens the generic contact path; no structured custom-build form uses `addCustomOrderToInquiryList()` | Build a real custom-order configurator that creates a normal quote-list item |
+| High | `script.js`, `js/inquiry-list.js` | The unused custom-order adapter captures engraving, but duplicate keys and quotation formatting omit it | Include engraving in display, editing, duplicate matching, and every quotation channel before enabling the builder |
 | High | Ready-stock records | No quantity, last-confirmed timestamp, expiry rule, or stock owner exists | Add an operational stock-verification process and data fields |
 | Medium | `script.js` | 2,029-line multi-feature script has broad responsibilities | Split into navigation, catalog, inquiry, gallery, testimonials, and forms modules after regression tests exist |
 | Medium | `js/product-page.js` and `script.js` | Inquiry rendering/dialog logic remains duplicated | Move rendering and dialog state into shared modules |
@@ -519,7 +532,8 @@ No Dockerfile, CI/CD workflow, GitHub Actions workflow, staging configuration, o
 | Medium | `script.js` gallery data | Some workshop cards still reference PNG/JPG originals despite WebP copies | Use optimized thumbnails and preserve originals for lightbox only |
 | Medium | Category definitions | Categories are hardcoded in homepage and validator logic | Introduce shared category configuration or derive filter options from data |
 | Medium | Product configurator | Finish/intended-use defaults and allowed options are global rather than product-specific | Add validated per-product customization metadata |
-| Medium | Product IDs | Numeric IDs are public URLs and were recently reordered | Treat IDs as stable after publication or add permanent slug/canonical migration rules |
+| Medium | Product IDs | Numeric IDs are public URLs and are intentionally non-sequential | Treat IDs as immutable after publication; never renumber based on array order |
+| Medium | Remote media | Product and workshop availability depends on an external image hostname | Add monitoring, cache-policy documentation, and a fallback image strategy |
 | Medium | Testing | No automated real-browser or accessibility suite | Add Playwright and accessibility checks |
 | Low | Inline markup | 24 inline handlers and 23 inline styles block strict CSP | Move gradually into external JS/CSS |
 | Low | Documentation | Older audits contain stale product counts and line references | Refresh or archive audits after this document is accepted |
@@ -530,10 +544,12 @@ No Dockerfile, CI/CD workflow, GitHub Actions workflow, staging configuration, o
 ### High Priority
 
 1. Verify every published product specification and business-policy claim.
-2. Establish ready-stock confirmation fields and an operational update process.
-3. Keep public product IDs stable and document URL migration rules before future reordering.
-4. Restrict and monitor Web3Forms and Brevo integrations in their provider dashboards.
-5. Add browser-level regression tests for the complete quotation journey.
+2. Define and implement the structured custom-order data model and builder.
+3. Add engraving and all custom fields to duplicate matching and quotation output.
+4. Establish ready-stock confirmation fields and an operational update process.
+5. Keep public product IDs stable and document URL migration rules.
+6. Restrict and monitor Web3Forms, Brevo, Chatbase, and the image host.
+7. Add browser-level regression tests for the complete quotation journey.
 
 ### Medium Priority
 
@@ -569,7 +585,7 @@ No Dockerfile, CI/CD workflow, GitHub Actions workflow, staging configuration, o
 
 ### Add or update a product
 
-1. Add an optimized WebP under `assets/images/collection/{series}/`.
+1. Upload an optimized WebP to the matching collection path on `images.pangasinanblades.com` and confirm its public URL.
 2. Add or edit the record in `data/products.json`.
 3. Use a unique, stable positive `id` and unique `slug`.
 4. Supply all required top-level and `details` fields.
@@ -598,7 +614,7 @@ Not applicable until a database technology and migration tool are deliberately i
 
 ### Update images
 
-Keep catalog references on WebP files. Preserve source PNG/JPG assets until visual comparison is complete. Maintain meaningful alt text, intrinsic dimensions, dark-background transparency, and zoom quality.
+Keep catalog references on WebP files hosted at `images.pangasinanblades.com`. Confirm the public URL before committing because the current build does not fetch remote assets. Maintain meaningful alt text, intrinsic dimensions, dark-background transparency, cache behavior, and zoom quality.
 
 ### Change availability
 
@@ -612,19 +628,21 @@ Set `featured` to `true`, rebuild, and check the homepage count/order. There is 
 
 ### Files and directories scanned
 
-- All 182 non-`node_modules`, non-`.git` files were inventoried.
+- All 47 current non-`node_modules`, non-`.git` files were inventoried.
 - Source/configuration reviewed: root HTML/CSS/JS/JSON/Markdown files, `api/`, `config/`, `data/`, `js/`, `scripts/`, `templates/`, and `docs/`.
 - Asset directories were inventoried by path, extension, and product references. Binary image contents were not individually semantically classified in this documentation pass.
 - Generated files were compared with their source/build scripts.
 
 ### Features confirmed from implementation
 
-Catalog rendering, dynamic product routing, metadata rendering, sharing, QR generation, product configuration, inquiry persistence/editing, duplicate handling, quotation formatting, customer session storage, contact/newsletter AJAX submission, gallery/lightbox, testimonials, responsive navigation/dialogs, global status routing, build generation, and validation scripts.
+Catalog rendering, dynamic product routing, CDN-backed media, metadata rendering, sharing, QR generation, product configuration, inquiry persistence/editing, duplicate handling, quotation formatting, customer session storage, contact/newsletter AJAX submission, Chatbase loading, gallery/lightbox, testimonials, responsive navigation/dialogs, global status routing, build generation, and validation scripts.
 
 ### Features inferred but not confirmed
 
 - Successful delivery of every Web3Forms email depends on provider configuration outside the repository.
 - Successful Brevo subscription and list assignment depend on the hosted Brevo form configuration.
+- Chatbase answers, data retention, availability, and assistant configuration depend on the external Chatbase account.
+- Remote product and workshop image availability depends on the external image host.
 - Facebook/Messenger preview cache behavior depends on external platforms.
 - Business claims and exact production specifications require owner approval.
 
@@ -634,6 +652,7 @@ Catalog rendering, dynamic product routing, metadata rendering, sharing, QR gene
 - No automated browser, accessibility, visual-regression, or third-party integration test suite
 - No CI/CD workflow in the repository
 - No responsive image pipeline
+- No remote image availability validation or local product-image fallback
 - No server-side customer or inquiry storage
 - No environment-variable layer
 

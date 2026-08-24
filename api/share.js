@@ -3,7 +3,7 @@
 const products = require('../data/products.json');
 
 const SITE_URL = 'https://www.pangasinanblades.com';
-const SHARE_PREVIEW_VERSION = '5';
+const SHARE_PREVIEW_VERSION = '6';
 
 function escapeHtml(value = '') {
   return String(value)
@@ -18,6 +18,12 @@ function descriptionFor(product) {
   return product.description
     || product.desc
     || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
+}
+
+function absoluteAssetUrl(value) {
+  const asset = String(value || '').trim();
+  if (/^https?:\/\//i.test(asset)) return asset;
+  return `${SITE_URL}/${asset.replace(/^\//, '')}`;
 }
 
 module.exports = function shareProduct(request, response) {
@@ -35,7 +41,7 @@ module.exports = function shareProduct(request, response) {
   const destination = `${SITE_URL}/collection/?id=${product.id}`;
   const version = String(request.query.v || SHARE_PREVIEW_VERSION).replace(/[^a-zA-Z0-9._-]/g, '');
   const shareUrl = `${SITE_URL}/share/?id=${product.id}&v=${encodeURIComponent(version)}`;
-  const image = `${SITE_URL}/${product.image.replace(/^\//, '')}`;
+  const image = absoluteAssetUrl(product.image);
   const safeDestination = JSON.stringify(destination).replace(/</g, '\\u003c');
 
   response.setHeader('Content-Type', 'text/html; charset=utf-8');

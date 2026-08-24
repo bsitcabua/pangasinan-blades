@@ -21,6 +21,12 @@ function descriptionFor(product) {
     || `${product.name} from the ${product.series}, crafted by Pangasinan Blades and configurable to your preferred specifications.`;
 }
 
+function absoluteAssetUrl(value) {
+  const asset = String(value || '').trim();
+  if (/^https?:\/\//i.test(asset)) return asset;
+  return `${SITE_URL}/${asset.replace(/^\//, '')}`;
+}
+
 module.exports = function renderProduct(request, response) {
   const productId = Number(request.query.id);
   const product = products.find(item => Number(item.id) === productId);
@@ -33,7 +39,7 @@ module.exports = function renderProduct(request, response) {
   const title = `${product.name} | Pangasinan Blades`;
   const description = descriptionFor(product);
   const canonical = `${SITE_URL}/collection/?id=${product.id}`;
-  const image = `${SITE_URL}/${product.image.replace(/^\//, '')}`;
+  const image = absoluteAssetUrl(product.image);
   const structuredData = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
