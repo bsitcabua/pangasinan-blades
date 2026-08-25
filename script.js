@@ -885,8 +885,16 @@ async function submitQuoteRequestModal(event) {
     const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
     const result = await response.json();
     if (!response.ok || !result.success) throw new Error('Quote request failed');
-    if (status) status.textContent = 'Thank you. Your quote request has been sent successfully.';
     form.reset();
+    inquiryList = [];
+    saveInquiryList();
+    updateInquiryBadge();
+    document.getElementById('inquiryListModal')?.classList.remove('open');
+    const messageCounter = document.getElementById('quoteMessageCounter');
+    if (messageCounter) messageCounter.textContent = '0 / 2000';
+    if (status) status.textContent = '';
+    closeQuoteRequestModal();
+    INQUIRY_STORE?.notifyQuoteSubmitted?.();
   } catch (error) {
     console.error('Quote request submission failed:', error);
     if (status) status.textContent = 'We could not send your request right now. Please try again or contact us through Messenger.';

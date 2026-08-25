@@ -739,10 +739,16 @@
       const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error('Quote request failed');
-      if (status) status.textContent = 'Thank you. Your quote request has been sent successfully.';
       form.reset();
-      const messageField = form.querySelector('[data-quote-message]');
-      if (messageField) messageField.value = quotationText({ includeCustomer: false, includeGreeting: false, includeClosing: false });
+      items = store.save([]);
+      editingInquiryKey = null;
+      updateBadges();
+      inquiryModal?.classList.remove('open');
+      const counter = document.getElementById('productQuoteMessageCounter');
+      if (counter) counter.textContent = '0 / 2000';
+      if (status) status.textContent = '';
+      closeDialog(quoteRequestModal);
+      store.notifyQuoteSubmitted?.();
     } catch (error) {
       console.error('Quote request submission failed:', error);
       if (status) status.textContent = 'We could not send your request right now. Please try again or contact us through Messenger.';

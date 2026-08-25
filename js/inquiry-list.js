@@ -273,6 +273,21 @@
     return sections.join('\n\n--------------------------------------------------\n\n');
   }
 
+  function notifyQuoteSubmitted(message = 'Your quote request has been sent successfully. We will review it and contact you as soon as possible.') {
+    document.querySelector('.quote-success-notification')?.remove();
+    const notification = document.createElement('div');
+    notification.className = 'quote-success-notification';
+    notification.setAttribute('role', 'status');
+    notification.setAttribute('aria-live', 'polite');
+    notification.innerHTML = `<span class="quote-success-icon" aria-hidden="true">&#10003;</span><div><strong>Quote Request Sent</strong><span>${message}</span></div><button type="button" aria-label="Dismiss notification">&times;</button>`;
+    notification.querySelector('button')?.addEventListener('click', () => notification.remove());
+    document.body.appendChild(notification);
+    requestAnimationFrame(() => notification.classList.add('visible'));
+    window.setTimeout(() => {
+      notification.classList.remove('visible');
+      window.setTimeout(() => notification.remove(), 300);
+    }, 6500);
+  }
   global.PangasinanInquiry = {
     STORAGE_KEY,
     CUSTOMER_STORAGE_KEY,
@@ -298,5 +313,6 @@
     formatRequestedBlades,
     message,
     quotation,
+    notifyQuoteSubmitted,
   };
 })(window);
