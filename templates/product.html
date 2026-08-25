@@ -125,7 +125,7 @@
     <section class="inquiry-list-panel">
       <div class="inquiry-list-head"><div><span class="inquiry-list-kicker">Quote Builder</span><h2 id="productInquiryTitle">Inquiry List</h2></div><button class="inquiry-list-close" type="button" data-close-inquiry aria-label="Close inquiry list">&times;</button></div>
       <div class="inquiry-list-content">
-        <details class="inquiry-customer-fields" data-customer-disclosure open>
+        <!-- <details class="inquiry-customer-fields" data-customer-disclosure open>
           <summary><span>Customer Information</span><small data-customer-summary-status>Needs information</small></summary>
           <p>Used only for this browser session and included in your quotation message.</p>
           <div class="inquiry-customer-grid">
@@ -133,16 +133,34 @@
             <label><span>Last Name</span><input type="text" data-inquiry-customer-field="lastName" autocomplete="family-name" placeholder="Dela Cruz"></label>
             <label><span>Email</span><input type="email" data-inquiry-customer-field="email" autocomplete="email" placeholder="juan@email.com"></label>
             <label><span>Phone Number</span><input type="tel" data-inquiry-customer-field="phone" autocomplete="tel" placeholder="+63 912 345 6789"></label>
-            <label class="inquiry-customer-wide"><span>Complete Address</span><input type="text" data-inquiry-customer-field="address" autocomplete="street-address" placeholder="Street, Barangay, City or Municipality, Province, Postal Code"></label>
+            <label class="inquiry-customer-wide"><span>Address</span><input type="text" data-inquiry-customer-field="address" autocomplete="street-address" placeholder="Street, Barangay, City or Municipality, Province, Postal Code"></label>
             <label class="inquiry-customer-wide"><span>Additional Notes</span><textarea data-inquiry-customer-field="notes" maxlength="500" rows="3" placeholder="Add delivery details, questions, or other information for the quotation"></textarea></label>
           </div>
-        </details>
+        </details> -->
         <div class="inquiry-list-body" data-inquiry-body></div>
       </div>
       <div class="inquiry-list-actions"><button class="btn-ghost" type="button" data-copy-inquiry>Copy Quote Request</button><button class="btn-ghost" type="button" data-clear-inquiry>Clear List</button><button class="btn-primary" type="button" data-send-inquiry>Request a Quote</button></div><p class="copy-inquiry-error" data-copy-error role="alert" hidden>Unable to copy the quote request. Please try again or copy it manually.</p>
     </section>
   </div>
 
+  <div class="duplicate-inquiry-modal quote-request-modal" id="productQuoteRequestModal" role="dialog" aria-modal="true" aria-labelledby="productQuoteRequestTitle">
+    <div class="duplicate-inquiry-backdrop" data-close-quote-request aria-hidden="true"></div>
+    <section class="duplicate-inquiry-panel quote-request-panel">
+      <button type="button" class="inquiry-list-close" data-close-quote-request aria-label="Close quote request form">&times;</button>
+      <span class="inquiry-list-kicker">Quote Builder</span><h2 id="productQuoteRequestTitle">Request a Quote</h2>
+      <p class="quote-request-intro">Send your selected blade specifications to Pangasinan Blades. We will confirm availability, pricing, shipping, and production timing.</p>
+      <form class="contact-form quote-request-form" data-quote-request-form novalidate>
+        <input type="hidden" name="access_key" value="6eb9019f-5190-4ed5-b833-4d772f251daf"><input type="hidden" name="subject" value="Pangasinan Blades Product Inquiry"><input type="hidden" name="from_name" value="Pangasinan Blades Website">
+        <div class="form-row"><div class="form-group"><label class="form-label" for="productQuoteFirstName">First Name *</label><input class="form-input" id="productQuoteFirstName" name="first_name" type="text" placeholder="Juan" required autocomplete="given-name"></div><div class="form-group"><label class="form-label" for="productQuoteLastName">Last Name *</label><input class="form-input" id="productQuoteLastName" name="last_name" type="text" placeholder="Dela Cruz" required autocomplete="family-name"></div></div>
+        <div class="form-row"><div class="form-group"><label class="form-label" for="productQuoteEmail">Email Address *</label><input class="form-input" id="productQuoteEmail" name="email" type="email" placeholder="juan@email.com" required autocomplete="email"></div><div class="form-group"><label class="form-label" for="productQuotePhone">Phone (optional)</label><input class="form-input" id="productQuotePhone" name="phone" type="tel" placeholder="+63 912 345 6789" autocomplete="tel"></div></div>
+        <div class="form-group"><label class="form-label" for="productQuoteAddress">Complete Address *</label><input class="form-input" id="productQuoteAddress" name="complete_address" type="text" required placeholder="Street, Barangay, City or Municipality, Province, Postal Code" autocomplete="street-address"></div>
+        <div class="form-group"><label class="form-label" for="productQuoteInquiryType">Inquiry Type *</label><select class="form-select" id="productQuoteInquiryType" name="inquiry_type" required><option value="Product Availability">Product Availability</option><option value="Custom Blade Order">Custom Blade Order</option><option value="Price Quotation" selected>Price Quotation</option><option value="International Order">International Order</option><option value="Shipping Inquiry">Shipping Inquiry</option><option value="Existing Order Status">Existing Order Status</option><option value="Repair / Warranty">Repair / Warranty</option><option value="Wholesale">Wholesale</option><option value="Collaboration">Collaboration</option><option value="Other">Other</option></select></div>
+        <div class="form-group"><label class="form-label" for="productQuoteMessage">Your Message *</label><textarea class="form-textarea" id="productQuoteMessage" name="message" rows="8" minlength="10" maxlength="2000" required data-quote-message aria-describedby="productQuoteMessageCounter"></textarea><div class="form-counter" id="productQuoteMessageCounter" aria-live="polite">0 / 2000</div></div>
+        <div class="form-consent"><input type="checkbox" id="productQuoteConsent" name="privacy_consent" value="Agreed" required><label for="productQuoteConsent">I agree that Pangasinan Blades may use the information provided to respond to my inquiry.</label></div>
+        <div class="form-submit"><button type="submit" class="btn-primary"><span data-quote-submit-label>Submit Quote Request</span><span aria-hidden="true">→</span></button></div><div class="form-status" data-quote-request-status role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </div>
   <div class="duplicate-inquiry-modal" id="productDuplicateModal" role="dialog" aria-modal="true" aria-labelledby="productDuplicateTitle">
     <div class="duplicate-inquiry-backdrop" data-cancel-duplicate aria-hidden="true"></div>
     <section class="duplicate-inquiry-panel"><span class="inquiry-list-kicker">Already Added</span><h2 id="productDuplicateTitle">Matching Build Found</h2><div class="duplicate-inquiry-body" data-duplicate-body></div><div class="duplicate-inquiry-actions"><button class="btn-ghost" type="button" data-cancel-duplicate>Cancel</button><button class="btn-primary" type="button" data-confirm-duplicate>Continue</button></div></section>

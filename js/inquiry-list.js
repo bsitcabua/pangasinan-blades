@@ -251,7 +251,7 @@
         `Name: ${customerName}`,
         `Email: ${customer.email}`,
         `Phone Number: ${customer.phone}`,
-        `Complete Address: ${customer.address}`,
+        `Address: ${customer.address}`,
       ].join('\n'));
     }
 

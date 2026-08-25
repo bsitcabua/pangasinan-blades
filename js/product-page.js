@@ -99,6 +99,7 @@
   const removeModal = document.getElementById('productRemoveModal');
   const clearModal = document.getElementById('productClearModal');
   const copySuccessModal = document.getElementById('productCopySuccessModal');
+  const quoteRequestModal = document.getElementById('productQuoteRequestModal');
 
   function getCustomer() {
     return store.loadCustomer?.() || {};
@@ -478,7 +479,7 @@
     });
     if (!body) return;
     if (!items.length) {
-      body.innerHTML = '<div class="inquiry-list-empty"><strong>No blades added yet.</strong><span>Configure a blade and add it to begin your inquiry.</span></div>';
+      body.innerHTML = '<div class="inquiry-list-empty"><strong>No blades added yet.</strong><span>Choose a blade and add it to begin your quote request.</span><a class="btn-primary inquiry-empty-browse" href="../index.html#full-collection">Browse Blades</a></div>';
       return;
     }
     body.innerHTML = items.map(item => {
@@ -500,14 +501,33 @@
     items = result.items;
     updateBadges();
     if (mode === 'inquire') return goToContact();
-    renderInquiryList();
-    updateCustomerDisclosure(true);
-    openDialog(inquiryModal);
-    window.requestAnimationFrame(() => updateCustomerDisclosure(true));
+    // Adding to the list is intentionally non-blocking; users can open it
+    // from the header when they are ready to review or submit a quote.
+    const addButton = document.querySelector('[data-add-inquiry]');
+    if (addButton) {
+      const originalLabel = addButton.textContent;
+      addButton.textContent = 'Added to Inquiry List';
+      addButton.setAttribute('aria-live', 'polite');
+      window.setTimeout(() => {
+        addButton.textContent = originalLabel;
+        addButton.removeAttribute('aria-live');
+      }, 2200);
+    }
   }
 
   function goToContact() {
     const message = quotationText({ includeCustomer: false, includeGreeting: false, includeClosing: false });
+    const form = document.querySelector('[data-quote-request-form]');
+    const messageField = form?.querySelector('[data-quote-message]');
+    if (messageField) {
+      messageField.value = message;
+      messageField.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    if (quoteRequestModal) {
+      openDialog(quoteRequestModal);
+      messageField?.focus();
+      return;
+    }
     sessionStorage.setItem('pangasinanBladesContactPrefill', message);
     window.location.href = window.location.protocol === 'file:' ? '../index.html#contact' : '/#contact';
   }
@@ -698,6 +718,40 @@
     if (items.length) openDialog(clearModal);
   });
   document.querySelector('[data-send-inquiry]')?.addEventListener('click', goToContact);
+  document.querySelectorAll('[data-close-quote-request]').forEach(button => button.addEventListener('click', () => closeDialog(quoteRequestModal)));
+  const productQuoteMessage = document.querySelector('[data-quote-message]');
+  productQuoteMessage?.addEventListener('input', () => {
+    const counter = document.getElementById('productQuoteMessageCounter');
+    if (counter) counter.textContent = `${productQuoteMessage.value.length} / 2000`;
+  });
+  document.querySelector('[data-quote-request-form]')?.addEventListener('submit', async event => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const submit = form.querySelector('button[type="submit"]');
+    const status = form.querySelector('[data-quote-request-status]');
+    if (!form.reportValidity() || !submit) return;
+    submit.disabled = true;
+    submit.setAttribute('aria-busy', 'true');
+    const label = submit.querySelector('[data-quote-submit-label]');
+    if (label) label.textContent = 'Sending Quote Request...';
+    if (status) status.textContent = 'Sending your quote request...';
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      const result = await response.json();
+      if (!response.ok || !result.success) throw new Error('Quote request failed');
+      if (status) status.textContent = 'Thank you. Your quote request has been sent successfully.';
+      form.reset();
+      const messageField = form.querySelector('[data-quote-message]');
+      if (messageField) messageField.value = quotationText({ includeCustomer: false, includeGreeting: false, includeClosing: false });
+    } catch (error) {
+      console.error('Quote request submission failed:', error);
+      if (status) status.textContent = 'We could not send your request right now. Please try again or contact us through Messenger.';
+    } finally {
+      submit.disabled = false;
+      submit.removeAttribute('aria-busy');
+      if (label) label.textContent = 'Submit Quote Request';
+    }
+  });
   function saveInquiryEditor(editor) {
     if (!editor) return false;
     const originalKey = decodeURIComponent(editor.dataset.editItem);

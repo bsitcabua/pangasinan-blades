@@ -842,22 +842,59 @@ function quotationMessage(options = {}) {
 
 function sendInquiryList() {
   if (!inquiryList.length) return;
-
+  const quoteForm = document.getElementById('quoteRequestForm');
+  const messageField = quoteForm?.querySelector('textarea[name="message"]');
+  const modal = document.getElementById('quoteRequestModal');
+  if (messageField) {
+    messageField.value = quotationMessage({ includeCustomer: false, includeGreeting: false, includeClosing: false });
+    messageField.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  closeInquiryListModal();
+  if (modal) {
+    modal.classList.add('open');
+    activateDialogFocus(modal);
+    messageField?.focus();
+    return;
+  }
   const total = getInquiryListCount();
   const label = total === 1 ? inquiryList[0].name : `${total} selected blades`;
-  closeInquiryListModal();
-
-  const fullCatalog = document.getElementById('fullCatalogModal');
-  if (fullCatalog && isFullCatalogOpen()) {
-    fullCatalog.style.display = 'none';
-    deactivateDialogFocus(fullCatalog);
-    if (window.location.hash === '#full-collection') {
-      history.replaceState(null, '', `${window.location.pathname}${window.location.search}#contact`);
-    }
-  }
-  document.body.style.overflow = '';
   populateContactCustomer(getInquiryCustomer(), true);
   scrollToContact(label, quotationMessage({ includeCustomer: false, includeGreeting: false, includeClosing: false }));
+}
+
+function closeQuoteRequestModal() {
+  const modal = document.getElementById('quoteRequestModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  deactivateDialogFocus(modal);
+  document.body.style.overflow = '';
+}
+
+async function submitQuoteRequestModal(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const submit = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('quoteRequestStatus');
+  const label = document.getElementById('quoteRequestSubmitLabel');
+  if (!form.reportValidity() || !submit) return;
+  submit.disabled = true;
+  submit.setAttribute('aria-busy', 'true');
+  if (label) label.textContent = 'Sending Quote Request...';
+  if (status) status.textContent = 'Sending your quote request...';
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+    const result = await response.json();
+    if (!response.ok || !result.success) throw new Error('Quote request failed');
+    if (status) status.textContent = 'Thank you. Your quote request has been sent successfully.';
+    form.reset();
+  } catch (error) {
+    console.error('Quote request submission failed:', error);
+    if (status) status.textContent = 'We could not send your request right now. Please try again or contact us through Messenger.';
+  } finally {
+    submit.disabled = false;
+    submit.removeAttribute('aria-busy');
+    if (label) label.textContent = 'Submit Quote Request';
+  }
 }
 
 function fallbackCopyText(text) {
@@ -1001,6 +1038,7 @@ function renderInquiryListModal() {
       <div class="inquiry-list-empty">
         <strong>No blades added yet.</strong>
         <span>Choose a blade and add it to begin your quote request.</span>
+        <a class="btn-primary inquiry-empty-browse" href="#full-collection" onclick="closeInquiryListModal()">Browse Blades</a>
       </div>`;
     updateInquiryActionAvailability();
     return;
@@ -1439,6 +1477,15 @@ document.addEventListener('keydown', e => {
     else draw();
   });
 })();
+
+const quoteRequestForm = document.getElementById('quoteRequestForm');
+const quoteRequestMessage = quoteRequestForm?.querySelector('textarea[name="message"]');
+quoteRequestMessage?.addEventListener('input', () => {
+  const counter = document.getElementById('quoteMessageCounter');
+  if (counter) counter.textContent = `${quoteRequestMessage.value.length} / 2000`;
+});
+quoteRequestForm?.addEventListener('submit', submitQuoteRequestModal);
+document.addEventListener('keydown', event => { if (event.key === 'Escape') closeQuoteRequestModal(); });
 
 document.addEventListener('DOMContentLoaded', function() {
   loadInquiryList();
