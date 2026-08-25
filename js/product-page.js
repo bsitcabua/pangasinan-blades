@@ -519,6 +519,7 @@
     const message = quotationText({ includeCustomer: false, includeGreeting: false, includeClosing: false });
     const form = document.querySelector('[data-quote-request-form]');
     const messageField = form?.querySelector('[data-quote-message]');
+    store.beginQuoteSubmission?.(form);
     if (messageField) {
       messageField.value = message;
       messageField.dispatchEvent(new Event('input', { bubbles: true }));
@@ -730,6 +731,11 @@
     const submit = form.querySelector('button[type="submit"]');
     const status = form.querySelector('[data-quote-request-status]');
     if (!form.reportValidity() || !submit) return;
+    const guard = store.validateQuoteSubmission?.(form) || { ok: true };
+    if (!guard.ok) {
+      if (status) status.textContent = guard.message;
+      return;
+    }
     submit.disabled = true;
     submit.setAttribute('aria-busy', 'true');
     const label = submit.querySelector('[data-quote-submit-label]');
@@ -739,6 +745,8 @@
       const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
       const result = await response.json();
       if (!response.ok || !result.success) throw new Error('Quote request failed');
+      store.markQuoteSubmitted?.(form, guard.fingerprint);
+      store.resetQuoteCaptcha?.();
       form.reset();
       items = store.save([]);
       editingInquiryKey = null;

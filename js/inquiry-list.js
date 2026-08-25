@@ -5,6 +5,10 @@
   const CUSTOMER_STORAGE_KEY = 'pangasinanBladesInquiryCustomer';
   const PRODUCT_URL_BASE = 'https://www.pangasinanblades.com/collection/?id=';
   const BELT_LOOP_OPTIONS = ['None', 'Stainless Steel Belt Loop', 'Kydex Belt Loop'];
+  const QUOTE_GUARD_STORAGE_KEY = 'pangasinanBladesQuoteGuard';
+  const QUOTE_COOLDOWN_MS = 60 * 1000;
+  const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
+  const MINIMUM_COMPLETION_MS = 3000;
   const STATUS_MESSAGES = Object.freeze({
     empty: 'Your Inquiry List is empty. Add at least one blade before continuing.',
     copyFailed: 'Unable to copy the quote request. Please try again or copy it manually.',
@@ -273,6 +277,74 @@
     return sections.join('\n\n--------------------------------------------------\n\n');
   }
 
+  function beginQuoteSubmission(form) {
+    if (form) form.dataset.quoteStartedAt = String(Date.now());
+  }
+
+  function quoteFingerprint(form) {
+    const ignored = new Set(['access_key', 'botcheck', 'h-captcha-response', 'g-recaptcha-response', 'cf-turnstile-response']);
+    const fields = [];
+    new FormData(form).forEach((value, key) => {
+      if (ignored.has(key) || typeof value !== 'string') return;
+      fields.push(`${key}:${normalize(value)}`);
+    });
+    const source = fields.sort().join('|');
+    let hash = 5381;
+    for (let index = 0; index < source.length; index += 1) hash = ((hash << 5) + hash) ^ source.charCodeAt(index);
+    return (hash >>> 0).toString(36);
+  }
+
+  function loadQuoteGuard() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(QUOTE_GUARD_STORAGE_KEY) || '{}');
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch (error) {
+      localStorage.removeItem(QUOTE_GUARD_STORAGE_KEY);
+      return {};
+    }
+  }
+
+  function validateQuoteSubmission(form) {
+    if (!form) return { ok: false, message: 'The quote form is unavailable. Please refresh and try again.' };
+    if (form.elements.botcheck?.checked) return { ok: false, message: 'Unable to submit this request. Please refresh and try again.' };
+
+    const startedAt = Number(form.dataset.quoteStartedAt) || Date.now();
+    if (Date.now() - startedAt < MINIMUM_COMPLETION_MS) {
+      return { ok: false, message: 'Please take a moment to review your quote request before submitting.' };
+    }
+
+    const captcha = form.querySelector('[name="h-captcha-response"]');
+    if (form.querySelector('.h-captcha') && (!captcha || !captcha.value.trim())) {
+      return { ok: false, message: 'Please complete the security verification before submitting.' };
+    }
+
+    const guard = loadQuoteGuard();
+    const now = Date.now();
+    const wait = QUOTE_COOLDOWN_MS - (now - (Number(guard.lastSubmittedAt) || 0));
+    if (wait > 0) {
+      return { ok: false, message: `Your previous request was sent. Please wait ${Math.ceil(wait / 1000)} seconds before submitting again.` };
+    }
+
+    const fingerprint = quoteFingerprint(form);
+    if (guard.lastFingerprint === fingerprint && now - (Number(guard.lastFingerprintAt) || 0) < DUPLICATE_WINDOW_MS) {
+      return { ok: false, message: 'This same quote request was already sent recently. Please change the details or try again later.' };
+    }
+
+    return { ok: true, fingerprint };
+  }
+
+  function markQuoteSubmitted(form, fingerprint = quoteFingerprint(form)) {
+    try {
+      const now = Date.now();
+      localStorage.setItem(QUOTE_GUARD_STORAGE_KEY, JSON.stringify({ lastSubmittedAt: now, lastFingerprint: fingerprint, lastFingerprintAt: now }));
+    } catch (error) {
+      // Submission remains successful when browser storage is unavailable.
+    }
+  }
+
+  function resetQuoteCaptcha() {
+    try { global.hcaptcha?.reset?.(); } catch (error) { /* Captcha will reset on the next page load. */ }
+  }
   function notifyQuoteSubmitted(message = 'Your quote request has been sent successfully. We will review it and contact you as soon as possible.') {
     document.querySelector('.quote-success-notification')?.remove();
     const notification = document.createElement('div');
@@ -313,6 +385,10 @@
     formatRequestedBlades,
     message,
     quotation,
+    beginQuoteSubmission,
+    validateQuoteSubmission,
+    markQuoteSubmitted,
+    resetQuoteCaptcha,
     notifyQuoteSubmitted,
   };
 })(window);

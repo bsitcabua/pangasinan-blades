@@ -590,6 +590,7 @@
       <div class="form-group"><label class="form-label" for="quoteAddress">Complete Address *</label><input class="form-input" id="quoteAddress" name="complete_address" type="text" required placeholder="Street, Barangay, City or Municipality, Province, Postal Code" autocomplete="street-address"></div>
       <div class="form-group"><label class="form-label" for="quoteInquiryType">Inquiry Type *</label><select class="form-select" id="quoteInquiryType" name="inquiry_type" required><option value="Product Availability">Product Availability</option><option value="Custom Blade Order">Custom Blade Order</option><option value="Price Quotation" selected>Price Quotation</option><option value="International Order">International Order</option><option value="Shipping Inquiry">Shipping Inquiry</option><option value="Existing Order Status">Existing Order Status</option><option value="Repair / Warranty">Repair / Warranty</option><option value="Wholesale">Wholesale</option><option value="Collaboration">Collaboration</option><option value="Other">Other</option></select></div>
       <div class="form-group"><label class="form-label" for="quoteMessage">Your Message *</label><textarea class="form-textarea" id="quoteMessage" name="message" rows="8" minlength="10" maxlength="2000" required aria-describedby="quoteMessageCounter"></textarea><div class="form-counter" id="quoteMessageCounter" aria-live="polite">0 / 2000</div></div>
+      <div class="quote-captcha"><div class="h-captcha" data-captcha="true" data-theme="dark"></div></div>
       <div class="form-consent"><input type="checkbox" id="quotePrivacyConsent" name="privacy_consent" value="Agreed" required><label for="quotePrivacyConsent">I agree that Pangasinan Blades may use the information provided to respond to my inquiry.</label></div>
       <div class="form-submit"><button type="submit" class="btn-primary contact-submit"><span class="contact-submit-spinner" aria-hidden="true"></span><span class="contact-submit-label">Submit Quote Request</span><span aria-hidden="true">→</span></button></div>
       <div class="form-status" id="quoteRequestStatus" role="status" aria-live="polite" aria-atomic="true"></div>
@@ -1290,6 +1291,7 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
         <div class="form-counter" id="messageCounter" aria-live="polite">0 / 2000</div>
       </div>
 
+      <div class="quote-captcha"><div class="h-captcha" data-captcha="true" data-theme="dark"></div></div>
       <div class="form-consent">
         <input type="checkbox" id="privacyConsentForm" name="privacy_consent" value="Agreed" required>
         <label for="privacyConsentForm">I agree that Pangasinan Blades may use the information provided to respond to my inquiry.</label>
@@ -1446,6 +1448,7 @@ At Pangasinan, I received my ginunting in less than 2 weeks. I highly recommend 
 <!-- ============================================================
      MAIN JS — Scroll, Reveal, Nav, FAQ, Carousel, Stats
      ============================================================ -->
+<script src="https://web3forms.com/client/script.js" async defer></script>
 <script src="js/inquiry-list.js"></script>
 <script src="script.js"></script>
 <script src="js/vendor/qrcode.min.js"></script>
