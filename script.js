@@ -230,7 +230,6 @@ function renderCatalogPreview() {
         <h3 class="blade-name">${blade.name}</h3>
         ${description ? `<p class="blade-description" title="${escapeHtml(description)}">${escapeHtml(truncateText(description, 50))}</p>` : ''}
         <p class="blade-meta">${blade.length} · ${blade.material}</p>
-        ${formatCatalogPrice(blade) ? `<p class="blade-price">${escapeHtml(formatCatalogPrice(blade))}</p>` : ''}
       </div></a>
       <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>
@@ -288,21 +287,7 @@ function makeCollectionBlade(product) {
   };
 }
 
-function formatCatalogPrice(blade) {
-  if (!Number.isFinite(blade.price) || blade.price <= 0) return '';
 
-  const formatter = new Intl.NumberFormat('en-PH', {
-    style: 'currency',
-    currency: blade.currency || 'PHP',
-    maximumFractionDigits: 0,
-  });
-  const starting = formatter.format(blade.price);
-  const ending = Number(blade.endingPrice || blade.price);
-
-  return ending > blade.price
-    ? `${starting} - ${formatter.format(ending)}`
-    : starting;
-}
 function blankBladePlaceholder(name, series) {
   return `
     <rect width="300" height="200" fill="#111111"/>
@@ -1215,7 +1200,6 @@ function renderFCGrid(blades) {
         <h3 class="fc-name">${blade.name}</h3>
         ${description ? `<p class="fc-description" title="${escapeHtml(description)}">${escapeHtml(truncateText(description, 50))}</p>` : ''}
         <p class="fc-meta">${blade.material} · ${blade.length}</p>
-        ${formatCatalogPrice(blade) ? `<p class="fc-price">${escapeHtml(formatCatalogPrice(blade))}</p>` : ''}
       </div></a>
       <button class="share-card-button" type="button" data-share-trigger data-share-kind="product" data-share-product-id="${blade.id}" aria-label="Share ${blade.name}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.6 6.8-4.1M8.6 13.4l6.8 4.1"></path></svg>

@@ -917,12 +917,7 @@ summary:focus-visible {
   justify-content: space-between;
   margin-top: 6px;
 }
-.blade-price {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 600;
-  color: var(--gold);
-}
+
 .blade-arrow {
   width: 36px;
   height: 36px;
@@ -2360,7 +2355,6 @@ summary:focus-visible {
 .fc-description{min-height:18px;color:var(--bone);font-size:11px;line-height:1.55;}
 .fc-meta{font-size:11px;color:var(--silver);letter-spacing:.04em;}
 .fc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:10px;}
-.fc-price{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--gold);}
 .fc-arr{
   width:30px;height:30px;border:1px solid var(--ash);
   display:flex;align-items:center;justify-content:center;
