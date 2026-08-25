@@ -3233,3 +3233,13 @@ summary:focus-visible {
 .quote-success-notification button { width: 36px; height: 36px; color: var(--silver); border: 1px solid var(--ash); font-size: 20px; }
 .quote-success-notification button:hover, .quote-success-notification button:focus-visible { color: var(--gold); border-color: var(--gold); }
 @media (max-width: 600px) { .quote-success-notification { top: 76px; right: 16px; grid-template-columns: 36px 1fr 32px; padding: 16px; } .quote-success-icon { width: 34px; height: 34px; } }
+.quote-captcha {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.quote-captcha .h-captcha { max-width: 100%; }
+@media (max-width: 380px) {
+  .quote-captcha { transform: scale(.9); transform-origin: left center; width: 111%; }
+}

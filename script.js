@@ -845,6 +845,7 @@ function sendInquiryList() {
   const quoteForm = document.getElementById('quoteRequestForm');
   const messageField = quoteForm?.querySelector('textarea[name="message"]');
   const modal = document.getElementById('quoteRequestModal');
+  INQUIRY_STORE?.beginQuoteSubmission?.(quoteForm);
   if (messageField) {
     messageField.value = quotationMessage({ includeCustomer: false, includeGreeting: false, includeClosing: false });
     messageField.dispatchEvent(new Event('input', { bubbles: true }));
@@ -877,6 +878,11 @@ async function submitQuoteRequestModal(event) {
   const status = document.getElementById('quoteRequestStatus');
   const label = document.getElementById('quoteRequestSubmitLabel');
   if (!form.reportValidity() || !submit) return;
+  const guard = INQUIRY_STORE?.validateQuoteSubmission?.(form) || { ok: true };
+  if (!guard.ok) {
+    if (status) status.textContent = guard.message;
+    return;
+  }
   submit.disabled = true;
   submit.setAttribute('aria-busy', 'true');
   if (label) label.textContent = 'Sending Quote Request...';
@@ -885,6 +891,8 @@ async function submitQuoteRequestModal(event) {
     const response = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
     const result = await response.json();
     if (!response.ok || !result.success) throw new Error('Quote request failed');
+    INQUIRY_STORE?.markQuoteSubmitted?.(form, guard.fingerprint);
+    INQUIRY_STORE?.resetQuoteCaptcha?.();
     form.reset();
     inquiryList = [];
     saveInquiryList();
@@ -1973,6 +1981,12 @@ async function handleFormSubmit(event) {
     return;
   }
 
+  const guard = INQUIRY_STORE?.validateQuoteSubmission?.(form) || { ok: true };
+  if (!guard.ok) {
+    setContactFormStatus('error', guard.message);
+    return;
+  }
+
   contactFormSubmitting = true;
   setContactFormStatus();
   setContactSubmitState(true);
@@ -1987,6 +2001,8 @@ async function handleFormSubmit(event) {
     const result = await response.json().catch(() => ({}));
     if (!response.ok || result.success !== true) throw new Error(result.message || 'Submission failed');
 
+    INQUIRY_STORE?.markQuoteSubmitted?.(form, guard.fingerprint);
+    INQUIRY_STORE?.resetQuoteCaptcha?.();
     form.reset();
     INQUIRY_STORE?.clearCustomer?.();
     populateInquiryCustomerControls({});
@@ -2008,6 +2024,7 @@ function initializeContactForm() {
   if (!form || form.dataset.initialized === 'true') return;
 
   form.dataset.initialized = 'true';
+  INQUIRY_STORE?.beginQuoteSubmission?.(form);
   populateContactCustomer();
   form.addEventListener('submit', handleFormSubmit);
   form.addEventListener('input', () => {
