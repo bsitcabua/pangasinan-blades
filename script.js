@@ -130,9 +130,7 @@ document.addEventListener('error', event => {
 })();
 
 
-const CATALOG_API_URL = window.location.protocol === 'file:'
-  ? 'https://www.pangasinanblades.com/api/catalog'
-  : '/api/catalog';
+const CATALOG_API_URL = 'https://www.pangasinanblades.com/api/catalog/';
 
 let COMPLETE_COLLECTION = [];
 let CATALOG_PREVIEW = [];

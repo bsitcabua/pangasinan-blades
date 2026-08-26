@@ -160,9 +160,9 @@ async function validate() {
   const productPageScript = read(path.join('js', 'product-page.js'));
   if (!productPageScript.includes('function inquiryEditorMarkup(') || !productPageScript.includes('store.prepare({')) fail('Product-page Inquiry List editor is missing');
   const homepageScript = read('script.js');
-  if (!homepageScript.includes("? 'https://www.pangasinanblades.com/api/catalog'")) fail('Homepage does not use the database catalog endpoint');
+  if (!homepageScript.includes("'https://www.pangasinanblades.com/api/catalog/'")) fail('Homepage does not use the database catalog endpoint');
   if (!fs.existsSync(path.join(ROOT, 'api', 'catalog.js'))) fail('Same-origin catalog proxy is missing');
-  if (!productPageScript.includes("? 'https://www.pangasinanblades.com/api/catalog'")) fail('Product page does not load database products');
+  if (!productPageScript.includes("'https://www.pangasinanblades.com/api/catalog/'")) fail('Product page does not load database products');
   const productDataDependents = ['index.html', 'templates/product.html', 'collection/index.html', 'script.js', 'js/product-page.js', 'api/product.js', 'api/share.js', 'scripts/build-products.js'];
   productDataDependents.forEach(relativePath => {
     const source = read(relativePath);
@@ -184,6 +184,10 @@ async function validate() {
   const csp = vercel.headers.flatMap(rule => rule.headers || []).find(header => header.key === 'Content-Security-Policy')?.value || '';
   const hasInlineHandlers = /\son(?:click|input|change|mouseover|mouseout)=/.test(activeHtml(homepage)) || /\son(?:click|input|change)=/.test(homepageScript);
   if (hasInlineHandlers && !/script-src[^;]*'unsafe-inline'/.test(csp)) fail('CSP blocks inline handlers still used by the current UI');
+  if (!/script-src[^;]*https:\/\/web3forms\.com/.test(csp)) fail('CSP blocks the Web3Forms hCaptcha loader');
+  if (!/script-src[^;]*https:\/\/\*\.hcaptcha\.com/.test(csp)) fail('CSP blocks hCaptcha scripts');
+  if (!/connect-src[^;]*https:\/\/\*\.hcaptcha\.com/.test(csp)) fail('CSP blocks hCaptcha verification requests');
+  if (!/frame-src[^;]*https:\/\/\*\.hcaptcha\.com/.test(csp)) fail('CSP blocks hCaptcha challenge frames');
 
   await validateHttp();
   if (failures.length) {

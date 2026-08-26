@@ -3,9 +3,7 @@
 
   const store = window.PangasinanInquiry;
   const productId = Number(new URLSearchParams(window.location.search).get('id'));
-  const catalogUrl = window.location.protocol === 'file:'
-    ? 'https://www.pangasinanblades.com/api/catalog'
-    : '/api/catalog';
+  const catalogUrl = 'https://www.pangasinanblades.com/api/catalog/';
 
   function showLoadError(message) {
     document.querySelector('main')?.replaceChildren(Object.assign(document.createElement('p'), {
