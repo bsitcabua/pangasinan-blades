@@ -3,6 +3,13 @@
   "framework": null,
   "buildCommand": "npm run build",
   "outputDirectory": ".",
+  "images": {
+    "sizes": [320, 640, 960, 1440],
+    "remotePatterns": [{ "protocol": "https", "hostname": "images.pangasinanblades.com", "pathname": "^/collection/.*$" }],
+    "minimumCacheTTL": 86400,
+    "qualities": [85],
+    "formats": ["image/webp"]
+  },
   "rewrites": [
     { "source": "/collection", "destination": "/api/product" },
     { "source": "/collection/", "destination": "/api/product" },
@@ -10,6 +17,10 @@
     { "source": "/share/", "destination": "/api/share" }
   ],
   "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }]
+    },
     {
       "source": "/config/site-status.js",
       "headers": [

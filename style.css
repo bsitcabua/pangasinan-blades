@@ -2308,6 +2308,10 @@ summary:focus-visible {
   position:relative;
   background:var(--ash);
 }
+img.image-loading {
+  background: linear-gradient(110deg, rgba(255,255,255,.025), rgba(255,255,255,.08), rgba(255,255,255,.025));
+}
+
 .fc-card-image {
   width: 100%;
   height: 100%;

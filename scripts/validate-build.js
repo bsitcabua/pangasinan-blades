@@ -160,9 +160,9 @@ async function validate() {
   const productPageScript = read(path.join('js', 'product-page.js'));
   if (!productPageScript.includes('function inquiryEditorMarkup(') || !productPageScript.includes('store.prepare({')) fail('Product-page Inquiry List editor is missing');
   const homepageScript = read('script.js');
-  if (!homepageScript.includes("'https://www.pangasinanblades.com/api/catalog/'")) fail('Homepage does not use the database catalog endpoint');
+  if (!homepageScript.includes('window.PangasinanCatalog.getProducts()')) fail('Homepage does not use the shared catalog service');
   if (!fs.existsSync(path.join(ROOT, 'api', 'catalog.js'))) fail('Same-origin catalog proxy is missing');
-  if (!productPageScript.includes("'https://www.pangasinanblades.com/api/catalog/'")) fail('Product page does not load database products');
+  if (!productPageScript.includes('window.PangasinanCatalog.getProducts()')) fail('Product page does not use the shared catalog service');
   const productDataDependents = ['index.html', 'templates/product.html', 'collection/index.html', 'script.js', 'js/product-page.js', 'api/product.js', 'api/share.js', 'scripts/build-products.js'];
   productDataDependents.forEach(relativePath => {
     const source = read(relativePath);

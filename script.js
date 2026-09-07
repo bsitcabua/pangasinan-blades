@@ -130,8 +130,6 @@ document.addEventListener('error', event => {
 })();
 
 
-const CATALOG_API_URL = 'https://www.pangasinanblades.com/api/catalog/';
-
 let COMPLETE_COLLECTION = [];
 let CATALOG_PREVIEW = [];
 
@@ -157,17 +155,9 @@ function setCatalogBusy(isBusy) {
 async function refreshCatalogFromApi() {
   setCatalogBusy(true);
   try {
-    const response = await fetch(CATALOG_API_URL, {
-      headers: { Accept: 'application/json' },
-    });
-    if (!response.ok) throw new Error(`Catalog request failed with HTTP ${response.status}`);
-
-    const payload = await response.json();
-    if (!payload || payload.success !== true) {
-      throw new Error(payload?.message || 'The catalog API returned an invalid response.');
-    }
-
-    setCatalogProducts(payload.data);
+    const products = await window.PangasinanCatalog.getProducts();
+    if (JSON.stringify(products) === JSON.stringify(window.PANGASINAN_PRODUCTS)) return;
+    setCatalogProducts(products);
     renderCatalogPreview();
     const activePreviewFilter = document.querySelector('.filter-bar .filter-pill[data-filter].active')?.dataset.filter || 'all';
     applyCatalogPreviewFilter(activePreviewFilter);
@@ -212,7 +202,7 @@ function renderCatalogPreview() {
         <div class="blade-card-img-inner">
           ${
             blade.image
-              ? `<img src="${blade.image}" width="3664" height="2691" loading="lazy" decoding="async" alt="${blade.name}" class="blade-card-image">`
+              ? `<img ${window.PangasinanImages.attributes(blade.image, '(max-width: 768px) 100vw, (max-width: 1100px) 50vw, (min-width: 1420px) 433px, 33vw')} width="3664" height="2691" loading="lazy" decoding="async" alt="${blade.name}" class="blade-card-image">`
               : `
                 <div class="blade-svg-wrap">
                   <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
@@ -385,7 +375,7 @@ function getDialogControls(dialog) {
 function activateDialogFocus(dialog, initialFocus) {
   if (!dialog || dialogFocusStack.some(entry => entry.dialog === dialog)) return;
   dialogFocusStack.push({ dialog, opener: document.activeElement });
-  window.setTimeout(() => (initialFocus || getDialogControls(dialog)[0])?.focus?.(), 0);
+  window.setTimeout(() => (initialFocus || getDialogControls(dialog)[0])?.focus?.({ preventScroll: dialog.id === 'fullCatalogModal' }), 0);
 }
 
 function deactivateDialogFocus(dialog) {
@@ -1069,7 +1059,7 @@ function renderInquiryListModal() {
         item.image
           ? `
             <img
-              src="${item.image}"
+              ${window.PangasinanImages.attributes(item.image, '(max-width: 768px) 100vw, 340px')}
               width="3664"
               height="2691"
               loading="lazy"
@@ -1146,6 +1136,8 @@ let fcActiveSort   = 'default';
 let fcSearchQuery  = '';
 let fcSeriesData   = [...COMPLETE_COLLECTION];
 let fcVisibleData  = [...COMPLETE_COLLECTION];
+let fcInitialized = false;
+let fcRestoreScroll = null;
 
 const FC_CATEGORIES = [
   { key:'all',    label:'All Series' },
@@ -1206,7 +1198,13 @@ function renderFCGrid(blades) {
   const count = document.getElementById('fcCount');
   const label = document.getElementById('fcCountLabel');
 
-  grid.innerHTML = '';
+  const signature = JSON.stringify([blades, fcSearchQuery, fcSeriesData.length]);
+  if (grid.dataset.signature !== signature) {
+    grid.replaceChildren();
+    grid.dataset.signature = signature;
+  } else if (blades.length) {
+    return;
+  }
 
   if (!blades.length) {
     empty.style.display = 'block';
@@ -1231,7 +1229,7 @@ function renderFCGrid(blades) {
       <div class="fc-card-img">
         ${
           blade.image
-            ? `<img src="${blade.image}" width="3664" height="2691" loading="lazy" decoding="async" alt="${blade.name}" class="fc-card-image">`
+            ? `<img ${window.PangasinanImages.attributes(blade.image)} width="3664" height="2691" loading="${idx === 0 ? 'eager' : 'lazy'}" decoding="async" alt="${blade.name}" class="fc-card-image">`
             : `
               <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
                 <rect width="300" height="200" fill="${blade.bg}"/>
@@ -1258,6 +1256,10 @@ function renderFCGrid(blades) {
       </button>`;
     grid.appendChild(card);
   });
+  if (fcRestoreScroll !== null) {
+    document.getElementById('fullCatalogModal').scrollTop = fcRestoreScroll;
+    fcRestoreScroll = null;
+  }
 }
 
 function isFullCatalogOpen() {
@@ -1270,20 +1272,37 @@ function showFullCatalog() {
   if (!modal) return;
   modal.style.display = 'block';
   document.body.style.overflow = 'hidden';
-  fcActiveFilter = 'all';
-  fcActiveSort   = 'default';
-  fcSearchQuery  = '';
-  fcSeriesData   = [...COMPLETE_COLLECTION];
-  fcVisibleData  = [...COMPLETE_COLLECTION];
-  buildFCFilters();
-  renderFCGrid(COMPLETE_COLLECTION);
-  modal.scrollTop = 0;
-  document.getElementById('fcSort').value = 'default';
-  document.getElementById('fcSearch').value = '';
+  if (!fcInitialized) {
+    const saved = history.state?.collectionView;
+    fcActiveFilter = FC_CATEGORIES.some(c => c.key === saved?.filter) ? saved.filter : 'all';
+    fcActiveSort = saved?.sort === 'name' ? 'name' : 'default';
+    document.getElementById('fcSort').value = fcActiveSort;
+    document.getElementById('fcSearch').value = typeof saved?.search === 'string' ? saved.search : '';
+    fcRestoreScroll = Math.max(0, Number(saved?.scroll) || 0);
+    fcInitialized = true;
+  }
+  applyFCFilter();
   const title = document.getElementById('fcTitle');
   title.setAttribute('tabindex','-1');
   activateDialogFocus(modal, title);
+  refreshCatalogFromApi();
 }
+
+function saveCollectionView() {
+  if (!isFullCatalogOpen()) return;
+  history.replaceState({ ...(history.state || {}), collectionView: {
+    filter: fcActiveFilter, sort: fcActiveSort,
+    search: document.getElementById('fcSearch').value,
+    scroll: document.getElementById('fullCatalogModal').scrollTop,
+  } }, '', location.href);
+}
+document.addEventListener('click', event => {
+  if (event.target.closest('#fcGrid a')) saveCollectionView();
+}, true);
+window.addEventListener('pagehide', saveCollectionView);
+window.addEventListener('pageshow', event => {
+  if (event.persisted) refreshCatalogFromApi();
+});
 
 function openFullCatalog(updateHistory = true) {
   const wasOpen = isFullCatalogOpen();
@@ -1502,6 +1521,8 @@ quoteRequestForm?.addEventListener('submit', submitQuoteRequestModal);
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeQuoteRequestModal(); });
 
 document.addEventListener('DOMContentLoaded', function() {
+  const cachedCatalog = window.PangasinanCatalog.peek();
+  if (cachedCatalog) setCatalogProducts(cachedCatalog);
   loadInquiryList();
   populateInquiryCustomerControls();
   updateCustomerDisclosure(getInquiryCustomer(), true);
@@ -2159,4 +2180,3 @@ if (document.readyState === 'loading') {
 } else {
   initializeBrevoNewsletterState();
 }
-

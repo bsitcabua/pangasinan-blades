@@ -3,7 +3,6 @@
 
   const store = window.PangasinanInquiry;
   const productId = Number(new URLSearchParams(window.location.search).get('id'));
-  const catalogUrl = 'https://www.pangasinanblades.com/api/catalog/';
 
   function showLoadError(message) {
     document.querySelector('main')?.replaceChildren(Object.assign(document.createElement('p'), {
@@ -19,11 +18,7 @@
 
   let products;
   try {
-    const response = await fetch(catalogUrl, { headers: { Accept: 'application/json' } });
-    if (!response.ok) throw new Error(`Catalog request failed with HTTP ${response.status}`);
-    const payload = await response.json();
-    if (!payload || payload.success !== true || !Array.isArray(payload.data)) throw new Error('Invalid catalog response');
-    products = payload.data;
+    products = await window.PangasinanCatalog.getProducts();
     window.PANGASINAN_PRODUCTS = products;
   } catch (error) {
     console.error('Unable to load product information:', error);
@@ -210,7 +205,7 @@
     setMeta('meta[property="og:image"]', 'content', absoluteImage);
 
     const related = products.filter(candidate => candidate.category === product.category && candidate.id !== product.id).slice(0, 3);
-    document.querySelector('[data-related-products]').innerHTML = related.map(candidate => `<article class="product-related-card"><a href="index.html?id=${candidate.id}"><img src="${escapeHtml(assetPath(candidate.image))}" width="3664" height="2691" loading="lazy" decoding="async" alt="${escapeHtml(candidate.name)}"><span>${escapeHtml(candidate.series)}</span><h3>${escapeHtml(candidate.name)}</h3><span class="product-related-link">View Full Details &rarr;</span></a></article>`).join('');
+    document.querySelector('[data-related-products]').innerHTML = related.map(candidate => `<article class="product-related-card"><a href="index.html?id=${candidate.id}"><img ${window.PangasinanImages.attributes(assetPath(candidate.image), '(max-width: 600px) 100vw, (max-width: 900px) 50vw, (min-width: 1420px) 433px, 33vw')} width="3664" height="2691" loading="lazy" decoding="async" alt="${escapeHtml(candidate.name)}"><span>${escapeHtml(candidate.series)}</span><h3>${escapeHtml(candidate.name)}</h3><span class="product-related-link">View Full Details &rarr;</span></a></article>`).join('');
 
     const schema = document.createElement('script');
     schema.type = 'application/ld+json';
@@ -483,7 +478,7 @@
     body.innerHTML = items.map(item => {
       const sourceProduct = products.find(candidate => Number(candidate.id) === Number(item.id));
       const description = item.description || item.desc || sourceProduct?.description || sourceProduct?.desc || '';
-      return `<article class="inquiry-list-item"><a class="inquiry-list-thumb inquiry-list-thumb-link" href="index.html?id=${encodeURIComponent(item.id)}" aria-label="View details for ${escapeHtml(item.name)}">${item.image ? `<img class="product-inquiry-image" src="${escapeHtml(imagePath(item.image))}" alt="${escapeHtml(item.name)}">` : ''}</a><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><div class="inquiry-item-actions"><button type="button" class="inquiry-edit-toggle${editingInquiryKey === item.key ? ' is-active' : ''}" data-edit-toggle="${encodeURIComponent(item.key)}" aria-expanded="${editingInquiryKey === item.key}" aria-label="${editingInquiryKey === item.key ? 'Save' : 'Edit'} specifications for ${escapeHtml(item.name)}" title="${editingInquiryKey === item.key ? 'Save changes' : 'Edit specifications'}"><span aria-hidden="true">${editingInquiryKey === item.key ? '&#10003;' : '&#9998;'}</span></button><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}" aria-label="Remove ${escapeHtml(item.name)} from inquiry list" title="Remove item"><span aria-hidden="true">&times;</span></button></div></div><h3>${escapeHtml(item.name)}</h3>${description ? `<p class="inquiry-item-description">${escapeHtml(description)}</p>` : ''}<div ${editingInquiryKey === item.key ? 'hidden' : ''}>${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div><div ${editingInquiryKey === item.key ? '' : 'hidden'}>${inquiryEditorMarkup(item)}</div></div></article>`;
+      return `<article class="inquiry-list-item"><a class="inquiry-list-thumb inquiry-list-thumb-link" href="index.html?id=${encodeURIComponent(item.id)}" aria-label="View details for ${escapeHtml(item.name)}">${item.image ? `<img class="product-inquiry-image" ${window.PangasinanImages.attributes(imagePath(item.image), '(max-width: 768px) 100vw, 340px')} width="3664" height="2691" loading="lazy" decoding="async" alt="${escapeHtml(item.name)}">` : ''}</a><div class="inquiry-list-info"><div class="inquiry-list-item-head"><span class="inquiry-list-series">${escapeHtml(item.series)}</span><div class="inquiry-item-actions"><button type="button" class="inquiry-edit-toggle${editingInquiryKey === item.key ? ' is-active' : ''}" data-edit-toggle="${encodeURIComponent(item.key)}" aria-expanded="${editingInquiryKey === item.key}" aria-label="${editingInquiryKey === item.key ? 'Save' : 'Edit'} specifications for ${escapeHtml(item.name)}" title="${editingInquiryKey === item.key ? 'Save changes' : 'Edit specifications'}"><span aria-hidden="true">${editingInquiryKey === item.key ? '&#10003;' : '&#9998;'}</span></button><button type="button" class="inquiry-list-remove" data-remove-item="${encodeURIComponent(item.key)}" aria-label="Remove ${escapeHtml(item.name)} from inquiry list" title="Remove item"><span aria-hidden="true">&times;</span></button></div></div><h3>${escapeHtml(item.name)}</h3>${description ? `<p class="inquiry-item-description">${escapeHtml(description)}</p>` : ''}<div ${editingInquiryKey === item.key ? 'hidden' : ''}>${inquirySpecsMarkup(item.selection, Math.max(1, Number(item.quantity) || 1))}</div><div ${editingInquiryKey === item.key ? '' : 'hidden'}>${inquiryEditorMarkup(item)}</div></div></article>`;
     }).join('');
   }
 

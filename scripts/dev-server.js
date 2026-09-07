@@ -73,7 +73,12 @@ const server = http.createServer((request, response) => {
     return;
   }
 
-  response.writeHead(200, { 'Content-Type': mimeTypes[path.extname(target).toLowerCase()] || 'application/octet-stream' });
+  const extension = path.extname(target).toLowerCase();
+  const headers = { 'Content-Type': mimeTypes[extension] || 'application/octet-stream' };
+  if (['.png', '.svg', '.webp', '.ico'].includes(extension)) {
+    headers['Cache-Control'] = 'public, max-age=86400, must-revalidate';
+  }
+  response.writeHead(200, headers);
   fs.createReadStream(target).pipe(response);
 });
 

@@ -13,7 +13,7 @@ module.exports = async function catalog(request, response) {
 
   try {
     const products = await fetchProducts();
-    response.setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=3600');
+    response.setHeader('Cache-Control', 'public, max-age=300, s-maxage=300, must-revalidate');
     response.status(200).json({
       success: true,
       currency: 'PHP',
