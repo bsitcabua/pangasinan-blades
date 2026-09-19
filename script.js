@@ -412,6 +412,46 @@ function saveInquiryCustomerFromControls() {
   return INQUIRY_STORE.saveCustomer(customer);
 }
 
+function quoteCustomerFromForm(form, customer = getInquiryCustomer()) {
+  if (!form) return customer;
+  return {
+    ...customer,
+    firstName: form.elements.first_name?.value || '',
+    lastName: form.elements.last_name?.value || '',
+    email: form.elements.email?.value || '',
+    phone: form.elements.phone?.value || '',
+    address: form.elements.complete_address?.value || '',
+  };
+}
+
+function populateQuoteRequestCustomer(form, customer = getInquiryCustomer()) {
+  if (!form) return;
+  const fields = {
+    first_name: customer.firstName,
+    last_name: customer.lastName,
+    email: customer.email,
+    phone: customer.phone,
+    complete_address: customer.address,
+  };
+  Object.entries(fields).forEach(([name, value]) => {
+    const control = form.elements[name];
+    if (control && control.value !== value) control.value = value || '';
+  });
+}
+
+function saveQuoteRequestCustomer(form) {
+  if (!INQUIRY_STORE?.saveCustomer || !form) return {};
+  const customer = INQUIRY_STORE.saveCustomer(quoteCustomerFromForm(form));
+  populateInquiryCustomerControls(customer);
+  return customer;
+}
+
+function clearQuoteRequestCustomer(form) {
+  INQUIRY_STORE?.clearCustomer?.();
+  populateQuoteRequestCustomer(form, {});
+  populateInquiryCustomerControls({});
+}
+
 document.addEventListener('input', event => {
   if (!event.target.matches('[data-inquiry-customer-field]')) return;
   const customer = saveInquiryCustomerFromControls();
@@ -883,6 +923,7 @@ function sendInquiryList() {
   const quoteForm = document.getElementById('quoteRequestForm');
   const messageField = quoteForm?.querySelector('textarea[name="message"]');
   const modal = document.getElementById('quoteRequestModal');
+  populateQuoteRequestCustomer(quoteForm);
   INQUIRY_STORE?.beginQuoteSubmission?.(quoteForm);
   if (messageField) {
     messageField.value = quotationMessage({ includeCustomer: false, includeGreeting: false, includeClosing: false });
@@ -931,7 +972,9 @@ async function submitQuoteRequestModal(event) {
     if (!response.ok || !result.success) throw new Error('Quote request failed');
     INQUIRY_STORE?.markQuoteSubmitted?.(form, guard.fingerprint);
     INQUIRY_STORE?.resetQuoteCaptcha?.();
+    saveQuoteRequestCustomer(form);
     form.reset();
+    populateQuoteRequestCustomer(form);
     inquiryList = [];
     saveInquiryList();
     updateInquiryBadge();
@@ -1567,6 +1610,14 @@ quoteRequestMessage?.addEventListener('input', () => {
   const counter = document.getElementById('quoteMessageCounter');
   if (counter) counter.textContent = `${quoteRequestMessage.value.length} / 2000`;
 });
+quoteRequestForm?.addEventListener('input', event => {
+  if (['first_name', 'last_name', 'email', 'phone', 'complete_address'].includes(event.target.name)) {
+    saveQuoteRequestCustomer(quoteRequestForm);
+  }
+});
+quoteRequestForm?.querySelector('[data-clear-quote-details]')?.addEventListener('click', () => {
+  clearQuoteRequestCustomer(quoteRequestForm);
+});
 quoteRequestForm?.addEventListener('submit', submitQuoteRequestModal);
 document.addEventListener('keydown', event => { if (event.key === 'Escape') closeQuoteRequestModal(); });
 
@@ -1575,6 +1626,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (cachedCatalog) setCatalogProducts(cachedCatalog);
   loadInquiryList();
   populateInquiryCustomerControls();
+  populateQuoteRequestCustomer(quoteRequestForm);
   updateCustomerDisclosure(getInquiryCustomer(), true);
   document.querySelectorAll('[data-messenger-link]').forEach(link => {
     link.href = INQUIRY_STORE?.messengerUrl?.() || link.href;

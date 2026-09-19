@@ -29,7 +29,7 @@ The application is a public catalog and quotation-request website for Pangasinan
 - Product specification configurator and image zoom
 - Persistent Inquiry List and quote builder
 - Duplicate detection, quantity management, editable specifications, and confirmation dialogs
-- Customer details stored for the browser session
+- Customer details stored locally until the customer selects Clear details
 - Copy, Messenger, email, and Web3Forms quotation channels
 - Product and collection sharing, QR codes, Open Graph previews, and social actions
 - Workshop gallery/lightbox and testimonial carousel
@@ -120,7 +120,7 @@ The repository uses a static-first, data-driven architecture:
 3. The homepage and product page load products through the same-origin `/api/catalog` proxy; local `file:///` pages use the deployed proxy URL.
 4. The product page reads `?id=`, finds the matching API product, and renders content client-side.
 5. On Vercel, `/collection/?id=` is rewritten to `api/product.js`, which fetches database data and injects product-specific metadata before returning the shared product HTML.
-6. Inquiry items are persisted in `localStorage`; customer contact details are persisted only in `sessionStorage`.
+6. Inquiry items and customer contact details are persisted in `localStorage`; the quote modal provides Clear details to remove the saved contact details.
 7. Contact and newsletter submissions go directly from the browser to third-party services.
 8. Chatbase is injected after page load and communicates with Chatbase-hosted scripts, frames, and APIs.
 
@@ -137,7 +137,7 @@ flowchart TD
     HOME --> STORE["Shared Inquiry List"]
     PRODUCT --> STORE
     STORE --> LOCAL["localStorage: blade builds"]
-    STORE --> SESSION["sessionStorage: customer details"]
+    STORE --> CUSTOMER["localStorage: customer details"]
     STORE --> CHANNELS["Clipboard, Messenger, Email, Contact prefill"]
     CHANNELS --> WEB3["Web3Forms"]
     HOME --> BREVO["Brevo newsletter"]
@@ -147,7 +147,7 @@ flowchart TD
 
 - `window.PANGASINAN_PRODUCTS`: runtime-only API catalog cache used by sharing and inquiry helpers.
 - `pangasinanBladesInquiryList`: `localStorage` key used for inquiry items.
-- `pangasinanBladesInquiryCustomer`: `sessionStorage` key used for name, email, phone, address, and notes.
+- `pangasinanBladesInquiryCustomer`: `localStorage` key used for name, email, phone, address, and notes until Clear details is selected.
 - `pangasinanBladesContactPrefill`: temporary `sessionStorage` message used when moving from a product page to the homepage contact form.
 - URL state: numeric product ID in the query string and `#full-collection` for the complete catalog modal.
 
@@ -454,7 +454,7 @@ There is no global server exception middleware or remote error-monitoring servic
 - JSON-LD replacement prevents literal `<` injection in server-generated structured data
 - Vercel sets CSP, `X-Content-Type-Options`, `X-Frame-Options`, Referrer Policy, and Permissions Policy
 - External links generally use `noopener`/`noreferrer`
-- Customer details use `sessionStorage`, while non-personal inquiry builds use `localStorage`
+- Customer details and inquiry builds use `localStorage`; Clear details removes the saved customer details on demand.
 - No authentication credentials, payment data, or database secrets are handled
 
 ### Concerns

@@ -3224,6 +3224,9 @@ img.image-loading {
 .quote-request-form .form-input, .quote-request-form .form-textarea { background: transparent; border: none; border-bottom: 1px solid var(--ash); border-radius: 0; color: var(--bone); padding: 10px 0; }
 .quote-request-form .form-input:focus, .quote-request-form .form-textarea:focus { border-bottom-color: var(--gold); }
 .quote-request-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.quote-details-actions { display: flex; justify-content: flex-end; margin-top: -16px; }
+.clear-quote-details { border: 0; background: transparent; color: var(--gold); cursor: pointer; font: inherit; font-size: 12px; font-weight: 600; letter-spacing: .04em; padding: 4px 0; }
+.clear-quote-details:hover, .clear-quote-details:focus-visible { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
 .quote-request-form .form-submit { margin-top: 12px; width: 100%; }
 .quote-request-form .form-submit .btn-primary { width: 100%; justify-content: center; padding: 20px; }
 @media (max-width: 600px) { .quote-request-form .form-row { grid-template-columns: 1fr; gap: 24px; } }

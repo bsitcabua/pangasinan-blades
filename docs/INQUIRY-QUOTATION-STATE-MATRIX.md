@@ -22,7 +22,7 @@ behavior depend on the browser environment.
 | Remove item | Required | Required | Styled confirmation dialog appears and removes only after confirmation. | Code validation passed; manual interaction required |
 | Clear list | Required | Required | Styled confirmation dialog appears; confirmation clears items and edit state. | Code validation passed; manual interaction required |
 | Quantity minimum | Required | Required | Quantity never falls below one. | Shared-store automated check passed |
-| Refresh persistence | Required | Required | Blade list remains after refresh; customer details remain only in the current tab session. | Shared-store automated check passed; manual refresh required |
+| Refresh persistence | Required | Required | Blade list and customer details remain after refresh until the customer selects Clear details. | Shared-store automated check passed; manual refresh required |
 | Copy success | Required | Required | Quote text is copied, button temporarily says `Copied!`, and success dialog opens. | Manual secure-context test required |
 | Copy failure | Required | Required | Copy-specific error is announced without changing Email or Messenger status. | Code validation passed; manual failure simulation required |
 | Messenger blocked | Required | Required | Messenger-specific popup message appears. | Manual popup-blocking test required |
