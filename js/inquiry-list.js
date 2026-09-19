@@ -121,9 +121,16 @@
 
   function loadCustomer() {
     try {
-      const parsed = JSON.parse(sessionStorage.getItem(CUSTOMER_STORAGE_KEY) || '{}');
+      const savedCustomer = localStorage.getItem(CUSTOMER_STORAGE_KEY);
+      const legacyCustomer = savedCustomer ? null : sessionStorage.getItem(CUSTOMER_STORAGE_KEY);
+      const parsed = JSON.parse(savedCustomer || legacyCustomer || '{}');
+      if (!savedCustomer && legacyCustomer) {
+        localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(prepareCustomer(parsed)));
+        sessionStorage.removeItem(CUSTOMER_STORAGE_KEY);
+      }
       return prepareCustomer(parsed && typeof parsed === 'object' ? parsed : {});
     } catch (error) {
+      localStorage.removeItem(CUSTOMER_STORAGE_KEY);
       sessionStorage.removeItem(CUSTOMER_STORAGE_KEY);
       return prepareCustomer();
     }
@@ -132,16 +139,16 @@
   function saveCustomer(customer) {
     const prepared = prepareCustomer(customer);
     try {
-      sessionStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(prepared));
+      localStorage.setItem(CUSTOMER_STORAGE_KEY, JSON.stringify(prepared));
     } catch (error) {
-      // The quotation still works when private browsing blocks session storage.
+      // The quotation still works when private browsing blocks local storage.
     }
     return prepared;
   }
 
   function clearCustomer() {
     try {
-      sessionStorage.removeItem(CUSTOMER_STORAGE_KEY);
+      localStorage.removeItem(CUSTOMER_STORAGE_KEY);
     } catch (error) {
       // Nothing else is required when session storage is unavailable.
     }

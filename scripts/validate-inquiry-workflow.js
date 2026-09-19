@@ -69,7 +69,9 @@ const customer = store.saveCustomer({
   address: 'Pangasinan',
   notes: 'Please include shipping in the quotation.',
 });
-assert.deepEqual(store.loadCustomer(), customer, 'Customer details should persist for the current session.');
+assert.deepEqual(store.loadCustomer(), customer, 'Customer details should persist across browser sessions.');
+assert.ok(localStorage.getItem(store.CUSTOMER_STORAGE_KEY), 'Customer details should persist in local storage.');
+assert.equal(sessionStorage.getItem(store.CUSTOMER_STORAGE_KEY), null, 'Customer details should not depend on the current tab session.');
 assert.equal(store.isCustomerComplete(customer), true, 'Complete customer details should collapse by default.');
 assert.equal(store.isCustomerComplete({ ...customer, phone: '' }), false, 'Missing required customer details should open by default.');
 assert.equal(store.isCustomerComplete({ ...customer, email: 'invalid' }), false, 'An invalid email should keep customer details open.');
@@ -93,7 +95,8 @@ assert.match(contactPrefill, /Product Link: https:\/\/www\.pangasinanblades\.com
 items = store.remove(items, items[0].key);
 assert.equal(items.length, 0, 'Removing the build should leave an empty list.');
 store.clearCustomer();
-assert.equal(store.loadCustomer().email, '', 'Clearing customer details should remove session data.');
+assert.equal(store.loadCustomer().email, '', 'Clearing customer details should remove saved data.');
+assert.equal(localStorage.getItem(store.CUSTOMER_STORAGE_KEY), null, 'Clearing customer details should remove local data.');
 
 localStorage.setItem(store.STORAGE_KEY, '{invalid json');
 assert.deepEqual(store.load(), [], 'Invalid saved data should safely return an empty list.');

@@ -126,6 +126,46 @@
     return saved;
   }
 
+  function quoteCustomerFromForm(form, customer = getCustomer()) {
+    if (!form) return customer;
+    return {
+      ...customer,
+      firstName: form.elements.first_name?.value || '',
+      lastName: form.elements.last_name?.value || '',
+      email: form.elements.email?.value || '',
+      phone: form.elements.phone?.value || '',
+      address: form.elements.complete_address?.value || '',
+    };
+  }
+
+  function populateQuoteRequestCustomer(form, customer = getCustomer()) {
+    if (!form) return;
+    const fields = {
+      first_name: customer.firstName,
+      last_name: customer.lastName,
+      email: customer.email,
+      phone: customer.phone,
+      complete_address: customer.address,
+    };
+    Object.entries(fields).forEach(([name, value]) => {
+      const control = form.elements[name];
+      if (control && control.value !== value) control.value = value || '';
+    });
+  }
+
+  function saveQuoteRequestCustomer(form) {
+    if (!store.saveCustomer || !form) return {};
+    const customer = store.saveCustomer(quoteCustomerFromForm(form));
+    populateCustomerControls(customer);
+    return customer;
+  }
+
+  function clearQuoteRequestCustomer(form) {
+    store.clearCustomer?.();
+    populateQuoteRequestCustomer(form, {});
+    populateCustomerControls({});
+  }
+
   function quotationText(options = {}) {
     return store.quotation
       ? store.quotation(items, { customer: getCustomer(), ...options })
@@ -513,6 +553,7 @@
     const form = document.querySelector('[data-quote-request-form]');
     const messageField = form?.querySelector('[data-quote-message]');
     store.beginQuoteSubmission?.(form);
+    populateQuoteRequestCustomer(form);
     if (messageField) {
       messageField.value = message;
       messageField.dispatchEvent(new Event('input', { bubbles: true }));
@@ -714,11 +755,20 @@
   document.querySelector('[data-send-inquiry]')?.addEventListener('click', goToContact);
   document.querySelectorAll('[data-close-quote-request]').forEach(button => button.addEventListener('click', () => closeDialog(quoteRequestModal)));
   const productQuoteMessage = document.querySelector('[data-quote-message]');
+  const productQuoteForm = document.querySelector('[data-quote-request-form]');
   productQuoteMessage?.addEventListener('input', () => {
     const counter = document.getElementById('productQuoteMessageCounter');
     if (counter) counter.textContent = `${productQuoteMessage.value.length} / 2000`;
   });
-  document.querySelector('[data-quote-request-form]')?.addEventListener('submit', async event => {
+  productQuoteForm?.addEventListener('input', event => {
+    if (['first_name', 'last_name', 'email', 'phone', 'complete_address'].includes(event.target.name)) {
+      saveQuoteRequestCustomer(productQuoteForm);
+    }
+  });
+  productQuoteForm?.querySelector('[data-clear-quote-details]')?.addEventListener('click', () => {
+    clearQuoteRequestCustomer(productQuoteForm);
+  });
+  productQuoteForm?.addEventListener('submit', async event => {
     event.preventDefault();
     const form = event.currentTarget;
     const submit = form.querySelector('button[type="submit"]');
@@ -740,7 +790,9 @@
       if (!response.ok || !result.success) throw new Error('Quote request failed');
       store.markQuoteSubmitted?.(form, guard.fingerprint);
       store.resetQuoteCaptcha?.();
+      saveQuoteRequestCustomer(form);
       form.reset();
+      populateQuoteRequestCustomer(form);
       items = store.save([]);
       editingInquiryKey = null;
       updateBadges();
@@ -907,6 +959,7 @@
   });
 
   populateCustomerControls();
+  populateQuoteRequestCustomer(productQuoteForm);
   syncProductBeltLoopField(true);
   updateSpecificationSummary();
   updateCustomerDisclosure(true);
