@@ -800,6 +800,30 @@ summary:focus-visible {
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
 }
+.catalog-status {
+  grid-column: 1 / -1;
+  min-height: 220px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
+  padding: 32px;
+  border: 1px solid var(--ash);
+  color: var(--silver);
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+.catalog-retry {
+  border: 1px solid var(--silver);
+  background: transparent;
+  color: var(--white);
+  padding: 10px 16px;
+  font: inherit;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+.catalog-retry:hover,
+.catalog-retry:focus-visible { border-color: var(--gold); color: var(--gold); }
 
 .blade-card {
   position: relative;

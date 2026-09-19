@@ -24,8 +24,21 @@ async function main() {
   const local = client(async url => { requestedUrl = url; return response(products); }, localStorage,
     { protocol: 'http:', hostname: 'localhost' });
   await local.getProducts();
+  assert.equal(requestedUrl, '/api/catalog/',
+    'The Node development server must use its local catalog API');
+  const staticPreview = client(async url => { requestedUrl = url; return response(products); }, localStorage,
+    { protocol: 'file:', hostname: '' });
+  await staticPreview.getProducts();
   assert.equal(requestedUrl, 'https://www.pangasinanblades.com/api/catalog/',
-    'A static localhost preview must use the production catalog API');
+    'A file preview must use the production catalog API');
+  const fallbackUrls = [];
+  const localFallback = client(async url => {
+    fallbackUrls.push(url);
+    return url === '/api/catalog/' ? { ok: false, status: 404 } : response(products);
+  }, localStorage, { protocol: 'http:', hostname: 'localhost' });
+  await localFallback.getProducts();
+  assert.deepEqual(fallbackUrls, ['/api/catalog/', 'https://www.pangasinanblades.com/api/catalog/'],
+    'A static localhost server must fall back to the production catalog API');
   const deployed = client(async url => { requestedUrl = url; return response(products); }, localStorage,
     { protocol: 'https:', hostname: 'www.pangasinanblades.com' });
   await deployed.getProducts();

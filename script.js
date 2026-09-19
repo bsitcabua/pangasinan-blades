@@ -132,6 +132,9 @@ document.addEventListener('error', event => {
 
 let COMPLETE_COLLECTION = [];
 let CATALOG_PREVIEW = [];
+const CATALOG_RETRY_DELAYS = [2500, 5000, 10000];
+let catalogRetryAttempt = 0;
+let catalogRetryTimer = 0;
 
 function setCatalogProducts(products) {
   const validProducts = Array.isArray(products)
@@ -150,15 +153,60 @@ function setCatalogProducts(products) {
 function setCatalogBusy(isBusy) {
   document.getElementById('catalogGrid')?.setAttribute('aria-busy', String(isBusy));
   document.getElementById('fcGrid')?.setAttribute('aria-busy', String(isBusy));
+  if (isBusy && !COMPLETE_COLLECTION.length) renderCatalogStatus('Loading catalog…');
 }
 
-async function refreshCatalogFromApi() {
+function renderCatalogStatus(message, retryable = false) {
+  const grid = document.getElementById('catalogGrid');
+  const count = document.getElementById('filterCount');
+  if (count) count.textContent = message;
+  if (!grid) return;
+
+  grid.replaceChildren();
+  const status = document.createElement('div');
+  status.className = 'catalog-status';
+  status.setAttribute('role', 'status');
+  status.textContent = message;
+  grid.appendChild(status);
+
+  if (!retryable) return;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'catalog-retry';
+  button.textContent = 'Retry catalog';
+  button.addEventListener('click', () => {
+    clearCatalogRetry();
+    catalogRetryAttempt = 0;
+    refreshCatalogFromApi({ force: true });
+  });
+  status.appendChild(button);
+}
+
+function clearCatalogRetry() {
+  if (catalogRetryTimer) window.clearTimeout(catalogRetryTimer);
+  catalogRetryTimer = 0;
+}
+
+function scheduleCatalogRetry() {
+  if (COMPLETE_COLLECTION.length || catalogRetryTimer || catalogRetryAttempt >= CATALOG_RETRY_DELAYS.length) return;
+  const delay = CATALOG_RETRY_DELAYS[catalogRetryAttempt++];
+  catalogRetryTimer = window.setTimeout(() => {
+    catalogRetryTimer = 0;
+    refreshCatalogFromApi();
+  }, delay);
+}
+
+async function refreshCatalogFromApi({ force = false } = {}) {
   setCatalogBusy(true);
   try {
-    const products = await window.PangasinanCatalog.getProducts();
+    const products = force
+      ? await window.PangasinanCatalog.refresh()
+      : await window.PangasinanCatalog.getProducts();
     if (JSON.stringify(products) === JSON.stringify(window.PANGASINAN_PRODUCTS)) return;
     setCatalogProducts(products);
     renderCatalogPreview();
+    clearCatalogRetry();
+    catalogRetryAttempt = 0;
     const activePreviewFilter = document.querySelector('.filter-bar .filter-pill[data-filter].active')?.dataset.filter || 'all';
     applyCatalogPreviewFilter(activePreviewFilter);
     if (isFullCatalogOpen()) applyFCFilter();
@@ -168,10 +216,12 @@ async function refreshCatalogFromApi() {
       const count = document.getElementById('filterCount');
       const empty = document.getElementById('fcEmpty');
       if (count) count.textContent = 'Catalog temporarily unavailable';
+      renderCatalogStatus('Catalog temporarily unavailable. Retrying automatically…', true);
       if (empty) {
         empty.style.display = 'block';
         empty.querySelector('p')?.replaceChildren('Catalog temporarily unavailable.');
       }
+      scheduleCatalogRetry();
     }
   } finally {
     setCatalogBusy(false);
@@ -295,7 +345,7 @@ const BUILD_OPTIONS = {
   handle: ['Kamagong', 'Mahogany', 'Chico'],
   sheath: ['Mahogany', 'Chico', 'Kamagong', 'Kydex'],
   finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
-  intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
+  intendedUse: ['Outdoor / Utility', 'Collection / Display', 'Martial Arts Practice', 'Culinary Use', 'Other'],
 };
 
 const STEEL_HARDNESS = {

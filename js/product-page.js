@@ -47,7 +47,7 @@
     sheath: ['Mahogany', 'Chico', 'Kamagong', 'Kydex'],
     beltLoopOption: ['None', 'Stainless Steel Belt Loop', 'Kydex Belt Loop'],
     finish: ['Standard Satin', 'Mirror Polish', 'Blackened Finish', 'Discuss With Bladesmith'],
-    intendedUse: ['Collection / Display', 'Outdoor / Utility', 'Martial Arts Practice', 'Culinary Use', 'Other'],
+    intendedUse: ['Outdoor / Utility', 'Collection / Display', 'Martial Arts Practice', 'Culinary Use', 'Other'],
   };
 
   const productBeltLoopDefault = inquiryOptions.beltLoopOption.includes(product.details?.beltLoopDefault)
